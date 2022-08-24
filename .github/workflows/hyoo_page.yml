@@ -1,6 +1,4 @@
-#FIXME change file name to actual app name
-#FIXME change to actual app name
-name: $hyoo_template_demo
+name: $hyoo_page
 
 on:
   workflow_dispatch:
