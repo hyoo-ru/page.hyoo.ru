@@ -1,0 +1,42 @@
+namespace $.$$ {
+	
+	export class $hyoo_page_note extends $mol_object {
+		
+		land() {
+			return null as any as $hyoo_crowd_land
+		}
+		
+		@ $mol_mem
+		title_node() {
+			return this.land().chief.sub( 'title', $hyoo_crowd_text )
+		}
+		@ $mol_mem
+		title( next?: string ) {
+			return this.title_node().text( next )
+		}
+		@ $mol_mem
+		title_selection( next?: number[] ) {
+			return this.title_node().selection( this.land().peer().id, next )
+		}
+
+		@ $mol_mem
+		details_node() {
+			return this.land().chief.sub( 'details', $hyoo_crowd_text )
+		}
+		@ $mol_mem
+		details( next?: string ) {
+			return this.details_node().text( next )
+		}
+		@ $mol_mem
+		details_selection( next?: number[] ) {
+			return this.details_node().selection( this.land().peer().id, next )
+		}
+
+		@ $mol_mem
+		changed_moment( next?: $mol_time_moment ) {
+			return new $mol_time_moment( this.land().clock_data.last_stamp() )
+		}
+		
+	}
+
+}

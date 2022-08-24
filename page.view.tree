@@ -1,0 +1,50 @@
+$hyoo_page $mol_book2
+	store $hyoo_sync_client
+	note* $hyoo_page_note
+	Placeholder null
+	plugins /
+		<= Theme $mol_theme_auto
+	pages /
+		<= View_page $mol_page
+			title <= title
+			tools /
+				<= Lights $mol_lights_toggle
+				<= Source $mol_link_source
+					uri \https://github.com/hyoo-ru/page.hyoo.ru/
+				<= Add $mol_button_minor
+					hint \Make new page
+					click? <=> add? null
+					sub /
+						<= Add_icon $mol_icon_plus
+				<= Edit_toggle $mol_check_icon
+					hint \Edit page
+					checked? <=> editable? false
+					Icon <= Edit_icon $mol_icon_pencil
+				<= Profile $mol_link
+					hint \Profile
+					arg <= profile_arg *
+					sub /
+						<= Profile_icon $mol_icon_account
+			body /
+				<= Content $mol_list rows /
+					<= Details $mol_text
+						text <= note_details
+					<= Changed_moment $mol_date
+						value_moment <= note_changed_moment $mol_time_moment
+		<= Edit_page $mol_page
+			head /
+				<= Title $mol_string
+					hint \Title
+					value? <=> note_title? \
+					enabled <= editable
+					selection? <=> note_title_selection? /number
+				<= Edit_close $mol_button_minor
+					hint \Close editor
+					click? <=> edit_close? null
+					sub / <= Edit_close_icon $mol_icon_cross
+			body /
+				<= Details_edit $mol_textarea
+					hint \Details
+					value? <=> note_details? \
+					enabled <= editable
+					selection? <=> note_details_selection? /number
