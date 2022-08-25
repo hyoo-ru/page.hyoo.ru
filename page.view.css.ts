@@ -15,6 +15,10 @@ namespace $ {
 			},
 		},
 		
+		Changed_moment: {
+			alignSelf: 'flex-end',
+		},
+		
 		Edit_page: {
 			margin: [ 0, 'auto' ],
 			flex: {

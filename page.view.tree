@@ -31,6 +31,7 @@ $hyoo_page $mol_book2
 						text <= note_details
 					<= Changed_moment $mol_date
 						value_moment <= note_changed_moment $mol_time_moment
+						align_hor \left
 		<= Edit_page $mol_page
 			head /
 				<= Title $mol_string
