@@ -120,6 +120,7 @@
     "$mol_crypto",
     "$mol_crypto_native",
     "$mol_charset_decode",
+    "$mol_charset_encoding",
     "$mol_db",
     "$mol_db_transaction",
     "$mol_db_store",

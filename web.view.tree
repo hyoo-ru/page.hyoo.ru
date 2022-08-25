@@ -659,7 +659,7 @@ $hyoo_page $mol_book2
 	plugins /
 		<= Theme $mol_theme_auto
 	pages /
-		<= View_page $mol_page
+		<= View_page*0_0 $mol_page
 			title <= title
 			tools /
 				<= Lights $mol_lights_toggle
