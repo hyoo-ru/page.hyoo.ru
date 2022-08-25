@@ -12211,6 +12211,7 @@ var $;
         Changed_moment() {
             const obj = new this.$.$mol_date();
             obj.value_moment = () => this.note_changed_moment();
+            obj.align_hor = () => "left";
             return obj;
         }
         Content() {
@@ -12438,6 +12439,9 @@ var $;
             Body: {
                 padding: $mol_gap.block,
             },
+        },
+        Changed_moment: {
+            alignSelf: 'flex-end',
         },
         Edit_page: {
             margin: [0, 'auto'],
