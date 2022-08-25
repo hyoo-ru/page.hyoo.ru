@@ -3093,9 +3093,10 @@ var $;
     const level = $mol_data_enum('level', $hyoo_crowd_peer_level);
     let $hyoo_crowd_unit_kind;
     (function ($hyoo_crowd_unit_kind) {
-        $hyoo_crowd_unit_kind[$hyoo_crowd_unit_kind["join"] = 0] = "join";
-        $hyoo_crowd_unit_kind[$hyoo_crowd_unit_kind["give"] = 1] = "give";
-        $hyoo_crowd_unit_kind[$hyoo_crowd_unit_kind["data"] = 2] = "data";
+        $hyoo_crowd_unit_kind[$hyoo_crowd_unit_kind["grab"] = 0] = "grab";
+        $hyoo_crowd_unit_kind[$hyoo_crowd_unit_kind["join"] = 1] = "join";
+        $hyoo_crowd_unit_kind[$hyoo_crowd_unit_kind["give"] = 2] = "give";
+        $hyoo_crowd_unit_kind[$hyoo_crowd_unit_kind["data"] = 3] = "data";
     })($hyoo_crowd_unit_kind = $.$hyoo_crowd_unit_kind || ($.$hyoo_crowd_unit_kind = {}));
     let $hyoo_crowd_unit_group;
     (function ($hyoo_crowd_unit_group) {
@@ -3129,7 +3130,12 @@ var $;
         }
         kind() {
             if (this.head === this.self && this.auth === this.self) {
-                return $hyoo_crowd_unit_kind.join;
+                if (this.head === this.land) {
+                    return $hyoo_crowd_unit_kind.grab;
+                }
+                else {
+                    return $hyoo_crowd_unit_kind.join;
+                }
             }
             if (this.head === this.land) {
                 return $hyoo_crowd_unit_kind.give;
@@ -3142,13 +3148,19 @@ var $;
                 : $hyoo_crowd_unit_group.auth;
         }
         level() {
-            return level(this.data);
+            switch (this.kind()) {
+                case $hyoo_crowd_unit_kind.grab: return $hyoo_crowd_peer_level.law;
+                case $hyoo_crowd_unit_kind.give: return level(this.data);
+                default: $mol_fail(new Error(`Wrong unit kind for getting level: ${this.kind()}`));
+            }
         }
         [Symbol.toPrimitive]() {
             return JSON.stringify(this);
         }
         [$mol_dev_format_head]() {
             switch (this.kind()) {
+                case $hyoo_crowd_unit_kind.grab:
+                    return $mol_dev_format_div({}, $mol_dev_format_native(this), ' 👑');
                 case $hyoo_crowd_unit_kind.join:
                     return $mol_dev_format_div({}, $mol_dev_format_native(this), $mol_dev_format_shade(' 🔑 ', this.self));
                 case $hyoo_crowd_unit_kind.give:
@@ -3552,6 +3564,22 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_wire_solid() {
+        const current = $mol_wire_auto();
+        if (current.reap !== nothing) {
+            current?.sub_on(sub, sub.data.length);
+        }
+        current.reap = nothing;
+    }
+    $.$mol_wire_solid = $mol_wire_solid;
+    const nothing = () => { };
+    const sub = new $mol_wire_pub_sub;
+})($ || ($ = {}));
+//mol/wire/solid/solid.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_state_local extends $mol_object {
         static 'native()';
         static native() {
@@ -3764,7 +3792,7 @@ var $;
             return land;
         }
         home() {
-            return this.land(this.peer.id);
+            return this.land_sync(this.peer.id);
         }
         _knights = new $mol_dict();
         _signs = new WeakMap();
@@ -3845,6 +3873,7 @@ var $;
             const auth_unit = land.unit(unit.auth, unit.auth);
             const kind = unit.kind();
             switch (kind) {
+                case $hyoo_crowd_unit_kind.grab:
                 case $hyoo_crowd_unit_kind.join: {
                     if (auth_unit) {
                         $mol_fail(new Error('Already join'));
@@ -3868,18 +3897,17 @@ var $;
                 }
                 case $hyoo_crowd_unit_kind.give: {
                     const king_unit = land.unit(land.id(), land.id());
-                    if (!king_unit) {
+                    if (!king_unit)
                         $mol_fail(new Error('No king'));
-                    }
-                    const give_unit = land.unit(land.id(), unit.self);
-                    if (give_unit?.level() > unit.level()) {
-                        $mol_fail(new Error(`Revoke unsupported`));
-                    }
                     if (unit.auth === king_unit.auth)
                         break;
-                    const lord_unit = land.unit(land.id(), unit.auth);
-                    if (lord_unit?.level() !== $hyoo_crowd_peer_level.law) {
+                    const lord_level = land.level(unit.auth);
+                    if (lord_level !== $hyoo_crowd_peer_level.law) {
                         $mol_fail(new Error(`Need law level`));
+                    }
+                    const peer_level = land.level(unit.auth);
+                    if (peer_level > unit.level()) {
+                        $mol_fail(new Error(`Revoke unsupported`));
                     }
                     break;
                 }
@@ -4341,10 +4369,12 @@ var $;
             this.level('0_0', next);
         }
         level(peer, next) {
-            this.join();
+            if (next)
+                this.join();
             const level_id = `${this.id()}/${peer}`;
             const exists = this._unit_all.get(level_id);
-            const prev = exists?.level() ?? $hyoo_crowd_peer_level.get;
+            const def = this._unit_all.get(`${this.id()}/0_0`);
+            const prev = exists?.level() ?? def?.level() ?? $hyoo_crowd_peer_level.get;
             if (next === undefined)
                 return prev;
             if (next <= prev)
@@ -4556,12 +4586,9 @@ var $;
         server() {
             return `wss://sync-hyoo-ru.herokuapp.com/`;
         }
-        _db_clocks = new Map();
-        db_clocks(land) {
-            let clock = this._db_clocks.get(land);
-            if (!clock)
-                this._db_clocks.set(land, clock = [new $hyoo_crowd_clock, new $hyoo_crowd_clock]);
-            return clock;
+        db_clocks(land, next = null) {
+            $mol_wire_solid();
+            return next;
         }
         server_clocks(land, next = null) {
             return next;
@@ -4591,6 +4618,7 @@ var $;
             return (res) => { };
         }
         land_init(land) {
+            $mol_wire_solid();
             $mol_wire_sync(this).db_load(land);
         }
         sync() {
@@ -4606,11 +4634,12 @@ var $;
                 return new $hyoo_crowd_unit(rec.land, rec.auth, rec.head, rec.self, rec.next, rec.prev, rec.time, rec.data, new $hyoo_crowd_unit_bin(rec.bin.buffer));
             });
             units.sort($hyoo_crowd_unit_compare);
-            const clocks = this.db_clocks(land_id);
-            const land = this.world().land(land_id);
+            const clocks = [new $hyoo_crowd_clock, new $hyoo_crowd_clock];
+            this.db_clocks(land_id, clocks);
+            const land = this.world()._lands.get(land_id);
             land.apply(units);
-            for (let i = 0; i < clocks.length; ++i) {
-                clocks[i].sync(land._clocks[i]);
+            for (const unit of units) {
+                clocks[unit.group()].see_peer(unit.auth, unit.time);
             }
             this.$.$mol_log3_done({
                 place: this,
@@ -4622,8 +4651,8 @@ var $;
         db_sync() {
             this.db();
             for (const land of this.world().lands.values()) {
-                const db_clocks = this._db_clocks.get(land.id());
                 const land_clocks = land.clocks;
+                const db_clocks = this.db_clocks(land.id());
                 if (db_clocks) {
                     const ahead = land_clocks.some((land_clock, i) => land_clock.ahead(db_clocks[i]));
                     if (!ahead)
@@ -4683,8 +4712,9 @@ var $;
             }
         }
         server_init(land) {
+            $mol_wire_solid();
             const socket = this.socket();
-            const clocks = this.world().land(land)._clocks;
+            const clocks = this.world()._lands.get(land)._clocks;
             const bin = $hyoo_crowd_clock_bin.from(land, clocks);
             socket.send(bin);
             this.$.$mol_log3_come({
@@ -4804,6 +4834,9 @@ var $;
     __decorate([
         $mol_mem
     ], $hyoo_sync_client.prototype, "db", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_sync_client.prototype, "db_clocks", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_sync_client.prototype, "server_clocks", null);
@@ -5946,6 +5979,9 @@ var $;
             land() {
                 return null;
             }
+            editable() {
+                return this.land().level(this.land().peer().id) >= $hyoo_crowd_peer_level.add;
+            }
             title_node() {
                 return this.land().chief.sub('title', $hyoo_crowd_text);
             }
@@ -5968,6 +6004,9 @@ var $;
                 return new $mol_time_moment(this.land().clock_data.last_stamp());
             }
         }
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_note.prototype, "editable", null);
         __decorate([
             $mol_mem
         ], $hyoo_page_note.prototype, "title_node", null);
@@ -12185,6 +12224,8 @@ var $;
                 return (this.$.$mol_state_arg.value('') || 'a3p17r_9ds9n6');
             }
             editable(next) {
+                if (!this.note_current().editable())
+                    return false;
                 return this.$.$mol_state_history.value('edit', next) ?? false;
             }
             edit_close() {
@@ -12216,6 +12257,11 @@ var $;
                     this.View_page(this.note_id()),
                     ...this.editable() ? [this.Edit_page()] : [],
                 ];
+            }
+            Edit_toggle() {
+                return this.note_current().editable()
+                    ? super.Edit_toggle()
+                    : null;
             }
             auto() {
                 this.store().sync();

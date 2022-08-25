@@ -1073,9 +1073,10 @@ declare namespace $ {
 declare namespace $ {
     type $hyoo_crowd_unit_id = `${$mol_int62_string}/${$mol_int62_string}`;
     enum $hyoo_crowd_unit_kind {
-        join = 0,
-        give = 1,
-        data = 2
+        grab = 0,
+        join = 1,
+        give = 2,
+        data = 3
     }
     enum $hyoo_crowd_unit_group {
         auth = 0,
@@ -1204,6 +1205,10 @@ declare namespace $ {
         static from(land_id: $mol_int62_string, clocks: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): $hyoo_crowd_clock_bin;
         land(): `${string}_${string}`;
     }
+}
+
+declare namespace $ {
+    function $mol_wire_solid(): void;
 }
 
 declare namespace $ {
@@ -1453,8 +1458,7 @@ declare namespace $ {
             };
         }>>;
         server(): string;
-        readonly _db_clocks: Map<`${string}_${string}`, readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]>;
-        db_clocks(land: $mol_int62_string): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock];
+        db_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null;
         server_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null;
         peer(): $hyoo_crowd_peer;
         world(): $hyoo_crowd_world;
@@ -1741,6 +1745,7 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_page_note extends $mol_object {
         land(): $hyoo_crowd_land;
+        editable(): boolean;
         title_node(): $hyoo_crowd_text;
         title(next?: string): string;
         title_selection(next?: number[]): number[];
@@ -3558,6 +3563,7 @@ declare namespace $.$$ {
         note_details_selection(next?: number[]): number[];
         note_changed_moment(next?: $mol_time_moment): $mol_time_moment;
         pages(): $mol_page[];
+        Edit_toggle(): any;
         auto(): void;
     }
 }
