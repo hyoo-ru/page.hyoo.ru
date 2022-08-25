@@ -76,7 +76,7 @@ namespace $.$$ {
 		@ $mol_mem
 		pages() {
 			return [
-				this.View_page(),
+				this.View_page( this.note_id() ),
 				... this.editable() ? [ this.Edit_page() ] : [],
 			]
 		}
