@@ -35,6 +35,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		editable( next?: boolean ) {
+			if( !this.note_current().editable() ) return false
 			return this.$.$mol_state_history.value( 'edit', next ) ?? false
 		}
 		
@@ -75,6 +76,12 @@ namespace $.$$ {
 				this.View_page( this.note_id() ),
 				... this.editable() ? [ this.Edit_page() ] : [],
 			]
+		}
+		
+		Edit_toggle() {
+			return this.note_current().editable()
+				? super.Edit_toggle()
+				: null as any
 		}
 		
 		auto() {

@@ -7,6 +7,11 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
+		editable() {
+			return this.land().level( this.land().peer().id ) >= $hyoo_crowd_peer_level.add
+		}
+		
+		@ $mol_mem
 		title_node() {
 			return this.land().chief.sub( 'title', $hyoo_crowd_text )
 		}
