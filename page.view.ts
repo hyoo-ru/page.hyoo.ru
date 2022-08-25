@@ -3,12 +3,12 @@ namespace $.$$ {
 	export class $hyoo_page extends $.$hyoo_page {
 		
 		@ $mol_mem_key
-		file( id: string ) {
-			return this.store().land( $mol_int62_from_string( id ) )
+		file( id: $mol_int62_string ) {
+			return this.store().land( id )
 		}
 		
 		@ $mol_mem_key
-		note( id: string ) {
+		note( id: $mol_int62_string ) {
 			return $hyoo_page_note.make({
 				land: ()=> this.file( id )
 			})
@@ -16,25 +16,21 @@ namespace $.$$ {
 		
 		@ $mol_action
 		add() {
-			
 			const land = this.store().grab( $hyoo_crowd_peer_level.get, $hyoo_crowd_peer_level.mod )
-			const id = $mol_int62_to_string( land.id() )
-			
-			this.$.$mol_dom_context.location.href = '#!=' + id
+			this.$.$mol_dom_context.location.href = '#!=' + land.id()
 			this.editable( true )
-			
 		}
 		
 		@ $mol_mem
 		profile_arg() {
 			return {
-				'': $mol_int62_to_string( this.store().peer().id )
+				'': this.store().peer().id
 			}
 		}
 		
 		@ $mol_mem
 		note_id() {
-			return this.$.$mol_state_arg.value( '' ) || 'f4avo9_nr8ub1'
+			return ( this.$.$mol_state_arg.value( '' ) || 'f4avo9_nr8ub1' ) as $mol_int62_string
 		}
 		
 		@ $mol_mem
