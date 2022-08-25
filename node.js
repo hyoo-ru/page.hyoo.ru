@@ -12457,7 +12457,7 @@ var $;
                 };
             }
             note_id() {
-                return (this.$.$mol_state_arg.value('') || 'f4avo9_nr8ub1');
+                return (this.$.$mol_state_arg.value('') || 'a3p17r_9ds9n6');
             }
             editable(next) {
                 return this.$.$mol_state_history.value('edit', next) ?? false;
