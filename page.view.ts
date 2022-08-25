@@ -30,7 +30,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		note_id() {
-			return ( this.$.$mol_state_arg.value( '' ) || 'f4avo9_nr8ub1' ) as $mol_int62_string
+			return ( this.$.$mol_state_arg.value( '' ) || 'a3p17r_9ds9n6' ) as $mol_int62_string
 		}
 		
 		@ $mol_mem
