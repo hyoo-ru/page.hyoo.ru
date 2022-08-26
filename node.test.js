@@ -4814,10 +4814,10 @@ var $;
             return String(this.value(next) ?? '');
         }
         numb(next) {
-            return Number(this.value(next) ?? 0);
+            return Number(this.value(next));
         }
         bool(next) {
-            return Boolean(this.value(next) ?? false);
+            return Boolean(this.value(next));
         }
         yoke(king_level, base_level) {
             const world = this.world();
@@ -4925,7 +4925,7 @@ var $;
             return await this.$.$mol_db('$hyoo_sync_client_db2', mig => mig.store_make('Unit'), mig => mig.stores.Unit.index_make('Land', ['land']));
         }
         server() {
-            return `wss://sync-hyoo-ru.herokuapp.com/`;
+            return `wss://sync.hyoo.ru/`;
         }
         db_clocks(land, next = null) {
             $mol_wire_solid();
