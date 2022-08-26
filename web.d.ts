@@ -1339,7 +1339,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_crowd_reg extends $hyoo_crowd_node {
-        value(next?: unknown): unknown;
+        value(next?: unknown): {} | null;
         str(next?: string): string;
         numb(next?: number): number;
         bool(next?: boolean): boolean;
@@ -1354,7 +1354,7 @@ declare namespace $ {
         get name(): string;
         get version(): number;
         get stores(): (keyof Schema)[];
-        read<Names extends Exclude<keyof Schema, symbol | number>>(...names: Names[]): Pick<Schema, Names> extends infer T ? { [Name in keyof T]: $mol_db_store<Pick<Schema, Names>[Name]>; } : never;
+        read<Names extends Exclude<keyof Schema, symbol | number>>(...names: Names[]): Pick<Schema, Names> extends infer T extends $mol_db_schema ? { [Name in keyof T]: $mol_db_store<Pick<Schema, Names>[Name]>; } : never;
         change<Names extends Exclude<keyof Schema, symbol | number>>(...names: Names[]): $mol_db_transaction<Pick<Schema, Names>>;
         kill(): Promise<IDBDatabase>;
         destructor(): void;
