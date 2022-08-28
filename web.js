@@ -4595,7 +4595,6 @@ var $;
             return await this.$.$mol_db('$hyoo_sync_client_db2', mig => mig.store_make('Unit'), mig => mig.stores.Unit.index_make('Land', ['land']));
         }
         server() {
-            return `ws://localhost:9090/`;
             return 'wss://sync-hyoo-ru.herokuapp.com/';
         }
         db_clocks(land, next = null) {

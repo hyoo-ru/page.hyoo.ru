@@ -1404,7 +1404,7 @@ declare namespace $ {
                 };
             };
         }>>;
-        server(): "ws://localhost:9090/" | "wss://sync-hyoo-ru.herokuapp.com/";
+        server(): string;
         db_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null;
         server_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null;
         peer(): $hyoo_crowd_peer;
