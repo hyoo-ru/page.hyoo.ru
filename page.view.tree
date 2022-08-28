@@ -1,5 +1,6 @@
 $hyoo_page $mol_book2
 	store $hyoo_sync_client
+		socket => online
 	note* $hyoo_page_note
 	Placeholder null
 	plugins /
@@ -36,12 +37,14 @@ $hyoo_page $mol_book2
 						value_moment <= note_changed_moment $mol_time_moment
 						align_hor \left
 		<= Edit_page $mol_page
-			head /
-				<= Title $mol_string
-					hint \Title
-					value? <=> note_title? \
-					enabled <= editable
-					selection? <=> note_title_selection? /number
+			Title <= Title $mol_string
+				hint \Title
+				value? <=> note_title? \
+				enabled <= editable
+				selection? <=> note_title_selection? /number
+			tools /
+				<= Online $hyoo_sync_online
+					status <= online
 				<= Edit_close $mol_button_minor
 					hint \Close editor
 					click? <=> edit_close? null

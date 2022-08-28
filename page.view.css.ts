@@ -29,6 +29,11 @@ namespace $ {
 				basis: rem(60),
 				grow: 0,
 			},
+			Tools: {
+				flex: {
+					grow: 0,
+				},
+			},
 			Body: {
 				padding: $mol_gap.block,
 			},
