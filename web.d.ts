@@ -1762,6 +1762,91 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_svg extends $mol_view {
+        dom_name(): string;
+        dom_name_space(): string;
+        font_size(): number;
+        font_family(): string;
+        style_size(): {};
+    }
+}
+
+declare namespace $ {
+    class $mol_state_time extends $mol_object {
+        static task(precision: number, reset?: null): $mol_after_timeout | $mol_after_frame;
+        static now(precision: number): number;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_svg extends $.$mol_svg {
+        computed_style(): CSSStyleDeclaration;
+        font_size(): number;
+        font_family(): any;
+    }
+}
+
+declare namespace $ {
+    class $mol_svg_root extends $mol_svg {
+        dom_name(): string;
+        attr(): {
+            viewBox: string;
+            preserveAspectRatio: string;
+        };
+        view_box(): string;
+        aspect(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_svg_path extends $mol_svg {
+        dom_name(): string;
+        attr(): {
+            d: string;
+        };
+        geometry(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon extends $mol_svg_root {
+        view_box(): string;
+        minimal_width(): number;
+        minimal_height(): number;
+        sub(): readonly any[];
+        path(): string;
+        Path(): $mol_svg_path;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_avatar extends $mol_icon {
+        view_box(): string;
+        id(): string;
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    function $mol_hash_string(str: string, seed?: number): number;
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_avatar extends $.$mol_avatar {
+        path(): string;
+    }
+}
+
+declare namespace $ {
     class $mol_speck extends $mol_view {
         attr(): {
             mol_theme: string;
@@ -1930,70 +2015,6 @@ declare namespace $ {
         minimal_height(): number;
         minimal_width(): number;
     }
-}
-
-declare namespace $ {
-    class $mol_svg extends $mol_view {
-        dom_name(): string;
-        dom_name_space(): string;
-        font_size(): number;
-        font_family(): string;
-        style_size(): {};
-    }
-}
-
-declare namespace $ {
-    class $mol_state_time extends $mol_object {
-        static task(precision: number, reset?: null): $mol_after_timeout | $mol_after_frame;
-        static now(precision: number): number;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_svg extends $.$mol_svg {
-        computed_style(): CSSStyleDeclaration;
-        font_size(): number;
-        font_family(): any;
-    }
-}
-
-declare namespace $ {
-    class $mol_svg_root extends $mol_svg {
-        dom_name(): string;
-        attr(): {
-            viewBox: string;
-            preserveAspectRatio: string;
-        };
-        view_box(): string;
-        aspect(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_svg_path extends $mol_svg {
-        dom_name(): string;
-        attr(): {
-            d: string;
-        };
-        geometry(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon extends $mol_svg_root {
-        view_box(): string;
-        minimal_width(): number;
-        minimal_height(): number;
-        sub(): readonly any[];
-        path(): string;
-        Path(): $mol_svg_path;
-    }
-}
-
-declare namespace $ {
 }
 
 declare namespace $ {
@@ -2233,12 +2254,6 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_icon_pencil extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_account extends $mol_icon {
         path(): string;
     }
 }
@@ -3399,6 +3414,7 @@ declare namespace $ {
         };
         sub(): readonly any[];
         tabindex(): number;
+        Logo(): any;
         Title(): $mol_view;
         tools(): readonly $mol_view_content[];
         Tools(): $mol_view;
@@ -3482,6 +3498,8 @@ declare namespace $ {
         plugins(): readonly any[];
         pages(): readonly any[];
         Theme(): $$.$mol_theme_auto;
+        note_id(): string;
+        Logo(): $$.$mol_avatar;
         Lights(): $$.$mol_lights_toggle;
         Source(): $mol_link_source;
         add(next?: any): any;
@@ -3490,8 +3508,8 @@ declare namespace $ {
         editable(next?: any): boolean;
         Edit_icon(): $mol_icon_pencil;
         Edit_toggle(): $mol_check_icon;
-        profile_arg(): {};
-        Profile_icon(): $mol_icon_account;
+        profile_id(): string;
+        Profile_avatar(): $$.$mol_avatar;
         Profile(): $$.$mol_link;
         Details(): $$.$mol_text;
         note_changed_moment(): $mol_time_moment;
@@ -3528,9 +3546,7 @@ declare namespace $.$$ {
         file(id: $mol_int62_string): $hyoo_crowd_land;
         note(id: $mol_int62_string): $hyoo_page_note;
         add(): void;
-        profile_arg(): {
-            '': `${string}_${string}`;
-        };
+        profile_id(): `${string}_${string}`;
         note_id(): `${string}_${string}`;
         editable(next?: boolean): any;
         edit_close(): void;

@@ -16,6 +16,40 @@ $mol_book2 $mol_scroll
 $mol_theme_auto $mol_plugin
 	attr * mol_theme <= theme \
 
+$mol_svg $mol_view
+	dom_name \svg
+	dom_name_space \http://www.w3.org/2000/svg
+	font_size 16
+	font_family \
+	style_size *
+
+$mol_svg_root $mol_svg
+	dom_name \svg
+	attr *
+		^
+		viewBox <= view_box \0 0 100 100
+		preserveAspectRatio <= aspect \xMidYMid
+
+$mol_svg_path $mol_svg
+	dom_name \path
+	attr *
+		^
+		d <= geometry \
+
+
+$mol_icon $mol_svg_root
+	view_box \0 0 24 24
+	minimal_width 16
+	minimal_height 16
+	sub /
+		<= Path $mol_svg_path
+			geometry <= path \
+
+$mol_avatar $mol_icon
+	view_box \0 0 24 24
+	id \
+	path \M 12 12 l 0 0 M 0 0 l 0 0 M 24 24 l 0 0 M 0 24 l 0 0 M 24 0 l 0 0
+
 $mol_speck $mol_view
 	attr *
 		^
@@ -49,35 +83,6 @@ $mol_button $mol_view
 $mol_button_typed $mol_button
 	minimal_height 40
 	minimal_width 40
-
-$mol_svg $mol_view
-	dom_name \svg
-	dom_name_space \http://www.w3.org/2000/svg
-	font_size 16
-	font_family \
-	style_size *
-
-$mol_svg_root $mol_svg
-	dom_name \svg
-	attr *
-		^
-		viewBox <= view_box \0 0 100 100
-		preserveAspectRatio <= aspect \xMidYMid
-
-$mol_svg_path $mol_svg
-	dom_name \path
-	attr *
-		^
-		d <= geometry \
-
-
-$mol_icon $mol_svg_root
-	view_box \0 0 24 24
-	minimal_width 16
-	minimal_height 16
-	sub /
-		<= Path $mol_svg_path
-			geometry <= path \
 
 $mol_button_minor $mol_button_typed
 
@@ -130,8 +135,6 @@ $mol_link_source $mol_link
 $mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
 
 $mol_icon_pencil $mol_icon path \M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z
-
-$mol_icon_account $mol_icon path \M12,4C14.21,4 16,5.79 16,8C16,10.21 14.21,12 12,12C9.79,12 8,10.21 8,8C8,5.79 9.79,4 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z
 
 $mol_list $mol_view
 	render_visible_only true
@@ -609,6 +612,7 @@ $mol_page $mol_view
 			minimal_height 64
 			dom_name \header
 			sub <= head /
+				<= Logo null
 				<= Title $mol_view
 					dom_name \h1
 					sub /
@@ -661,6 +665,7 @@ $hyoo_page $mol_book2
 	pages /
 		<= View_page*0_0 $mol_page
 			title <= title
+			Logo <= Logo $mol_avatar id <= note_id \
 			tools /
 				<= Lights $mol_lights_toggle
 				<= Source $mol_link_source
@@ -676,9 +681,11 @@ $hyoo_page $mol_book2
 					Icon <= Edit_icon $mol_icon_pencil
 				<= Profile $mol_link
 					hint \Profile
-					arg <= profile_arg *
+					arg *
+						\
+							<= profile_id \
 					sub /
-						<= Profile_icon $mol_icon_account
+						<= Profile_avatar $mol_avatar id <= profile_id \
 			body /
 				<= Content $mol_list rows /
 					<= Details $mol_text
