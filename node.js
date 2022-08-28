@@ -4944,6 +4944,7 @@ var $;
             return await this.$.$mol_db('$hyoo_sync_client_db2', mig => mig.store_make('Unit'), mig => mig.stores.Unit.index_make('Land', ['land']));
         }
         server() {
+            return `ws://localhost:9090/`;
             return 'wss://sync-hyoo-ru.herokuapp.com/';
         }
         db_clocks(land, next = null) {
@@ -5114,7 +5115,11 @@ var $;
             reg.value(land.id());
             return land;
         }
+        reconnect(reset) {
+            return Math.random();
+        }
         socket(reset) {
+            this.reconnect();
             return $mol_wire_sync(this).socket_connect();
         }
         socket_connect() {
@@ -5178,10 +5183,11 @@ var $;
                 };
                 necks.set(land_id, handle(necks.get(land_id)));
             };
-            socket.onclose = () => {
-                setTimeout($mol_wire_async(() => this.socket(null)), 5000);
-            };
-            return new Promise(done => socket.addEventListener('open', () => done(socket)));
+            socket.onclose = () => setTimeout(() => this.reconnect(null), 5000);
+            return new Promise((done, fail) => {
+                socket.addEventListener('open', () => done(socket));
+                socket.addEventListener('error', () => fail(new Error('Disconnected')));
+            });
         }
         [$mol_dev_format_head]() {
             return $mol_dev_format_native(this);
@@ -5226,6 +5232,9 @@ var $;
     __decorate([
         $mol_action
     ], $hyoo_sync_client.prototype, "file", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_sync_client.prototype, "reconnect", null);
     __decorate([
         $mol_mem
     ], $hyoo_sync_client.prototype, "socket", null);
@@ -12031,6 +12040,122 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_icon_sync extends $mol_icon {
+        path() {
+            return "M12,18C8.69,18 6,15.31 6,12C6,11 6.25,10.03 6.7,9.2L5.24,7.74C4.46,8.97 4,10.43 4,12C4,16.42 7.58,20 12,20V23L16,19L12,15M12,4V1L8,5L12,9V6C15.31,6 18,8.69 18,12C18,13 17.75,13.97 17.3,14.8L18.76,16.26C19.54,15.03 20,13.57 20,12C20,7.58 16.42,4 12,4Z";
+        }
+    }
+    $.$mol_icon_sync = $mol_icon_sync;
+})($ || ($ = {}));
+//mol/icon/sync/-view.tree/sync.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_sync_off extends $mol_icon {
+        path() {
+            return "M20,4H14V10L16.24,7.76C17.32,8.85 18,10.34 18,12C18,13 17.75,13.94 17.32,14.77L18.78,16.23C19.55,15 20,13.56 20,12C20,9.79 19.09,7.8 17.64,6.36L20,4M2.86,5.41L5.22,7.77C4.45,9 4,10.44 4,12C4,14.21 4.91,16.2 6.36,17.64L4,20H10V14L7.76,16.24C6.68,15.15 6,13.66 6,12C6,11 6.25,10.06 6.68,9.23L14.76,17.31C14.5,17.44 14.26,17.56 14,17.65V19.74C14.79,19.53 15.54,19.2 16.22,18.78L18.58,21.14L19.85,19.87L4.14,4.14L2.86,5.41M10,6.35V4.26C9.2,4.47 8.45,4.8 7.77,5.22L9.23,6.68C9.5,6.56 9.73,6.44 10,6.35Z";
+        }
+    }
+    $.$mol_icon_sync_off = $mol_icon_sync_off;
+})($ || ($ = {}));
+//mol/icon/sync/off/-view.tree/off.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $hyoo_sync_online extends $mol_view {
+        status() {
+            return null;
+        }
+        sub() {
+            return [
+                this.Well()
+            ];
+        }
+        Fail() {
+            const obj = new this.$.$mol_icon_sync_off();
+            return obj;
+        }
+        attr() {
+            return {
+                ...super.attr(),
+                title: this.message()
+            };
+        }
+        Well() {
+            const obj = new this.$.$mol_icon_sync();
+            return obj;
+        }
+        hint() {
+            return "Sync";
+        }
+        message() {
+            return this.hint();
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $hyoo_sync_online.prototype, "Fail", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_sync_online.prototype, "Well", null);
+    $.$hyoo_sync_online = $hyoo_sync_online;
+})($ || ($ = {}));
+//hyoo/sync/online/-view.tree/online.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("hyoo/sync/online/online.view.css", "[hyoo_sync_online] {\n\tpadding: var(--mol_gap_text);\n}\n\n[hyoo_sync_online_well] {\n\tcolor: var(--mol_theme_current);\n}\n\n[hyoo_sync_online_fail] {\n\tcolor: var(--mol_theme_focus);\n}\n\n[hyoo_sync_online][mol_view_error=\"Promise\"] {\n\tanimation: hyoo_sync_online_wait 1s linear infinite;\n}\n\n@keyframes hyoo_sync_online_wait {\n\tfrom {\n\t\topacity: 1;\n\t}\n\tto {\n\t\topacity: .5;\n\t}\n}\n");
+})($ || ($ = {}));
+//hyoo/sync/online/-css/online.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $hyoo_sync_online extends $.$hyoo_sync_online {
+            message() {
+                try {
+                    this.status();
+                    return this.hint();
+                }
+                catch (error) {
+                    if (error instanceof Promise)
+                        $mol_fail_hidden(error);
+                    $mol_fail_log(error);
+                    return String(error);
+                }
+            }
+            sub() {
+                try {
+                    this.status();
+                    return [this.Well()];
+                }
+                catch (error) {
+                    if (error instanceof Promise)
+                        $mol_fail_hidden(error);
+                    $mol_fail_log(error);
+                    return [this.Fail()];
+                }
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $hyoo_sync_online.prototype, "message", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_sync_online.prototype, "sub", null);
+        $$.$hyoo_sync_online = $hyoo_sync_online;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//hyoo/sync/online/online.view.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_icon_cross extends $mol_icon {
         path() {
             return "M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z";
@@ -12208,6 +12333,9 @@ var $;
 var $;
 (function ($) {
     class $hyoo_page extends $mol_book2 {
+        online() {
+            return this.store().socket();
+        }
         store() {
             const obj = new this.$.$hyoo_sync_client();
             return obj;
@@ -12361,6 +12489,11 @@ var $;
             obj.selection = (next) => this.note_title_selection(next);
             return obj;
         }
+        Online() {
+            const obj = new this.$.$hyoo_sync_online();
+            obj.status = () => this.online();
+            return obj;
+        }
         edit_close(next) {
             if (next !== undefined)
                 return next;
@@ -12399,8 +12532,9 @@ var $;
         }
         Edit_page() {
             const obj = new this.$.$mol_page();
-            obj.head = () => [
-                this.Title(),
+            obj.Title = () => this.Title();
+            obj.tools = () => [
+                this.Online(),
                 this.Edit_close()
             ];
             obj.body = () => [
@@ -12475,6 +12609,9 @@ var $;
     __decorate([
         $mol_mem
     ], $hyoo_page.prototype, "Title", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page.prototype, "Online", null);
     __decorate([
         $mol_mem
     ], $hyoo_page.prototype, "edit_close", null);
@@ -12560,6 +12697,11 @@ var $;
             flex: {
                 basis: rem(60),
                 grow: 0,
+            },
+            Tools: {
+                flex: {
+                    grow: 0,
+                },
             },
             Body: {
                 padding: $mol_gap.block,

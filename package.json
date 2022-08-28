@@ -238,6 +238,9 @@
     "$mol_time_interval",
     "$mol_try",
     "$mol_page",
+    "$hyoo_sync_online",
+    "$mol_icon_sync_off",
+    "$mol_icon_sync",
     "$mol_icon_cross",
     "$mol_textarea",
     "$mol_state_history"

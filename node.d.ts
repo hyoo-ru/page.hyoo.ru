@@ -1464,7 +1464,7 @@ declare namespace $ {
                 };
             };
         }>>;
-        server(): string;
+        server(): "ws://localhost:9090/" | "wss://sync-hyoo-ru.herokuapp.com/";
         db_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null;
         server_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null;
         peer(): $hyoo_crowd_peer;
@@ -1481,6 +1481,7 @@ declare namespace $ {
         grab(king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): $hyoo_crowd_land;
         land(id: $mol_int62_string): $hyoo_crowd_land;
         file(reg: $hyoo_crowd_reg, king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): $hyoo_crowd_land;
+        reconnect(reset?: null): number;
         socket(reset?: null): WebSocket;
         socket_connect(): Promise<WebSocket>;
     }
@@ -3460,6 +3461,42 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_icon_sync extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_sync_off extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_sync_online extends $mol_view {
+        status(): any;
+        sub(): readonly any[];
+        Fail(): $mol_icon_sync_off;
+        attr(): {
+            title: string;
+        };
+        Well(): $mol_icon_sync;
+        hint(): string;
+        message(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_sync_online extends $.$hyoo_sync_online {
+        message(): string;
+        sub(): $mol_icon_sync[];
+    }
+}
+
+declare namespace $ {
     class $mol_icon_cross extends $mol_icon {
         path(): string;
     }
@@ -3520,6 +3557,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_page extends $mol_book2 {
+        online(): WebSocket;
         store(): $hyoo_sync_client;
         note(id: any): $$.$hyoo_page_note;
         Placeholder(): any;
@@ -3547,6 +3585,7 @@ declare namespace $ {
         note_title(next?: any): string;
         note_title_selection(next?: any): readonly number[];
         Title(): $$.$mol_string;
+        Online(): $$.$hyoo_sync_online;
         edit_close(next?: any): any;
         Edit_close_icon(): $mol_icon_cross;
         Edit_close(): $mol_button_minor;
