@@ -7,6 +7,7 @@ $hyoo_page $mol_book2
 	pages /
 		<= View_page*0_0 $mol_page
 			title <= title
+			Logo <= Logo $mol_avatar id <= note_id \
 			tools /
 				<= Lights $mol_lights_toggle
 				<= Source $mol_link_source
@@ -22,9 +23,11 @@ $hyoo_page $mol_book2
 					Icon <= Edit_icon $mol_icon_pencil
 				<= Profile $mol_link
 					hint \Profile
-					arg <= profile_arg *
+					arg *
+						\
+							<= profile_id \
 					sub /
-						<= Profile_icon $mol_icon_account
+						<= Profile_avatar $mol_avatar id <= profile_id \
 			body /
 				<= Content $mol_list rows /
 					<= Details $mol_text

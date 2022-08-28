@@ -21,11 +21,8 @@ namespace $.$$ {
 			this.editable( true )
 		}
 		
-		@ $mol_mem
-		profile_arg() {
-			return {
-				'': this.store().peer().id
-			}
+		profile_id() {
+			return this.store().peer().id
 		}
 		
 		@ $mol_mem
