@@ -15,10 +15,6 @@ namespace $ {
 			},
 		},
 		
-		Logo: {
-			margin: $mol_gap.block,
-		},
-		
 		Changed_moment: {
 			alignSelf: 'flex-end',
 		},
