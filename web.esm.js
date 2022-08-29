@@ -5997,9 +5997,12 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $hyoo_page_note extends $mol_object {
+        class $hyoo_page_side extends $mol_object {
             land() {
                 return null;
+            }
+            id() {
+                return this.land().id();
             }
             editable() {
                 return this.land().level(this.land().peer().id) >= $hyoo_crowd_peer_level.add;
@@ -6028,32 +6031,32 @@ var $;
         }
         __decorate([
             $mol_mem
-        ], $hyoo_page_note.prototype, "editable", null);
+        ], $hyoo_page_side.prototype, "editable", null);
         __decorate([
             $mol_mem
-        ], $hyoo_page_note.prototype, "title_node", null);
+        ], $hyoo_page_side.prototype, "title_node", null);
         __decorate([
             $mol_mem
-        ], $hyoo_page_note.prototype, "title", null);
+        ], $hyoo_page_side.prototype, "title", null);
         __decorate([
             $mol_mem
-        ], $hyoo_page_note.prototype, "title_selection", null);
+        ], $hyoo_page_side.prototype, "title_selection", null);
         __decorate([
             $mol_mem
-        ], $hyoo_page_note.prototype, "details_node", null);
+        ], $hyoo_page_side.prototype, "details_node", null);
         __decorate([
             $mol_mem
-        ], $hyoo_page_note.prototype, "details", null);
+        ], $hyoo_page_side.prototype, "details", null);
         __decorate([
             $mol_mem
-        ], $hyoo_page_note.prototype, "details_selection", null);
+        ], $hyoo_page_side.prototype, "details_selection", null);
         __decorate([
             $mol_mem
-        ], $hyoo_page_note.prototype, "changed_moment", null);
-        $$.$hyoo_page_note = $hyoo_page_note;
+        ], $hyoo_page_side.prototype, "changed_moment", null);
+        $$.$hyoo_page_side = $hyoo_page_side;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
-//hyoo/page/note/note.ts
+//hyoo/page/side/side.ts
 ;
 "use strict";
 var $;
@@ -12062,8 +12065,8 @@ var $;
             const obj = new this.$.$hyoo_sync_client();
             return obj;
         }
-        note(id) {
-            const obj = new this.$.$hyoo_page_note();
+        side(id) {
+            const obj = new this.$.$hyoo_page_side();
             return obj;
         }
         Placeholder() {
@@ -12077,19 +12080,19 @@ var $;
         pages() {
             return [
                 this.View_page("0_0"),
-                this.Edit_page()
+                this.Edit_page("0_0")
             ];
         }
         Theme() {
             const obj = new this.$.$mol_theme_auto();
             return obj;
         }
-        note_id() {
+        side_id(id) {
             return "";
         }
-        Logo() {
+        Logo(id) {
             const obj = new this.$.$mol_avatar();
-            obj.id = () => this.note_id();
+            obj.id = () => this.side_id(id);
             return obj;
         }
         Lights() {
@@ -12106,16 +12109,16 @@ var $;
                 return next;
             return null;
         }
-        Add_icon() {
+        Add_icon(id) {
             const obj = new this.$.$mol_icon_plus();
             return obj;
         }
-        Add() {
+        Add(id) {
             const obj = new this.$.$mol_button_minor();
             obj.hint = () => "Make new page";
             obj.click = (next) => this.add(next);
             obj.sub = () => [
-                this.Add_icon()
+                this.Add_icon(id)
             ];
             return obj;
         }
@@ -12124,15 +12127,15 @@ var $;
                 return next;
             return false;
         }
-        Edit_icon() {
+        Edit_icon(id) {
             const obj = new this.$.$mol_icon_pencil();
             return obj;
         }
-        Edit_toggle() {
+        Edit_toggle(id) {
             const obj = new this.$.$mol_check_icon();
             obj.hint = () => "Edit page";
             obj.checked = (next) => this.editable(next);
-            obj.Icon = () => this.Edit_icon();
+            obj.Icon = () => this.Edit_icon(id);
             return obj;
         }
         profile_id() {
@@ -12154,113 +12157,106 @@ var $;
             ];
             return obj;
         }
-        Details() {
+        Details(id) {
             const obj = new this.$.$mol_text();
-            obj.text = () => this.note_details();
+            obj.text = () => this.side_details(id);
             return obj;
         }
-        note_changed_moment() {
+        side_changed(id) {
             const obj = new this.$.$mol_time_moment();
             return obj;
         }
-        Changed_moment() {
+        Changed(id) {
             const obj = new this.$.$mol_date();
-            obj.value_moment = () => this.note_changed_moment();
+            obj.value_moment = () => this.side_changed(id);
             obj.align_hor = () => "left";
-            return obj;
-        }
-        Content() {
-            const obj = new this.$.$mol_list();
-            obj.rows = () => [
-                this.Details(),
-                this.Changed_moment()
-            ];
             return obj;
         }
         View_page(id) {
             const obj = new this.$.$mol_page();
-            obj.title = () => this.title();
-            obj.Logo = () => this.Logo();
+            obj.title = () => this.side_title(id);
+            obj.Logo = () => this.Logo(id);
             obj.tools = () => [
                 this.Lights(),
                 this.Source(),
-                this.Add(),
-                this.Edit_toggle(),
+                this.Add(id),
+                this.Edit_toggle(id),
                 this.Profile()
             ];
             obj.body = () => [
-                this.Content()
+                this.Details(id),
+                this.Changed(id)
             ];
             return obj;
         }
-        note_title(next) {
+        side_title(id, next) {
             if (next !== undefined)
                 return next;
             return "";
         }
-        note_title_selection(next) {
+        side_title_selection(id, next) {
             if (next !== undefined)
                 return next;
             return [];
         }
-        Title() {
+        Title(id) {
             const obj = new this.$.$mol_string();
             obj.hint = () => "Title";
-            obj.value = (next) => this.note_title(next);
+            obj.value = (next) => this.side_title(id, next);
             obj.enabled = () => this.editable();
-            obj.selection = (next) => this.note_title_selection(next);
+            obj.selection = (next) => this.side_title_selection(id, next);
             return obj;
         }
-        Online() {
+        Online(id) {
             const obj = new this.$.$hyoo_sync_online();
             obj.status = () => this.online();
             return obj;
         }
-        edit_close(next) {
+        edit_close(id, next) {
             if (next !== undefined)
                 return next;
             return null;
         }
-        Edit_close_icon() {
+        Edit_close_icon(id) {
             const obj = new this.$.$mol_icon_cross();
             return obj;
         }
-        Edit_close() {
+        Edit_close(id) {
             const obj = new this.$.$mol_button_minor();
             obj.hint = () => "Close editor";
-            obj.click = (next) => this.edit_close(next);
+            obj.click = (next) => this.edit_close(id, next);
             obj.sub = () => [
-                this.Edit_close_icon()
+                this.Edit_close_icon(id)
             ];
             return obj;
         }
-        note_details(next) {
+        side_details(id, next) {
             if (next !== undefined)
                 return next;
             return "";
         }
-        note_details_selection(next) {
+        side_details_selection(id, next) {
             if (next !== undefined)
                 return next;
             return [];
         }
-        Details_edit() {
+        Details_edit(id) {
             const obj = new this.$.$mol_textarea();
             obj.hint = () => "Details";
-            obj.value = (next) => this.note_details(next);
+            obj.value = (next) => this.side_details(id, next);
             obj.enabled = () => this.editable();
-            obj.selection = (next) => this.note_details_selection(next);
+            obj.selection = (next) => this.side_details_selection(id, next);
             return obj;
         }
-        Edit_page() {
+        Edit_page(id) {
             const obj = new this.$.$mol_page();
-            obj.Title = () => this.Title();
+            obj.Title = () => this.Title(id);
             obj.tools = () => [
-                this.Online(),
-                this.Edit_close()
+                this.Online(id),
+                this.Edit_close(id)
             ];
             obj.body = () => [
-                this.Details_edit()
+                this.Details_edit(id)
             ];
             return obj;
         }
@@ -12270,12 +12266,12 @@ var $;
     ], $hyoo_page.prototype, "store", null);
     __decorate([
         $mol_mem_key
-    ], $hyoo_page.prototype, "note", null);
+    ], $hyoo_page.prototype, "side", null);
     __decorate([
         $mol_mem
     ], $hyoo_page.prototype, "Theme", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Logo", null);
     __decorate([
         $mol_mem
@@ -12287,19 +12283,19 @@ var $;
         $mol_mem
     ], $hyoo_page.prototype, "add", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Add_icon", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Add", null);
     __decorate([
         $mol_mem
     ], $hyoo_page.prototype, "editable", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Edit_icon", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Edit_toggle", null);
     __decorate([
         $mol_mem
@@ -12308,52 +12304,49 @@ var $;
         $mol_mem
     ], $hyoo_page.prototype, "Profile", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Details", null);
     __decorate([
-        $mol_mem
-    ], $hyoo_page.prototype, "note_changed_moment", null);
+        $mol_mem_key
+    ], $hyoo_page.prototype, "side_changed", null);
     __decorate([
-        $mol_mem
-    ], $hyoo_page.prototype, "Changed_moment", null);
-    __decorate([
-        $mol_mem
-    ], $hyoo_page.prototype, "Content", null);
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Changed", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "View_page", null);
     __decorate([
-        $mol_mem
-    ], $hyoo_page.prototype, "note_title", null);
+        $mol_mem_key
+    ], $hyoo_page.prototype, "side_title", null);
     __decorate([
-        $mol_mem
-    ], $hyoo_page.prototype, "note_title_selection", null);
+        $mol_mem_key
+    ], $hyoo_page.prototype, "side_title_selection", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Title", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Online", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "edit_close", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Edit_close_icon", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Edit_close", null);
     __decorate([
-        $mol_mem
-    ], $hyoo_page.prototype, "note_details", null);
+        $mol_mem_key
+    ], $hyoo_page.prototype, "side_details", null);
     __decorate([
-        $mol_mem
-    ], $hyoo_page.prototype, "note_details_selection", null);
+        $mol_mem_key
+    ], $hyoo_page.prototype, "side_details_selection", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Details_edit", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "Edit_page", null);
     $.$hyoo_page = $hyoo_page;
 })($ || ($ = {}));
@@ -12412,9 +12405,10 @@ var $;
             },
             Body: {
                 padding: $mol_gap.block,
+                justifyContent: 'space-between',
             },
         },
-        Changed_moment: {
+        Changed: {
             alignSelf: 'flex-end',
         },
         Edit_page: {
@@ -12445,8 +12439,8 @@ var $;
             file(id) {
                 return this.store().land(id);
             }
-            note(id) {
-                return $hyoo_page_note.make({
+            side(id) {
+                return $hyoo_page_side.make({
                     land: () => this.file(id)
                 });
             }
@@ -12458,47 +12452,44 @@ var $;
             profile_id() {
                 return this.store().peer().id;
             }
-            note_id() {
-                return (this.$.$mol_state_arg.value('') || 'a3p17r_9ds9n6');
+            side_id(id) {
+                return id;
             }
             editable(next) {
-                if (!this.note_current().editable())
+                if (!this.side_current().editable())
                     return false;
                 return this.$.$mol_state_history.value('edit', next) ?? false;
             }
             edit_close() {
                 this.editable(false);
             }
-            note_current() {
-                return this.note(this.note_id());
+            side_current() {
+                return this.side((this.$.$mol_state_arg.value('') || 'a3p17r_9ds9n6'));
             }
-            title() {
-                return this.note_title() || this.note_id();
+            side_title(id, next) {
+                return this.side(id).title(next);
             }
-            note_title(next) {
-                return this.note_current().title(next);
+            side_title_selection(id, next) {
+                return this.side(id).title_selection(next);
             }
-            note_title_selection(next) {
-                return this.note_current().title_selection(next);
+            side_details(id, next) {
+                return this.side(id).details(next);
             }
-            note_details(next) {
-                return this.note_current().details(next);
+            side_details_selection(id, next) {
+                return this.side(id).details_selection(next);
             }
-            note_details_selection(next) {
-                return this.note_current().details_selection(next);
-            }
-            note_changed_moment(next) {
-                return this.note_current().changed_moment(next) ?? new $mol_time_moment;
+            side_changed(id, next) {
+                return this.side(id).changed_moment(next) ?? new $mol_time_moment;
             }
             pages() {
                 return [
-                    this.View_page(this.note_id()),
-                    ...this.editable() ? [this.Edit_page()] : [],
+                    this.View_page(this.side_current().id()),
+                    ...this.editable() ? [this.Edit_page(this.side_current().id())] : [],
                 ];
             }
-            Edit_toggle() {
-                return this.note_current().editable()
-                    ? super.Edit_toggle()
+            Edit_toggle(id) {
+                return this.side(id).editable()
+                    ? super.Edit_toggle(id)
                     : null;
             }
             auto() {
@@ -12510,13 +12501,10 @@ var $;
         ], $hyoo_page.prototype, "file", null);
         __decorate([
             $mol_mem_key
-        ], $hyoo_page.prototype, "note", null);
+        ], $hyoo_page.prototype, "side", null);
         __decorate([
             $mol_action
         ], $hyoo_page.prototype, "add", null);
-        __decorate([
-            $mol_mem
-        ], $hyoo_page.prototype, "note_id", null);
         __decorate([
             $mol_mem
         ], $hyoo_page.prototype, "editable", null);

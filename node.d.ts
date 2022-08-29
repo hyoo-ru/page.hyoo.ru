@@ -1751,8 +1751,9 @@ declare namespace $ {
 }
 
 declare namespace $.$$ {
-    class $hyoo_page_note extends $mol_object {
+    class $hyoo_page_side extends $mol_object {
         land(): $hyoo_crowd_land;
+        id(): `${string}_${string}`;
         editable(): boolean;
         title_node(): $hyoo_crowd_text;
         title(next?: string): string;
@@ -3560,40 +3561,39 @@ declare namespace $ {
     class $hyoo_page extends $mol_book2 {
         online(): WebSocket;
         store(): $hyoo_sync_client;
-        note(id: any): $$.$hyoo_page_note;
+        side(id: any): $$.$hyoo_page_side;
         Placeholder(): any;
         plugins(): readonly any[];
         pages(): readonly any[];
         Theme(): $$.$mol_theme_auto;
-        note_id(): string;
-        Logo(): $$.$mol_avatar;
+        side_id(id: any): string;
+        Logo(id: any): $$.$mol_avatar;
         Lights(): $$.$mol_lights_toggle;
         Source(): $mol_link_source;
         add(next?: any): any;
-        Add_icon(): $mol_icon_plus;
-        Add(): $mol_button_minor;
+        Add_icon(id: any): $mol_icon_plus;
+        Add(id: any): $mol_button_minor;
         editable(next?: any): boolean;
-        Edit_icon(): $mol_icon_pencil;
-        Edit_toggle(): $mol_check_icon;
+        Edit_icon(id: any): $mol_icon_pencil;
+        Edit_toggle(id: any): $mol_check_icon;
         profile_id(): string;
         Profile_avatar(): $$.$mol_avatar;
         Profile(): $$.$mol_link;
-        Details(): $$.$mol_text;
-        note_changed_moment(): $mol_time_moment;
-        Changed_moment(): $$.$mol_date;
-        Content(): $$.$mol_list;
+        Details(id: any): $$.$mol_text;
+        side_changed(id: any): $mol_time_moment;
+        Changed(id: any): $$.$mol_date;
         View_page(id: any): $mol_page;
-        note_title(next?: any): string;
-        note_title_selection(next?: any): readonly number[];
-        Title(): $$.$mol_string;
-        Online(): $$.$hyoo_sync_online;
-        edit_close(next?: any): any;
-        Edit_close_icon(): $mol_icon_cross;
-        Edit_close(): $mol_button_minor;
-        note_details(next?: any): string;
-        note_details_selection(next?: any): readonly number[];
-        Details_edit(): $$.$mol_textarea;
-        Edit_page(): $mol_page;
+        side_title(id: any, next?: any): string;
+        side_title_selection(id: any, next?: any): readonly number[];
+        Title(id: any): $$.$mol_string;
+        Online(id: any): $$.$hyoo_sync_online;
+        edit_close(id: any, next?: any): any;
+        Edit_close_icon(id: any): $mol_icon_cross;
+        Edit_close(id: any): $mol_button_minor;
+        side_details(id: any, next?: any): string;
+        side_details_selection(id: any, next?: any): readonly number[];
+        Details_edit(id: any): $$.$mol_textarea;
+        Edit_page(id: any): $mol_page;
     }
 }
 
@@ -3612,21 +3612,20 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_page extends $.$hyoo_page {
         file(id: $mol_int62_string): $hyoo_crowd_land;
-        note(id: $mol_int62_string): $hyoo_page_note;
+        side(id: $mol_int62_string): $hyoo_page_side;
         add(): void;
         profile_id(): `${string}_${string}`;
-        note_id(): `${string}_${string}`;
+        side_id(id: $mol_int62_string): `${string}_${string}`;
         editable(next?: boolean): any;
         edit_close(): void;
-        note_current(): $hyoo_page_note;
-        title(): string;
-        note_title(next?: string): string;
-        note_title_selection(next?: number[]): number[];
-        note_details(next?: string): string;
-        note_details_selection(next?: number[]): number[];
-        note_changed_moment(next?: $mol_time_moment): $mol_time_moment;
+        side_current(): $hyoo_page_side;
+        side_title(id: $mol_int62_string, next?: string): string;
+        side_title_selection(id: $mol_int62_string, next?: number[]): number[];
+        side_details(id: $mol_int62_string, next?: string): string;
+        side_details_selection(id: $mol_int62_string, next?: number[]): number[];
+        side_changed(id: $mol_int62_string, next?: $mol_time_moment): $mol_time_moment;
         pages(): $mol_page[];
-        Edit_toggle(): any;
+        Edit_toggle(id: $mol_int62_string): any;
         auto(): void;
     }
 }
