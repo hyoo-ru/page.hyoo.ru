@@ -1,27 +1,27 @@
 $hyoo_page $mol_book2
 	store $hyoo_sync_client
 		socket => online
-	note* $hyoo_page_note
+	side* $hyoo_page_side
 	Placeholder null
 	plugins /
 		<= Theme $mol_theme_auto
 	pages /
 		<= View_page*0_0 $mol_page
-			title <= title
-			Logo <= Logo $mol_avatar id <= note_id \
+			title <= side_title*
+			Logo <= Logo* $mol_avatar id <= side_id* \
 			tools /
 				<= Lights $mol_lights_toggle
 				<= Source $mol_link_source
 					uri \https://github.com/hyoo-ru/page.hyoo.ru/
-				<= Add $mol_button_minor
+				<= Add* $mol_button_minor
 					hint \Make new page
 					click? <=> add? null
 					sub /
-						<= Add_icon $mol_icon_plus
-				<= Edit_toggle $mol_check_icon
+						<= Add_icon* $mol_icon_plus
+				<= Edit_toggle* $mol_check_icon
 					hint \Edit page
 					checked? <=> editable? false
-					Icon <= Edit_icon $mol_icon_pencil
+					Icon <= Edit_icon* $mol_icon_pencil
 				<= Profile $mol_link
 					hint \Profile
 					arg *
@@ -30,28 +30,27 @@ $hyoo_page $mol_book2
 					sub /
 						<= Profile_avatar $mol_avatar id <= profile_id \
 			body /
-				<= Content $mol_list rows /
-					<= Details $mol_text
-						text <= note_details
-					<= Changed_moment $mol_date
-						value_moment <= note_changed_moment $mol_time_moment
-						align_hor \left
-		<= Edit_page $mol_page
-			Title <= Title $mol_string
+				<= Details* $mol_text
+					text <= side_details*
+				<= Changed* $mol_date
+					value_moment <= side_changed* $mol_time_moment
+					align_hor \left
+		<= Edit_page*0_0 $mol_page
+			Title <= Title* $mol_string
 				hint \Title
-				value? <=> note_title? \
+				value? <=> side_title*? \
 				enabled <= editable
-				selection? <=> note_title_selection? /number
+				selection? <=> side_title_selection*? /number
 			tools /
-				<= Online $hyoo_sync_online
+				<= Online* $hyoo_sync_online
 					status <= online
-				<= Edit_close $mol_button_minor
+				<= Edit_close* $mol_button_minor
 					hint \Close editor
-					click? <=> edit_close? null
-					sub / <= Edit_close_icon $mol_icon_cross
+					click? <=> edit_close*? null
+					sub / <= Edit_close_icon* $mol_icon_cross
 			body /
-				<= Details_edit $mol_textarea
+				<= Details_edit* $mol_textarea
 					hint \Details
-					value? <=> note_details? \
+					value? <=> side_details*? \
 					enabled <= editable
-					selection? <=> note_details_selection? /number
+					selection? <=> side_details_selection*? /number

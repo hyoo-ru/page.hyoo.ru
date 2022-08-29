@@ -12,10 +12,11 @@ namespace $ {
 			},
 			Body: {
 				padding: $mol_gap.block,
+				justifyContent: 'space-between',
 			},
 		},
 		
-		Changed_moment: {
+		Changed: {
 			alignSelf: 'flex-end',
 		},
 		

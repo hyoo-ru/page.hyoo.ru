@@ -1,9 +1,13 @@
 namespace $.$$ {
 	
-	export class $hyoo_page_note extends $mol_object {
+	export class $hyoo_page_side extends $mol_object {
 		
 		land() {
 			return null as any as $hyoo_crowd_land
+		}
+		
+		id() {
+			return this.land().id()
 		}
 		
 		@ $mol_mem

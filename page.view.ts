@@ -8,8 +8,8 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem_key
-		note( id: $mol_int62_string ) {
-			return $hyoo_page_note.make({
+		side( id: $mol_int62_string ) {
+			return $hyoo_page_side.make({
 				land: ()=> this.file( id )
 			})
 		}
@@ -25,14 +25,13 @@ namespace $.$$ {
 			return this.store().peer().id
 		}
 		
-		@ $mol_mem
-		note_id() {
-			return ( this.$.$mol_state_arg.value( '' ) || 'a3p17r_9ds9n6' ) as $mol_int62_string
+		side_id( id: $mol_int62_string ) {
+			return id
 		}
 		
 		@ $mol_mem
 		editable( next?: boolean ) {
-			if( !this.note_current().editable() ) return false
+			if( !this.side_current().editable() ) return false
 			return this.$.$mol_state_history.value( 'edit', next ) ?? false
 		}
 		
@@ -40,44 +39,39 @@ namespace $.$$ {
 			this.editable( false )
 		}
 		
-		note_current() {
-			return this.note( this.note_id() )
+		side_current() {
+			return this.side( ( this.$.$mol_state_arg.value( '' ) || 'a3p17r_9ds9n6' ) as $mol_int62_string )
 		}
 		
-		title() {
-			return this.note_title() || this.note_id()
+		side_title( id: $mol_int62_string, next?: string ) {
+			return this.side( id ).title( next )
+		}
+		side_title_selection( id: $mol_int62_string, next?: number[] ) {
+			return this.side( id ).title_selection( next )
 		}
 		
-		note_title( next?: string ) {
-			return this.note_current().title( next )
+		side_details( id: $mol_int62_string, next?: string ) {
+			return this.side( id ).details( next )
 		}
-		note_title_selection( next?: number[] ) {
-			return this.note_current().title_selection( next )
-		}
-		
-		
-		note_details( next?: string ) {
-			return this.note_current().details( next )
-		}
-		note_details_selection( next?: number[] ) {
-			return this.note_current().details_selection( next )
+		side_details_selection( id: $mol_int62_string, next?: number[] ) {
+			return this.side( id ).details_selection( next )
 		}
 		
-		note_changed_moment( next?: $mol_time_moment ) {
-			return this.note_current().changed_moment( next ) ?? new $mol_time_moment
+		side_changed( id: $mol_int62_string, next?: $mol_time_moment ) {
+			return this.side( id ).changed_moment( next ) ?? new $mol_time_moment
 		}
 		
 		@ $mol_mem
 		pages() {
 			return [
-				this.View_page( this.note_id() ),
-				... this.editable() ? [ this.Edit_page() ] : [],
+				this.View_page( this.side_current().id() ),
+				... this.editable() ? [ this.Edit_page( this.side_current().id() ) ] : [],
 			]
 		}
 		
-		Edit_toggle() {
-			return this.note_current().editable()
-				? super.Edit_toggle()
+		Edit_toggle( id: $mol_int62_string ) {
+			return this.side( id ).editable()
+				? super.Edit_toggle( id )
 				: null as any
 		}
 		
