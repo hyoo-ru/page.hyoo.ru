@@ -1,10 +1,10 @@
 $hyoo_page $mol_book2
 	store $hyoo_sync_client
 		sync => online
-		land* => file*
+		land* => side_land*
 	side* $hyoo_page_side
-		id => id*
-		land <= file*
+		id => side_id*
+		land <= side_land*
 		editable => side_editable*
 		title? => side_title*?
 		title_selection? => side_title_selection*?
@@ -17,7 +17,7 @@ $hyoo_page $mol_book2
 	pages /
 		<= View_page*0_0 $mol_page
 			title <= side_title*
-			Logo <= Logo* $mol_avatar id <= side_id* \
+			Logo <= Logo* $mol_avatar id <= side_id*
 			tools /
 				<= Lights $mol_lights_toggle
 				<= Source $mol_link_source
