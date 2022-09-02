@@ -6286,6 +6286,9 @@ var $;
             id() {
                 return this.land().id();
             }
+            toJSON() {
+                return this.id();
+            }
             editable() {
                 return this.land().level(this.land().peer().id) >= $hyoo_crowd_peer_level.add;
             }
@@ -12404,14 +12407,39 @@ var $;
 (function ($) {
     class $hyoo_page extends $mol_book2 {
         online() {
-            return this.store().socket();
+            return this.store().sync();
+        }
+        file(id) {
+            return this.store().land(id);
         }
         store() {
             const obj = new this.$.$hyoo_sync_client();
             return obj;
         }
+        id(id) {
+            return this.side(id).id();
+        }
+        side_editable(id) {
+            return this.side(id).editable();
+        }
+        side_title(id, next) {
+            return this.side(id).title(next);
+        }
+        side_title_selection(id, next) {
+            return this.side(id).title_selection(next);
+        }
+        side_details(id, next) {
+            return this.side(id).details(next);
+        }
+        side_details_selection(id, next) {
+            return this.side(id).details_selection(next);
+        }
+        side_changed(id) {
+            return this.side(id).changed_moment();
+        }
         side(id) {
             const obj = new this.$.$hyoo_page_side();
+            obj.land = () => this.file(id);
             return obj;
         }
         Placeholder() {
@@ -12467,7 +12495,7 @@ var $;
             ];
             return obj;
         }
-        editable(next) {
+        editing(next) {
             if (next !== undefined)
                 return next;
             return false;
@@ -12479,7 +12507,7 @@ var $;
         Edit_toggle(id) {
             const obj = new this.$.$mol_check_icon();
             obj.hint = () => "Edit page";
-            obj.checked = (next) => this.editable(next);
+            obj.checked = (next) => this.editing(next);
             obj.Icon = () => this.Edit_icon(id);
             return obj;
         }
@@ -12507,10 +12535,6 @@ var $;
             obj.text = () => this.side_details(id);
             return obj;
         }
-        side_changed(id) {
-            const obj = new this.$.$mol_time_moment();
-            return obj;
-        }
         Changed(id) {
             const obj = new this.$.$mol_date();
             obj.value_moment = () => this.side_changed(id);
@@ -12534,21 +12558,11 @@ var $;
             ];
             return obj;
         }
-        side_title(id, next) {
-            if (next !== undefined)
-                return next;
-            return "";
-        }
-        side_title_selection(id, next) {
-            if (next !== undefined)
-                return next;
-            return [];
-        }
         Title(id) {
             const obj = new this.$.$mol_string();
             obj.hint = () => "Title";
             obj.value = (next) => this.side_title(id, next);
-            obj.enabled = () => this.editable();
+            obj.enabled = () => this.side_editable(id);
             obj.selection = (next) => this.side_title_selection(id, next);
             return obj;
         }
@@ -12575,21 +12589,11 @@ var $;
             ];
             return obj;
         }
-        side_details(id, next) {
-            if (next !== undefined)
-                return next;
-            return "";
-        }
-        side_details_selection(id, next) {
-            if (next !== undefined)
-                return next;
-            return [];
-        }
         Details_edit(id) {
             const obj = new this.$.$mol_textarea();
             obj.hint = () => "Details";
             obj.value = (next) => this.side_details(id, next);
-            obj.enabled = () => this.editable();
+            obj.enabled = () => this.side_editable(id);
             obj.selection = (next) => this.side_details_selection(id, next);
             return obj;
         }
@@ -12635,7 +12639,7 @@ var $;
     ], $hyoo_page.prototype, "Add", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page.prototype, "editable", null);
+    ], $hyoo_page.prototype, "editing", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Edit_icon", null);
@@ -12653,19 +12657,10 @@ var $;
     ], $hyoo_page.prototype, "Details", null);
     __decorate([
         $mol_mem_key
-    ], $hyoo_page.prototype, "side_changed", null);
-    __decorate([
-        $mol_mem_key
     ], $hyoo_page.prototype, "Changed", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "View_page", null);
-    __decorate([
-        $mol_mem_key
-    ], $hyoo_page.prototype, "side_title", null);
-    __decorate([
-        $mol_mem_key
-    ], $hyoo_page.prototype, "side_title_selection", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Title", null);
@@ -12681,12 +12676,6 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Edit_close", null);
-    __decorate([
-        $mol_mem_key
-    ], $hyoo_page.prototype, "side_details", null);
-    __decorate([
-        $mol_mem_key
-    ], $hyoo_page.prototype, "side_details_selection", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Details_edit", null);
@@ -12775,78 +12764,41 @@ var $;
     var $$;
     (function ($$) {
         class $hyoo_page extends $.$hyoo_page {
-            file(id) {
-                return this.store().land(id);
-            }
-            side(id) {
-                return $hyoo_page_side.make({
-                    land: () => this.file(id)
-                });
-            }
             add() {
-                const land = this.store().grab($hyoo_crowd_peer_level.get, $hyoo_crowd_peer_level.mod);
+                const land = this.store().land_grab($hyoo_crowd_peer_level.get, $hyoo_crowd_peer_level.mod);
                 this.$.$mol_dom_context.location.href = '#!=' + land.id();
-                this.editable(true);
+                this.editing(true);
             }
             profile_id() {
                 return this.store().peer().id;
             }
-            side_id(id) {
-                return id;
-            }
-            editable(next) {
-                if (!this.side_current().editable())
-                    return false;
+            editing(next) {
                 return this.$.$mol_state_history.value('edit', next) ?? false;
             }
             edit_close() {
-                this.editable(false);
+                this.editing(false);
             }
             side_current() {
-                return this.side((this.$.$mol_state_arg.value('') || 'a3p17r_9ds9n6'));
-            }
-            side_title(id, next) {
-                return this.side(id).title(next);
-            }
-            side_title_selection(id, next) {
-                return this.side(id).title_selection(next);
-            }
-            side_details(id, next) {
-                return this.side(id).details(next);
-            }
-            side_details_selection(id, next) {
-                return this.side(id).details_selection(next);
-            }
-            side_changed(id, next) {
-                return this.side(id).changed_moment(next) ?? new $mol_time_moment;
+                return this.side((this.$.$mol_state_arg.value('') || 'bt5te_na0xac'));
             }
             pages() {
                 return [
                     this.View_page(this.side_current().id()),
-                    ...this.editable() ? [this.Edit_page(this.side_current().id())] : [],
+                    ...this.editing() ? [this.Edit_page(this.side_current().id())] : [],
                 ];
             }
             Edit_toggle(id) {
-                return this.side(id).editable()
+                return this.side_editable(id)
                     ? super.Edit_toggle(id)
                     : null;
             }
-            auto() {
-                this.store().sync();
-            }
         }
-        __decorate([
-            $mol_mem_key
-        ], $hyoo_page.prototype, "file", null);
-        __decorate([
-            $mol_mem_key
-        ], $hyoo_page.prototype, "side", null);
         __decorate([
             $mol_action
         ], $hyoo_page.prototype, "add", null);
         __decorate([
             $mol_mem
-        ], $hyoo_page.prototype, "editable", null);
+        ], $hyoo_page.prototype, "editing", null);
         __decorate([
             $mol_mem
         ], $hyoo_page.prototype, "pages", null);

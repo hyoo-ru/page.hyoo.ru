@@ -671,8 +671,17 @@ $mol_textarea_edit $mol_string
 
 $hyoo_page $mol_book2
 	store $hyoo_sync_client
-		socket => online
+		sync => online
+		land* => file*
 	side* $hyoo_page_side
+		id => id*
+		land <= file*
+		editable => side_editable*
+		title? => side_title*?
+		title_selection? => side_title_selection*?
+		details? => side_details*?
+		details_selection? => side_details_selection*?
+		changed_moment => side_changed*
 	Placeholder null
 	plugins /
 		<= Theme $mol_theme_auto
@@ -691,7 +700,7 @@ $hyoo_page $mol_book2
 						<= Add_icon* $mol_icon_plus
 				<= Edit_toggle* $mol_check_icon
 					hint \Edit page
-					checked? <=> editable? false
+					checked? <=> editing? false
 					Icon <= Edit_icon* $mol_icon_pencil
 				<= Profile $mol_link
 					hint \Profile
@@ -704,14 +713,14 @@ $hyoo_page $mol_book2
 				<= Details* $mol_text
 					text <= side_details*
 				<= Changed* $mol_date
-					value_moment <= side_changed* $mol_time_moment
+					value_moment <= side_changed*
 					align_hor \left
 		<= Edit_page*0_0 $mol_page
 			Title <= Title* $mol_string
 				hint \Title
-				value? <=> side_title*? \
-				enabled <= editable
-				selection? <=> side_title_selection*? /number
+				value? <=> side_title*?
+				enabled <= side_editable*
+				selection? <=> side_title_selection*?
 			tools /
 				<= Online* $hyoo_sync_online
 					status <= online
@@ -722,6 +731,6 @@ $hyoo_page $mol_book2
 			body /
 				<= Details_edit* $mol_textarea
 					hint \Details
-					value? <=> side_details*? \
-					enabled <= editable
-					selection? <=> side_details_selection*? /number
+					value? <=> side_details*?
+					enabled <= side_editable*
+					selection? <=> side_details_selection*?

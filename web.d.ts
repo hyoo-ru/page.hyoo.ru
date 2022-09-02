@@ -1669,6 +1669,7 @@ declare namespace $.$$ {
     class $hyoo_page_side extends $mol_object {
         land(): $hyoo_crowd_land;
         id(): `${string}_${string}`;
+        toJSON(): `${string}_${string}`;
         editable(): boolean;
         title_node(): $hyoo_crowd_text;
         title(next?: string): string;
@@ -3548,8 +3549,16 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_page extends $mol_book2 {
-        online(): any;
+        online(): void;
+        file(id: any): $hyoo_crowd_land;
         store(): $hyoo_sync_client;
+        id(id: any): `${string}_${string}`;
+        side_editable(id: any): boolean;
+        side_title(id: any, next?: any): string;
+        side_title_selection(id: any, next?: any): number[];
+        side_details(id: any, next?: any): string;
+        side_details_selection(id: any, next?: any): number[];
+        side_changed(id: any): $mol_time_moment;
         side(id: any): $$.$hyoo_page_side;
         Placeholder(): any;
         plugins(): readonly any[];
@@ -3562,25 +3571,20 @@ declare namespace $ {
         add(next?: any): any;
         Add_icon(id: any): $mol_icon_plus;
         Add(id: any): $mol_button_minor;
-        editable(next?: any): boolean;
+        editing(next?: any): boolean;
         Edit_icon(id: any): $mol_icon_pencil;
         Edit_toggle(id: any): $mol_check_icon;
         profile_id(): string;
         Profile_avatar(): $$.$mol_avatar;
         Profile(): $$.$mol_link;
         Details(id: any): $$.$mol_text;
-        side_changed(id: any): $mol_time_moment;
         Changed(id: any): $$.$mol_date;
         View_page(id: any): $mol_page;
-        side_title(id: any, next?: any): string;
-        side_title_selection(id: any, next?: any): readonly number[];
         Title(id: any): $$.$mol_string;
         Online(id: any): $$.$hyoo_sync_online;
         edit_close(id: any, next?: any): any;
         Edit_close_icon(id: any): $mol_icon_cross;
         Edit_close(id: any): $mol_button_minor;
-        side_details(id: any, next?: any): string;
-        side_details_selection(id: any, next?: any): readonly number[];
         Details_edit(id: any): $$.$mol_textarea;
         Edit_page(id: any): $mol_page;
     }
@@ -3600,22 +3604,13 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_page extends $.$hyoo_page {
-        file(id: $mol_int62_string): $hyoo_crowd_land;
-        side(id: $mol_int62_string): $hyoo_page_side;
         add(): void;
         profile_id(): `${string}_${string}`;
-        side_id(id: $mol_int62_string): `${string}_${string}`;
-        editable(next?: boolean): any;
+        editing(next?: boolean): any;
         edit_close(): void;
         side_current(): $hyoo_page_side;
-        side_title(id: $mol_int62_string, next?: string): string;
-        side_title_selection(id: $mol_int62_string, next?: number[]): number[];
-        side_details(id: $mol_int62_string, next?: string): string;
-        side_details_selection(id: $mol_int62_string, next?: number[]): number[];
-        side_changed(id: $mol_int62_string, next?: $mol_time_moment): $mol_time_moment;
         pages(): $mol_page[];
         Edit_toggle(id: $mol_int62_string): any;
-        auto(): void;
     }
 }
 
