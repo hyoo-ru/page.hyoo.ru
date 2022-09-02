@@ -936,6 +936,8 @@ declare namespace $.$$ {
     }
 }
 
+declare let $hyoo_sync_revision: string;
+
 declare namespace $ {
     class $mol_state_local<Value> extends $mol_object {
         static 'native()': Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
@@ -1050,29 +1052,6 @@ declare namespace $ {
 
 declare namespace $ {
     function $mol_base64_encode_node(str: string | Uint8Array): string;
-}
-
-declare namespace $ {
-    let $mol_dict_key: typeof $mol_key;
-    class $mol_dict<Key, Value> extends Map<Key, Value> {
-        get(key: Key): Value | undefined;
-        has(key: Key): boolean;
-        set(key: Key, value: Value): this;
-        delete(key: Key): boolean;
-        forEach(back: (value: Value, key: Key, dict: Map<Key, Value>) => void, context?: any): void;
-        keys(): {
-            [Symbol.iterator](): any;
-            next(): IteratorReturnResult<any> | IteratorYieldResult<Key>;
-        };
-        entries(): {
-            [Symbol.iterator](): any;
-            next(): IteratorReturnResult<any> | IteratorYieldResult<[Key, Value]>;
-        };
-        [Symbol.iterator](): {
-            [Symbol.iterator](): any;
-            next(): IteratorReturnResult<any> | IteratorYieldResult<[Key, Value]>;
-        };
-    }
 }
 
 declare namespace $ {
@@ -1192,75 +1171,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $hyoo_crowd_world extends $mol_object2 {
-        readonly peer?: $hyoo_crowd_peer | undefined;
-        constructor(peer?: $hyoo_crowd_peer | undefined);
-        readonly lands_pub: $mol_wire_pub;
-        _lands: $mol_dict<`${string}_${string}`, $hyoo_crowd_land>;
-        get lands(): $mol_dict<`${string}_${string}`, $hyoo_crowd_land>;
-        land_init(id: $mol_int62_string): void;
-        land(id: $mol_int62_string): $hyoo_crowd_land;
-        land_sync(id: $mol_int62_string): $hyoo_crowd_land;
-        home(): $hyoo_crowd_land;
-        _knights: $mol_dict<`${string}_${string}`, $hyoo_crowd_peer>;
-        _signs: WeakMap<$hyoo_crowd_unit, Uint8Array>;
-        grab(king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): Promise<$hyoo_crowd_land>;
-        delta_land(land: $hyoo_crowd_land, clocks?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): Promise<readonly $hyoo_crowd_unit[]>;
-        delta_batch(land: $hyoo_crowd_land, clocks?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): AsyncGenerator<Uint8Array, void, unknown>;
-        delta(clocks?: Map<`${string}_${string}`, readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]>): AsyncGenerator<Uint8Array, void, unknown>;
-        apply(delta: Uint8Array): Promise<{
-            allow: $hyoo_crowd_unit[];
-            forbid: Map<$hyoo_crowd_unit, string>;
-        }>;
-        audit_delta(land: $hyoo_crowd_land, delta: $hyoo_crowd_unit[]): Promise<{
-            allow: $hyoo_crowd_unit[];
-            forbid: Map<$hyoo_crowd_unit, string>;
-        }>;
-    }
-}
-
-declare namespace $ {
-    type $mol_type_partial_deep<Val> = {
-        [field in keyof Val]?: $mol_type_partial_deep<Val[field]>;
-    };
-}
-
-declare namespace $ {
-    let $mol_jsx_prefix: string;
-    let $mol_jsx_crumbs: string;
-    let $mol_jsx_booked: Set<string> | null;
-    let $mol_jsx_document: $mol_jsx.JSX.ElementClass['ownerDocument'];
-    const $mol_jsx_frag = "";
-    function $mol_jsx<Props extends $mol_jsx.JSX.IntrinsicAttributes, Children extends Array<Node | string>>(Elem: string | ((props: Props, ...children: Children) => Element), props: Props, ...childNodes: Children): Element | DocumentFragment;
-    namespace $mol_jsx.JSX {
-        interface Element extends HTMLElement {
-            class?: string;
-        }
-        interface ElementClass {
-            attributes: {};
-            ownerDocument: Pick<Document, 'getElementById' | 'createElementNS' | 'createDocumentFragment'>;
-            childNodes: Array<Node | string>;
-            valueOf(): Element;
-        }
-        type OrString<Dict> = {
-            [key in keyof Dict]: Dict[key] | string;
-        };
-        type IntrinsicElements = {
-            [key in keyof ElementTagNameMap]?: $.$mol_type_partial_deep<OrString<Element & IntrinsicAttributes & ElementTagNameMap[key]>>;
-        };
-        interface IntrinsicAttributes {
-            id?: string;
-            xmlns?: string;
-        }
-        interface ElementAttributesProperty {
-            attributes: {};
-        }
-        interface ElementChildrenAttribute {
-        }
-    }
-}
-
-declare namespace $ {
     class $hyoo_crowd_node {
         readonly land: $hyoo_crowd_land;
         readonly head: $mol_int62_string;
@@ -1282,6 +1192,7 @@ declare namespace $ {
 declare namespace $ {
     class $hyoo_crowd_land extends $mol_object {
         id(): `${string}_${string}`;
+        toJSON(): `${string}_${string}`;
         peer(): $hyoo_crowd_peer;
         world(): $hyoo_crowd_world;
         get clock_auth(): $hyoo_crowd_clock;
@@ -1320,10 +1231,113 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $hyoo_sync_yard extends $mol_object2 {
+    let $mol_dict_key: typeof $mol_key;
+    class $mol_dict<Key, Value> extends Map<Key, Value> {
+        get(key: Key): Value | undefined;
+        has(key: Key): boolean;
+        set(key: Key, value: Value): this;
+        delete(key: Key): boolean;
+        forEach(back: (value: Value, key: Key, dict: Map<Key, Value>) => void, context?: any): void;
+        keys(): {
+            [Symbol.iterator](): any;
+            next(): IteratorReturnResult<any> | IteratorYieldResult<Key>;
+        };
+        entries(): {
+            [Symbol.iterator](): any;
+            next(): IteratorReturnResult<any> | IteratorYieldResult<[Key, Value]>;
+        };
+        [Symbol.iterator](): {
+            [Symbol.iterator](): any;
+            next(): IteratorReturnResult<any> | IteratorYieldResult<[Key, Value]>;
+        };
+    }
+}
+
+declare namespace $ {
+    class $hyoo_crowd_world extends $mol_object2 {
+        readonly peer?: $hyoo_crowd_peer | undefined;
+        constructor(peer?: $hyoo_crowd_peer | undefined);
+        readonly lands_pub: $mol_wire_pub;
+        _lands: Map<`${string}_${string}`, $hyoo_crowd_land>;
+        get lands(): Map<`${string}_${string}`, $hyoo_crowd_land>;
+        land_init(id: $hyoo_crowd_land): void;
+        land(id: $mol_int62_string): $hyoo_crowd_land;
+        land_sync(id: $mol_int62_string): $hyoo_crowd_land;
+        home(): $hyoo_crowd_land;
+        _knights: $mol_dict<`${string}_${string}`, $hyoo_crowd_peer>;
+        _signs: WeakMap<$hyoo_crowd_unit, Uint8Array>;
+        grab(king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): Promise<$hyoo_crowd_land>;
+        delta_land(land: $hyoo_crowd_land, clocks?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): Promise<readonly $hyoo_crowd_unit[]>;
+        delta_batch(land: $hyoo_crowd_land, clocks?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): Promise<Uint8Array[]>;
+        delta(clocks?: Map<`${string}_${string}`, readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]>): AsyncGenerator<Uint8Array, void, unknown>;
+        apply(delta: Uint8Array): Promise<{
+            allow: $hyoo_crowd_unit[];
+            forbid: Map<$hyoo_crowd_unit, string>;
+        }>;
+        audit_delta(land: $hyoo_crowd_land, delta: $hyoo_crowd_unit[]): Promise<{
+            allow: $hyoo_crowd_unit[];
+            forbid: Map<$hyoo_crowd_unit, string>;
+        }>;
+    }
+}
+
+declare namespace $ {
+    let $mol_action: typeof $mol_wire_method;
+}
+
+declare namespace $ {
+    class $hyoo_crowd_reg extends $hyoo_crowd_node {
+        value(next?: unknown): {} | null;
+        str(next?: string): string;
+        numb(next?: number): number;
+        bool(next?: boolean): boolean;
+        yoke(king_level: $hyoo_crowd_peer_level, base_level: $hyoo_crowd_peer_level): $hyoo_crowd_land;
+    }
+}
+
+declare namespace $ {
+    function $mol_wire_race<Tasks extends (() => any)[]>(...tasks: Tasks): {
+        [index in keyof Tasks]: ReturnType<Tasks[index]>;
+    };
+}
+
+declare namespace $ {
+    abstract class $hyoo_sync_yard<Line> extends $mol_object2 {
+        log_pack(data: any): any;
         peer(): $hyoo_crowd_peer;
         world(): $hyoo_crowd_world;
-        land_init(id: $mol_int62_string): void;
+        land(id: $mol_int62_string): $hyoo_crowd_land;
+        land_grab(king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): $hyoo_crowd_land;
+        file(reg: $hyoo_crowd_reg, king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): $hyoo_crowd_land;
+        sync(): void;
+        land_sync(land: $hyoo_crowd_land): void;
+        db_land_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | undefined;
+        db_land_sync(land: $hyoo_crowd_land): void;
+        db_land_init(land: $hyoo_crowd_land): void;
+        abstract db_land_load(land: $hyoo_crowd_land): Promise<readonly $hyoo_crowd_unit[]>;
+        abstract db_land_save(land: $hyoo_crowd_land, units: readonly $hyoo_crowd_unit[]): void;
+        master(): Line | null;
+        slaves(next?: readonly Line[]): readonly Line[];
+        line_lands(line: Line, next?: $hyoo_crowd_land[]): $hyoo_crowd_land[];
+        line_land_clocks({ line, land }: {
+            line: Line;
+            land: $hyoo_crowd_land;
+        }, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | undefined;
+        line_sync(line: Line): void;
+        line_land_sync({ line, land }: {
+            line: Line;
+            land: $hyoo_crowd_land;
+        }): void;
+        line_land_init({ line, land }: {
+            line: Line;
+            land: $hyoo_crowd_land;
+        }): void;
+        line_land_neck({ line, land }: {
+            line: Line;
+            land: $hyoo_crowd_land;
+        }, next?: Promise<any>[]): Promise<any>[];
+        line_receive(line: Line, message: Uint8Array): Promise<void>;
+        abstract line_send(line: Line, message: Uint8Array): void;
     }
 }
 
@@ -1399,30 +1413,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_wire_solid(): void;
-}
-
-declare namespace $ {
-    function $mol_wire_race<Tasks extends (() => any)[]>(...tasks: Tasks): {
-        [index in keyof Tasks]: ReturnType<Tasks[index]>;
-    };
-}
-
-declare namespace $ {
-    let $mol_action: typeof $mol_wire_method;
-}
-
-declare namespace $ {
-    class $hyoo_crowd_reg extends $hyoo_crowd_node {
-        value(next?: unknown): {} | null;
-        str(next?: string): string;
-        numb(next?: number): number;
-        bool(next?: boolean): boolean;
-        yoke(king_level: $hyoo_crowd_peer_level, base_level: $hyoo_crowd_peer_level): $hyoo_crowd_land;
-    }
-}
-
-declare namespace $ {
     class $mol_db_database<Schema extends $mol_db_schema> {
         readonly native: IDBDatabase;
         constructor(native: IDBDatabase);
@@ -1453,17 +1443,8 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $hyoo_sync_client extends $hyoo_sync_yard {
-        db(): $mol_db_database<{
-            Unit: {
-                Key: [`${string}_${string}`, `${string}_${string}`, `${string}_${string}`];
-                Doc: $hyoo_crowd_unit;
-                Indexes: {
-                    Land: [`${string}_${string}`];
-                };
-            };
-        }>;
-        db_init(): Promise<$mol_db_database<{
+    class $hyoo_sync_client extends $hyoo_sync_yard<WebSocket> {
+        db(): Promise<$mol_db_database<{
             Unit: {
                 Key: [$mol_int62_string, $mol_int62_string, $mol_int62_string];
                 Doc: $hyoo_crowd_unit;
@@ -1472,24 +1453,12 @@ declare namespace $ {
                 };
             };
         }>>;
-        server(): string;
-        db_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null;
-        server_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | null;
-        request_done(next?: (res: unknown) => void): (res: unknown) => void;
-        land_init(land: $mol_int62_string): void;
-        sync(): void;
-        db_load(land_id: $mol_int62_string): Promise<void>;
-        db_sync(): void;
-        db_save(land: $hyoo_crowd_land): Promise<null>;
-        server_sync(): void;
-        server_init(land: $mol_int62_string): void;
-        server_send(land: $hyoo_crowd_land): Promise<void>;
-        grab(king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): $hyoo_crowd_land;
-        land(id: $mol_int62_string): $hyoo_crowd_land;
-        file(reg: $hyoo_crowd_reg, king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): $hyoo_crowd_land;
-        reconnect(reset?: null): number;
-        socket(reset?: null): WebSocket;
-        socket_connect(): Promise<WebSocket>;
+        db_land_load(land: $hyoo_crowd_land): Promise<$hyoo_crowd_unit[]>;
+        db_land_save(land: $hyoo_crowd_land, units: readonly $hyoo_crowd_unit[]): Promise<void>;
+        servers(): string[];
+        reconnects(reset?: null): number;
+        master(): WebSocket;
+        line_send(line: WebSocket, message: Uint8Array): void;
     }
 }
 
@@ -2886,6 +2855,47 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    type $mol_type_partial_deep<Val> = {
+        [field in keyof Val]?: $mol_type_partial_deep<Val[field]>;
+    };
+}
+
+declare namespace $ {
+    let $mol_jsx_prefix: string;
+    let $mol_jsx_crumbs: string;
+    let $mol_jsx_booked: Set<string> | null;
+    let $mol_jsx_document: $mol_jsx.JSX.ElementClass['ownerDocument'];
+    const $mol_jsx_frag = "";
+    function $mol_jsx<Props extends $mol_jsx.JSX.IntrinsicAttributes, Children extends Array<Node | string>>(Elem: string | ((props: Props, ...children: Children) => Element), props: Props, ...childNodes: Children): Element | DocumentFragment;
+    namespace $mol_jsx.JSX {
+        interface Element extends HTMLElement {
+            class?: string;
+        }
+        interface ElementClass {
+            attributes: {};
+            ownerDocument: Pick<Document, 'getElementById' | 'createElementNS' | 'createDocumentFragment'>;
+            childNodes: Array<Node | string>;
+            valueOf(): Element;
+        }
+        type OrString<Dict> = {
+            [key in keyof Dict]: Dict[key] | string;
+        };
+        type IntrinsicElements = {
+            [key in keyof ElementTagNameMap]?: $.$mol_type_partial_deep<OrString<Element & IntrinsicAttributes & ElementTagNameMap[key]>>;
+        };
+        interface IntrinsicAttributes {
+            id?: string;
+            xmlns?: string;
+        }
+        interface ElementAttributesProperty {
+            attributes: {};
+        }
+        interface ElementChildrenAttribute {
+        }
+    }
+}
+
+declare namespace $ {
 }
 
 declare namespace $.$$ {
@@ -3501,6 +3511,7 @@ declare namespace $.$$ {
     class $hyoo_sync_online extends $.$hyoo_sync_online {
         message(): string;
         sub(): $mol_icon_sync[];
+        hint(): string;
     }
 }
 
@@ -3565,7 +3576,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_page extends $mol_book2 {
-        online(): WebSocket;
+        online(): any;
         store(): $hyoo_sync_client;
         side(id: any): $$.$hyoo_page_side;
         Placeholder(): any;
