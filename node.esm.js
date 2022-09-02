@@ -12697,7 +12697,7 @@ var $;
         View_page: {
             margin: [0, 'auto'],
             flex: {
-                basis: rem(60),
+                basis: rem(50),
                 grow: 0,
             },
             Body: {
@@ -12711,7 +12711,7 @@ var $;
         Edit_page: {
             margin: [0, 'auto'],
             flex: {
-                basis: rem(60),
+                basis: rem(50),
                 grow: 0,
             },
             Tools: {
