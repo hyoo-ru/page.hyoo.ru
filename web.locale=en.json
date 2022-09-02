@@ -1,8 +1,18 @@
 {
+	"$hyoo_page_Add_hint": "New page",
+	"$hyoo_page_Bookmark_toggle_hint": "Bookmark page",
+	"$hyoo_page_Details_edit_hint": "Details",
+	"$hyoo_page_Edit_close_hint": "Close editor",
+	"$hyoo_page_Edit_toggle_hint": "Edit page",
+	"$hyoo_page_Menu_page_title": "Pages",
+	"$hyoo_page_Profile_hint": "Profile",
+	"$hyoo_page_Title_hint": "Title",
 	"$mol_date_next_hint": "Next month",
 	"$mol_date_prev_hint": "Previous month",
 	"$mol_lights_toggle_hint": "Toggle lights",
 	"$mol_link_source_hint": "Source code",
+	"$mol_search_Clear_hint": "Clear",
+	"$mol_search_hint": "Search...",
 	"$mol_text_code_Copy_hint": "Copy whole code",
 	"$mol_text_header_Link_hint": "Permalink to this section"
 }
