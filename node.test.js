@@ -12414,14 +12414,14 @@ var $;
         online() {
             return this.store().sync();
         }
-        file(id) {
+        side_land(id) {
             return this.store().land(id);
         }
         store() {
             const obj = new this.$.$hyoo_sync_client();
             return obj;
         }
-        id(id) {
+        side_id(id) {
             return this.side(id).id();
         }
         side_editable(id) {
@@ -12444,7 +12444,7 @@ var $;
         }
         side(id) {
             const obj = new this.$.$hyoo_page_side();
-            obj.land = () => this.file(id);
+            obj.land = () => this.side_land(id);
             return obj;
         }
         Placeholder() {
@@ -12464,9 +12464,6 @@ var $;
         Theme() {
             const obj = new this.$.$mol_theme_auto();
             return obj;
-        }
-        side_id(id) {
-            return "";
         }
         Logo(id) {
             const obj = new this.$.$mol_avatar();

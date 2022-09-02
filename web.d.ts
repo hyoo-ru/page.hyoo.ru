@@ -3550,9 +3550,9 @@ declare namespace $.$$ {
 declare namespace $ {
     class $hyoo_page extends $mol_book2 {
         online(): void;
-        file(id: any): $hyoo_crowd_land;
+        side_land(id: any): $hyoo_crowd_land;
         store(): $hyoo_sync_client;
-        id(id: any): `${string}_${string}`;
+        side_id(id: any): `${string}_${string}`;
         side_editable(id: any): boolean;
         side_title(id: any, next?: any): string;
         side_title_selection(id: any, next?: any): number[];
@@ -3564,7 +3564,6 @@ declare namespace $ {
         plugins(): readonly any[];
         pages(): readonly any[];
         Theme(): $$.$mol_theme_auto;
-        side_id(id: any): string;
         Logo(id: any): $$.$mol_avatar;
         Lights(): $$.$mol_lights_toggle;
         Source(): $mol_link_source;
