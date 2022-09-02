@@ -10,6 +10,10 @@ namespace $.$$ {
 			return this.land().id()
 		}
 		
+		toJSON() {
+			return this.id()
+		}
+		
 		@ $mol_mem
 		editable() {
 			return this.land().level( this.land().peer().id ) >= $hyoo_crowd_peer_level.add
