@@ -25,7 +25,7 @@ $hyoo_page $mol_book2
 				sub /
 					<= Profile_avatar $mol_avatar
 						id <= profile_id \
-			title @ \Pages
+			title @ \In Bookmarks
 			tools /
 				<= Lights $mol_lights_toggle
 				<= Source $mol_link_source
