@@ -11,33 +11,63 @@ $hyoo_page $mol_book2
 		details? => side_details*?
 		details_selection? => side_details_selection*?
 		changed_moment => side_changed*
+	bookmarks_filtered <= bookmarks? /string
 	Placeholder null
 	plugins /
 		<= Theme $mol_theme_auto
 	pages /
-		<= View_page*0_0 $mol_page
-			title <= side_title*
-			Logo <= Logo* $mol_avatar id <= side_id*
+		<= Menu_page $mol_page
+			Logo <= Profile $mol_link
+				hint @ \Profile
+				arg *
+					\
+						<= profile_id \
+				sub /
+					<= Profile_avatar $mol_avatar
+						id <= profile_id \
+			title @ \Pages
 			tools /
 				<= Lights $mol_lights_toggle
 				<= Source $mol_link_source
 					uri \https://github.com/hyoo-ru/page.hyoo.ru/
-				<= Add* $mol_button_minor
-					hint \Make new page
+				<= Online $hyoo_sync_online
+					status <= online
+				<= Add $mol_button_minor
+					hint @ \New page
 					click? <=> add? null
 					sub /
-						<= Add_icon* $mol_icon_plus
+						<= Add_icon $mol_icon_plus
+			foot /
+				<= Lights $mol_lights_toggle
+				<= Source $mol_link_source
+					uri \https://github.com/hyoo-ru/page.hyoo.ru/
+				<= Online $hyoo_sync_online
+					status <= online
+			body /
+				<= Menu $mol_list
+					rows <= menu /
+						<= Menu_filter $mol_search
+							query? <=> menu_filter? \
+						<= Menu_item*id $mol_link
+							arg <= menu_item_arg* *
+							sub /
+								<= Menu_item_logo* $mol_avatar
+									id <= menu_item_id* \
+								<= Menu_item_title* $mol_dimmer
+									haystack <= menu_item_title* \
+									needle <= menu_filter
+		<= View_page*0_0 $mol_page
+			title <= side_title*
+			Logo <= Logo* $mol_avatar id <= side_id*
+			tools /
 				<= Edit_toggle* $mol_check_icon
-					hint \Edit page
+					hint @ \Edit page
 					checked? <=> editing? false
 					Icon <= Edit_icon* $mol_icon_pencil
-				<= Profile $mol_link
-					hint \Profile
-					arg *
-						\
-							<= profile_id \
-					sub /
-						<= Profile_avatar $mol_avatar id <= profile_id \
+				<= Bookmark_toggle* $mol_check_icon
+					hint @ \Bookmark page
+					checked? <=> side_bookmark*? false
+					Icon <= Bookmark_icon* $mol_icon_star_face
 			body /
 				<= Details* $mol_text
 					text <= side_details*
@@ -46,20 +76,18 @@ $hyoo_page $mol_book2
 					align_hor \left
 		<= Edit_page*0_0 $mol_page
 			Title <= Title* $mol_string
-				hint \Title
+				hint @ \Title
 				value? <=> side_title*?
 				enabled <= side_editable*
 				selection? <=> side_title_selection*?
 			tools /
-				<= Online* $hyoo_sync_online
-					status <= online
 				<= Edit_close* $mol_button_minor
-					hint \Close editor
+					hint @ \Close editor
 					click? <=> edit_close*? null
 					sub / <= Edit_close_icon* $mol_icon_cross
 			body /
 				<= Details_edit* $mol_textarea
-					hint \Details
+					hint @ \Details
 					value? <=> side_details*?
 					enabled <= side_editable*
 					selection? <=> side_details_selection*?

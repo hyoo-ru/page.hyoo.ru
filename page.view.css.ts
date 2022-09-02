@@ -4,6 +4,29 @@ namespace $ {
 	
 	$mol_style_define( $hyoo_page, {
 		
+		Menu_page: {
+			flex: {
+				basis: rem(20),
+				grow: 0,
+			},
+		},
+		
+		Menu: {
+			padding: $mol_gap.block,
+		},
+		
+		Profile: {
+			margin: [ rem(-0.5), rem(-0.75) ];
+		},
+		
+		Menu_filter: {
+			alignSelf: 'stretch',
+		},
+		
+		Menu_item: {
+			gap: $mol_gap.block,
+		},
+		
 		View_page: {
 			margin: [ 0, 'auto' ],
 			flex: {
@@ -21,7 +44,6 @@ namespace $ {
 		},
 		
 		Edit_page: {
-			margin: [ 0, 'auto' ],
 			flex: {
 				basis: rem(50),
 				grow: 0,
