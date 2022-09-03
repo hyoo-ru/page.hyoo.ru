@@ -20,9 +20,24 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
-		referrers() {
-			return this.land().chief.sub( 'referrers', $hyoo_crowd_reg )
-				.yoke( $hyoo_crowd_peer_level.mod, $hyoo_crowd_peer_level.add )!.chief.as( $hyoo_crowd_dict )
+		referrers_node() {
+			return this.land().chief.yoke(
+				'referrers',
+				$hyoo_crowd_dict,
+				$hyoo_crowd_peer_level.law,
+				$hyoo_crowd_peer_level.add,
+			)
+		}
+		@ $mol_mem
+		referrers_list() {
+			return this.referrers_node().keys()
+		}
+		@ $mol_mem_key
+		referrers_stat( uri: string ) {
+			return this.referrers_node().sub( uri, $hyoo_crowd_list ).list().length
+		}
+		referrers_track( uri: string ) {
+			return this.referrers_node().sub( uri, $hyoo_crowd_list ).add( this.land().peer().id )
 		}
 		
 		@ $mol_mem
@@ -40,7 +55,12 @@ namespace $.$$ {
 
 		@ $mol_mem
 		details_node() {
-			return this.land().chief.sub( 'details', $hyoo_crowd_text )
+			return this.land().chief.yoke(
+				'details',
+				$hyoo_crowd_text,
+				$hyoo_crowd_peer_level.law,
+				$hyoo_crowd_peer_level.mod,
+			)
 		}
 		@ $mol_mem
 		details( next?: string ) {

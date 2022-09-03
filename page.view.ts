@@ -106,7 +106,7 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		ref_list( id: $mol_int62_string ) {
-			return this.side( id ).referrers().keys().map( uri => this.Ref_item([ id, uri ]) )
+			return this.side( id ).referrers_list().map( uri => this.Ref_item([ id, uri ]) )
 		}
 		
 		ref_uri( [ id, uri ]: [ $mol_int62_string, string ] ) {
@@ -115,7 +115,7 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		ref_stat( [ id, uri ]: [ $mol_int62_string, string ] ) {
-			return this.side( id ).referrers().sub( uri, $hyoo_crowd_list ).list().length
+			return this.side( id ).referrers_stat( uri )
 		}
 		
 		@ $mol_mem
@@ -123,7 +123,7 @@ namespace $.$$ {
 			const ref = this.$.$mol_dom_context.document.referrer
 			const self = this.$.$mol_dom_context.document.location.href.replace( /#.*$/, '' )
 			if( ref === self ) return
-			if( ref ) this.side_current().referrers().sub( ref, $hyoo_crowd_list ).add( this.profile_id() )
+			if( ref ) this.side_current().referrers_track( ref )
 		}
 		
 	}
