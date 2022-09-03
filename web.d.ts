@@ -1156,6 +1156,7 @@ declare namespace $ {
         join(): void;
         level_base(next?: $hyoo_crowd_peer_level): void;
         level(peer: $mol_int62_string, next?: $hyoo_crowd_peer_level): $hyoo_crowd_peer_level;
+        lords(): readonly `${string}_${string}`[];
         put(head: $mol_int62_string, self: $mol_int62_string, prev: $mol_int62_string, data: unknown): $hyoo_crowd_unit;
         wipe(unit: $hyoo_crowd_unit): $hyoo_crowd_unit;
         move(unit: $hyoo_crowd_unit, head: $mol_int62_string, prev: $mol_int62_string): $hyoo_crowd_unit;
@@ -3637,6 +3638,18 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_icon_shield extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_shield_account extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
     class $mol_textarea extends $mol_stack {
         attr(): {
             mol_textarea_clickable: boolean;
@@ -3726,6 +3739,55 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_button_major extends $mol_button_typed {
+        attr(): {
+            mol_theme: string;
+            disabled: boolean;
+            role: string;
+            tabindex: number;
+            title: string;
+        };
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_labeler extends $mol_list {
+        rows(): readonly any[];
+        label(): readonly $mol_view_content[];
+        Label(): $mol_view;
+        content(): readonly any[];
+        Content(): $mol_view;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_form_field extends $mol_labeler {
+        bids(): readonly string[];
+        label(): readonly any[];
+        content(): readonly any[];
+        name(): string;
+        bid(): string;
+        Bid(): $mol_view;
+        control(): any;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_form_field extends $.$mol_form_field {
+        bid(): string;
+    }
+}
+
+declare namespace $ {
     class $hyoo_page extends $mol_book2 {
         online(): void;
         side_land(id: any): $hyoo_crowd_land;
@@ -3780,6 +3842,9 @@ declare namespace $ {
         Changed(id: any): $$.$mol_date;
         View_page(id: any): $mol_page;
         Title(id: any): $$.$mol_string;
+        rights(next?: any): boolean;
+        Rights_icon(id: any): $mol_icon_shield_account;
+        Rights_toggle(id: any): $mol_check_icon;
         edit_close(id: any, next?: any): any;
         Edit_close_icon(id: any): $mol_icon_cross;
         Edit_close(id: any): $mol_button_minor;
@@ -3798,6 +3863,28 @@ declare namespace $ {
         Ref_list_items(id: any): $$.$mol_list;
         Ref_list(id: any): $mol_section;
         Info_page(id: any): $mol_page;
+        rights_close(id: any, next?: any): any;
+        Rights_close_icon(id: any): $mol_icon_cross;
+        Rights_close(id: any): $mol_button_minor;
+        editor_link(id: any): string;
+        editor_id(id: any): string;
+        Editor_logo(id: any): $$.$mol_avatar;
+        editor_name(id: any): string;
+        Editor_link(id: any): $$.$mol_link;
+        editor_list(id: any): readonly any[];
+        Editor_list(id: any): $$.$mol_list;
+        editor_add_bid(id: any): string;
+        editor_add_id(id: any, next?: any): string;
+        Editor_add_id(id: any): $$.$mol_string;
+        editor_add_filled(id: any): boolean;
+        editor_add_submit(id: any, next?: any): any;
+        Editor_add_icon(id: any): $mol_icon_plus;
+        Editor_add_submit(id: any): $mol_button_major;
+        editor_fill_all(id: any, next?: any): any;
+        Editor_fill_all(id: any): $mol_button_minor;
+        Editor_add(id: any): $$.$mol_form_field;
+        Rights_content(id: any): $$.$mol_list;
+        Rights_page(id: any): $mol_page;
     }
 }
 
@@ -3815,6 +3902,44 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_row extends $mol_view {
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_form extends $mol_list {
+        submit_blocked(): boolean;
+        event(): {
+            keydown: (event?: any) => any;
+        };
+        submit(event?: any): any;
+        rows(): readonly any[];
+        keydown(event?: any): any;
+        form_fields(): readonly $mol_form_field[];
+        body(): readonly $mol_form_field[];
+        Body(): $$.$mol_list;
+        buttons(): readonly $mol_view[];
+        foot(): readonly $mol_view[];
+        Foot(): $mol_row;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_form extends $.$mol_form {
+        form_fields(): readonly $mol_form_field[];
+        submit_allowed(): boolean;
+        submit_blocked(): boolean;
+        keydown(next: KeyboardEvent): void;
+    }
+}
+
+declare namespace $ {
 }
 
 declare namespace $.$$ {
@@ -3823,8 +3948,10 @@ declare namespace $.$$ {
         profile(): $hyoo_crowd_land;
         profile_id(): `${string}_${string}`;
         editing(next?: boolean): any;
+        rights(next?: boolean): any;
         info(next?: boolean): any;
         edit_close(): void;
+        rights_close(): void;
         info_close(): void;
         side_current(): $hyoo_page_side;
         pages(): $mol_page[];
@@ -3842,6 +3969,15 @@ declare namespace $.$$ {
         ref_uri([id, uri]: [$mol_int62_string, string]): string;
         ref_stat([id, uri]: [$mol_int62_string, string]): number;
         ref_track(): void;
+        editor_list(id: $mol_int62_string): $mol_link[];
+        editor_id([side, peer]: [$mol_int62_string, $mol_int62_string]): `${string}_${string}`;
+        editor_link([side, peer]: [$mol_int62_string, $mol_int62_string]): string;
+        editor_name([side, peer]: [$mol_int62_string, $mol_int62_string]): string;
+        editor_add_id(id: $mol_int62_string, next?: string): `${string}_${string}`;
+        editor_add_filled(id: $mol_int62_string): boolean;
+        editor_add_bid(id: $mol_int62_string): string;
+        editor_fill_all(id: $mol_int62_string): void;
+        editor_add_submit(id: $mol_int62_string): void;
     }
 }
 
