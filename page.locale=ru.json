@@ -6,5 +6,9 @@
 	"$hyoo_page_Bookmark_toggle_hint": "В избранное",
 	"$hyoo_page_Title_hint": "Заголовок",
 	"$hyoo_page_Edit_close_hint": "Закрыть",
-	"$hyoo_page_Details_edit_hint": "Подробности"
+	"$hyoo_page_Details_edit_hint": "Подробности",
+	"$hyoo_page_Info_close_hint": "Закрыть",
+	"$hyoo_page_Ref_list_empty_title": "Нет обратных ссылок",
+	"$hyoo_page_Ref_list_title": "Упоминания",
+	"$hyoo_page_Info_page_title": "Информация о странице"
 }

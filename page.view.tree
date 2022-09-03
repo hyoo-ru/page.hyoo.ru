@@ -98,7 +98,7 @@ $hyoo_page $mol_book2
 					enabled <= side_editable*
 					selection? <=> side_details_selection*?
 		<= Info_page*0_0 $mol_page
-			title @ \Info
+			title @ \Page Info
 			tools /
 				<= Info_close* $mol_button_minor
 					hint @ \Close info
