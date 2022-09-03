@@ -47,7 +47,7 @@ namespace $.$$ {
 		}
 		
 		side_current() {
-			return this.side( ( this.$.$mol_state_arg.value( '' ) || 'bt5te_na0xac' ) as $mol_int62_string )
+			return this.side( ( this.$.$mol_state_arg.value( '' ) || this.side_main_id() ) as $mol_int62_string )
 		}
 		
 		@ $mol_mem

@@ -1,4 +1,5 @@
 $hyoo_page $mol_book2
+	side_main_id \jkh744_9vtac5
 	store $hyoo_sync_client
 		sync => online
 		land* => side_land*
