@@ -91,6 +91,7 @@ namespace $ {
 		Ref_item_link: {
 			flex: {
 				shrink: 1,
+				grow: 1,
 			},
 		},
 		
