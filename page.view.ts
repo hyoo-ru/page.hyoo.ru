@@ -24,8 +24,17 @@ namespace $.$$ {
 			return this.$.$mol_state_history.value( 'edit', next ) ?? false
 		}
 		
+		@ $mol_mem
+		info( next?: boolean ) {
+			return this.$.$mol_state_history.value( 'info', next ) ?? false
+		}
+		
 		edit_close() {
 			this.editing( false )
+		}
+		
+		info_close() {
+			this.info( false )
 		}
 		
 		side_current() {
@@ -34,10 +43,12 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		pages() {
+			const id = this.side_current().id()
 			return [
 				this.Menu_page(),
-				this.View_page( this.side_current().id() ),
-				... this.editing() ? [ this.Edit_page( this.side_current().id() ) ] : [],
+				this.View_page( id ),
+				... this.editing() ? [ this.Edit_page( id ) ] : [],
+				... this.info() ? [ this.Info_page( id ) ] : [],
 			]
 		}
 		
@@ -91,6 +102,28 @@ namespace $.$$ {
 					: this.bookmarks().filter( i => i !== id )
 				)
 			).includes( id )
+		}
+		
+		@ $mol_mem_key
+		ref_list( id: $mol_int62_string ) {
+			return this.side( id ).referrers().keys().map( uri => this.Ref_item([ id, uri ]) )
+		}
+		
+		ref_uri( [ id, uri ]: [ $mol_int62_string, string ] ) {
+			return uri
+		}
+		
+		@ $mol_mem_key
+		ref_stat( [ id, uri ]: [ $mol_int62_string, string ] ) {
+			return this.side( id ).referrers().sub( uri, $hyoo_crowd_list ).list().length
+		}
+		
+		@ $mol_mem
+		ref_track() {
+			const ref = this.$.$mol_dom_context.document.referrer
+			const self = this.$.$mol_dom_context.document.location.href.replace( /#.*$/, '' )
+			if( ref === self ) return
+			if( ref ) this.side_current().referrers().sub( ref, $hyoo_crowd_list ).add( this.profile_id() )
 		}
 		
 	}

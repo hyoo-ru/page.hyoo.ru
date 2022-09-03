@@ -20,6 +20,12 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
+		referrers() {
+			return this.land().chief.sub( 'referrers', $hyoo_crowd_reg )
+				.yoke( $hyoo_crowd_peer_level.mod, $hyoo_crowd_peer_level.add )!.chief.as( $hyoo_crowd_dict )
+		}
+		
+		@ $mol_mem
 		title_node() {
 			return this.land().chief.sub( 'title', $hyoo_crowd_text )
 		}

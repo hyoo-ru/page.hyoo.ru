@@ -15,6 +15,8 @@ $hyoo_page $mol_book2
 	Placeholder null
 	plugins /
 		<= Theme $mol_theme_auto
+	auto /
+		<= ref_track null
 	pages /
 		<= Menu_page $mol_page
 			Logo <= Profile $mol_link
@@ -64,6 +66,10 @@ $hyoo_page $mol_book2
 					hint @ \Edit page
 					checked? <=> editing? false
 					Icon <= Edit_icon* $mol_icon_pencil
+				<= Info_toggle* $mol_check_icon
+					hint @ \Info page
+					checked? <=> info? false
+					Icon <= Info_icon* $mol_icon_information_outline
 				<= Bookmark_toggle* $mol_check_icon
 					hint @ \Bookmark page
 					checked? <=> side_bookmark*? false
@@ -91,3 +97,24 @@ $hyoo_page $mol_book2
 					value? <=> side_details*?
 					enabled <= side_editable*
 					selection? <=> side_details_selection*?
+		<= Info_page*0_0 $mol_page
+			title @ \Info
+			tools /
+				<= Info_close* $mol_button_minor
+					hint @ \Close info
+					click? <=> info_close*? null
+					sub / <= Info_close_icon* $mol_icon_cross
+			body /
+				<= Ref_list* $mol_section
+					title @ \Referrers
+					Content <= Ref_list_items* $mol_list
+						rows <= ref_list* /
+							<= Ref_item*0_0 $mol_view
+								sub /
+									<= Ref_item_link* $mol_link_iconed
+										uri <= ref_uri* \
+									<= Ref_item_stat* $mol_view
+										sub /
+											<= ref_stat* 0
+						Empty <= Ref_list_empty* $mol_card
+							title @ \No backlinks

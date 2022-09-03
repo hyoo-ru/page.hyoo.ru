@@ -16,7 +16,7 @@ namespace $ {
 		},
 		
 		Profile: {
-			margin: [ rem(-0.5), rem(-0.75) ];
+			margin: [ rem(-0.5), rem(-0.75) ],
 		},
 		
 		Menu_filter: {
@@ -56,6 +56,27 @@ namespace $ {
 			Body: {
 				padding: $mol_gap.block,
 			},
+		},
+		
+		Info_page: {
+			flex: {
+				basis: rem(20),
+				grow: 0,
+			},
+		},
+		
+		Ref_list: {
+			padding: $mol_gap.block,
+		},
+		
+		Ref_item_link: {
+			flex: {
+				shrink: 1,
+			},
+		},
+		
+		Ref_item_stat: {
+			padding: $mol_gap.text,
 		},
 		
 	} )
