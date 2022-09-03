@@ -87,8 +87,11 @@ $hyoo_page $mol_book2
 				enabled <= side_editable*
 				selection? <=> side_title_selection*?
 			tools /
+				<= Rights_toggle* $mol_check_icon
+					hint @ \Access Rights
+					checked? <=> rights? false
+					Icon <= Rights_icon* $mol_icon_shield_account
 				<= Edit_close* $mol_button_minor
-					hint @ \Close editor
 					click? <=> edit_close*? null
 					sub / <= Edit_close_icon* $mol_icon_cross
 			body /
@@ -101,7 +104,6 @@ $hyoo_page $mol_book2
 			title @ \Page Info
 			tools /
 				<= Info_close* $mol_button_minor
-					hint @ \Close info
 					click? <=> info_close*? null
 					sub / <= Info_close_icon* $mol_icon_cross
 			body /
@@ -118,3 +120,35 @@ $hyoo_page $mol_book2
 											<= ref_stat* 0
 						Empty <= Ref_list_empty* $mol_card
 							title @ \No backlinks
+		<= Rights_page*0_0 $mol_page
+			title @ \Editors List
+			tools /
+				<= Rights_close* $mol_button_minor
+					click? <=> rights_close*? null
+					sub / <= Rights_close_icon* $mol_icon_cross
+			body /
+				<= Rights_content* $mol_list
+					rows /
+						<= Editor_list* $mol_list
+							rows <= editor_list* /
+								<= Editor_link*0_0 $mol_link
+									uri <= editor_link* \
+									sub /
+										<= Editor_logo* $mol_avatar
+											id <= editor_id* \
+										<= editor_name* @ \Enyone
+						<= Editor_add* $mol_form_field
+							name @ \Add new
+							bid <= editor_add_bid* \Irrevocable!
+							content /
+								<= Editor_add_id* $mol_string
+									hint @ \Id or Profile Link
+									value? <=> editor_add_id*? \
+								<= Editor_add_submit* $mol_button_major
+									enabled <= editor_add_filled* false
+									click? <=> editor_add_submit*? null
+									sub /
+										<= Editor_add_icon* $mol_icon_plus
+								<= Editor_fill_all* $mol_button_minor
+									title @ \Allow anyone
+									click? <=> editor_fill_all*? null

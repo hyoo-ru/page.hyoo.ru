@@ -59,7 +59,7 @@ namespace $.$$ {
 				'details',
 				$hyoo_crowd_text,
 				$hyoo_crowd_peer_level.law,
-				$hyoo_crowd_peer_level.mod,
+				$hyoo_crowd_peer_level.get,
 			)
 		}
 		@ $mol_mem

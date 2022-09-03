@@ -58,6 +58,25 @@ namespace $ {
 			},
 		},
 		
+		Rights_page: {
+			flex: {
+				basis: rem(20),
+				grow: 0,
+			},
+		},
+		
+		Editor_list: {
+			padding: $mol_gap.block,
+		},
+		
+		Editor_add: {
+			Content: {
+				flex: {
+					wrap: 'wrap',
+				},
+			},
+		},
+		
 		Info_page: {
 			flex: {
 				basis: rem(20),

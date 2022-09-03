@@ -6,10 +6,14 @@
 	"$hyoo_page_Info_toggle_hint": "Информация о странице",
 	"$hyoo_page_Bookmark_toggle_hint": "В избранное",
 	"$hyoo_page_Title_hint": "Заголовок",
-	"$hyoo_page_Edit_close_hint": "Закрыть",
 	"$hyoo_page_Details_edit_hint": "Подробности",
-	"$hyoo_page_Info_close_hint": "Закрыть",
 	"$hyoo_page_Ref_list_empty_title": "Нет обратных ссылок",
 	"$hyoo_page_Ref_list_title": "Упоминания",
-	"$hyoo_page_Info_page_title": "Информация о странице"
+	"$hyoo_page_Info_page_title": "Информация о странице",
+	"$hyoo_page_Rights_toggle_hint": "Права доступа",
+	"$hyoo_page_editor_name": "Кто угодно",
+	"$hyoo_page_Editor_add_id_hint": "Id или Ссылка на профиль",
+	"$hyoo_page_Editor_add_name": "Добавить редактора",
+	"$hyoo_page_Rights_page_title": "Список редакторов",
+	"$hyoo_page_Editor_fill_all_title": "Разрешить кому угодно"
 }
