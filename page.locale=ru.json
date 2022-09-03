@@ -15,5 +15,6 @@
 	"$hyoo_page_Editor_add_id_hint": "Id или Ссылка на профиль",
 	"$hyoo_page_Editor_add_name": "Добавить редактора",
 	"$hyoo_page_Rights_page_title": "Список редакторов",
-	"$hyoo_page_Editor_fill_all_title": "Разрешить кому угодно"
+	"$hyoo_page_Editor_fill_all_title": "Разрешить кому угодно",
+	"$hyoo_page_editor_add_bid": "Неотменяемо"
 }
