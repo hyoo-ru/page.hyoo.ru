@@ -13559,7 +13559,7 @@ var $;
             return obj;
         }
         editor_add_bid(id) {
-            return "Irrevocable!";
+            return this.$.$mol_locale.text('$hyoo_page_editor_add_bid');
         }
         editor_add_id(id, next) {
             if (next !== undefined)

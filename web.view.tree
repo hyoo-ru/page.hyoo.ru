@@ -923,7 +923,7 @@ $hyoo_page $mol_book2
 										<= editor_name* @ \Enyone
 						<= Editor_add* $mol_form_field
 							name @ \Add new
-							bid <= editor_add_bid* \Irrevocable!
+							bid <= editor_add_bid* @ \Irrevocable!
 							content /
 								<= Editor_add_id* $mol_string
 									hint @ \Id or Profile Link
