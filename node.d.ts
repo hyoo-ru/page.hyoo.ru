@@ -1286,20 +1286,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    let $mol_action: typeof $mol_wire_method;
-}
-
-declare namespace $ {
-    class $hyoo_crowd_reg extends $hyoo_crowd_node {
-        value(next?: unknown): {} | null;
-        str(next?: string): string;
-        numb(next?: number): number;
-        bool(next?: boolean): boolean;
-        yoke(king_level: $hyoo_crowd_peer_level, base_level: $hyoo_crowd_peer_level): $hyoo_crowd_land;
-    }
-}
-
-declare namespace $ {
     function $mol_wire_race<Tasks extends (() => any)[]>(...tasks: Tasks): {
         [index in keyof Tasks]: ReturnType<Tasks[index]>;
     };
@@ -1312,7 +1298,6 @@ declare namespace $ {
         world(): $hyoo_crowd_world;
         land(id: $mol_int62_string): $hyoo_crowd_land;
         land_grab(king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): $hyoo_crowd_land;
-        file(reg: $hyoo_crowd_reg, king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): $hyoo_crowd_land;
         home(): $hyoo_crowd_land;
         sync(): void;
         land_sync(land: $hyoo_crowd_land): void;
@@ -1467,6 +1452,16 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $hyoo_crowd_reg extends $hyoo_crowd_node {
+        value(next?: unknown): {} | null;
+        str(next?: string): string;
+        numb(next?: number): number;
+        bool(next?: boolean): boolean;
+        yoke(king_level: $hyoo_crowd_peer_level, base_level: $hyoo_crowd_peer_level): $hyoo_crowd_land | null;
+    }
+}
+
+declare namespace $ {
     function $mol_reconcile<Prev, Next>({ prev, from, to, next, equal, drop, insert, update, }: {
         prev: readonly Prev[];
         from: number;
@@ -1477,6 +1472,16 @@ declare namespace $ {
         insert: (next: Next, lead: Prev | null) => Prev;
         update?: (next: Next, prev: Prev, lead: Prev | null) => Prev;
     }): void;
+}
+
+declare namespace $ {
+    class $hyoo_crowd_dict extends $hyoo_crowd_node {
+        keys(next?: string[]): string[];
+        sub<Node extends typeof $hyoo_crowd_node>(key: string, Node: Node): InstanceType<Node>;
+        has(key: string): boolean;
+        add(key: string): void;
+        drop(key: string): void;
+    }
 }
 
 declare namespace $ {
@@ -1735,6 +1740,7 @@ declare namespace $.$$ {
         id(): `${string}_${string}`;
         toJSON(): `${string}_${string}`;
         editable(): boolean;
+        referrers(): $hyoo_crowd_dict;
         title_node(): $hyoo_crowd_text;
         title(next?: string): string;
         title_selection(next?: number[]): number[];
@@ -2682,6 +2688,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    let $mol_action: typeof $mol_wire_method;
+}
+
+declare namespace $ {
     function $mol_fiber_defer<Value = void>(calculate: () => Value): $mol_wire_task<{}, [], Value>;
     function $mol_fiber_root<Calculate extends (this: This, ...args: any[]) => Result, Result = void, This = void>(calculate: Calculate): Calculate;
     function $mol_fiber_sync<Args extends any[], Value = void, This = void>(request: (this: This, ...args: Args) => PromiseLike<Value>): (...args: Args) => Value;
@@ -2739,6 +2749,18 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $mol_icon_pencil extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_information extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_information_outline extends $mol_icon {
         path(): string;
     }
 }
@@ -3692,6 +3714,42 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_card extends $mol_list {
+        attr(): {
+            mol_card_status_type: string;
+        };
+        rows(): readonly $mol_view[];
+        status(): string;
+        content(): readonly $mol_view_content[];
+        Content(): $mol_view;
+        status_text(): string;
+        Status(): $mol_view;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_card extends $.$mol_card {
+        rows(): $mol_view[];
+    }
+}
+
+declare namespace $ {
+    class $mol_section extends $mol_list {
+        rows(): readonly any[];
+        head(): readonly any[];
+        Head(): $mol_view;
+        content(): readonly any[];
+        Content(): $$.$mol_list;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
     class $hyoo_page extends $mol_book2 {
         online(): void;
         side_land(id: any): $hyoo_crowd_land;
@@ -3707,9 +3765,11 @@ declare namespace $ {
         bookmarks_filtered(): readonly string[];
         Placeholder(): any;
         plugins(): readonly any[];
+        auto(): readonly any[];
         pages(): readonly any[];
         bookmarks(next?: any): readonly string[];
         Theme(): $$.$mol_theme_auto;
+        ref_track(): any;
         profile_id(): string;
         Profile_avatar(): $$.$mol_avatar;
         Profile(): $$.$mol_link;
@@ -3734,6 +3794,9 @@ declare namespace $ {
         editing(next?: any): boolean;
         Edit_icon(id: any): $mol_icon_pencil;
         Edit_toggle(id: any): $mol_check_icon;
+        info(next?: any): boolean;
+        Info_icon(id: any): $mol_icon_information_outline;
+        Info_toggle(id: any): $mol_check_icon;
         side_bookmark(id: any, next?: any): boolean;
         Bookmark_icon(id: any): $mol_icon_star_face;
         Bookmark_toggle(id: any): $mol_check_icon;
@@ -3746,6 +3809,19 @@ declare namespace $ {
         Edit_close(id: any): $mol_button_minor;
         Details_edit(id: any): $$.$mol_textarea;
         Edit_page(id: any): $mol_page;
+        info_close(id: any, next?: any): any;
+        Info_close_icon(id: any): $mol_icon_cross;
+        Info_close(id: any): $mol_button_minor;
+        ref_uri(id: any): string;
+        Ref_item_link(id: any): $$.$mol_link_iconed;
+        ref_stat(id: any): number;
+        Ref_item_stat(id: any): $mol_view;
+        Ref_item(id: any): $mol_view;
+        ref_list(id: any): readonly any[];
+        Ref_list_empty(id: any): $$.$mol_card;
+        Ref_list_items(id: any): $$.$mol_list;
+        Ref_list(id: any): $mol_section;
+        Info_page(id: any): $mol_page;
     }
 }
 
@@ -3771,7 +3847,9 @@ declare namespace $.$$ {
         profile(): $hyoo_crowd_land;
         profile_id(): `${string}_${string}`;
         editing(next?: boolean): any;
+        info(next?: boolean): any;
         edit_close(): void;
+        info_close(): void;
         side_current(): $hyoo_page_side;
         pages(): $mol_page[];
         Edit_toggle(id: $mol_int62_string): any;
@@ -3784,6 +3862,10 @@ declare namespace $.$$ {
         menu_item_title(id: $mol_int62_string): string;
         bookmarks(next?: $mol_int62_string[]): `${string}_${string}`[];
         side_bookmark(id: $mol_int62_string, next?: boolean): boolean;
+        ref_list(id: $mol_int62_string): $mol_view[];
+        ref_uri([id, uri]: [$mol_int62_string, string]): string;
+        ref_stat([id, uri]: [$mol_int62_string, string]): number;
+        ref_track(): void;
     }
 }
 

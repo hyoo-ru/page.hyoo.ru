@@ -2775,7 +2775,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "2c0a4d7";
+let $hyoo_sync_revision = "3f649c9";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4125,63 +4125,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_action = $mol_wire_method;
-})($ || ($ = {}));
-//mol/action/action.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $hyoo_crowd_reg extends $hyoo_crowd_node {
-        value(next) {
-            const units = this.units();
-            let last;
-            for (const unit of units) {
-                if (!last || $hyoo_crowd_unit_compare(unit, last) > 0)
-                    last = unit;
-            }
-            if (next === undefined) {
-                return last?.data ?? null;
-            }
-            else {
-                if (last?.data === next)
-                    return next;
-                for (const unit of units) {
-                    if (unit === last)
-                        continue;
-                    this.land.wipe(unit);
-                }
-                const self = last?.self ?? this.land.id_new();
-                this.land.put(this.head, self, '0_0', next);
-                return next;
-            }
-        }
-        str(next) {
-            return String(this.value(next) ?? '');
-        }
-        numb(next) {
-            return Number(this.value(next));
-        }
-        bool(next) {
-            return Boolean(this.value(next));
-        }
-        yoke(king_level, base_level) {
-            const world = this.world();
-            let land_id = (this.value() ?? '0_0');
-            if (land_id !== '0_0')
-                return world.land_sync(land_id);
-            const land = $mol_wire_sync(world).grab(king_level, base_level);
-            this.value(land.id());
-            return land;
-        }
-    }
-    $.$hyoo_crowd_reg = $hyoo_crowd_reg;
-})($ || ($ = {}));
-//hyoo/crowd/reg/reg.ts
-;
-"use strict";
-var $;
-(function ($) {
     function $mol_wire_race(...tasks) {
         const results = tasks.map(task => {
             try {
@@ -4290,14 +4233,6 @@ var $;
         land_grab(king_level = $hyoo_crowd_peer_level.law, base_level = $hyoo_crowd_peer_level.get) {
             return $mol_wire_sync(this.world()).grab(king_level, base_level);
         }
-        file(reg, king_level = $hyoo_crowd_peer_level.law, base_level = $hyoo_crowd_peer_level.get) {
-            let land_id = reg.value();
-            if (land_id)
-                return this.land(land_id);
-            const land = this.land_grab(king_level, base_level);
-            reg.value(land.id());
-            return land;
-        }
         home() {
             return this.land(this.peer().id);
         }
@@ -4311,6 +4246,7 @@ var $;
             $mol_wire_race(...this.slaves().map(line => () => this.line_sync(line)));
         }
         land_sync(land) {
+            this.db_land_init(land);
             try {
                 this.db_land_sync(land);
             }
@@ -4340,16 +4276,14 @@ var $;
         db_land_sync(land) {
             this.db_land_init(land);
             const db_clocks = this.db_land_clocks(land.id());
-            const ahead = land.clocks.some((land_clock, i) => land_clock.ahead(db_clocks[i]));
-            if (!ahead)
-                return;
+            land.clocks;
             const units = $mol_wire_sync(this.world()).delta_land(land, db_clocks);
             if (!units.length)
                 return;
+            $mol_wire_sync(this).db_land_save(land, units);
             for (const unit of units) {
                 db_clocks[unit.group()].see_peer(unit.auth, unit.time);
             }
-            $mol_wire_sync(this).db_land_save(land, units);
             this.$.$mol_log3_done({
                 place: this,
                 land: land.id(),
@@ -4505,9 +4439,6 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_sync_yard.prototype, "land", null);
-    __decorate([
-        $mol_action
-    ], $hyoo_sync_yard.prototype, "file", null);
     __decorate([
         $mol_mem
     ], $hyoo_sync_yard.prototype, "sync", null);
@@ -4848,6 +4779,58 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $hyoo_crowd_reg extends $hyoo_crowd_node {
+        value(next) {
+            const units = this.units();
+            let last;
+            for (const unit of units) {
+                if (!last || $hyoo_crowd_unit_compare(unit, last) > 0)
+                    last = unit;
+            }
+            if (next === undefined) {
+                return last?.data ?? null;
+            }
+            else {
+                if (last?.data === next)
+                    return next;
+                for (const unit of units) {
+                    if (unit === last)
+                        continue;
+                    this.land.wipe(unit);
+                }
+                const self = last?.self ?? this.land.id_new();
+                this.land.put(this.head, self, '0_0', next);
+                return next;
+            }
+        }
+        str(next) {
+            return String(this.value(next) ?? '');
+        }
+        numb(next) {
+            return Number(this.value(next));
+        }
+        bool(next) {
+            return Boolean(this.value(next));
+        }
+        yoke(king_level, base_level) {
+            const world = this.world();
+            let land_id = (this.value() ?? '0_0');
+            if (land_id !== '0_0')
+                return world.land_sync(land_id);
+            if (this.land.level(this.land.peer().id) < $hyoo_crowd_peer_level.add)
+                return null;
+            const land = $mol_wire_sync(world).grab(king_level, base_level);
+            this.value(land.id());
+            return land;
+        }
+    }
+    $.$hyoo_crowd_reg = $hyoo_crowd_reg;
+})($ || ($ = {}));
+//hyoo/crowd/reg/reg.ts
+;
+"use strict";
+var $;
+(function ($) {
     function $mol_reconcile({ prev, from, to, next, equal, drop, insert, update, }) {
         if (!update)
             update = (next, prev, lead) => insert(next, drop(prev, lead));
@@ -4882,6 +4865,53 @@ var $;
     $.$mol_reconcile = $mol_reconcile;
 })($ || ($ = {}));
 //mol/reconcile/reconcile.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $hyoo_crowd_dict extends $hyoo_crowd_node {
+        keys(next) {
+            const prev = this.units();
+            if (!next)
+                return prev.map(unit => String(unit.data));
+            $mol_reconcile({
+                prev,
+                from: 0,
+                to: prev.length,
+                next,
+                equal: (next, prev) => prev.data === next,
+                drop: (prev, lead) => this.land.wipe(prev),
+                insert: (next, lead) => this.land.put(this.head, $mol_int62_hash_string(next + '\n' + this.head), lead?.self ?? '0_0', next),
+            });
+            return next;
+        }
+        sub(key, Node) {
+            this.add(key);
+            return new Node(this.land, $mol_int62_hash_string(key + '\n' + this.head));
+        }
+        has(key) {
+            for (const unit of this.units()) {
+                if (unit.data === key)
+                    return true;
+            }
+            return false;
+        }
+        add(key) {
+            if (this.has(key))
+                return;
+            this.keys([...this.keys(), key]);
+        }
+        drop(key) {
+            for (const unit of this.units()) {
+                if (unit.data !== key)
+                    continue;
+                this.land.wipe(unit);
+            }
+        }
+    }
+    $.$hyoo_crowd_dict = $hyoo_crowd_dict;
+})($ || ($ = {}));
+//hyoo/crowd/dict/dict.ts
 ;
 "use strict";
 var $;
@@ -5963,6 +5993,10 @@ var $;
             editable() {
                 return this.land().level(this.land().peer().id) >= $hyoo_crowd_peer_level.add;
             }
+            referrers() {
+                return this.land().chief.sub('referrers', $hyoo_crowd_reg)
+                    .yoke($hyoo_crowd_peer_level.mod, $hyoo_crowd_peer_level.add).chief.as($hyoo_crowd_dict);
+            }
             title_node() {
                 return this.land().chief.sub('title', $hyoo_crowd_text);
             }
@@ -5988,6 +6022,9 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page_side.prototype, "editable", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side.prototype, "referrers", null);
         __decorate([
             $mol_mem
         ], $hyoo_page_side.prototype, "title_node", null);
@@ -6793,6 +6830,13 @@ var $;
     $.$mol_file = $mol_file;
 })($ || ($ = {}));
 //mol/file/file.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_action = $mol_wire_method;
+})($ || ($ = {}));
+//mol/action/action.ts
 ;
 "use strict";
 var $;
@@ -9324,6 +9368,30 @@ var $;
     $.$mol_icon_pencil = $mol_icon_pencil;
 })($ || ($ = {}));
 //mol/icon/pencil/-view.tree/pencil.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_information extends $mol_icon {
+        path() {
+            return "M13,9H11V7H13M13,17H11V11H13M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z";
+        }
+    }
+    $.$mol_icon_information = $mol_icon_information;
+})($ || ($ = {}));
+//mol/icon/information/-view.tree/information.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_information_outline extends $mol_icon {
+        path() {
+            return "M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M11,17H13V11H11V17Z";
+        }
+    }
+    $.$mol_icon_information_outline = $mol_icon_information_outline;
+})($ || ($ = {}));
+//mol/icon/information/outline/-view.tree/outline.view.tree.ts
 ;
 "use strict";
 var $;
@@ -12713,6 +12781,128 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_card extends $mol_list {
+        attr() {
+            return {
+                ...super.attr(),
+                mol_card_status_type: this.status()
+            };
+        }
+        rows() {
+            return [
+                this.Content(),
+                this.Status()
+            ];
+        }
+        status() {
+            return "";
+        }
+        content() {
+            return [
+                this.title()
+            ];
+        }
+        Content() {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => this.content();
+            return obj;
+        }
+        status_text() {
+            return this.status();
+        }
+        Status() {
+            const obj = new this.$.$mol_view();
+            obj.minimal_height = () => 30;
+            obj.sub = () => [
+                this.status_text()
+            ];
+            return obj;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_card.prototype, "Content", null);
+    __decorate([
+        $mol_mem
+    ], $mol_card.prototype, "Status", null);
+    $.$mol_card = $mol_card;
+})($ || ($ = {}));
+//mol/card/-view.tree/card.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/card/card.view.css", "[mol_card] {\n\tbackground: var(--mol_theme_card);\n\tcolor: var(--mol_theme_text);\n\tborder-radius: var(--mol_gap_round);\n\tdisplay: flex;\n\tflex: 0 1 auto;\n\tflex-direction: column;\n\tposition: relative;\n\toverflow: hidden;\n}\n\n[mol_card_content] {\n\tflex: 1 1 auto;\n\tborder-radius: var(--mol_gap_round);\n\tmargin: 0;\n\tpadding: var(--mol_gap_block);\n}\n\n[mol_card_status] {\n\tbackground: var(--mol_theme_line);\n\ttext-transform: capitalize;\n\tpadding: var(--mol_gap_text);\n\tmargin: 0;\n}\n\n[mol_card_status] {\n\tbackground: var(--mol_theme_line);\n}\n");
+})($ || ($ = {}));
+//mol/card/-css/card.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_card extends $.$mol_card {
+            rows() {
+                return [
+                    this.Content(),
+                    ...this.status_text() ? [this.Status()] : [],
+                ];
+            }
+        }
+        $$.$mol_card = $mol_card;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//mol/card/card.view.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_section extends $mol_list {
+        rows() {
+            return [
+                this.Head(),
+                this.Content()
+            ];
+        }
+        head() {
+            return [
+                this.title()
+            ];
+        }
+        Head() {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => this.head();
+            return obj;
+        }
+        content() {
+            return [];
+        }
+        Content() {
+            const obj = new this.$.$mol_list();
+            obj.rows = () => this.content();
+            return obj;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_section.prototype, "Head", null);
+    __decorate([
+        $mol_mem
+    ], $mol_section.prototype, "Content", null);
+    $.$mol_section = $mol_section;
+})($ || ($ = {}));
+//mol/section/-view.tree/section.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/section/section.view.css", "[mol_section_head] {\n\tpadding: var(--mol_gap_text);\n\tjustify-content: space-between;\n\talign-items: flex-end;\n\tflex-wrap: wrap;\n\ttext-shadow: 0 0;\n}\n");
+})($ || ($ = {}));
+//mol/section/-css/section.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $hyoo_page extends $mol_book2 {
         online() {
             return this.store().sync();
@@ -12761,11 +12951,17 @@ var $;
                 this.Theme()
             ];
         }
+        auto() {
+            return [
+                this.ref_track()
+            ];
+        }
         pages() {
             return [
                 this.Menu_page(),
                 this.View_page("0_0"),
-                this.Edit_page("0_0")
+                this.Edit_page("0_0"),
+                this.Info_page("0_0")
             ];
         }
         bookmarks(next) {
@@ -12776,6 +12972,9 @@ var $;
         Theme() {
             const obj = new this.$.$mol_theme_auto();
             return obj;
+        }
+        ref_track() {
+            return null;
         }
         profile_id() {
             return "";
@@ -12919,6 +13118,22 @@ var $;
             obj.Icon = () => this.Edit_icon(id);
             return obj;
         }
+        info(next) {
+            if (next !== undefined)
+                return next;
+            return false;
+        }
+        Info_icon(id) {
+            const obj = new this.$.$mol_icon_information_outline();
+            return obj;
+        }
+        Info_toggle(id) {
+            const obj = new this.$.$mol_check_icon();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_Info_toggle_hint');
+            obj.checked = (next) => this.info(next);
+            obj.Icon = () => this.Info_icon(id);
+            return obj;
+        }
         side_bookmark(id, next) {
             if (next !== undefined)
                 return next;
@@ -12952,6 +13167,7 @@ var $;
             obj.Logo = () => this.Logo(id);
             obj.tools = () => [
                 this.Edit_toggle(id),
+                this.Info_toggle(id),
                 this.Bookmark_toggle(id)
             ];
             obj.body = () => [
@@ -13002,6 +13218,83 @@ var $;
             ];
             obj.body = () => [
                 this.Details_edit(id)
+            ];
+            return obj;
+        }
+        info_close(id, next) {
+            if (next !== undefined)
+                return next;
+            return null;
+        }
+        Info_close_icon(id) {
+            const obj = new this.$.$mol_icon_cross();
+            return obj;
+        }
+        Info_close(id) {
+            const obj = new this.$.$mol_button_minor();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_Info_close_hint');
+            obj.click = (next) => this.info_close(id, next);
+            obj.sub = () => [
+                this.Info_close_icon(id)
+            ];
+            return obj;
+        }
+        ref_uri(id) {
+            return "";
+        }
+        Ref_item_link(id) {
+            const obj = new this.$.$mol_link_iconed();
+            obj.uri = () => this.ref_uri(id);
+            return obj;
+        }
+        ref_stat(id) {
+            return 0;
+        }
+        Ref_item_stat(id) {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [
+                this.ref_stat(id)
+            ];
+            return obj;
+        }
+        Ref_item(id) {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [
+                this.Ref_item_link(id),
+                this.Ref_item_stat(id)
+            ];
+            return obj;
+        }
+        ref_list(id) {
+            return [
+                this.Ref_item("0_0")
+            ];
+        }
+        Ref_list_empty(id) {
+            const obj = new this.$.$mol_card();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Ref_list_empty_title');
+            return obj;
+        }
+        Ref_list_items(id) {
+            const obj = new this.$.$mol_list();
+            obj.rows = () => this.ref_list(id);
+            obj.Empty = () => this.Ref_list_empty(id);
+            return obj;
+        }
+        Ref_list(id) {
+            const obj = new this.$.$mol_section();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Ref_list_title');
+            obj.Content = () => this.Ref_list_items(id);
+            return obj;
+        }
+        Info_page(id) {
+            const obj = new this.$.$mol_page();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Info_page_title');
+            obj.tools = () => [
+                this.Info_close(id)
+            ];
+            obj.body = () => [
+                this.Ref_list(id)
             ];
             return obj;
         }
@@ -13076,6 +13369,15 @@ var $;
         $mol_mem_key
     ], $hyoo_page.prototype, "Edit_toggle", null);
     __decorate([
+        $mol_mem
+    ], $hyoo_page.prototype, "info", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Info_icon", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Info_toggle", null);
+    __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "side_bookmark", null);
     __decorate([
@@ -13111,6 +13413,36 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Edit_page", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "info_close", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Info_close_icon", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Info_close", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Ref_item_link", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Ref_item_stat", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Ref_item", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Ref_list_empty", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Ref_list_items", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Ref_list", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Info_page", null);
     $.$hyoo_page = $hyoo_page;
 })($ || ($ = {}));
 //hyoo/page/-view.tree/page.view.tree.ts
@@ -13186,7 +13518,7 @@ var $;
             padding: $mol_gap.block,
         },
         Profile: {
-            margin: [rem(-0.5), rem(-0.75)]
+            margin: [rem(-0.5), rem(-0.75)],
         },
         Menu_filter: {
             alignSelf: 'stretch',
@@ -13222,6 +13554,23 @@ var $;
                 padding: $mol_gap.block,
             },
         },
+        Info_page: {
+            flex: {
+                basis: rem(20),
+                grow: 0,
+            },
+        },
+        Ref_list: {
+            padding: $mol_gap.block,
+        },
+        Ref_item_link: {
+            flex: {
+                shrink: 1,
+            },
+        },
+        Ref_item_stat: {
+            padding: $mol_gap.text,
+        },
     });
 })($ || ($ = {}));
 //hyoo/page/page.view.css.ts
@@ -13247,17 +13596,25 @@ var $;
             editing(next) {
                 return this.$.$mol_state_history.value('edit', next) ?? false;
             }
+            info(next) {
+                return this.$.$mol_state_history.value('info', next) ?? false;
+            }
             edit_close() {
                 this.editing(false);
+            }
+            info_close() {
+                this.info(false);
             }
             side_current() {
                 return this.side((this.$.$mol_state_arg.value('') || 'bt5te_na0xac'));
             }
             pages() {
+                const id = this.side_current().id();
                 return [
                     this.Menu_page(),
-                    this.View_page(this.side_current().id()),
-                    ...this.editing() ? [this.Edit_page(this.side_current().id())] : [],
+                    this.View_page(id),
+                    ...this.editing() ? [this.Edit_page(id)] : [],
+                    ...this.info() ? [this.Info_page(id)] : [],
                 ];
             }
             Edit_toggle(id) {
@@ -13293,6 +13650,23 @@ var $;
                     ? [id, ...this.bookmarks()]
                     : this.bookmarks().filter(i => i !== id))).includes(id);
             }
+            ref_list(id) {
+                return this.side(id).referrers().keys().map(uri => this.Ref_item([id, uri]));
+            }
+            ref_uri([id, uri]) {
+                return uri;
+            }
+            ref_stat([id, uri]) {
+                return this.side(id).referrers().sub(uri, $hyoo_crowd_list).list().length;
+            }
+            ref_track() {
+                const ref = this.$.$mol_dom_context.document.referrer;
+                const self = this.$.$mol_dom_context.document.location.href.replace(/#.*$/, '');
+                if (ref === self)
+                    return;
+                if (ref)
+                    this.side_current().referrers().sub(ref, $hyoo_crowd_list).add(this.profile_id());
+            }
         }
         __decorate([
             $mol_action
@@ -13303,6 +13677,9 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page.prototype, "editing", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page.prototype, "info", null);
         __decorate([
             $mol_mem
         ], $hyoo_page.prototype, "pages", null);
@@ -13318,6 +13695,15 @@ var $;
         __decorate([
             $mol_mem_key
         ], $hyoo_page.prototype, "side_bookmark", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page.prototype, "ref_list", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page.prototype, "ref_stat", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page.prototype, "ref_track", null);
         $$.$hyoo_page = $hyoo_page;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
