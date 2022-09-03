@@ -13368,6 +13368,9 @@ var $;
 var $;
 (function ($) {
     class $hyoo_page extends $mol_book2 {
+        side_main_id() {
+            return "jkh744_9vtac5";
+        }
         online() {
             return this.store().sync();
         }
@@ -14408,7 +14411,7 @@ var $;
                 this.info(false);
             }
             side_current() {
-                return this.side((this.$.$mol_state_arg.value('') || 'bt5te_na0xac'));
+                return this.side((this.$.$mol_state_arg.value('') || this.side_main_id()));
             }
             pages() {
                 const id = this.side_current().id();

@@ -3817,6 +3817,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_page extends $mol_book2 {
+        side_main_id(): string;
         online(): void;
         side_land(id: any): $hyoo_crowd_land;
         store(): $hyoo_sync_client;
