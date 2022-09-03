@@ -30,14 +30,14 @@ namespace $.$$ {
 		}
 		@ $mol_mem
 		referrers_list() {
-			return this.referrers_node().keys()
+			return this.referrers_node()?.keys() ?? []
 		}
 		@ $mol_mem_key
 		referrers_stat( uri: string ) {
-			return this.referrers_node().sub( uri, $hyoo_crowd_list ).list().length
+			return this.referrers_node()?.sub( uri, $hyoo_crowd_list ).list().length ?? 0
 		}
 		referrers_track( uri: string ) {
-			return this.referrers_node().sub( uri, $hyoo_crowd_list ).add( this.land().peer().id )
+			return this.referrers_node()?.sub( uri, $hyoo_crowd_list ).add( this.land().peer().id )
 		}
 		
 		@ $mol_mem
@@ -64,11 +64,11 @@ namespace $.$$ {
 		}
 		@ $mol_mem
 		details( next?: string ) {
-			return this.details_node().text( next )
+			return this.details_node()?.text( next ) ?? ''
 		}
 		@ $mol_mem
 		details_selection( next?: number[] ) {
-			return this.details_node().selection( this.land().peer().id, next )
+			return this.details_node()?.selection( this.land().peer().id, next ) ?? [ 0, 0 ]
 		}
 
 		@ $mol_mem
