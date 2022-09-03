@@ -1200,7 +1200,7 @@ declare namespace $ {
 declare namespace $ {
     class $hyoo_crowd_struct extends $hyoo_crowd_node {
         sub<Node extends typeof $hyoo_crowd_node>(key: string, Node: Node): InstanceType<Node>;
-        yoke<Node extends typeof $hyoo_crowd_node>(key: string, Node: Node, king_level: $hyoo_crowd_peer_level, base_level: $hyoo_crowd_peer_level): InstanceType<Node>;
+        yoke<Node extends typeof $hyoo_crowd_node>(key: string, Node: Node, king_level: $hyoo_crowd_peer_level, base_level: $hyoo_crowd_peer_level): InstanceType<Node> | null;
     }
 }
 
@@ -1741,14 +1741,14 @@ declare namespace $.$$ {
         id(): `${string}_${string}`;
         toJSON(): `${string}_${string}`;
         editable(): boolean;
-        referrers_node(): $hyoo_crowd_dict;
+        referrers_node(): $hyoo_crowd_dict | null;
         referrers_list(): string[];
         referrers_stat(uri: string): number;
-        referrers_track(uri: string): void;
+        referrers_track(uri: string): void | undefined;
         title_node(): $hyoo_crowd_text;
         title(next?: string): string;
         title_selection(next?: number[]): number[];
-        details_node(): $hyoo_crowd_text;
+        details_node(): $hyoo_crowd_text | null;
         details(next?: string): string;
         details_selection(next?: number[]): number[];
         changed_moment(next?: $mol_time_moment): $mol_time_moment;

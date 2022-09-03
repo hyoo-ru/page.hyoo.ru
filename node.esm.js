@@ -4040,8 +4040,9 @@ var $;
         }
         yoke(key, Node, king_level, base_level) {
             return this.sub(key, $hyoo_crowd_reg)
-                .yoke(king_level, base_level).chief
-                .sub(key, Node);
+                .yoke(king_level, base_level)?.chief
+                .sub(key, Node)
+                ?? null;
         }
     }
     $.$hyoo_crowd_struct = $hyoo_crowd_struct;
@@ -6351,13 +6352,13 @@ var $;
                 return this.land().chief.yoke('referrers', $hyoo_crowd_dict, $hyoo_crowd_peer_level.law, $hyoo_crowd_peer_level.add);
             }
             referrers_list() {
-                return this.referrers_node().keys();
+                return this.referrers_node()?.keys() ?? [];
             }
             referrers_stat(uri) {
-                return this.referrers_node().sub(uri, $hyoo_crowd_list).list().length;
+                return this.referrers_node()?.sub(uri, $hyoo_crowd_list).list().length ?? 0;
             }
             referrers_track(uri) {
-                return this.referrers_node().sub(uri, $hyoo_crowd_list).add(this.land().peer().id);
+                return this.referrers_node()?.sub(uri, $hyoo_crowd_list).add(this.land().peer().id);
             }
             title_node() {
                 return this.land().chief.sub('title', $hyoo_crowd_text);
@@ -6372,10 +6373,10 @@ var $;
                 return this.land().chief.yoke('details', $hyoo_crowd_text, $hyoo_crowd_peer_level.law, $hyoo_crowd_peer_level.mod);
             }
             details(next) {
-                return this.details_node().text(next);
+                return this.details_node()?.text(next) ?? '';
             }
             details_selection(next) {
-                return this.details_node().selection(this.land().peer().id, next);
+                return this.details_node()?.selection(this.land().peer().id, next) ?? [0, 0];
             }
             changed_moment(next) {
                 return new $mol_time_moment(this.land().clock_data.last_stamp());
