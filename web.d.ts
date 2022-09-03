@@ -1106,8 +1106,19 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $hyoo_crowd_reg extends $hyoo_crowd_node {
+        value(next?: unknown): {} | null;
+        str(next?: string): string;
+        numb(next?: number): number;
+        bool(next?: boolean): boolean;
+        yoke(king_level: $hyoo_crowd_peer_level, base_level: $hyoo_crowd_peer_level): $hyoo_crowd_land | null;
+    }
+}
+
+declare namespace $ {
     class $hyoo_crowd_struct extends $hyoo_crowd_node {
         sub<Node extends typeof $hyoo_crowd_node>(key: string, Node: Node): InstanceType<Node>;
+        yoke<Node extends typeof $hyoo_crowd_node>(key: string, Node: Node, king_level: $hyoo_crowd_peer_level, base_level: $hyoo_crowd_peer_level): InstanceType<Node>;
     }
 }
 
@@ -1392,16 +1403,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $hyoo_crowd_reg extends $hyoo_crowd_node {
-        value(next?: unknown): {} | null;
-        str(next?: string): string;
-        numb(next?: number): number;
-        bool(next?: boolean): boolean;
-        yoke(king_level: $hyoo_crowd_peer_level, base_level: $hyoo_crowd_peer_level): $hyoo_crowd_land | null;
-    }
-}
-
-declare namespace $ {
     function $mol_reconcile<Prev, Next>({ prev, from, to, next, equal, drop, insert, update, }: {
         prev: readonly Prev[];
         from: number;
@@ -1680,7 +1681,10 @@ declare namespace $.$$ {
         id(): `${string}_${string}`;
         toJSON(): `${string}_${string}`;
         editable(): boolean;
-        referrers(): $hyoo_crowd_dict;
+        referrers_node(): $hyoo_crowd_dict;
+        referrers_list(): string[];
+        referrers_stat(uri: string): number;
+        referrers_track(uri: string): void;
         title_node(): $hyoo_crowd_text;
         title(next?: string): string;
         title_selection(next?: number[]): number[];
