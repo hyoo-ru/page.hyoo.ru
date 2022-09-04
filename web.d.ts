@@ -853,10 +853,6 @@ declare namespace $.$$ {
 declare let $hyoo_sync_revision: string;
 
 declare namespace $ {
-    let $hyoo_sync_masters: string[];
-}
-
-declare namespace $ {
     class $mol_state_local<Value> extends $mol_object {
         static 'native()': Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
         static native(): Storage | {
@@ -1259,7 +1255,7 @@ declare namespace $ {
         db_land_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | undefined;
         db_land_sync(land: $hyoo_crowd_land): void;
         db_land_init(land: $hyoo_crowd_land): void;
-        abstract db_land_load(land: $hyoo_crowd_land): Promise<readonly $hyoo_crowd_unit[]>;
+        abstract db_land_load(land: $hyoo_crowd_land): Promise<$hyoo_crowd_unit[]>;
         abstract db_land_save(land: $hyoo_crowd_land, units: readonly $hyoo_crowd_unit[]): void;
         master(): Line | null;
         slaves(next?: readonly Line[]): readonly Line[];
@@ -1355,6 +1351,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    let $hyoo_sync_masters: string[];
+}
+
+declare namespace $ {
     class $mol_db_database<Schema extends $mol_db_schema> {
         readonly native: IDBDatabase;
         constructor(native: IDBDatabase);
@@ -1398,6 +1398,7 @@ declare namespace $ {
         db_land_load(land: $hyoo_crowd_land): Promise<$hyoo_crowd_unit[]>;
         db_land_save(land: $hyoo_crowd_land, units: readonly $hyoo_crowd_unit[]): Promise<void>;
         reconnects(reset?: null): number;
+        master_cursor: number;
         master(): WebSocket;
         line_send(line: WebSocket, message: Uint8Array): void;
     }

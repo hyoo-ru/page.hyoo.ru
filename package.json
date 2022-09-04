@@ -142,6 +142,7 @@
     "$mol_db_index",
     "$mol_db_response",
     "$mol_db_database",
+    "$hyoo_sync_masters",
     "$hyoo_page_side",
     "$hyoo_crowd_dict",
     "$mol_reconcile",

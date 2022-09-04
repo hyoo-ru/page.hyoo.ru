@@ -2951,16 +2951,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$hyoo_sync_masters = [
-        `ws://localhost:9090/`,
-        $mol_dom_context.document.location.origin.replace(/^\w+:/, 'ws:'),
-    ];
-})($ || ($ = {}));
-//hyoo/sync/sync.test.ts
-;
-"use strict";
-var $;
-(function ($) {
     $mol_test({
         async 'sizes'() {
             const pair = await $$.$mol_crypto_auditor_pair();
@@ -4523,6 +4513,16 @@ var $;
     });
 })($ || ($ = {}));
 //mol/db/db.test.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $.$hyoo_sync_masters = [
+        `ws://localhost:9090/`,
+        $mol_dom_context.document.location.origin.replace(/^\w+:/, 'ws:'),
+    ];
+})($ || ($ = {}));
+//hyoo/sync/masters/masters.test.ts
 ;
 "use strict";
 var $;

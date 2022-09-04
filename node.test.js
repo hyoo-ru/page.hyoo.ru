@@ -3171,18 +3171,8 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "3f649c9";
+let $hyoo_sync_revision = "616fd42";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    $.$hyoo_sync_masters = [
-        'wss://sync-hyoo-ru.herokuapp.com/',
-        `wss://sync.hyoo.ru/`,
-    ];
-})($ || ($ = {}));
-//hyoo/sync/sync.ts
 ;
 "use strict";
 var $;
@@ -4675,7 +4665,7 @@ var $;
             for (const unit of units) {
                 db_clocks[unit.group()].see_peer(unit.auth, unit.time);
             }
-            this.$.$mol_log3_done({
+            this.$.$mol_log3_rise({
                 place: this,
                 land: land.id(),
                 message: 'Base Save',
@@ -4684,13 +4674,14 @@ var $;
         }
         db_land_init(land) {
             const units = $mol_wire_sync(this).db_land_load(land);
+            units.sort($hyoo_crowd_unit_compare);
             const clocks = [new $hyoo_crowd_clock, new $hyoo_crowd_clock];
             this.db_land_clocks(land.id(), clocks);
             land.apply(units);
             for (const unit of units) {
                 clocks[unit.group()].see_peer(unit.auth, unit.time);
             }
-            this.$.$mol_log3_done({
+            this.$.$mol_log3_rise({
                 place: this,
                 land: land.id(),
                 message: 'Base Load',
@@ -4720,7 +4711,7 @@ var $;
             const packs = $mol_wire_sync(this.world()).delta_batch(land, clocks);
             for (const pack of packs) {
                 this.line_send(line, pack);
-                this.$.$mol_log3_done({
+                this.$.$mol_log3_rise({
                     place: this,
                     land: land.id(),
                     message: 'Sync Sent',
@@ -4807,7 +4798,7 @@ var $;
                 for (const unit of allow) {
                     clocks[unit.group()].see_peer(unit.auth, unit.time);
                 }
-                this.$.$mol_log3_done({
+                this.$.$mol_log3_rise({
                     place: this,
                     land: land.id(),
                     message: 'Sync Gain',
@@ -5034,6 +5025,16 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    $.$hyoo_sync_masters = [
+        `wss://sync.hyoo.ru/`,
+        'wss://sync-hyoo-ru.herokuapp.com/',
+    ];
+})($ || ($ = {}));
+//hyoo/sync/masters/masters.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_db_database {
         native;
         constructor(native) {
@@ -5126,7 +5127,6 @@ var $;
             if (!recs)
                 return [];
             const units = recs.map(rec => new $hyoo_crowd_unit(rec.land, rec.auth, rec.head, rec.self, rec.next, rec.prev, rec.time, rec.data, new $hyoo_crowd_unit_bin(rec.bin.buffer)));
-            units.sort($hyoo_crowd_unit_compare);
             return units;
         }
         async db_land_save(land, units) {
@@ -5141,9 +5141,10 @@ var $;
         reconnects(reset) {
             return ($mol_wire_probe(() => this.reconnects()) ?? 0) + 1;
         }
+        master_cursor = 0;
         master() {
             this.reconnects();
-            const line = new $mol_dom_context.WebSocket(this.$.$hyoo_sync_masters[0]);
+            const line = new $mol_dom_context.WebSocket(this.$.$hyoo_sync_masters[this.master_cursor]);
             line.binaryType = 'arraybuffer';
             line.onmessage = async (event) => {
                 if (event.data instanceof ArrayBuffer) {
@@ -5164,8 +5165,18 @@ var $;
                 destructor: () => line.close()
             });
             return new Promise((done, fail) => {
-                line.onopen = () => done(line);
-                line.onerror = () => fail(new Error('Disconnected'));
+                line.onopen = () => {
+                    this.$.$mol_log3_come({
+                        place: this,
+                        message: 'Connected to Master',
+                        line: $mol_key(line),
+                    });
+                    done(line);
+                };
+                line.onerror = () => {
+                    this.master_cursor = (this.master_cursor + 1) % this.$.$hyoo_sync_masters.length;
+                    fail(new Error(`Master is unabailable`));
+                };
             });
         }
         line_send(line, message) {
@@ -17188,16 +17199,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$hyoo_sync_masters = [
-        `ws://localhost:9090/`,
-        $mol_dom_context.document.location.origin.replace(/^\w+:/, 'ws:'),
-    ];
-})($ || ($ = {}));
-//hyoo/sync/sync.test.ts
-;
-"use strict";
-var $;
-(function ($) {
     const png = new Uint8Array([0x1a, 0x0a, 0x00, 0x49, 0x48, 0x78, 0xda]);
     $mol_test({
         'base64 decode string'() {
@@ -18728,6 +18729,16 @@ var $;
     });
 })($ || ($ = {}));
 //mol/db/db.test.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $.$hyoo_sync_masters = [
+        `ws://localhost:9090/`,
+        $mol_dom_context.document.location.origin.replace(/^\w+:/, 'ws:'),
+    ];
+})($ || ($ = {}));
+//hyoo/sync/masters/masters.test.ts
 ;
 "use strict";
 var $;
