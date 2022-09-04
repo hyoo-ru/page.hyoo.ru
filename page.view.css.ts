@@ -9,6 +9,9 @@ namespace $ {
 				basis: rem(20),
 				grow: 0,
 			},
+			Foot: {
+				padding: $mol_gap.block,
+			},
 		},
 		
 		Menu: {

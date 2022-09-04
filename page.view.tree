@@ -33,22 +33,17 @@ $hyoo_page $mol_book2
 						id <= profile_id \
 			title @ \In Bookmarks
 			tools /
-				<= Lights $mol_lights_toggle
-				<= Source $mol_link_source
-					uri \https://github.com/hyoo-ru/page.hyoo.ru/
-				<= Online $hyoo_sync_online
-					status <= online
 				<= Add $mol_button_minor
 					hint @ \New page
 					click? <=> add? null
 					sub /
 						<= Add_icon $mol_icon_plus
 			foot /
-				<= Lights $mol_lights_toggle
-				<= Source $mol_link_source
-					uri \https://github.com/hyoo-ru/page.hyoo.ru/
 				<= Online $hyoo_sync_online
 					status <= online
+				<= Source $mol_link_source
+					uri \https://github.com/hyoo-ru/page.hyoo.ru/
+				<= Lights $mol_lights_toggle
 			body /
 				<= Menu $mol_list
 					rows <= menu /
