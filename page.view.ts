@@ -136,6 +136,40 @@ namespace $.$$ {
 			if( ref ) this.side_current().referrers_track( ref )
 		}
 		
+		
+		@ $mol_mem_key
+		word_stat( id: $mol_int62_string ) {
+			
+			const stat = new Map< string, number >()
+			const tokens = ( this.side( id ).details_node()?.as( $hyoo_crowd_list ).list() ?? [] ) as string[]
+			
+			for( const token of tokens ) {
+				for( const word of token.match( /\p{Letter}{3,}/ug ) ?? [] ) {
+					stat.set( word, ( stat.get( word ) ?? 0 ) + 1 )
+				}
+			}
+			
+			return stat
+		}
+		
+		@ $mol_mem_key
+		word_list_items( side: $mol_int62_string ) {
+			
+			const stat = [ ... this.word_stat( side ) ].filter( ([ word, stat ])=> stat > 3 )
+			stat.sort( ( left, right )=> right[1] - left[1] )
+			
+			return stat.map( ([ word ])=> this.Word_item([ side, word ]) )
+		}
+		
+		word_item_text( [ side, word ]: readonly[ $mol_int62_string, string ] ) {
+			return word
+		}
+		
+		word_item_stat( [ side, word ]: readonly[ $mol_int62_string, string ] ) {
+			return this.word_stat( side ).get( word )!
+		}
+		
+		
 		@ $mol_mem_key
 		editor_list( id: $mol_int62_string ) {
 			const lords = this.side( id ).land().lords()

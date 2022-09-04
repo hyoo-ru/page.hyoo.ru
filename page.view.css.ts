@@ -82,10 +82,9 @@ namespace $ {
 				basis: rem(20),
 				grow: 0,
 			},
-		},
-		
-		Ref_list: {
-			padding: $mol_gap.block,
+			Body: {
+				padding: $mol_gap.block,
+			},
 		},
 		
 		Ref_item_link: {
@@ -96,6 +95,18 @@ namespace $ {
 		},
 		
 		Ref_item_stat: {
+			padding: $mol_gap.text,
+		},
+		
+		Word_item_text: {
+			padding: $mol_gap.text,
+			flex: {
+				grow: 1,
+				shrink: 1,
+			},
+		},
+		
+		Word_item_stat: {
 			padding: $mol_gap.text,
 		},
 		
