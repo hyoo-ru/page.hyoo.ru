@@ -14345,11 +14345,9 @@ var $;
             }
             word_stat(id) {
                 const stat = new Map();
-                const tokens = (this.side(id).details_node()?.as($hyoo_crowd_list).list() ?? []);
-                for (const token of tokens) {
-                    for (const word of token.match(/\p{Letter}{3,}/ug) ?? []) {
-                        stat.set(word, (stat.get(word) ?? 0) + 1);
-                    }
+                const words = (this.side_details(id).match(/\p{Letter}{3,}/ug) ?? []);
+                for (const word of words) {
+                    stat.set(word, (stat.get(word) ?? 0) + 1);
                 }
                 return stat;
             }
