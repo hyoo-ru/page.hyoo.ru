@@ -1235,6 +1235,7 @@ declare namespace $ {
         level_base(next?: $hyoo_crowd_peer_level): void;
         level(peer: $mol_int62_string, next?: $hyoo_crowd_peer_level): $hyoo_crowd_peer_level;
         lords(): readonly `${string}_${string}`[];
+        authors(): Set<`${string}_${string}`>;
         put(head: $mol_int62_string, self: $mol_int62_string, prev: $mol_int62_string, data: unknown): $hyoo_crowd_unit;
         wipe(unit: $hyoo_crowd_unit): $hyoo_crowd_unit;
         move(unit: $hyoo_crowd_unit, head: $mol_int62_string, prev: $mol_int62_string): $hyoo_crowd_unit;
@@ -1754,6 +1755,82 @@ declare namespace $.$$ {
         details(next?: string): string;
         details_selection(next?: number[]): number[];
         changed_moment(next?: $mol_time_moment): $mol_time_moment;
+        editors(): readonly `${string}_${string}`[];
+        authors(): never[] | Set<`${string}_${string}`>;
+    }
+}
+
+declare namespace $ {
+    type $mol_file_type = 'file' | 'dir' | 'link';
+    interface $mol_file_stat {
+        type: $mol_file_type;
+        size: number;
+        atime: Date;
+        mtime: Date;
+        ctime: Date;
+    }
+    class $mol_file_not_found extends Error {
+    }
+    abstract class $mol_file extends $mol_object {
+        static absolute(path: string): $mol_file;
+        static relative(path: string): $mol_file;
+        static base: string;
+        path(): string;
+        parent(): $mol_file;
+        abstract stat(next?: $mol_file_stat | null, virt?: 'virt'): $mol_file_stat | null;
+        reset(): void;
+        version(): string;
+        abstract ensure(): void;
+        watcher(): {
+            destructor(): void;
+        };
+        exists(next?: boolean): boolean;
+        type(): "" | $mol_file_type;
+        name(): string;
+        ext(): string;
+        abstract buffer(next?: Uint8Array): Uint8Array;
+        text(next?: string, virt?: 'virt'): string;
+        abstract sub(): $mol_file[];
+        abstract resolve(path: string): $mol_file;
+        abstract relate(base?: $mol_file): string;
+        abstract append(next: Uint8Array | string): void;
+        find(include?: RegExp, exclude?: RegExp): $mol_file[];
+        size(): number;
+    }
+}
+
+declare namespace $ {
+    function $mol_compare_array<Value extends ArrayLike<unknown>>(a: Value, b: Value): boolean;
+}
+
+declare namespace $ {
+    class $mol_file_node extends $mol_file {
+        static absolute(path: string): $mol_file_node;
+        static relative(path: string): $mol_file_node;
+        watcher(): {
+            destructor(): void;
+        };
+        stat(next?: $mol_file_stat | null, virt?: 'virt'): $mol_file_stat | null;
+        ensure(): void;
+        buffer(next?: Uint8Array): Uint8Array;
+        sub(): $mol_file[];
+        resolve(path: string): $mol_file;
+        relate(base?: $mol_file): string;
+        append(next: Uint8Array | string): undefined;
+    }
+}
+
+declare namespace $ {
+    interface $mol_locale_dict {
+        [key: string]: string;
+    }
+    class $mol_locale extends $mol_object {
+        static lang_default(): string;
+        static lang(next?: string): string;
+        static source(lang: string): any;
+        static texts(lang: string, next?: $mol_locale_dict): $mol_locale_dict;
+        static text(key: string): string;
+        static warn(key: string): null;
     }
 }
 
@@ -1933,80 +2010,6 @@ declare namespace $.$$ {
         external(): boolean;
         target(): '_self' | '_blank' | '_top' | '_parent' | string;
         hint_safe(): string;
-    }
-}
-
-declare namespace $ {
-    type $mol_file_type = 'file' | 'dir' | 'link';
-    interface $mol_file_stat {
-        type: $mol_file_type;
-        size: number;
-        atime: Date;
-        mtime: Date;
-        ctime: Date;
-    }
-    class $mol_file_not_found extends Error {
-    }
-    abstract class $mol_file extends $mol_object {
-        static absolute(path: string): $mol_file;
-        static relative(path: string): $mol_file;
-        static base: string;
-        path(): string;
-        parent(): $mol_file;
-        abstract stat(next?: $mol_file_stat | null, virt?: 'virt'): $mol_file_stat | null;
-        reset(): void;
-        version(): string;
-        abstract ensure(): void;
-        watcher(): {
-            destructor(): void;
-        };
-        exists(next?: boolean): boolean;
-        type(): "" | $mol_file_type;
-        name(): string;
-        ext(): string;
-        abstract buffer(next?: Uint8Array): Uint8Array;
-        text(next?: string, virt?: 'virt'): string;
-        abstract sub(): $mol_file[];
-        abstract resolve(path: string): $mol_file;
-        abstract relate(base?: $mol_file): string;
-        abstract append(next: Uint8Array | string): void;
-        find(include?: RegExp, exclude?: RegExp): $mol_file[];
-        size(): number;
-    }
-}
-
-declare namespace $ {
-    function $mol_compare_array<Value extends ArrayLike<unknown>>(a: Value, b: Value): boolean;
-}
-
-declare namespace $ {
-    class $mol_file_node extends $mol_file {
-        static absolute(path: string): $mol_file_node;
-        static relative(path: string): $mol_file_node;
-        watcher(): {
-            destructor(): void;
-        };
-        stat(next?: $mol_file_stat | null, virt?: 'virt'): $mol_file_stat | null;
-        ensure(): void;
-        buffer(next?: Uint8Array): Uint8Array;
-        sub(): $mol_file[];
-        resolve(path: string): $mol_file;
-        relate(base?: $mol_file): string;
-        append(next: Uint8Array | string): undefined;
-    }
-}
-
-declare namespace $ {
-    interface $mol_locale_dict {
-        [key: string]: string;
-    }
-    class $mol_locale extends $mol_object {
-        static lang_default(): string;
-        static lang(next?: string): string;
-        static source(lang: string): any;
-        static texts(lang: string, next?: $mol_locale_dict): $mol_locale_dict;
-        static text(key: string): string;
-        static warn(key: string): null;
     }
 }
 
@@ -3838,9 +3841,12 @@ declare namespace $ {
         side_details(id: any, next?: any): string;
         side_details_selection(id: any, next?: any): number[];
         side_changed(id: any): $mol_time_moment;
+        side_editors(id: any): readonly `${string}_${string}`[];
+        side_authors(id: any): never[] | Set<`${string}_${string}`>;
         side(id: any): $$.$hyoo_page_side;
         bookmarks_filtered(): readonly string[];
         Placeholder(): any;
+        peer_name(id: any): string;
         plugins(): readonly any[];
         auto(): readonly any[];
         pages(): readonly any[];
@@ -3879,6 +3885,12 @@ declare namespace $ {
         Bookmark_toggle(id: any): $mol_check_icon;
         Details(id: any): $$.$mol_text;
         Changed(id: any): $$.$mol_date;
+        peer_id(id: any): string;
+        Auhtor_logo(id: any): $$.$mol_avatar;
+        Author_link(id: any): $$.$mol_link;
+        author_list(id: any): readonly any[];
+        Author_list(id: any): $mol_view;
+        Signature(id: any): $mol_view;
         View_page(id: any): $mol_page;
         Title(id: any): $$.$mol_string;
         rights(next?: any): boolean;
@@ -3914,10 +3926,7 @@ declare namespace $ {
         rights_close(id: any, next?: any): any;
         Rights_close_icon(id: any): $mol_icon_cross;
         Rights_close(id: any): $mol_button_minor;
-        editor_link(id: any): string;
-        editor_id(id: any): string;
         Editor_logo(id: any): $$.$mol_avatar;
-        editor_name(id: any): string;
         Editor_link(id: any): $$.$mol_link;
         editor_list(id: any): readonly any[];
         Editor_list(id: any): $$.$mol_list;
@@ -4021,10 +4030,10 @@ declare namespace $.$$ {
         word_list_items(side: $mol_int62_string): $mol_view[];
         word_item_text([side, word]: readonly [$mol_int62_string, string]): string;
         word_item_stat([side, word]: readonly [$mol_int62_string, string]): number;
-        editor_list(id: $mol_int62_string): $mol_link[];
-        editor_id([side, peer]: [$mol_int62_string, $mol_int62_string]): `${string}_${string}`;
-        editor_link([side, peer]: [$mol_int62_string, $mol_int62_string]): string;
-        editor_name([side, peer]: [$mol_int62_string, $mol_int62_string]): string;
+        peer_id([side, peer]: [$mol_int62_string, $mol_int62_string]): `${string}_${string}`;
+        peer_name([side, peer]: [$mol_int62_string, $mol_int62_string]): string;
+        author_list(side: $mol_int62_string): $mol_link[];
+        editor_list(side: $mol_int62_string): $mol_link[];
         editor_add_id(id: $mol_int62_string, next?: string): `${string}_${string}`;
         editor_add_filled(id: $mol_int62_string): boolean;
         editor_add_bid(id: $mol_int62_string): string;

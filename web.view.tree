@@ -800,8 +800,11 @@ $hyoo_page $mol_book2
 		details? => side_details*?
 		details_selection? => side_details_selection*?
 		changed_moment => side_changed*
+		editors => side_editors*
+		authors => side_authors*
 	bookmarks_filtered <= bookmarks? /string
 	Placeholder null
+	peer_name* @ \Enyone
 	plugins /
 		<= Theme $mol_theme_auto
 	auto /
@@ -866,9 +869,21 @@ $hyoo_page $mol_book2
 			body /
 				<= Details* $mol_text
 					text <= side_details*
-				<= Changed* $mol_date
-					value_moment <= side_changed*
-					align_hor \left
+				<= Signature* $mol_view
+					sub /
+						<= Changed* $mol_date
+							value_moment <= side_changed*
+							align_hor \left
+						<= Author_list* $mol_view
+							sub <= author_list* /
+								<= Author_link*0_0 $mol_link
+									hint <= peer_name*
+									arg *
+										\
+											<= peer_id* \
+									sub /
+										<= Auhtor_logo* $mol_avatar
+											id <= peer_id* \
 		<= Edit_page*0_0 $mol_page
 			Title <= Title* $mol_string
 				hint @ \Title
@@ -932,11 +947,13 @@ $hyoo_page $mol_book2
 						<= Editor_list* $mol_list
 							rows <= editor_list* /
 								<= Editor_link*0_0 $mol_link
-									uri <= editor_link* \
+									arg *
+										\
+											<= peer_id* \
 									sub /
 										<= Editor_logo* $mol_avatar
-											id <= editor_id* \
-										<= editor_name* @ \Enyone
+											id <= peer_id* \
+										<= peer_name*
 						<= Editor_add* $mol_form_field
 							name @ \Add new
 							bid <= editor_add_bid* @ \Irrevocable!
