@@ -153,7 +153,7 @@ namespace $.$$ {
 		@ $mol_mem_key
 		word_list_items( side: $mol_int62_string ) {
 			
-			const stat = [ ... this.word_stat( side ) ].filter( ([ word, stat ])=> stat > 3 )
+			const stat = [ ... this.word_stat( side ) ].filter( ([ word, stat ])=> stat > 2 )
 			stat.sort( ( left, right )=> right[1] - left[1] )
 			
 			return stat.map( ([ word ])=> this.Word_item([ side, word ]) )
