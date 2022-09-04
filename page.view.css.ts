@@ -1,6 +1,6 @@
 namespace $ {
 	
-	const { rem } = $mol_style_unit
+	const { rem, per } = $mol_style_unit
 	
 	$mol_style_define( $hyoo_page, {
 		
@@ -39,6 +39,12 @@ namespace $ {
 			Body: {
 				padding: $mol_gap.block,
 				justifyContent: 'space-between',
+			},
+		},
+		
+		View_search: {
+			flex: {
+				basis: per(100),
 			},
 		},
 		

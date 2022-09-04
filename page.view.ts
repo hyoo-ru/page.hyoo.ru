@@ -62,6 +62,15 @@ namespace $.$$ {
 			]
 		}
 		
+		@ $mol_mem_key
+		view_page_head( side: $mol_int62_string ) {
+			return [
+				this.View_title( side ),
+				this.View_tools( side ),
+				... this.search_show( side ) ? [ this.View_search( side ) ] : [],
+			]
+		}
+		
 		Edit_toggle( id: $mol_int62_string ) {
 			return this.side_editable( id )
 				? super.Edit_toggle( id )
@@ -74,6 +83,25 @@ namespace $.$$ {
 				this.menu_filter(),
 				id => [ this.side_title( id ) ],
 			) ).reverse()
+		}
+		
+		
+		@ $mol_mem_key
+		search_show( side: $mol_int62_string, next = false ) {
+			if( next ) this.View_search( side ).bring()
+			return next
+		}
+		
+		search_start( event?: KeyboardEvent ) {
+			this.search_show( this.side_current().id(), true )
+			event?.preventDefault()
+		}
+		
+		search_stop( side: $mol_int62_string, event?: KeyboardEvent ) {
+			this.view_search( side, '' )
+			this.search_show( side, false )
+			this.Search_toggle( side ).focused( true )
+			event?.preventDefault()
 		}
 		
 		

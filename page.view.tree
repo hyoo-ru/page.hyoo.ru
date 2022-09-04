@@ -19,6 +19,9 @@ $hyoo_page $mol_book2
 	peer_name* @ \Enyone
 	plugins /
 		<= Theme $mol_theme_auto
+		<= Search_start $mol_hotkey
+			key * F? <=> search_start? null
+			mod_ctrl true
 	auto /
 		<= ref_track null
 	pages /
@@ -60,11 +63,24 @@ $hyoo_page $mol_book2
 		<= View_page*0_0 $mol_page
 			title <= side_title*
 			Logo <= Logo* $mol_avatar id <= side_id*
+			Title => View_title*
+			Tools => View_tools*
+			head <= view_page_head* /
+				<= View_title*
+				<= View_tools*
+				<= View_search* $mol_search_jumper
+					query?val <=> view_search*?val \
+					Root <= Details*
+					clear? <=> search_stop*? null
 			tools /
 				<= Edit_toggle* $mol_check_icon
 					hint @ \Edit page
 					checked? <=> editing? false
 					Icon <= Edit_icon* $mol_icon_pencil
+				<= Search_toggle* $mol_check_icon
+					hint @ \Find on page
+					checked? <=> search_show*? false
+					Icon <= Search_icon* $mol_icon_magnify
 				<= Info_toggle* $mol_check_icon
 					hint @ \Info page
 					checked? <=> info? false
@@ -76,6 +92,7 @@ $hyoo_page $mol_book2
 			body /
 				<= Details* $mol_text
 					text <= side_details*
+					highlight <= view_search*
 				<= Signature* $mol_view
 					sub /
 						<= Changed* $mol_date
