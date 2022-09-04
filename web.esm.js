@@ -14776,8 +14776,10 @@ var $;
                 return this.bookmarks().filter($mol_match_text(this.menu_filter(), id => [this.side_title(id)])).reverse();
             }
             search_show(side, next = false) {
-                if (next)
+                if (next === true)
                     this.View_search(side).bring();
+                if (next === false)
+                    this.view_search(side, '');
                 return next;
             }
             search_start(event) {
@@ -14785,7 +14787,6 @@ var $;
                 event?.preventDefault();
             }
             search_stop(side, event) {
-                this.view_search(side, '');
                 this.search_show(side, false);
                 this.Search_toggle(side).focused(true);
                 event?.preventDefault();
