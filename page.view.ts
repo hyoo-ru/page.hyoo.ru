@@ -141,12 +141,10 @@ namespace $.$$ {
 		word_stat( id: $mol_int62_string ) {
 			
 			const stat = new Map< string, number >()
-			const tokens = ( this.side( id ).details_node()?.as( $hyoo_crowd_list ).list() ?? [] ) as string[]
+			const words = ( this.side_details( id ).match( /\p{Letter}{3,}/ug ) ?? [] )
 			
-			for( const token of tokens ) {
-				for( const word of token.match( /\p{Letter}{3,}/ug ) ?? [] ) {
-					stat.set( word, ( stat.get( word ) ?? 0 ) + 1 )
-				}
+			for( const word of words ) {
+				stat.set( word, ( stat.get( word ) ?? 0 ) + 1 )
 			}
 			
 			return stat
