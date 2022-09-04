@@ -76,6 +76,16 @@ namespace $.$$ {
 			return new $mol_time_moment( this.land().clock_data.last_stamp() )
 		}
 		
+		@ $mol_mem
+		editors() {
+			return this.land().lords()
+		}
+		
+		@ $mol_mem
+		authors() {
+			return this.details_node()?.land.authors() ?? []
+		}
+		
 	}
 
 }

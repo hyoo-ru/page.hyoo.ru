@@ -168,27 +168,25 @@ namespace $.$$ {
 		}
 		
 		
-		@ $mol_mem_key
-		editor_list( id: $mol_int62_string ) {
-			const lords = this.side( id ).land().lords()
-			return [
-				... lords.map( peer => this.Editor_link([ id, peer ]) ),
-				// ... lords.includes( '0_0' ) ? [] : [ this.Editor_add( id ) ],
-			]
-		}
-		
-		editor_id( [ side, peer ]: [ $mol_int62_string, $mol_int62_string ] ) {
+		peer_id( [ side, peer ]: [ $mol_int62_string, $mol_int62_string ] ) {
 			return peer
 		}
 		
-		editor_link( [ side, peer ]: [ $mol_int62_string, $mol_int62_string ] ) {
-			if( peer === '0_0' ) return null as any as string
-			return '#!=' + peer
+		peer_name( [ side, peer ]: [ $mol_int62_string, $mol_int62_string ] ) {
+			if( peer === '0_0' ) return super.peer_name([ side, peer ])
+			return this.side( peer ).title()
 		}
 		
-		editor_name( [ side, peer ]: [ $mol_int62_string, $mol_int62_string ] ) {
-			if( peer === '0_0' ) return super.editor_name([ side, peer ])
-			return this.side( peer ).title()
+		
+		@ $mol_mem_key
+		author_list( side: $mol_int62_string ) {
+			return [ ... this.side_authors( side ) ].map( peer => this.Author_link([ side, peer ]) )
+		}
+		
+		
+		@ $mol_mem_key
+		editor_list( side: $mol_int62_string ) {
+			return this.side_editors( side ).map( peer => this.Editor_link([ side, peer ]) )
 		}
 		
 		@ $mol_mem_key

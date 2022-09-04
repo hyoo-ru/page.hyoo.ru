@@ -39,8 +39,20 @@ namespace $ {
 			},
 		},
 		
-		Changed: {
-			alignSelf: 'flex-end',
+		Signature: {
+			justifyContent: 'flex-start',
+			alignItems: 'flex-end',
+			flex: {
+				direction: 'row-reverse',
+				wrap: 'wrap',
+			},
+		},
+		
+		Author_list: {
+			flex: {
+				wrap: 'wrap',
+				shrink: 1,
+			},
 		},
 		
 		Edit_page: {
