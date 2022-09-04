@@ -88,7 +88,8 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		search_show( side: $mol_int62_string, next = false ) {
-			if( next ) this.View_search( side ).bring()
+			if( next === true ) this.View_search( side ).bring()
+			if( next === false ) this.view_search( side, '' )
 			return next
 		}
 		
@@ -98,7 +99,6 @@ namespace $.$$ {
 		}
 		
 		search_stop( side: $mol_int62_string, event?: KeyboardEvent ) {
-			this.view_search( side, '' )
 			this.search_show( side, false )
 			this.Search_toggle( side ).focused( true )
 			event?.preventDefault()
