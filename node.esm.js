@@ -6412,7 +6412,7 @@ var $;
                 return this.details_node()?.selection(this.land().peer().id, next) ?? [0, 0];
             }
             changed_moment(next) {
-                return new $mol_time_moment(this.land().clock_data.last_stamp());
+                return new $mol_time_moment(this.details_node()?.land.clock_data.last_stamp());
             }
             editors() {
                 return this.land().lords();
