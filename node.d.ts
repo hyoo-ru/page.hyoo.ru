@@ -3755,16 +3755,25 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_section extends $mol_list {
+    class $mol_expander extends $mol_list {
         rows(): readonly any[];
-        head(): readonly any[];
-        Head(): $mol_view;
+        expanded(val?: any): boolean;
+        label(): readonly any[];
+        Trigger(): $$.$mol_check_expand;
+        Tools(): any;
+        Label(): $mol_view;
         content(): readonly any[];
         Content(): $$.$mol_list;
     }
 }
 
 declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_expander extends $.$mol_expander {
+        rows(): $mol_view[];
+    }
 }
 
 declare namespace $ {
@@ -3891,7 +3900,16 @@ declare namespace $ {
         ref_list(id: any): readonly any[];
         Ref_list_empty(id: any): $$.$mol_card;
         Ref_list_items(id: any): $$.$mol_list;
-        Ref_list(id: any): $mol_section;
+        Ref_list(id: any): $$.$mol_expander;
+        word_item_text(id: any): string;
+        Word_item_text(id: any): $mol_view;
+        word_item_stat(id: any): number;
+        Word_item_stat(id: any): $mol_view;
+        Word_item(id: any): $mol_view;
+        word_list_items(id: any): readonly any[];
+        Word_list_empty(id: any): $$.$mol_card;
+        Word_list_items(id: any): $$.$mol_list;
+        Word_list(id: any): $$.$mol_expander;
         Info_page(id: any): $mol_page;
         rights_close(id: any, next?: any): any;
         Rights_close_icon(id: any): $mol_icon_cross;
@@ -3999,6 +4017,10 @@ declare namespace $.$$ {
         ref_uri([id, uri]: [$mol_int62_string, string]): string;
         ref_stat([id, uri]: [$mol_int62_string, string]): number;
         ref_track(): void;
+        word_stat(id: $mol_int62_string): Map<string, number>;
+        word_list_items(side: $mol_int62_string): $mol_view[];
+        word_item_text([side, word]: readonly [$mol_int62_string, string]): string;
+        word_item_stat([side, word]: readonly [$mol_int62_string, string]): number;
         editor_list(id: $mol_int62_string): $mol_link[];
         editor_id([side, peer]: [$mol_int62_string, $mol_int62_string]): `${string}_${string}`;
         editor_link([side, peer]: [$mol_int62_string, $mol_int62_string]): string;

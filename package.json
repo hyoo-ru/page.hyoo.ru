@@ -255,7 +255,7 @@
     "$mol_icon_shield",
     "$mol_textarea",
     "$mol_card",
-    "$mol_section",
+    "$mol_expander",
     "$mol_button_major",
     "$mol_form_field",
     "$mol_form",

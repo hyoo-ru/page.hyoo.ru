@@ -13208,21 +13208,38 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_section extends $mol_list {
+    class $mol_expander extends $mol_list {
         rows() {
             return [
-                this.Head(),
+                this.Label(),
                 this.Content()
             ];
         }
-        head() {
+        expanded(val) {
+            if (val !== undefined)
+                return val;
+            return false;
+        }
+        label() {
             return [
                 this.title()
             ];
         }
-        Head() {
+        Trigger() {
+            const obj = new this.$.$mol_check_expand();
+            obj.checked = (val) => this.expanded(val);
+            obj.label = () => this.label();
+            return obj;
+        }
+        Tools() {
+            return null;
+        }
+        Label() {
             const obj = new this.$.$mol_view();
-            obj.sub = () => this.head();
+            obj.sub = () => [
+                this.Trigger(),
+                this.Tools()
+            ];
             return obj;
         }
         content() {
@@ -13236,20 +13253,44 @@ var $;
     }
     __decorate([
         $mol_mem
-    ], $mol_section.prototype, "Head", null);
+    ], $mol_expander.prototype, "expanded", null);
     __decorate([
         $mol_mem
-    ], $mol_section.prototype, "Content", null);
-    $.$mol_section = $mol_section;
+    ], $mol_expander.prototype, "Trigger", null);
+    __decorate([
+        $mol_mem
+    ], $mol_expander.prototype, "Label", null);
+    __decorate([
+        $mol_mem
+    ], $mol_expander.prototype, "Content", null);
+    $.$mol_expander = $mol_expander;
 })($ || ($ = {}));
-//mol/section/-view.tree/section.view.tree.ts
+//mol/expander/-view.tree/expander.view.tree.ts
 ;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/section/section.view.css", "[mol_section_head] {\n\tpadding: var(--mol_gap_text);\n\tjustify-content: space-between;\n\talign-items: flex-end;\n\tflex-wrap: wrap;\n\ttext-shadow: 0 0;\n}\n");
+    $mol_style_attach("mol/expander/expander.view.css", "[mol_expander] {\n\tflex-direction: column;\n}\n\n[mol_expander_label] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_expander_trigger] {\n\tflex: auto;\n\tposition: relative;\n}\n\n[mol_expander_trigger_icon] {\n\tposition: absolute;\n\tmargin-left: -1rem;\n}\n");
 })($ || ($ = {}));
-//mol/section/-css/section.view.css.ts
+//mol/expander/-css/expander.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_expander extends $.$mol_expander {
+            rows() {
+                return [
+                    this.Label(),
+                    ...this.expanded() ? [this.Content()] : []
+                ];
+            }
+        }
+        $$.$mol_expander = $mol_expander;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//mol/expander/expander.view.ts
 ;
 "use strict";
 var $;
@@ -13789,9 +13830,59 @@ var $;
             return obj;
         }
         Ref_list(id) {
-            const obj = new this.$.$mol_section();
+            const obj = new this.$.$mol_expander();
             obj.title = () => this.$.$mol_locale.text('$hyoo_page_Ref_list_title');
             obj.Content = () => this.Ref_list_items(id);
+            return obj;
+        }
+        word_item_text(id) {
+            return "";
+        }
+        Word_item_text(id) {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [
+                this.word_item_text(id)
+            ];
+            return obj;
+        }
+        word_item_stat(id) {
+            return 0;
+        }
+        Word_item_stat(id) {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [
+                this.word_item_stat(id)
+            ];
+            return obj;
+        }
+        Word_item(id) {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [
+                this.Word_item_text(id),
+                this.Word_item_stat(id)
+            ];
+            return obj;
+        }
+        word_list_items(id) {
+            return [
+                this.Word_item("0_0")
+            ];
+        }
+        Word_list_empty(id) {
+            const obj = new this.$.$mol_card();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Word_list_empty_title');
+            return obj;
+        }
+        Word_list_items(id) {
+            const obj = new this.$.$mol_list();
+            obj.rows = () => this.word_list_items(id);
+            obj.Empty = () => this.Word_list_empty(id);
+            return obj;
+        }
+        Word_list(id) {
+            const obj = new this.$.$mol_expander();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Word_list_title');
+            obj.Content = () => this.Word_list_items(id);
             return obj;
         }
         Info_page(id) {
@@ -13801,7 +13892,8 @@ var $;
                 this.Info_close(id)
             ];
             obj.body = () => [
-                this.Ref_list(id)
+                this.Ref_list(id),
+                this.Word_list(id)
             ];
             return obj;
         }
@@ -14082,6 +14174,24 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Ref_list", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Word_item_text", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Word_item_stat", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Word_item", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Word_list_empty", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Word_list_items", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Word_list", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Info_page", null);
@@ -14382,9 +14492,9 @@ var $;
                 basis: rem(20),
                 grow: 0,
             },
-        },
-        Ref_list: {
-            padding: $mol_gap.block,
+            Body: {
+                padding: $mol_gap.block,
+            },
         },
         Ref_item_link: {
             flex: {
@@ -14393,6 +14503,16 @@ var $;
             },
         },
         Ref_item_stat: {
+            padding: $mol_gap.text,
+        },
+        Word_item_text: {
+            padding: $mol_gap.text,
+            flex: {
+                grow: 1,
+                shrink: 1,
+            },
+        },
+        Word_item_stat: {
             padding: $mol_gap.text,
         },
     });
@@ -14498,6 +14618,27 @@ var $;
                 if (ref)
                     this.side_current().referrers_track(ref);
             }
+            word_stat(id) {
+                const stat = new Map();
+                const tokens = (this.side(id).details_node()?.as($hyoo_crowd_list).list() ?? []);
+                for (const token of tokens) {
+                    for (const word of token.match(/\p{Letter}{3,}/ug) ?? []) {
+                        stat.set(word, (stat.get(word) ?? 0) + 1);
+                    }
+                }
+                return stat;
+            }
+            word_list_items(side) {
+                const stat = [...this.word_stat(side)].filter(([word, stat]) => stat > 3);
+                stat.sort((left, right) => right[1] - left[1]);
+                return stat.map(([word]) => this.Word_item([side, word]));
+            }
+            word_item_text([side, word]) {
+                return word;
+            }
+            word_item_stat([side, word]) {
+                return this.word_stat(side).get(word);
+            }
             editor_list(id) {
                 const lords = this.side(id).land().lords();
                 return [
@@ -14576,6 +14717,12 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page.prototype, "ref_track", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page.prototype, "word_stat", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page.prototype, "word_list_items", null);
         __decorate([
             $mol_mem_key
         ], $hyoo_page.prototype, "editor_list", null);
