@@ -1994,6 +1994,12 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_icon_plus extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
     class $mol_speck extends $mol_view {
         attr(): {
             mol_theme: string;
@@ -2178,6 +2184,57 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_icon_sync extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_sync_off extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_sync_online extends $mol_view {
+        status(): any;
+        sub(): readonly any[];
+        Fail(): $mol_icon_sync_off;
+        attr(): {
+            title: string;
+        };
+        Well(): $mol_icon_sync;
+        hint(): string;
+        message(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_sync_online extends $.$hyoo_sync_online {
+        message(): string;
+        sub(): $mol_icon_sync[];
+        hint(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_github_circle extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_link_source extends $mol_link {
+        hint(): string;
+        sub(): readonly any[];
+        Icon(): $mol_icon_github_circle;
+    }
+}
+
+declare namespace $ {
     class $mol_check extends $mol_button_minor {
         attr(): {
             mol_check_checked: boolean;
@@ -2234,63 +2291,6 @@ declare namespace $ {
 declare namespace $.$$ {
     class $mol_lights_toggle extends $.$mol_lights_toggle {
         lights(next?: boolean): boolean;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_github_circle extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_link_source extends $mol_link {
-        hint(): string;
-        sub(): readonly any[];
-        Icon(): $mol_icon_github_circle;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_sync extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_sync_off extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_sync_online extends $mol_view {
-        status(): any;
-        sub(): readonly any[];
-        Fail(): $mol_icon_sync_off;
-        attr(): {
-            title: string;
-        };
-        Well(): $mol_icon_sync;
-        hint(): string;
-        message(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $hyoo_sync_online extends $.$hyoo_sync_online {
-        message(): string;
-        sub(): $mol_icon_sync[];
-        hint(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_plus extends $mol_icon {
-        path(): string;
     }
 }
 
@@ -3828,12 +3828,12 @@ declare namespace $ {
         profile_id(): string;
         Profile_avatar(): $$.$mol_avatar;
         Profile(): $$.$mol_link;
-        Lights(): $$.$mol_lights_toggle;
-        Source(): $mol_link_source;
-        Online(): $$.$hyoo_sync_online;
         add(next?: any): any;
         Add_icon(): $mol_icon_plus;
         Add(): $mol_button_minor;
+        Online(): $$.$hyoo_sync_online;
+        Source(): $mol_link_source;
+        Lights(): $$.$mol_lights_toggle;
         menu_filter(next?: any): string;
         Menu_filter(): $$.$mol_search;
         menu_item_arg(id: any): {};
