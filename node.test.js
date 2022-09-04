@@ -14534,6 +14534,7 @@ var $;
                 wrap: 'wrap',
                 shrink: 1,
             },
+            justifyContent: 'flex-end',
         },
         Edit_page: {
             flex: {
