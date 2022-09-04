@@ -14627,7 +14627,7 @@ var $;
                 return stat;
             }
             word_list_items(side) {
-                const stat = [...this.word_stat(side)].filter(([word, stat]) => stat > 3);
+                const stat = [...this.word_stat(side)].filter(([word, stat]) => stat > 2);
                 stat.sort((left, right) => right[1] - left[1]);
                 return stat.map(([word]) => this.Word_item([side, word]));
             }
