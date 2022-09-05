@@ -15110,7 +15110,7 @@ var $;
             }
             word_stat(id) {
                 const stat = new Map();
-                const words = (this.side_details(id).match(/\p{Letter}{3,}/ug) ?? []);
+                const words = (this.side_details(id).match(/\p{Letter}{2,}/ug) ?? []);
                 for (const word of words) {
                     stat.set(word, (stat.get(word) ?? 0) + 1);
                 }
