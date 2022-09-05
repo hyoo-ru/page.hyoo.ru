@@ -13427,7 +13427,7 @@ var $;
 (function ($) {
     class $hyoo_page extends $mol_book2 {
         side_main_id() {
-            return "jkh744_9vtac5";
+            return "z4xm6j_tezix1";
         }
         online() {
             return this.store().sync();
