@@ -3923,6 +3923,7 @@ declare namespace $ {
         View_title(id: any): $mol_view;
         View_tools(id: any): $mol_view;
         View_page(id: any): $mol_page;
+        title_bring(id: any): void;
         Title(id: any): $$.$mol_string;
         rights(next?: any): boolean;
         Rights_icon(id: any): $mol_icon_shield_account;

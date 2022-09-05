@@ -929,8 +929,10 @@ $hyoo_page $mol_book2
 										<= Auhtor_logo* $mol_avatar
 											id <= peer_id* \
 		<= Edit_page*0_0 $mol_page
+			bring <= title_bring*
 			Title <= Title* $mol_string
 				hint @ \Title
+				bring => title_bring*
 				value? <=> side_title*?
 				enabled <= side_editable*
 				selection? <=> side_title_selection*?
