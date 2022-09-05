@@ -169,7 +169,7 @@ namespace $.$$ {
 		word_stat( id: $mol_int62_string ) {
 			
 			const stat = new Map< string, number >()
-			const words = ( this.side_details( id ).match( /\p{Letter}{3,}/ug ) ?? [] )
+			const words = ( this.side_details( id ).match( /\p{Letter}{2,}/ug ) ?? [] )
 			
 			for( const word of words ) {
 				stat.set( word, ( stat.get( word ) ?? 0 ) + 1 )
