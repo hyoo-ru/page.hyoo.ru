@@ -46,7 +46,7 @@ namespace $.$$ {
 		}
 		@ $mol_mem
 		title( next?: string ) {
-			return this.title_node().text( next )
+			return this.title_node().str( next )
 		}
 		@ $mol_mem
 		title_selection( next?: number[] ) {
