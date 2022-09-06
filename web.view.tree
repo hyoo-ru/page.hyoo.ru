@@ -794,11 +794,6 @@ $mol_expander $mol_list
 		<= Content $mol_list
 			rows <= content /
 
-$mol_button_major $mol_button_typed
-	attr *
-		^
-		mol_theme \$mol_theme_accent
-
 $mol_labeler $mol_list
 	rows /
 		<= Label $mol_view
@@ -808,6 +803,11 @@ $mol_labeler $mol_list
 		<= Content $mol_view
 			minimal_height 24
 			sub <= content /
+
+$mol_button_major $mol_button_typed
+	attr *
+		^
+		mol_theme \$mol_theme_accent
 
 $mol_form_field $mol_labeler
 	bids /string
@@ -981,6 +981,10 @@ $hyoo_page $mol_book2
 										sub / <= word_item_stat* 0
 						Empty <= Word_list_empty* $mol_card
 							title @ \No words
+				<= Weight* $mol_labeler
+					title \Weight
+					content /
+						<= weight* \0B
 		<= Rights_page*0_0 $mol_page
 			title @ \Editors List
 			tools /

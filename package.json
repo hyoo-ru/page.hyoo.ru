@@ -257,13 +257,15 @@
     "$mol_textarea",
     "$mol_card",
     "$mol_expander",
+    "$mol_labeler",
     "$mol_button_major",
     "$mol_form_field",
     "$mol_form",
     "$mol_row",
-    "$mol_labeler",
     "$mol_state_history",
-    "$mol_match"
+    "$mol_match",
+    "$mol_si_short",
+    "$mol_si"
   ],
   "dependencies": {
     "jsdom": "*",

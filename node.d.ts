@@ -3826,6 +3826,19 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_labeler extends $mol_list {
+        rows(): readonly any[];
+        label(): readonly $mol_view_content[];
+        Label(): $mol_view;
+        content(): readonly any[];
+        Content(): $mol_view;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
     class $mol_button_major extends $mol_button_typed {
         attr(): {
             mol_theme: string;
@@ -3834,19 +3847,6 @@ declare namespace $ {
             tabindex: number;
             title: string;
         };
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_labeler extends $mol_list {
-        rows(): readonly any[];
-        label(): readonly $mol_view_content[];
-        Label(): $mol_view;
-        content(): readonly any[];
-        Content(): $mol_view;
     }
 }
 
@@ -3980,6 +3980,8 @@ declare namespace $ {
         Word_list_empty(id: any): $$.$mol_card;
         Word_list_items(id: any): $$.$mol_list;
         Word_list(id: any): $$.$mol_expander;
+        weight(id: any): string;
+        Weight(id: any): $mol_labeler;
         Info_page(id: any): $mol_page;
         rights_close(id: any, next?: any): any;
         Rights_close_icon(id: any): $mol_icon_cross;
@@ -4014,6 +4016,32 @@ declare namespace $ {
 
 declare namespace $ {
     function $mol_match_text<Variant>(query: string, values: (variant: Variant) => string[]): (variant: Variant) => boolean;
+}
+
+declare namespace $ {
+    enum $mol_si_prefix {
+        y = -8,
+        z = -7,
+        a = -6,
+        f = -5,
+        p = -4,
+        n = -3,
+        µ = -2,
+        m = -1,
+        '' = 0,
+        k = 1,
+        M = 2,
+        G = 3,
+        T = 4,
+        P = 5,
+        E = 6,
+        Z = 7,
+        Y = 8
+    }
+}
+
+declare namespace $ {
+    function $mol_si_short(numb: number, unit?: string): string;
 }
 
 declare namespace $ {
@@ -4088,6 +4116,7 @@ declare namespace $.$$ {
         ref_uri([id, uri]: [$mol_int62_string, string]): string;
         ref_stat([id, uri]: [$mol_int62_string, string]): number;
         ref_track(): void;
+        weight(side: $mol_int62_string): string;
         word_stat(id: $mol_int62_string): Map<string, number>;
         word_list_items(side: $mol_int62_string): $mol_view[];
         word_item_text([side, word]: readonly [$mol_int62_string, string]): string;
