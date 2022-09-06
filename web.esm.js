@@ -3632,10 +3632,13 @@ var $;
             return this.id();
         }
         peer() {
-            return this.world().peer;
+            return this.world()?.peer;
+        }
+        peer_id() {
+            return this.peer()?.id ?? '0_0';
         }
         world() {
-            $mol_fail(new Error(`World isn't defined`));
+            return null;
         }
         get clock_auth() {
             this.pub.promote();
@@ -3678,7 +3681,10 @@ var $;
             }
             return kids;
         }
-        chief = new $hyoo_crowd_struct(this, '0_0');
+        node(head, Node) {
+            return new Node(this, head);
+        }
+        chief = this.node('0_0', $hyoo_crowd_struct);
         id_new() {
             for (let i = 0; i < 1000; ++i) {
                 const id = $mol_int62_to_string($mol_int62_random());
@@ -3768,15 +3774,17 @@ var $;
         join() {
             if (this._joined)
                 return;
-            const { id: peer, key_public_serial } = this.peer();
-            if (!key_public_serial)
+            const auth = this.peer();
+            if (!auth)
                 return;
-            const auth_id = `${peer}/${peer}`;
+            if (!auth.key_public_serial)
+                return;
+            const auth_id = `${auth.id}/${auth.id}`;
             const auth_unit = this._unit_all.get(auth_id);
             if (auth_unit)
                 return;
-            const time = this._clocks[$hyoo_crowd_unit_group.auth].tick(peer);
-            const join_unit = new $hyoo_crowd_unit(this.id(), peer, peer, peer, '0_0', '0_0', time, key_public_serial, null);
+            const time = this._clocks[$hyoo_crowd_unit_group.auth].tick(auth.id);
+            const join_unit = new $hyoo_crowd_unit(this.id(), auth.id, auth.id, auth.id, '0_0', '0_0', time, auth.key_public_serial, null);
             this._unit_all.set(auth_id, join_unit);
             this._joined = true;
         }
@@ -3797,8 +3805,8 @@ var $;
             if (next <= prev)
                 return prev;
             const time = this._clocks[$hyoo_crowd_unit_group.auth].tick(peer);
-            const auth = this.peer();
-            const level_unit = new $hyoo_crowd_unit(this.id(), auth.id, this.id(), peer, '0_0', '0_0', time, next, null);
+            const auth = this.peer_id();
+            const level_unit = new $hyoo_crowd_unit(this.id(), auth, this.id(), peer, '0_0', '0_0', time, next, null);
             this._unit_all.set(level_id, level_unit);
             this.pub.emit();
             return next;
@@ -3825,6 +3833,9 @@ var $;
             }
             return authors;
         }
+        selection(peer) {
+            return this.world().land_sync(peer).chief.sub('$hyoo_crowd_land..selection', $hyoo_crowd_reg);
+        }
         put(head, self, prev, data) {
             this.join();
             const old_id = `${head}/${self}`;
@@ -3837,9 +3848,9 @@ var $;
                 unit_list.splice(unit_list.indexOf(unit_old), 1);
             const seat = unit_prev ? unit_list.indexOf(unit_prev) + 1 : 0;
             const next = unit_list[seat]?.self ?? '0_0';
-            const auth = this.peer();
-            const time = this._clocks[$hyoo_crowd_unit_group.data].tick(auth.id);
-            const unit_new = new $hyoo_crowd_unit(this.id(), auth.id, head, self, next, prev, time, data, null);
+            const auth = this.peer_id();
+            const time = this._clocks[$hyoo_crowd_unit_group.data].tick(auth);
+            const unit_new = new $hyoo_crowd_unit(this.id(), auth, head, self, next, prev, time, data, null);
             this._unit_all.set(old_id, unit_new);
             unit_list.splice(seat, 0, unit_new);
             this._unit_alives.set(head, undefined);
@@ -3849,9 +3860,6 @@ var $;
         wipe(unit) {
             if (unit.data === null)
                 return unit;
-            for (const kid of this.unit_list(unit.self)) {
-                this.wipe(kid);
-            }
             const unit_list = this.unit_list(unit.head);
             const seat = unit_list.indexOf(unit);
             const prev = seat > 0 ? unit_list[seat - 1].self : seat < 0 ? unit.prev : '0_0';
@@ -5341,7 +5349,45 @@ var $;
     class $hyoo_crowd_text extends $hyoo_crowd_node {
         text(next) {
             if (next === undefined) {
-                return this.as($hyoo_crowd_list).list().filter(item => typeof item === 'string').join('');
+                return this.str();
+            }
+            else {
+                const prev = this.units();
+                const lines = next.match(/.*\n|.+$/g) ?? [];
+                $mol_reconcile({
+                    prev,
+                    from: 0,
+                    to: prev.length,
+                    next: lines,
+                    equal: (next, prev) => {
+                        if (typeof prev.data === 'string')
+                            return false;
+                        return this.land.node(prev.self, $hyoo_crowd_text).str() === next;
+                    },
+                    drop: (prev, lead) => this.land.wipe(prev),
+                    insert: (next, lead) => {
+                        const unit = this.land.put(this.head, this.land.id_new(), lead?.self ?? '0_0', []);
+                        this.land.node(unit.self, $hyoo_crowd_text).str(next);
+                        return unit;
+                    },
+                    update: (next, prev, lead) => {
+                        this.land.node(prev.self, $hyoo_crowd_text).str(next);
+                        return prev;
+                    },
+                });
+                return next;
+            }
+        }
+        str(next) {
+            if (next === undefined) {
+                let str = '';
+                for (const unit of this.units()) {
+                    if (typeof unit.data === 'string')
+                        str += unit.data;
+                    else
+                        str += this.land.node(unit.self, $hyoo_crowd_text).str();
+                }
+                return str;
             }
             else {
                 this.write(next, 0, -1);
@@ -5384,35 +5430,47 @@ var $;
         point_by_offset(offset) {
             let off = offset;
             for (const unit of this.units()) {
-                const len = String(unit.data).length;
-                if (off < len)
-                    return { self: unit.self, offset: off };
-                else
-                    off -= len;
-            }
-            return { self: this.head, offset: offset };
-        }
-        offset_by_point(point) {
-            let offset = 0;
-            for (const unit of this.units()) {
-                if (unit.self === point.self) {
-                    return offset + point.offset;
+                if (typeof unit.data === 'string') {
+                    const len = String(unit.data).length;
+                    if (off <= len)
+                        return [unit.self, off];
+                    else
+                        off -= len;
                 }
                 else {
-                    offset += String(unit.data).length;
+                    const found = this.land.node(unit.self, $hyoo_crowd_text).point_by_offset(off);
+                    if (found[0] !== '0_0')
+                        return found;
+                    off = found[1];
                 }
             }
-            return offset;
+            return ['0_0', off];
+        }
+        offset_by_point([self, offset]) {
+            for (const unit of this.units()) {
+                if (unit.self === self)
+                    return [self, offset];
+                if (typeof unit.data === 'string') {
+                    offset += unit.data.length;
+                }
+                else {
+                    const found = this.land.node(unit.self, $hyoo_crowd_text).offset_by_point([self, offset]);
+                    if (found[0] !== '0_0')
+                        return [self, found[1]];
+                    offset = found[1];
+                }
+            }
+            return ['0_0', offset];
         }
         selection(peer, next) {
-            const reg = this.land.world().land_sync(peer).chief.sub('$hyoo_crowd_text..selection', $hyoo_crowd_reg);
+            const reg = this.land.selection(peer);
             if (next) {
                 reg.value(next.map(offset => this.point_by_offset(offset)));
                 return next;
             }
             else {
                 return reg.value()
-                    ?.map(point => this.offset_by_point(point)) ?? [0, 0];
+                    ?.map(point => this.offset_by_point(point)[1]) ?? [0, 0];
             }
         }
     }
@@ -6008,7 +6066,7 @@ var $;
                 return this.land().chief.sub('title', $hyoo_crowd_text);
             }
             title(next) {
-                return this.title_node().text(next);
+                return this.title_node().str(next);
             }
             title_selection(next) {
                 return this.title_node().selection(this.land().peer().id, next);
