@@ -166,6 +166,16 @@ namespace $.$$ {
 		
 		
 		@ $mol_mem_key
+		weight( side: $mol_int62_string ) {
+			const details = this.side( side ).details_node()
+			const units = details?.land.delta()
+			const weight = units?.reduce( ( sum, unit )=> {
+				return sum + $hyoo_crowd_unit_bin.from_unit( unit ).byteLength
+			} , 0 ) ?? 0
+			return $mol_si_short( weight, 'B' )
+		}
+		
+		@ $mol_mem_key
 		word_stat( id: $mol_int62_string ) {
 			
 			const stat = new Map< string, number >()
