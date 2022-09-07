@@ -3179,7 +3179,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "5418040";
+let $hyoo_sync_revision = "2003987";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4692,9 +4692,15 @@ var $;
                 units: this.log_pack(units),
             });
         }
-        master_cursor = 0;
+        async db_land_load(land) {
+            return [];
+        }
+        async db_land_save(land, units) { }
+        master_cursor(next = 0) {
+            return next;
+        }
         master_link() {
-            return this.$.$hyoo_sync_masters[this.master_cursor];
+            return this.$.$hyoo_sync_masters[this.master_cursor()];
         }
         master() {
             return null;
@@ -4816,6 +4822,7 @@ var $;
             };
             this.line_land_neck({ line, land }, [handle(await this.line_land_neck({ line, land })[0])]);
         }
+        line_send(line, message) { }
         [$mol_dev_format_head]() {
             return $mol_dev_format_native(this);
         }
@@ -4844,6 +4851,9 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_sync_yard.prototype, "db_land_init", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_sync_yard.prototype, "master_cursor", null);
     __decorate([
         $mol_mem
     ], $hyoo_sync_yard.prototype, "slaves", null);
@@ -5173,7 +5183,7 @@ var $;
                     done(line);
                 };
                 line.onerror = () => {
-                    this.master_cursor = (this.master_cursor + 1) % this.$.$hyoo_sync_masters.length;
+                    this.master_cursor((this.master_cursor() + 1) % this.$.$hyoo_sync_masters.length);
                     fail(new Error(`Master is unabailable`));
                 };
             });
@@ -7964,19 +7974,19 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $hyoo_sync_online extends $mol_view {
+    class $hyoo_sync_online extends $mol_link {
         yard() {
             const obj = new this.$.$hyoo_sync_yard();
             return obj;
         }
+        uri() {
+            return this.master_link();
+        }
         sub() {
             return [
-                this.Well()
+                this.Well(),
+                this.Fail()
             ];
-        }
-        Fail() {
-            const obj = new this.$.$mol_icon_sync_off();
-            return obj;
         }
         attr() {
             return {
@@ -7984,8 +7994,16 @@ var $;
                 title: this.message()
             };
         }
+        master_link() {
+            return "";
+        }
         Well() {
-            const obj = new this.$.$mol_icon_sync();
+            const obj = new this.$.$mol_avatar();
+            obj.id = () => this.master_link();
+            return obj;
+        }
+        Fail() {
+            const obj = new this.$.$mol_icon_sync_off();
             return obj;
         }
         hint() {
@@ -8000,10 +8018,10 @@ var $;
     ], $hyoo_sync_online.prototype, "yard", null);
     __decorate([
         $mol_mem
-    ], $hyoo_sync_online.prototype, "Fail", null);
+    ], $hyoo_sync_online.prototype, "Well", null);
     __decorate([
         $mol_mem
-    ], $hyoo_sync_online.prototype, "Well", null);
+    ], $hyoo_sync_online.prototype, "Fail", null);
     $.$hyoo_sync_online = $hyoo_sync_online;
 })($ || ($ = {}));
 //hyoo/sync/online/-view.tree/online.view.tree.ts
@@ -8046,7 +8064,10 @@ var $;
                 }
             }
             hint() {
-                return this.yard().master_link() + ' ' + $hyoo_sync_revision;
+                return super.hint() + ' ' + $hyoo_sync_revision;
+            }
+            master_link() {
+                return this.yard().master_link().replace(/^ws(s?):/, 'http$1:');
             }
         }
         __decorate([
@@ -8058,6 +8079,9 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_sync_online.prototype, "hint", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_sync_online.prototype, "master_link", null);
         $$.$hyoo_sync_online = $hyoo_sync_online;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

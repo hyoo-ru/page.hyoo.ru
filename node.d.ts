@@ -1294,7 +1294,7 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    abstract class $hyoo_sync_yard<Line> extends $mol_object2 {
+    class $hyoo_sync_yard<Line> extends $mol_object2 {
         log_pack(data: any): any;
         peer(): $hyoo_crowd_peer;
         world(): $hyoo_crowd_world;
@@ -1306,9 +1306,9 @@ declare namespace $ {
         db_land_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | undefined;
         db_land_sync(land: $hyoo_crowd_land): void;
         db_land_init(land: $hyoo_crowd_land): void;
-        abstract db_land_load(land: $hyoo_crowd_land): Promise<$hyoo_crowd_unit[]>;
-        abstract db_land_save(land: $hyoo_crowd_land, units: readonly $hyoo_crowd_unit[]): void;
-        master_cursor: number;
+        db_land_load(land: $hyoo_crowd_land): Promise<$hyoo_crowd_unit[]>;
+        db_land_save(land: $hyoo_crowd_land, units: readonly $hyoo_crowd_unit[]): Promise<void>;
+        master_cursor(next?: number): number;
         master_link(): string;
         master(): Line | null;
         slaves(next?: readonly Line[]): readonly Line[];
@@ -1331,7 +1331,7 @@ declare namespace $ {
             land: $hyoo_crowd_land;
         }, next?: Promise<any>[]): Promise<any>[];
         line_receive(line: Line, message: Uint8Array): Promise<void>;
-        abstract line_send(line: Line, message: Uint8Array): void;
+        line_send(line: Line, message: Uint8Array): void;
     }
 }
 
@@ -2323,14 +2323,20 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $hyoo_sync_online extends $mol_view {
-        yard(): any;
+    class $hyoo_sync_online extends $mol_link {
+        yard(): $hyoo_sync_yard<unknown>;
+        uri(): string;
         sub(): readonly any[];
-        Fail(): $mol_icon_sync_off;
         attr(): {
             title: string;
+            href: string;
+            target: string;
+            download: string;
+            mol_link_current: boolean;
         };
-        Well(): $mol_icon_sync;
+        master_link(): string;
+        Well(): $$.$mol_avatar;
+        Fail(): $mol_icon_sync_off;
         hint(): string;
         message(): string;
     }
@@ -2342,8 +2348,9 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_sync_online extends $.$hyoo_sync_online {
         message(): string;
-        sub(): $mol_icon_sync[];
+        sub(): $mol_icon_sync_off[];
         hint(): string;
+        master_link(): string;
     }
 }
 
