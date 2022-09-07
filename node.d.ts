@@ -3857,7 +3857,7 @@ declare namespace $ {
     class $mol_form_field extends $mol_labeler {
         bids(): readonly string[];
         label(): readonly any[];
-        content(): readonly any[];
+        Content(): any;
         name(): string;
         bid(): string;
         Bid(): $mol_view;
@@ -3997,8 +3997,10 @@ declare namespace $ {
         editor_add_submit(id: any, next?: any): any;
         Editor_add_icon(id: any): $mol_icon_plus;
         Editor_add_submit(id: any): $mol_button_major;
+        Editor_add_bar(id: any): $mol_bar;
         editor_fill_all(id: any, next?: any): any;
         Editor_fill_all(id: any): $mol_button_minor;
+        Editor_add_form(id: any): $$.$mol_list;
         Editor_add(id: any): $$.$mol_form_field;
         Rights_content(id: any): $$.$mol_list;
         Rights_page(id: any): $mol_page;

@@ -3171,7 +3171,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "15df9ce";
+let $hyoo_sync_revision = "6241e3d";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -5290,7 +5290,7 @@ var $;
                 from,
                 to,
                 next,
-                equal: (next, prev) => prev.data === next,
+                equal: (next, prev) => $mol_compare_deep(prev.data, next),
                 drop: (prev, lead) => this.land.wipe(prev),
                 insert: (next, lead) => this.land.put(this.head, this.land.id_new(), lead?.self ?? '0_0', next),
                 update: (next, prev, lead) => this.land.put(prev.head, prev.self, lead?.self ?? '0_0', next),
@@ -13701,10 +13701,8 @@ var $;
                 this.Bid()
             ];
         }
-        content() {
-            return [
-                this.control()
-            ];
+        Content() {
+            return this.control();
         }
         name() {
             return "";
@@ -14423,6 +14421,14 @@ var $;
             ];
             return obj;
         }
+        Editor_add_bar(id) {
+            const obj = new this.$.$mol_bar();
+            obj.sub = () => [
+                this.Editor_add_id(id),
+                this.Editor_add_submit(id)
+            ];
+            return obj;
+        }
         editor_fill_all(id, next) {
             if (next !== undefined)
                 return next;
@@ -14434,15 +14440,19 @@ var $;
             obj.click = (next) => this.editor_fill_all(id, next);
             return obj;
         }
+        Editor_add_form(id) {
+            const obj = new this.$.$mol_list();
+            obj.rows = () => [
+                this.Editor_add_bar(id),
+                this.Editor_fill_all(id)
+            ];
+            return obj;
+        }
         Editor_add(id) {
             const obj = new this.$.$mol_form_field();
             obj.name = () => this.$.$mol_locale.text('$hyoo_page_Editor_add_name');
             obj.bid = () => this.editor_add_bid(id);
-            obj.content = () => [
-                this.Editor_add_id(id),
-                this.Editor_add_submit(id),
-                this.Editor_fill_all(id)
-            ];
+            obj.Content = () => this.Editor_add_form(id);
             return obj;
         }
         Rights_content(id) {
@@ -14710,10 +14720,16 @@ var $;
     ], $hyoo_page.prototype, "Editor_add_submit", null);
     __decorate([
         $mol_mem_key
+    ], $hyoo_page.prototype, "Editor_add_bar", null);
+    __decorate([
+        $mol_mem_key
     ], $hyoo_page.prototype, "editor_fill_all", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Editor_fill_all", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Editor_add_form", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Editor_add", null);
