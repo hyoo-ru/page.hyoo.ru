@@ -4445,6 +4445,16 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    $.$hyoo_sync_masters = [
+        `ws://localhost:9090/`,
+        $mol_dom_context.document.location.origin.replace(/^\w+:/, 'ws:'),
+    ];
+})($ || ($ = {}));
+//hyoo/sync/masters/masters.test.ts
+;
+"use strict";
+var $;
+(function ($) {
     $mol_test({
         async 'put, get, drop, count records and clear store'() {
             const db = await $$.$mol_db('$mol_db_test', mig => mig.store_make('letters'));
@@ -4520,16 +4530,6 @@ var $;
     });
 })($ || ($ = {}));
 //mol/db/db.test.ts
-;
-"use strict";
-var $;
-(function ($) {
-    $.$hyoo_sync_masters = [
-        `ws://localhost:9090/`,
-        $mol_dom_context.document.location.origin.replace(/^\w+:/, 'ws:'),
-    ];
-})($ || ($ = {}));
-//hyoo/sync/masters/masters.test.ts
 ;
 "use strict";
 var $;

@@ -1233,6 +1233,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    let $hyoo_sync_masters: string[];
+}
+
+declare namespace $ {
     abstract class $hyoo_sync_yard<Line> extends $mol_object2 {
         log_pack(data: any): any;
         peer(): $hyoo_crowd_peer;
@@ -1247,6 +1251,8 @@ declare namespace $ {
         db_land_init(land: $hyoo_crowd_land): void;
         abstract db_land_load(land: $hyoo_crowd_land): Promise<$hyoo_crowd_unit[]>;
         abstract db_land_save(land: $hyoo_crowd_land, units: readonly $hyoo_crowd_unit[]): void;
+        master_cursor: number;
+        master_link(): string;
         master(): Line | null;
         slaves(next?: readonly Line[]): readonly Line[];
         line_lands(line: Line, next?: $hyoo_crowd_land[]): $hyoo_crowd_land[];
@@ -1341,10 +1347,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    let $hyoo_sync_masters: string[];
-}
-
-declare namespace $ {
     class $mol_db_database<Schema extends $mol_db_schema> {
         readonly native: IDBDatabase;
         constructor(native: IDBDatabase);
@@ -1388,7 +1390,6 @@ declare namespace $ {
         db_land_load(land: $hyoo_crowd_land): Promise<$hyoo_crowd_unit[]>;
         db_land_save(land: $hyoo_crowd_land, units: readonly $hyoo_crowd_unit[]): Promise<void>;
         reconnects(reset?: null): number;
-        master_cursor: number;
         master(): WebSocket;
         line_send(line: WebSocket, message: Uint8Array): void;
     }
@@ -2303,7 +2304,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_sync_online extends $mol_view {
-        status(): any;
+        yard(): any;
         sub(): readonly any[];
         Fail(): $mol_icon_sync_off;
         attr(): {
@@ -3849,7 +3850,6 @@ declare namespace $.$$ {
 declare namespace $ {
     class $hyoo_page extends $mol_book2 {
         side_main_id(): string;
-        online(): void;
         side_land(id: any): $hyoo_crowd_land;
         store(): $hyoo_sync_client;
         side_id(id: any): `${string}_${string}`;

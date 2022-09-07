@@ -3179,7 +3179,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "6241e3d";
+let $hyoo_sync_revision = "5418040";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4581,6 +4581,16 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    $.$hyoo_sync_masters = [
+        `wss://sync.hyoo.ru/`,
+        'wss://sync-hyoo-ru.herokuapp.com/',
+    ];
+})($ || ($ = {}));
+//hyoo/sync/masters/masters.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $hyoo_sync_yard extends $mol_object2 {
         log_pack(data) {
             return data;
@@ -4681,6 +4691,10 @@ var $;
                 message: 'Base Load',
                 units: this.log_pack(units),
             });
+        }
+        master_cursor = 0;
+        master_link() {
+            return this.$.$hyoo_sync_masters[this.master_cursor];
         }
         master() {
             return null;
@@ -5019,16 +5033,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$hyoo_sync_masters = [
-        `wss://sync.hyoo.ru/`,
-        'wss://sync-hyoo-ru.herokuapp.com/',
-    ];
-})($ || ($ = {}));
-//hyoo/sync/masters/masters.ts
-;
-"use strict";
-var $;
-(function ($) {
     class $mol_db_database {
         native;
         constructor(native) {
@@ -5135,10 +5139,10 @@ var $;
         reconnects(reset) {
             return ($mol_wire_probe(() => this.reconnects()) ?? 0) + 1;
         }
-        master_cursor = 0;
         master() {
             this.reconnects();
-            const line = new $mol_dom_context.WebSocket(this.$.$hyoo_sync_masters[this.master_cursor]);
+            const link = this.master_link();
+            const line = new $mol_dom_context.WebSocket(link);
             line.binaryType = 'arraybuffer';
             line.onmessage = async (event) => {
                 if (event.data instanceof ArrayBuffer) {
@@ -5164,6 +5168,7 @@ var $;
                         place: this,
                         message: 'Connected to Master',
                         line: $mol_key(line),
+                        server: link,
                     });
                     done(line);
                 };
@@ -7960,8 +7965,9 @@ var $;
 var $;
 (function ($) {
     class $hyoo_sync_online extends $mol_view {
-        status() {
-            return null;
+        yard() {
+            const obj = new this.$.$hyoo_sync_yard();
+            return obj;
         }
         sub() {
             return [
@@ -7991,6 +7997,9 @@ var $;
     }
     __decorate([
         $mol_mem
+    ], $hyoo_sync_online.prototype, "yard", null);
+    __decorate([
+        $mol_mem
     ], $hyoo_sync_online.prototype, "Fail", null);
     __decorate([
         $mol_mem
@@ -8014,7 +8023,7 @@ var $;
         class $hyoo_sync_online extends $.$hyoo_sync_online {
             message() {
                 try {
-                    this.status();
+                    this.yard().sync();
                     return this.hint();
                 }
                 catch (error) {
@@ -8026,7 +8035,7 @@ var $;
             }
             sub() {
                 try {
-                    this.status();
+                    this.yard().sync();
                     return [this.Well()];
                 }
                 catch (error) {
@@ -8037,7 +8046,7 @@ var $;
                 }
             }
             hint() {
-                return super.hint() + ' ' + $hyoo_sync_revision;
+                return this.yard().master_link() + ' ' + $hyoo_sync_revision;
             }
         }
         __decorate([
@@ -13768,9 +13777,6 @@ var $;
         side_main_id() {
             return "z4xm6j_tezix1";
         }
-        online() {
-            return this.store().sync();
-        }
         side_land(id) {
             return this.store().land(id);
         }
@@ -13903,7 +13909,7 @@ var $;
         }
         Online() {
             const obj = new this.$.$hyoo_sync_online();
-            obj.status = () => this.online();
+            obj.yard = () => this.store();
             return obj;
         }
         Source() {
