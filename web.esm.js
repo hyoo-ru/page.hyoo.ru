@@ -14965,7 +14965,7 @@ var $;
                 if (ref === self)
                     return;
                 if (ref)
-                    this.side_current().referrers_track(ref);
+                    $mol_wire_sync(this).side_current().referrers_track(ref);
             }
             weight(side) {
                 const details = this.side(side).details_node();
