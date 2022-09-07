@@ -187,15 +187,16 @@ $hyoo_page $mol_book2
 						<= Editor_add* $mol_form_field
 							name @ \Add new
 							bid <= editor_add_bid* @ \Irrevocable!
-							content /
-								<= Editor_add_id* $mol_string
-									hint @ \Id or Profile Link
-									value? <=> editor_add_id*? \
-								<= Editor_add_submit* $mol_button_major
-									enabled <= editor_add_filled* false
-									click? <=> editor_add_submit*? null
-									sub /
-										<= Editor_add_icon* $mol_icon_plus
+							Content <= Editor_add_form* $mol_list rows /
+								<= Editor_add_bar* $mol_bar sub /
+									<= Editor_add_id* $mol_string
+										hint @ \Id or Profile Link
+										value? <=> editor_add_id*? \
+									<= Editor_add_submit* $mol_button_major
+										enabled <= editor_add_filled* false
+										click? <=> editor_add_submit*? null
+										sub /
+											<= Editor_add_icon* $mol_icon_plus
 								<= Editor_fill_all* $mol_button_minor
 									title @ \Allow anyone
 									click? <=> editor_fill_all*? null
