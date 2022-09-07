@@ -31,7 +31,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		info( next?: boolean ) {
-			return this.$.$mol_state_history.value( 'info', next ) ?? false
+			return this.$.$mol_state_session.value( 'info', next ) ?? false
 		}
 		
 		edit_close() {

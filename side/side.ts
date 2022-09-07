@@ -36,6 +36,7 @@ namespace $.$$ {
 		referrers_stat( uri: string ) {
 			return this.referrers_node()?.sub( uri, $hyoo_crowd_list ).list().length ?? 0
 		}
+		@ $mol_action
 		referrers_track( uri: string ) {
 			return this.referrers_node()?.sub( uri, $hyoo_crowd_list ).add( this.land().peer().id )
 		}
