@@ -161,7 +161,7 @@ namespace $.$$ {
 			const ref = this.$.$mol_dom_context.document.referrer
 			const self = this.$.$mol_dom_context.document.location.href.replace( /#.*$/, '' )
 			if( ref === self ) return
-			if( ref ) this.side_current().referrers_track( ref )
+			if( ref ) $mol_wire_sync( this as $hyoo_page ).side_current().referrers_track( ref )
 		}
 		
 		
