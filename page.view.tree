@@ -1,7 +1,6 @@
 $hyoo_page $mol_book2
 	side_main_id \z4xm6j_tezix1
 	store $hyoo_sync_client
-		sync => online
 		land* => side_land*
 	side* $hyoo_page_side
 		id => side_id*
@@ -43,7 +42,7 @@ $hyoo_page $mol_book2
 						<= Add_icon $mol_icon_plus
 			foot /
 				<= Online $hyoo_sync_online
-					status <= online
+					yard <= store
 				<= Source $mol_link_source
 					uri \https://github.com/hyoo-ru/page.hyoo.ru/
 				<= Lights $mol_lights_toggle
