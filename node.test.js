@@ -3171,7 +3171,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "2003987";
+let $hyoo_sync_revision = "0893173";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -5121,7 +5121,13 @@ var $;
             return await this.$.$mol_db('$hyoo_sync_client_db2', mig => mig.store_make('Unit'), mig => mig.stores.Unit.index_make('Land', ['land']));
         }
         async db_land_load(land) {
-            const db = await this.db();
+            try {
+                var db = await this.db();
+            }
+            catch (error) {
+                $mol_fail_log(error);
+                return [];
+            }
             const Unit = db.read('Unit').Unit;
             const recs = await Unit.indexes.Land.select([land.id()]);
             if (!recs)
@@ -5130,7 +5136,13 @@ var $;
             return units;
         }
         async db_land_save(land, units) {
-            const db = await this.db();
+            try {
+                var db = await this.db();
+            }
+            catch (error) {
+                $mol_fail_log(error);
+                return;
+            }
             const trans = db.change('Unit');
             const Unit = trans.stores.Unit;
             for (const unit of units) {
