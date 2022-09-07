@@ -1492,6 +1492,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    let $mol_action: typeof $mol_wire_method;
+}
+
+declare namespace $ {
     type $mol_type_equals<A, B> = (<X>() => X extends A ? 1 : 2) extends (<X>() => X extends B ? 1 : 2) ? unknown : never;
 }
 
@@ -2686,10 +2690,6 @@ declare namespace $ {
         Suggest_label(id: any): $$.$mol_dimmer;
         suggest_content(id: any): readonly $mol_view_content[];
     }
-}
-
-declare namespace $ {
-    let $mol_action: typeof $mol_wire_method;
 }
 
 declare namespace $ {
@@ -4101,7 +4101,7 @@ declare namespace $.$$ {
         profile_id(): `${string}_${string}`;
         editing(next?: boolean): any;
         rights(next?: boolean): any;
-        info(next?: boolean): any;
+        info(next?: boolean): boolean;
         edit_close(): void;
         rights_close(): void;
         info_close(): void;

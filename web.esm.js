@@ -4997,6 +4997,13 @@ var $;
 //hyoo/crowd/list/list.ts
 ;
 "use strict";
+var $;
+(function ($) {
+    $.$mol_action = $mol_wire_method;
+})($ || ($ = {}));
+//mol/action/action.ts
+;
+"use strict";
 //mol/type/equals/equals.ts
 ;
 "use strict";
@@ -6118,6 +6125,9 @@ var $;
             $mol_mem_key
         ], $hyoo_page_side.prototype, "referrers_stat", null);
         __decorate([
+            $mol_action
+        ], $hyoo_page_side.prototype, "referrers_track", null);
+        __decorate([
             $mol_mem
         ], $hyoo_page_side.prototype, "title_node", null);
         __decorate([
@@ -6267,13 +6277,6 @@ var $;
     $.$mol_file = $mol_file;
 })($ || ($ = {}));
 //mol/file/file.ts
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_action = $mol_wire_method;
-})($ || ($ = {}));
-//mol/action/action.ts
 ;
 "use strict";
 var $;
@@ -14870,7 +14873,7 @@ var $;
                 return this.$.$mol_state_history.value('rights', next) ?? false;
             }
             info(next) {
-                return this.$.$mol_state_history.value('info', next) ?? false;
+                return this.$.$mol_state_session.value('info', next) ?? false;
             }
             edit_close() {
                 this.editing(false);
