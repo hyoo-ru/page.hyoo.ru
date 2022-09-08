@@ -100,6 +100,13 @@ namespace $ {
 			},
 		},
 		
+		Stat: {
+			justifyContent: 'space-between',
+			flex: {
+				wrap: 'wrap',
+			},
+		},
+		
 		Info_page: {
 			flex: {
 				basis: rem(20),

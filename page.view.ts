@@ -210,6 +210,16 @@ namespace $.$$ {
 			return $mol_text_profile( this.side_details( side ) ).size
 		}
 		
+		@ $mol_mem_key
+		chars( side: $mol_int62_string ) {
+			return this.side_details( side ).length
+		}
+		
+		@ $mol_mem_key
+		words( side: $mol_int62_string ) {
+			return this.side_details( side ).match( /\p{Letter}+/ug )?.length ?? 0
+		}
+		
 		
 		peer_id( [ side, peer ]: [ $mol_int62_string, $mol_int62_string ] ) {
 			return peer
