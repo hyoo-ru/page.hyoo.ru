@@ -3987,10 +3987,14 @@ declare namespace $ {
         Word_list_empty(id: any): $$.$mol_card;
         Word_list_items(id: any): $$.$mol_list;
         Word_list(id: any): $$.$mol_expander;
-        weight(id: any): string;
-        Weight(id: any): $mol_labeler;
         size(id: any): number;
         Size(id: any): $mol_labeler;
+        chars(id: any): number;
+        Chars(id: any): $mol_labeler;
+        words(id: any): number;
+        Words(id: any): $mol_labeler;
+        weight(id: any): string;
+        Weight(id: any): $mol_labeler;
         Stat(id: any): $mol_view;
         Info_page(id: any): $mol_page;
         rights_close(id: any, next?: any): any;
@@ -4138,6 +4142,8 @@ declare namespace $.$$ {
         word_item_text([side, word]: readonly [$mol_int62_string, string]): string;
         word_item_stat([side, word]: readonly [$mol_int62_string, string]): number;
         size(side: $mol_int62_string): number;
+        chars(side: $mol_int62_string): number;
+        words(side: $mol_int62_string): number;
         peer_id([side, peer]: [$mol_int62_string, $mol_int62_string]): `${string}_${string}`;
         peer_name([side, peer]: [$mol_int62_string, $mol_int62_string]): string;
         author_list(side: $mol_int62_string): $mol_link[];

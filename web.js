@@ -14090,33 +14090,57 @@ var $;
             obj.Content = () => this.Word_list_items(id);
             return obj;
         }
-        weight(id) {
-            return "0B";
-        }
-        Weight(id) {
-            const obj = new this.$.$mol_labeler();
-            obj.title = () => "Weight";
-            obj.content = () => [
-                this.weight(id)
-            ];
-            return obj;
-        }
         size(id) {
             return 0;
         }
         Size(id) {
             const obj = new this.$.$mol_labeler();
-            obj.title = () => "Size";
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Size_title');
             obj.content = () => [
                 this.size(id)
+            ];
+            return obj;
+        }
+        chars(id) {
+            return 0;
+        }
+        Chars(id) {
+            const obj = new this.$.$mol_labeler();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Chars_title');
+            obj.content = () => [
+                this.chars(id)
+            ];
+            return obj;
+        }
+        words(id) {
+            return 0;
+        }
+        Words(id) {
+            const obj = new this.$.$mol_labeler();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Words_title');
+            obj.content = () => [
+                this.words(id)
+            ];
+            return obj;
+        }
+        weight(id) {
+            return "0B";
+        }
+        Weight(id) {
+            const obj = new this.$.$mol_labeler();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Weight_title');
+            obj.content = () => [
+                this.weight(id)
             ];
             return obj;
         }
         Stat(id) {
             const obj = new this.$.$mol_view();
             obj.sub = () => [
-                this.Weight(id),
-                this.Size(id)
+                this.Size(id),
+                this.Chars(id),
+                this.Words(id),
+                this.Weight(id)
             ];
             return obj;
         }
@@ -14471,10 +14495,16 @@ var $;
     ], $hyoo_page.prototype, "Word_list", null);
     __decorate([
         $mol_mem_key
-    ], $hyoo_page.prototype, "Weight", null);
+    ], $hyoo_page.prototype, "Size", null);
     __decorate([
         $mol_mem_key
-    ], $hyoo_page.prototype, "Size", null);
+    ], $hyoo_page.prototype, "Chars", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Words", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Weight", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Stat", null);
@@ -14876,6 +14906,12 @@ var $;
                 },
             },
         },
+        Stat: {
+            justifyContent: 'space-between',
+            flex: {
+                wrap: 'wrap',
+            },
+        },
         Info_page: {
             flex: {
                 basis: rem(20),
@@ -15060,6 +15096,12 @@ var $;
             size(side) {
                 return $mol_text_profile(this.side_details(side)).size;
             }
+            chars(side) {
+                return this.side_details(side).length;
+            }
+            words(side) {
+                return this.side_details(side).match(/\p{Letter}+/ug)?.length ?? 0;
+            }
             peer_id([side, peer]) {
                 return peer;
             }
@@ -15151,6 +15193,12 @@ var $;
         __decorate([
             $mol_mem_key
         ], $hyoo_page.prototype, "size", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page.prototype, "chars", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page.prototype, "words", null);
         __decorate([
             $mol_mem_key
         ], $hyoo_page.prototype, "author_list", null);
