@@ -3179,7 +3179,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "0893173";
+let $hyoo_sync_revision = "5550736";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4754,6 +4754,8 @@ var $;
             return next;
         }
         async line_receive(line, message) {
+            if (!message.byteLength)
+                return;
             const view = new DataView(message.buffer, message.byteOffset, message.byteLength);
             const int0 = view.getInt32(0, true);
             const int1 = view.getInt32(4, true);
@@ -5178,7 +5180,9 @@ var $;
                     });
                 }
             };
+            let interval;
             line.onclose = () => {
+                clearInterval(interval);
                 setTimeout(() => this.reconnects(null), 5000);
             };
             Object.assign(line, {
@@ -5192,6 +5196,7 @@ var $;
                         line: $mol_key(line),
                         server: link,
                     });
+                    interval = setInterval(() => line.send(new Uint8Array), 30000);
                     done(line);
                 };
                 line.onerror = () => {
