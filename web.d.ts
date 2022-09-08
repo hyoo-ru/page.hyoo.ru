@@ -3761,6 +3761,19 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_labeler extends $mol_list {
+        rows(): readonly any[];
+        label(): readonly $mol_view_content[];
+        Label(): $mol_view;
+        content(): readonly any[];
+        Content(): $mol_view;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
     class $mol_card extends $mol_list {
         attr(): {
             mol_card_status_type: string;
@@ -3803,19 +3816,6 @@ declare namespace $.$$ {
     class $mol_expander extends $.$mol_expander {
         rows(): $mol_view[];
     }
-}
-
-declare namespace $ {
-    class $mol_labeler extends $mol_list {
-        rows(): readonly any[];
-        label(): readonly $mol_view_content[];
-        Label(): $mol_view;
-        content(): readonly any[];
-        Content(): $mol_view;
-    }
-}
-
-declare namespace $ {
 }
 
 declare namespace $ {
@@ -3941,6 +3941,15 @@ declare namespace $ {
         info_close(id: any, next?: any): any;
         Info_close_icon(id: any): $mol_icon_cross;
         Info_close(id: any): $mol_button_minor;
+        size(id: any): number;
+        Size(id: any): $mol_labeler;
+        chars(id: any): number;
+        Chars(id: any): $mol_labeler;
+        words(id: any): number;
+        Words(id: any): $mol_labeler;
+        weight(id: any): string;
+        Weight(id: any): $mol_labeler;
+        Stat(id: any): $mol_view;
         ref_uri(id: any): string;
         Ref_item_link(id: any): $$.$mol_link_iconed;
         ref_stat(id: any): number;
@@ -3959,15 +3968,6 @@ declare namespace $ {
         Word_list_empty(id: any): $$.$mol_card;
         Word_list_items(id: any): $$.$mol_list;
         Word_list(id: any): $$.$mol_expander;
-        size(id: any): number;
-        Size(id: any): $mol_labeler;
-        chars(id: any): number;
-        Chars(id: any): $mol_labeler;
-        words(id: any): number;
-        Words(id: any): $mol_labeler;
-        weight(id: any): string;
-        Weight(id: any): $mol_labeler;
-        Stat(id: any): $mol_view;
         Info_page(id: any): $mol_page;
         rights_close(id: any, next?: any): any;
         Rights_close_icon(id: any): $mol_icon_cross;

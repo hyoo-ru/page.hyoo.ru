@@ -13519,6 +13519,54 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_labeler extends $mol_list {
+        rows() {
+            return [
+                this.Label(),
+                this.Content()
+            ];
+        }
+        label() {
+            return [
+                this.title()
+            ];
+        }
+        Label() {
+            const obj = new this.$.$mol_view();
+            obj.minimal_height = () => 40;
+            obj.sub = () => this.label();
+            return obj;
+        }
+        content() {
+            return [];
+        }
+        Content() {
+            const obj = new this.$.$mol_view();
+            obj.minimal_height = () => 24;
+            obj.sub = () => this.content();
+            return obj;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_labeler.prototype, "Label", null);
+    __decorate([
+        $mol_mem
+    ], $mol_labeler.prototype, "Content", null);
+    $.$mol_labeler = $mol_labeler;
+})($ || ($ = {}));
+//mol/labeler/-view.tree/labeler.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/labeler/labeler.view.css", "[mol_labeler] {\n\tdisplay: flex;\n\tflex-direction: column;\n\talign-items: stretch;\n\tcursor: inherit;\n}\n\n[mol_labeler_label] {\n\tmin-height: 2.5rem;\n\tcolor: var(--mol_theme_shade);\n\tz-index: 1;\n\tpadding: var(--mol_gap_text);\n\tgap: 0 var(--mol_gap_block);\n\tflex-wrap: wrap;\n}\n\n[mol_labeler_content] {\n\tdisplay: flex;\n\tpadding: var(--mol_gap_text);\n}\n");
+})($ || ($ = {}));
+//mol/labeler/-css/labeler.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_card extends $mol_list {
         attr() {
             return {
@@ -13678,54 +13726,6 @@ var $;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //mol/expander/expander.view.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_labeler extends $mol_list {
-        rows() {
-            return [
-                this.Label(),
-                this.Content()
-            ];
-        }
-        label() {
-            return [
-                this.title()
-            ];
-        }
-        Label() {
-            const obj = new this.$.$mol_view();
-            obj.minimal_height = () => 40;
-            obj.sub = () => this.label();
-            return obj;
-        }
-        content() {
-            return [];
-        }
-        Content() {
-            const obj = new this.$.$mol_view();
-            obj.minimal_height = () => 24;
-            obj.sub = () => this.content();
-            return obj;
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $mol_labeler.prototype, "Label", null);
-    __decorate([
-        $mol_mem
-    ], $mol_labeler.prototype, "Content", null);
-    $.$mol_labeler = $mol_labeler;
-})($ || ($ = {}));
-//mol/labeler/-view.tree/labeler.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/labeler/labeler.view.css", "[mol_labeler] {\n\tdisplay: flex;\n\tflex-direction: column;\n\talign-items: stretch;\n\tcursor: inherit;\n}\n\n[mol_labeler_label] {\n\tmin-height: 2.5rem;\n\tcolor: var(--mol_theme_shade);\n\tz-index: 1;\n\tpadding: var(--mol_gap_text);\n\tgap: 0 var(--mol_gap_block);\n\tflex-wrap: wrap;\n}\n\n[mol_labeler_content] {\n\tdisplay: flex;\n\tpadding: var(--mol_gap_text);\n}\n");
-})($ || ($ = {}));
-//mol/labeler/-css/labeler.view.css.ts
 ;
 "use strict";
 var $;
@@ -14279,6 +14279,60 @@ var $;
             ];
             return obj;
         }
+        size(id) {
+            return 0;
+        }
+        Size(id) {
+            const obj = new this.$.$mol_labeler();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Size_title');
+            obj.content = () => [
+                this.size(id)
+            ];
+            return obj;
+        }
+        chars(id) {
+            return 0;
+        }
+        Chars(id) {
+            const obj = new this.$.$mol_labeler();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Chars_title');
+            obj.content = () => [
+                this.chars(id)
+            ];
+            return obj;
+        }
+        words(id) {
+            return 0;
+        }
+        Words(id) {
+            const obj = new this.$.$mol_labeler();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Words_title');
+            obj.content = () => [
+                this.words(id)
+            ];
+            return obj;
+        }
+        weight(id) {
+            return "0B";
+        }
+        Weight(id) {
+            const obj = new this.$.$mol_labeler();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Weight_title');
+            obj.content = () => [
+                this.weight(id)
+            ];
+            return obj;
+        }
+        Stat(id) {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [
+                this.Size(id),
+                this.Chars(id),
+                this.Words(id),
+                this.Weight(id)
+            ];
+            return obj;
+        }
         ref_uri(id) {
             return "";
         }
@@ -14377,60 +14431,6 @@ var $;
             obj.Content = () => this.Word_list_items(id);
             return obj;
         }
-        size(id) {
-            return 0;
-        }
-        Size(id) {
-            const obj = new this.$.$mol_labeler();
-            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Size_title');
-            obj.content = () => [
-                this.size(id)
-            ];
-            return obj;
-        }
-        chars(id) {
-            return 0;
-        }
-        Chars(id) {
-            const obj = new this.$.$mol_labeler();
-            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Chars_title');
-            obj.content = () => [
-                this.chars(id)
-            ];
-            return obj;
-        }
-        words(id) {
-            return 0;
-        }
-        Words(id) {
-            const obj = new this.$.$mol_labeler();
-            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Words_title');
-            obj.content = () => [
-                this.words(id)
-            ];
-            return obj;
-        }
-        weight(id) {
-            return "0B";
-        }
-        Weight(id) {
-            const obj = new this.$.$mol_labeler();
-            obj.title = () => this.$.$mol_locale.text('$hyoo_page_Weight_title');
-            obj.content = () => [
-                this.weight(id)
-            ];
-            return obj;
-        }
-        Stat(id) {
-            const obj = new this.$.$mol_view();
-            obj.sub = () => [
-                this.Size(id),
-                this.Chars(id),
-                this.Words(id),
-                this.Weight(id)
-            ];
-            return obj;
-        }
         Info_page(id) {
             const obj = new this.$.$mol_page();
             obj.title = () => this.$.$mol_locale.text('$hyoo_page_Info_page_title');
@@ -14438,9 +14438,9 @@ var $;
                 this.Info_close(id)
             ];
             obj.body = () => [
+                this.Stat(id),
                 this.Ref_list(id),
-                this.Word_list(id),
-                this.Stat(id)
+                this.Word_list(id)
             ];
             return obj;
         }
@@ -14746,6 +14746,21 @@ var $;
     ], $hyoo_page.prototype, "Info_close", null);
     __decorate([
         $mol_mem_key
+    ], $hyoo_page.prototype, "Size", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Chars", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Words", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Weight", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Stat", null);
+    __decorate([
+        $mol_mem_key
     ], $hyoo_page.prototype, "Ref_item_link", null);
     __decorate([
         $mol_mem_key
@@ -14780,21 +14795,6 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Word_list", null);
-    __decorate([
-        $mol_mem_key
-    ], $hyoo_page.prototype, "Size", null);
-    __decorate([
-        $mol_mem_key
-    ], $hyoo_page.prototype, "Chars", null);
-    __decorate([
-        $mol_mem_key
-    ], $hyoo_page.prototype, "Words", null);
-    __decorate([
-        $mol_mem_key
-    ], $hyoo_page.prototype, "Weight", null);
-    __decorate([
-        $mol_mem_key
-    ], $hyoo_page.prototype, "Stat", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Info_page", null);
