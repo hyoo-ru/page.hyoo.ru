@@ -205,6 +205,11 @@ namespace $.$$ {
 			return this.word_stat( side ).get( word )!
 		}
 		
+		@ $mol_mem_key
+		size( side: $mol_int62_string ) {
+			return $mol_text_profile( this.side_details( side ) ).size
+		}
+		
 		
 		peer_id( [ side, peer ]: [ $mol_int62_string, $mol_int62_string ] ) {
 			return peer
