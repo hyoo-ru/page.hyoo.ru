@@ -13527,7 +13527,7 @@ var $;
 (function ($) {
     class $hyoo_page extends $mol_book2 {
         side_main_id() {
-            return "z4xm6j_tezix1";
+            return "iy8wtn_tky6pc";
         }
         side_land(id) {
             return this.store().land(id);
@@ -14799,6 +14799,7 @@ var $;
             justifyContent: 'flex-end',
         },
         Edit_page: {
+            margin: [0, 'auto'],
             flex: {
                 basis: rem(50),
                 grow: 0,
@@ -14905,8 +14906,8 @@ var $;
                     this.Menu_page(),
                     this.View_page(id),
                     ...this.editing() ? [this.Edit_page(id)] : [],
-                    ...this.info() ? [this.Info_page(id)] : [],
                     ...this.rights() ? [this.Rights_page(id)] : [],
+                    ...this.info() ? [this.Info_page(id)] : [],
                 ];
             }
             view_page_head(side) {
