@@ -982,10 +982,15 @@ $hyoo_page $mol_book2
 										sub / <= word_item_stat* 0
 						Empty <= Word_list_empty* $mol_card
 							title @ \No words
-				<= Weight* $mol_labeler
-					title \Weight
-					content /
-						<= weight* \0B
+				<= Stat* $mol_view sub /
+					<= Weight* $mol_labeler
+						title \Weight
+						content /
+							<= weight* \0B
+					<= Size* $mol_labeler
+						title \Size
+						content /
+							<= size* 0
 		<= Rights_page*0_0 $mol_page
 			title @ \Editors List
 			tools /

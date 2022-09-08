@@ -3989,6 +3989,9 @@ declare namespace $ {
         Word_list(id: any): $$.$mol_expander;
         weight(id: any): string;
         Weight(id: any): $mol_labeler;
+        size(id: any): number;
+        Size(id: any): $mol_labeler;
+        Stat(id: any): $mol_view;
         Info_page(id: any): $mol_page;
         rights_close(id: any, next?: any): any;
         Rights_close_icon(id: any): $mol_icon_cross;
@@ -4051,6 +4054,10 @@ declare namespace $ {
 
 declare namespace $ {
     function $mol_si_short(numb: number, unit?: string): string;
+}
+
+declare namespace $ {
+    function $mol_text_profile(text: string): Map<string, number>;
 }
 
 declare namespace $ {
@@ -4130,6 +4137,7 @@ declare namespace $.$$ {
         word_list_items(side: $mol_int62_string): $mol_view[];
         word_item_text([side, word]: readonly [$mol_int62_string, string]): string;
         word_item_stat([side, word]: readonly [$mol_int62_string, string]): number;
+        size(side: $mol_int62_string): number;
         peer_id([side, peer]: [$mol_int62_string, $mol_int62_string]): `${string}_${string}`;
         peer_name([side, peer]: [$mol_int62_string, $mol_int62_string]): string;
         author_list(side: $mol_int62_string): $mol_link[];

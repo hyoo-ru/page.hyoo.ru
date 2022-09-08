@@ -14388,6 +14388,25 @@ var $;
             ];
             return obj;
         }
+        size(id) {
+            return 0;
+        }
+        Size(id) {
+            const obj = new this.$.$mol_labeler();
+            obj.title = () => "Size";
+            obj.content = () => [
+                this.size(id)
+            ];
+            return obj;
+        }
+        Stat(id) {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [
+                this.Weight(id),
+                this.Size(id)
+            ];
+            return obj;
+        }
         Info_page(id) {
             const obj = new this.$.$mol_page();
             obj.title = () => this.$.$mol_locale.text('$hyoo_page_Info_page_title');
@@ -14397,7 +14416,7 @@ var $;
             obj.body = () => [
                 this.Ref_list(id),
                 this.Word_list(id),
-                this.Weight(id)
+                this.Stat(id)
             ];
             return obj;
         }
@@ -14742,6 +14761,12 @@ var $;
     ], $hyoo_page.prototype, "Weight", null);
     __decorate([
         $mol_mem_key
+    ], $hyoo_page.prototype, "Size", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Stat", null);
+    __decorate([
+        $mol_mem_key
     ], $hyoo_page.prototype, "Info_page", null);
     __decorate([
         $mol_mem_key
@@ -14903,6 +14928,23 @@ var $;
     $.$mol_si_short = $mol_si_short;
 })($ || ($ = {}));
 //mol/si/short/short.ts
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_text_profile(text) {
+        text = '\n\n' + text + '\n\n';
+        const key = new Map();
+        for (let i = 0; i < text.length - 2; ++i) {
+            const trigram = text.slice(i, i + 3);
+            const count = key.get(trigram) ?? 0;
+            key.set(trigram, count + 1);
+        }
+        return key;
+    }
+    $.$mol_text_profile = $mol_text_profile;
+})($ || ($ = {}));
+//mol/text/profile/profile.ts
 ;
 "use strict";
 var $;
@@ -15296,6 +15338,9 @@ var $;
             word_item_stat([side, word]) {
                 return this.word_stat(side).get(word);
             }
+            size(side) {
+                return $mol_text_profile(this.side_details(side)).size;
+            }
             peer_id([side, peer]) {
                 return peer;
             }
@@ -15384,6 +15429,9 @@ var $;
         __decorate([
             $mol_mem_key
         ], $hyoo_page.prototype, "word_list_items", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page.prototype, "size", null);
         __decorate([
             $mol_mem_key
         ], $hyoo_page.prototype, "author_list", null);

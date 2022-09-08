@@ -265,7 +265,8 @@
     "$mol_state_history",
     "$mol_match",
     "$mol_si_short",
-    "$mol_si"
+    "$mol_si",
+    "$mol_text_profile"
   ],
   "dependencies": {
     "jsdom": "*",
