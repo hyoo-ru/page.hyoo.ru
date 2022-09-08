@@ -57,8 +57,8 @@ namespace $.$$ {
 				this.Menu_page(),
 				this.View_page( id ),
 				... this.editing() ? [ this.Edit_page( id ) ] : [],
-				... this.info() ? [ this.Info_page( id ) ] : [],
 				... this.rights() ? [ this.Rights_page( id ) ] : [],
+				... this.info() ? [ this.Info_page( id ) ] : [],
 			]
 		}
 		

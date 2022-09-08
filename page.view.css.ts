@@ -66,6 +66,7 @@ namespace $ {
 		},
 		
 		Edit_page: {
+			margin: [ 0, 'auto' ],
 			flex: {
 				basis: rem(50),
 				grow: 0,

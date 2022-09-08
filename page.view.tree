@@ -1,5 +1,5 @@
 $hyoo_page $mol_book2
-	side_main_id \z4xm6j_tezix1
+	side_main_id \iy8wtn_tky6pc
 	store $hyoo_sync_client
 		land* => side_land*
 	side* $hyoo_page_side
