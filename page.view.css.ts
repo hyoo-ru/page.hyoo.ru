@@ -101,6 +101,7 @@ namespace $ {
 		},
 		
 		Stat: {
+			padding: $mol_gap.block,
 			justifyContent: 'space-between',
 			flex: {
 				wrap: 'wrap',
@@ -112,9 +113,10 @@ namespace $ {
 				basis: rem(20),
 				grow: 0,
 			},
-			Body: {
-				padding: $mol_gap.block,
-			},
+		},
+		
+		Ref_list: {
+			padding: $mol_gap.block,
 		},
 		
 		Ref_item_link: {
@@ -126,6 +128,10 @@ namespace $ {
 		
 		Ref_item_stat: {
 			padding: $mol_gap.text,
+		},
+		
+		Word_list: {
+			padding: $mol_gap.block,
 		},
 		
 		Word_item_text: {

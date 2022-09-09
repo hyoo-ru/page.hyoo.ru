@@ -179,7 +179,7 @@ namespace $.$$ {
 		word_stat( id: $mol_int62_string ) {
 			
 			const stat = new Map< string, number >()
-			const words = ( this.side_details( id ).match( /\p{Letter}{2,}/ug ) ?? [] )
+			const words = ( this.side_details( id ).toLowerCase().match( /\p{Letter}{2,}/ug ) ?? [] )
 			
 			for( const word of words ) {
 				stat.set( word, ( stat.get( word ) ?? 0 ) + 1 )
@@ -207,17 +207,17 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		size( side: $mol_int62_string ) {
-			return $mol_text_profile( this.side_details( side ) ).size
+			return $mol_si_short( $mol_text_profile( this.side_details( side ) ).size, '' )
 		}
 		
 		@ $mol_mem_key
 		chars( side: $mol_int62_string ) {
-			return this.side_details( side ).length
+			return $mol_si_short( this.side_details( side ).length, '' )
 		}
 		
 		@ $mol_mem_key
 		words( side: $mol_int62_string ) {
-			return this.side_details( side ).match( /\p{Letter}+/ug )?.length ?? 0
+			return $mol_si_short( this.side_details( side ).match( /\p{Letter}+/ug )?.length ?? 0, '' )
 		}
 		
 		
