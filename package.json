@@ -134,6 +134,7 @@
     "$mol_dict",
     "$mol_wire_race",
     "$hyoo_sync_masters",
+    "$mol_wire_solid",
     "$mol_db",
     "$mol_db_transaction",
     "$mol_db_store",

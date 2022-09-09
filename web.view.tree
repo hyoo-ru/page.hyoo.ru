@@ -962,21 +962,22 @@ $hyoo_page $mol_book2
 					<= Size* $mol_labeler
 						title @ \Size
 						content /
-							<= size* 0
+							<= size* \0
 					<= Chars* $mol_labeler
 						title @ \Chars
 						content /
-							<= chars* 0
+							<= chars* \0
 					<= Words* $mol_labeler
 						title @ \Words
 						content /
-							<= words* 0
+							<= words* \0
 					<= Weight* $mol_labeler
 						title @ \Weight
 						content /
 							<= weight* \0B
 				<= Ref_list* $mol_expander
 					title @ \Referrers
+					expanded? <=> ref_expanded? true
 					Content <= Ref_list_items* $mol_list
 						rows <= ref_list* /
 							<= Ref_item*0_0 $mol_view

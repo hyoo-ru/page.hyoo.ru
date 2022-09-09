@@ -3179,7 +3179,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "5550736";
+let $hyoo_sync_revision = "78da2de";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4591,6 +4591,22 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_wire_solid() {
+        const current = $mol_wire_auto();
+        if (current.reap !== nothing) {
+            current?.sub_on(sub, sub.data.length);
+        }
+        current.reap = nothing;
+    }
+    $.$mol_wire_solid = $mol_wire_solid;
+    const nothing = () => { };
+    const sub = new $mol_wire_pub_sub;
+})($ || ($ = {}));
+//mol/wire/solid/solid.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $hyoo_sync_yard extends $mol_object2 {
         log_pack(data) {
             return data;
@@ -4712,6 +4728,8 @@ var $;
             return next;
         }
         line_land_clocks({ line, land }, next) {
+            $mol_wire_solid();
+            this.master();
             return next;
         }
         line_sync(line) {
@@ -14280,7 +14298,7 @@ var $;
             return obj;
         }
         size(id) {
-            return 0;
+            return "0";
         }
         Size(id) {
             const obj = new this.$.$mol_labeler();
@@ -14291,7 +14309,7 @@ var $;
             return obj;
         }
         chars(id) {
-            return 0;
+            return "0";
         }
         Chars(id) {
             const obj = new this.$.$mol_labeler();
@@ -14302,7 +14320,7 @@ var $;
             return obj;
         }
         words(id) {
-            return 0;
+            return "0";
         }
         Words(id) {
             const obj = new this.$.$mol_labeler();
@@ -14332,6 +14350,11 @@ var $;
                 this.Weight(id)
             ];
             return obj;
+        }
+        ref_expanded(next) {
+            if (next !== undefined)
+                return next;
+            return true;
         }
         ref_uri(id) {
             return "";
@@ -14378,6 +14401,7 @@ var $;
         Ref_list(id) {
             const obj = new this.$.$mol_expander();
             obj.title = () => this.$.$mol_locale.text('$hyoo_page_Ref_list_title');
+            obj.expanded = (next) => this.ref_expanded(next);
             obj.Content = () => this.Ref_list_items(id);
             return obj;
         }
@@ -14759,6 +14783,9 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Stat", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page.prototype, "ref_expanded", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Ref_item_link", null);
@@ -15188,6 +15215,7 @@ var $;
             },
         },
         Stat: {
+            padding: $mol_gap.block,
             justifyContent: 'space-between',
             flex: {
                 wrap: 'wrap',
@@ -15198,9 +15226,9 @@ var $;
                 basis: rem(20),
                 grow: 0,
             },
-            Body: {
-                padding: $mol_gap.block,
-            },
+        },
+        Ref_list: {
+            padding: $mol_gap.block,
         },
         Ref_item_link: {
             flex: {
@@ -15210,6 +15238,9 @@ var $;
         },
         Ref_item_stat: {
             padding: $mol_gap.text,
+        },
+        Word_list: {
+            padding: $mol_gap.block,
         },
         Word_item_text: {
             padding: $mol_gap.text,
@@ -15357,7 +15388,7 @@ var $;
             }
             word_stat(id) {
                 const stat = new Map();
-                const words = (this.side_details(id).match(/\p{Letter}{2,}/ug) ?? []);
+                const words = (this.side_details(id).toLowerCase().match(/\p{Letter}{2,}/ug) ?? []);
                 for (const word of words) {
                     stat.set(word, (stat.get(word) ?? 0) + 1);
                 }
@@ -15375,13 +15406,13 @@ var $;
                 return this.word_stat(side).get(word);
             }
             size(side) {
-                return $mol_text_profile(this.side_details(side)).size;
+                return $mol_si_short($mol_text_profile(this.side_details(side)).size, '');
             }
             chars(side) {
-                return this.side_details(side).length;
+                return $mol_si_short(this.side_details(side).length, '');
             }
             words(side) {
-                return this.side_details(side).match(/\p{Letter}+/ug)?.length ?? 0;
+                return $mol_si_short(this.side_details(side).match(/\p{Letter}+/ug)?.length ?? 0, '');
             }
             peer_id([side, peer]) {
                 return peer;

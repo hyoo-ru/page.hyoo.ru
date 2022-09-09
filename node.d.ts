@@ -1294,6 +1294,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    function $mol_wire_solid(): void;
+}
+
+declare namespace $ {
     class $hyoo_sync_yard<Line> extends $mol_object2 {
         log_pack(data: any): any;
         peer(): $hyoo_crowd_peer;
@@ -3969,15 +3973,16 @@ declare namespace $ {
         info_close(id: any, next?: any): any;
         Info_close_icon(id: any): $mol_icon_cross;
         Info_close(id: any): $mol_button_minor;
-        size(id: any): number;
+        size(id: any): string;
         Size(id: any): $mol_labeler;
-        chars(id: any): number;
+        chars(id: any): string;
         Chars(id: any): $mol_labeler;
-        words(id: any): number;
+        words(id: any): string;
         Words(id: any): $mol_labeler;
         weight(id: any): string;
         Weight(id: any): $mol_labeler;
         Stat(id: any): $mol_view;
+        ref_expanded(next?: any): boolean;
         ref_uri(id: any): string;
         Ref_item_link(id: any): $$.$mol_link_iconed;
         ref_stat(id: any): number;
@@ -4141,9 +4146,9 @@ declare namespace $.$$ {
         word_list_items(side: $mol_int62_string): $mol_view[];
         word_item_text([side, word]: readonly [$mol_int62_string, string]): string;
         word_item_stat([side, word]: readonly [$mol_int62_string, string]): number;
-        size(side: $mol_int62_string): number;
-        chars(side: $mol_int62_string): number;
-        words(side: $mol_int62_string): number;
+        size(side: $mol_int62_string): string;
+        chars(side: $mol_int62_string): string;
+        words(side: $mol_int62_string): string;
         peer_id([side, peer]: [$mol_int62_string, $mol_int62_string]): `${string}_${string}`;
         peer_name([side, peer]: [$mol_int62_string, $mol_int62_string]): string;
         author_list(side: $mol_int62_string): $mol_link[];
