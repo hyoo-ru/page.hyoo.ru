@@ -2775,7 +2775,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "78da2de";
+let $hyoo_sync_revision = "393067d";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -3375,7 +3375,13 @@ var $;
             const type_size = this.getInt16(offset.size, true);
             let data = null;
             if (type_size) {
-                const buff = new Uint8Array(this.buffer, this.byteOffset + offset.data, Math.abs(type_size));
+                try {
+                    var buff = new Uint8Array(this.buffer, this.byteOffset + offset.data, Math.abs(type_size));
+                }
+                catch (error) {
+                    error['message'] += `\nhead=${head};self=${self}`;
+                    $mol_fail_hidden(error);
+                }
                 if (type_size < 0)
                     data = buff;
                 else
@@ -4177,6 +4183,22 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_wire_solid() {
+        const current = $mol_wire_auto();
+        if (current.reap !== nothing) {
+            current?.sub_on(sub, sub.data.length);
+        }
+        current.reap = nothing;
+    }
+    $.$mol_wire_solid = $mol_wire_solid;
+    const nothing = () => { };
+    const sub = new $mol_wire_pub_sub;
+})($ || ($ = {}));
+//mol/wire/solid/solid.ts
+;
+"use strict";
+var $;
+(function ($) {
     function $mol_log3_area_lazy(event) {
         const self = this;
         const stack = self.$mol_log3_stack;
@@ -4240,22 +4262,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    function $mol_wire_solid() {
-        const current = $mol_wire_auto();
-        if (current.reap !== nothing) {
-            current?.sub_on(sub, sub.data.length);
-        }
-        current.reap = nothing;
-    }
-    $.$mol_wire_solid = $mol_wire_solid;
-    const nothing = () => { };
-    const sub = new $mol_wire_pub_sub;
-})($ || ($ = {}));
-//mol/wire/solid/solid.ts
-;
-"use strict";
-var $;
-(function ($) {
     class $hyoo_sync_yard extends $mol_object2 {
         log_pack(data) {
             return data;
@@ -4274,7 +4280,7 @@ var $;
         }
         world() {
             const world = new this.$.$hyoo_crowd_world(this.peer());
-            world.land_init = land => this.land_sync(land);
+            world.land_init = land => this.db_land_init(land);
             return world;
         }
         land(id) {
@@ -4321,6 +4327,7 @@ var $;
             }
         }
         db_land_clocks(land, next) {
+            $mol_wire_solid();
             return next;
         }
         db_land_sync(land) {
@@ -4342,7 +4349,19 @@ var $;
             });
         }
         db_land_init(land) {
-            const units = $mol_wire_sync(this).db_land_load(land);
+            try {
+                var units = $mol_wire_sync(this).db_land_load(land);
+            }
+            catch (error) {
+                if (!(error instanceof Error))
+                    $mol_fail_hidden(error);
+                this.$.$mol_log3_fail({
+                    place: this,
+                    land: land.id(),
+                    message: error.message,
+                });
+                units = [];
+            }
             units.sort($hyoo_crowd_unit_compare);
             const clocks = [new $hyoo_crowd_clock, new $hyoo_crowd_clock];
             this.db_land_clocks(land.id(), clocks);
@@ -13872,7 +13891,6 @@ var $;
         Changed(id) {
             const obj = new this.$.$mol_date();
             obj.value_moment = () => this.side_changed(id);
-            obj.align_hor = () => "left";
             return obj;
         }
         peer_id(id) {

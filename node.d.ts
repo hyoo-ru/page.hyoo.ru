@@ -1290,11 +1290,11 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    let $hyoo_sync_masters: string[];
+    function $mol_wire_solid(): void;
 }
 
 declare namespace $ {
-    function $mol_wire_solid(): void;
+    let $hyoo_sync_masters: string[];
 }
 
 declare namespace $ {
