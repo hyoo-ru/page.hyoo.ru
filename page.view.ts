@@ -266,6 +266,14 @@ namespace $.$$ {
 			side.details_node()?.land.level( peer, $hyoo_crowd_peer_level.mod )
 			this.editor_add_id( id, '' )
 		}
+
+		download_md_name( id: $mol_int62_string ) {
+			return super.download_md_name(id).replace( '{filename}', this.side_title(id) )
+		}
+
+		download_md_blob( id: $mol_int62_string ) {
+			return new $mol_dom_context.Blob( [this.side_details(id)], { type: 'text/markdown' } )
+		}
 		
 	}
 	
