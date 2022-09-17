@@ -84,10 +84,6 @@ $hyoo_page $mol_book2
 					hint @ \Info page
 					checked? <=> info? false
 					Icon <= Info_icon* $mol_icon_information_outline
-				<= Download_md* $mol_button_download
-					hint @ \Download markdown
-					file_name <= download_md_name* \{filename}.md
-					blob <= download_md_blob* Blob
 				<= Bookmark_toggle* $mol_check_icon
 					hint @ \Bookmark page
 					checked? <=> side_bookmark*? false
@@ -119,6 +115,10 @@ $hyoo_page $mol_book2
 				enabled <= side_editable*
 				selection? <=> side_title_selection*?
 			tools /
+				<= Download_md* $mol_button_download
+					hint @ \Download markdown
+					file_name <= download_md_name* \{filename}.md
+					blob <= download_md_blob* Blob
 				<= Rights_toggle* $mol_check_icon
 					hint @ \Access Rights
 					checked? <=> rights? false
