@@ -2857,6 +2857,70 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_icon_download extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_button_download extends $mol_button_minor {
+        blob(): any;
+        uri(): string;
+        file_name(): string;
+        sub(): readonly any[];
+        Icon(): $mol_icon_download;
+    }
+}
+
+declare namespace $ {
+    type $mol_type_partial_deep<Val> = {
+        [field in keyof Val]?: $mol_type_partial_deep<Val[field]>;
+    };
+}
+
+declare namespace $ {
+    let $mol_jsx_prefix: string;
+    let $mol_jsx_crumbs: string;
+    let $mol_jsx_booked: Set<string> | null;
+    let $mol_jsx_document: $mol_jsx.JSX.ElementClass['ownerDocument'];
+    const $mol_jsx_frag = "";
+    function $mol_jsx<Props extends $mol_jsx.JSX.IntrinsicAttributes, Children extends Array<Node | string>>(Elem: string | ((props: Props, ...children: Children) => Element), props: Props, ...childNodes: Children): Element | DocumentFragment;
+    namespace $mol_jsx.JSX {
+        interface Element extends HTMLElement {
+            class?: string;
+        }
+        interface ElementClass {
+            attributes: {};
+            ownerDocument: Pick<Document, 'getElementById' | 'createElementNS' | 'createDocumentFragment'>;
+            childNodes: Array<Node | string>;
+            valueOf(): Element;
+        }
+        type OrString<Dict> = {
+            [key in keyof Dict]: Dict[key] | string;
+        };
+        type IntrinsicElements = {
+            [key in keyof ElementTagNameMap]?: $.$mol_type_partial_deep<OrString<Element & IntrinsicAttributes & ElementTagNameMap[key]>>;
+        };
+        interface IntrinsicAttributes {
+            id?: string;
+            xmlns?: string;
+        }
+        interface ElementAttributesProperty {
+            attributes: {};
+        }
+        interface ElementChildrenAttribute {
+        }
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_button_download extends $.$mol_button_download {
+        uri(): string;
+        click(): void;
+    }
+}
+
+declare namespace $ {
     class $mol_icon_star extends $mol_icon {
         path(): string;
     }
@@ -3373,47 +3437,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    type $mol_type_partial_deep<Val> = {
-        [field in keyof Val]?: $mol_type_partial_deep<Val[field]>;
-    };
-}
-
-declare namespace $ {
-    let $mol_jsx_prefix: string;
-    let $mol_jsx_crumbs: string;
-    let $mol_jsx_booked: Set<string> | null;
-    let $mol_jsx_document: $mol_jsx.JSX.ElementClass['ownerDocument'];
-    const $mol_jsx_frag = "";
-    function $mol_jsx<Props extends $mol_jsx.JSX.IntrinsicAttributes, Children extends Array<Node | string>>(Elem: string | ((props: Props, ...children: Children) => Element), props: Props, ...childNodes: Children): Element | DocumentFragment;
-    namespace $mol_jsx.JSX {
-        interface Element extends HTMLElement {
-            class?: string;
-        }
-        interface ElementClass {
-            attributes: {};
-            ownerDocument: Pick<Document, 'getElementById' | 'createElementNS' | 'createDocumentFragment'>;
-            childNodes: Array<Node | string>;
-            valueOf(): Element;
-        }
-        type OrString<Dict> = {
-            [key in keyof Dict]: Dict[key] | string;
-        };
-        type IntrinsicElements = {
-            [key in keyof ElementTagNameMap]?: $.$mol_type_partial_deep<OrString<Element & IntrinsicAttributes & ElementTagNameMap[key]>>;
-        };
-        interface IntrinsicAttributes {
-            id?: string;
-            xmlns?: string;
-        }
-        interface ElementAttributesProperty {
-            attributes: {};
-        }
-        interface ElementChildrenAttribute {
-        }
-    }
-}
-
-declare namespace $ {
 }
 
 declare namespace $.$$ {
@@ -3685,7 +3708,7 @@ declare namespace $ {
     class $mol_date extends $mol_pick {
         Icon(): $mol_icon_calendar;
         bubble_content(): readonly any[];
-        value_number(val?: any): any;
+        value_number(val?: any): number;
         value_moment(val?: any): $mol_time_moment;
         value(val?: any): string;
         input_hint(): string;
@@ -3953,6 +3976,9 @@ declare namespace $ {
         info(next?: any): boolean;
         Info_icon(id: any): $mol_icon_information_outline;
         Info_toggle(id: any): $mol_check_icon;
+        download_md_name(id: any): string;
+        download_md_blob(id: any): Blob;
+        Download_md(id: any): $$.$mol_button_download;
         side_bookmark(id: any, next?: any): boolean;
         Bookmark_icon(id: any): $mol_icon_star_face;
         Bookmark_toggle(id: any): $mol_check_icon;
@@ -4165,6 +4191,8 @@ declare namespace $.$$ {
         editor_add_bid(id: $mol_int62_string): string;
         editor_fill_all(id: $mol_int62_string): void;
         editor_add_submit(id: $mol_int62_string): void;
+        download_md_name(id: $mol_int62_string): string;
+        download_md_blob(id: $mol_int62_string): Blob;
     }
 }
 
