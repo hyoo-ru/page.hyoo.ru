@@ -3657,7 +3657,7 @@ declare namespace $ {
     class $mol_date extends $mol_pick {
         Icon(): $mol_icon_calendar;
         bubble_content(): readonly any[];
-        value_number(val?: any): number;
+        value_number(val?: any): any;
         value_moment(val?: any): $mol_time_moment;
         value(val?: any): string;
         input_hint(): string;
