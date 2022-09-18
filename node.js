@@ -3155,7 +3155,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "393067d";
+let $hyoo_sync_revision = "2cc8a9d";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
