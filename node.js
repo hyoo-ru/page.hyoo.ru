@@ -15247,6 +15247,11 @@ var $;
         Menu_item: {
             gap: $mol_gap.block,
         },
+        Menu_item_title: {
+            flex: {
+                shrink: 1,
+            },
+        },
         View_page: {
             margin: [0, 'auto'],
             flex: {
