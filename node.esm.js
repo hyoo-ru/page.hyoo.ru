@@ -3155,7 +3155,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "c49ba94";
+let $hyoo_sync_revision = "d25c98d";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -8001,6 +8001,12 @@ var $;
 var $;
 (function ($) {
     class $hyoo_sync_online extends $mol_link {
+        minimal_width() {
+            return 40;
+        }
+        minimal_height() {
+            return 40;
+        }
         yard() {
             const obj = new this.$.$hyoo_sync_yard();
             return obj;
