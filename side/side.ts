@@ -86,7 +86,16 @@ namespace $.$$ {
 		authors() {
 			return this.details_node()?.land.authors() ?? []
 		}
-		
+
+		@ $mol_mem
+		issues( next?: $hyoo_talks_chat[] ): readonly $hyoo_talks_chat[] {
+			const ids = this.land().chief.sub( 'issues', $hyoo_crowd_list )
+				.list( next && next.map( m => m.id ) ) as readonly $mol_int62_string[]
+			
+			const domain = this.$.$hyoo_talks_domain
+			return ids.map( id => domain.Chat( id ) )
+		}
+
 	}
 
 }

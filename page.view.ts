@@ -59,6 +59,7 @@ namespace $.$$ {
 				... this.editing() ? [ this.Edit_page( id ) ] : [],
 				... this.rights() ? [ this.Rights_page( id ) ] : [],
 				... this.info() ? [ this.Info_page( id ) ] : [],
+				... this.issues() ? this.issues_pages() : [],
 			]
 		}
 		

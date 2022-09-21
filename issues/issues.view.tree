@@ -1,0 +1,25 @@
+$hyoo_page_issues $mol_book2
+	side $hyoo_page_side
+	issues_toogle? false
+	Talks $hyoo_talks
+		links <= links /$mol_link
+		chat_arg* <= issue_arg* *
+		Chat_close <= Chat_close $mol_link
+			arg * issue null
+			sub /
+				<= Chat_icon $mol_icon_cross
+		chat_new? <=> issue_new? null
+		Chat_new => Chat_new
+		roster_body => roster_body
+		Links => Links
+	pages /
+		<= Issues $mol_page
+			title @ \Issues and comments
+			Logo <= Issues_logo $mol_icon_frequently_asked_questions
+			tools /
+				<= Chat_new
+				<= Issues_close $mol_button_minor
+					hint @ \Close
+					click? <=> issues_close? null
+					sub / <= Issues_close_icon $mol_icon_cross
+			body / <= Links

@@ -23,6 +23,10 @@ $hyoo_page $mol_book2
 			mod_ctrl true
 	auto /
 		<= ref_track null
+	Issues $hyoo_page_issues
+		side <= side_current $hyoo_page_side
+		issues_toogle? <=> issues?
+		pages => issues_pages
 	pages /
 		<= Menu_page $mol_page
 			Logo <= Profile $mol_link
@@ -80,6 +84,10 @@ $hyoo_page $mol_book2
 					hint @ \Find on page
 					checked? <=> search_show*? false
 					Icon <= Search_icon* $mol_icon_magnify
+				<= Issues_toogle* $mol_check_icon
+					hint @ \Issues and comments
+					checked? <=> issues? false
+					Icon <= Issues_icon* $mol_icon_frequently_asked_questions
 				<= Info_toggle* $mol_check_icon
 					hint @ \Info page
 					checked? <=> info? false

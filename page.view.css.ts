@@ -151,6 +151,23 @@ namespace $ {
 		Word_item_stat: {
 			padding: $mol_gap.text,
 		},
+
+		Issues: {
+			Issues: {
+				flex: {
+					basis: rem(20),
+					grow: 0,
+				},
+			},
+			Talks: {
+				Chat_page: {
+					flex: {
+						basis: rem(30),
+						grow: 0,
+					},
+				},
+			},
+		},
 		
 	} )
 	
