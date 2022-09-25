@@ -3155,7 +3155,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "6d6cd53";
+let $hyoo_sync_revision = "bbe3317";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4711,6 +4711,7 @@ var $;
             let clocks = this.line_land_clocks({ line, land });
             if (!clocks)
                 return;
+            const delta = land.delta(clocks);
             const sent = $mol_wire_sync(this).line_send_units(line, land, clocks);
             if (!sent.length)
                 return;
@@ -4721,8 +4722,8 @@ var $;
                 line: $mol_key(line),
                 batch: sent.length,
             });
-            for (let i = 0; i < clocks?.length; ++i) {
-                clocks[i].sync(land.clocks[i]);
+            for (const unit of delta) {
+                clocks[unit.group()].see_peer(unit.auth, unit.time);
             }
         }
         line_land_init({ line, land }) {
