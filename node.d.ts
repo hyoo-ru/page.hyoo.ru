@@ -1258,7 +1258,8 @@ declare namespace $ {
         _knights: $mol_dict<`${string}_${string}`, $hyoo_crowd_peer>;
         _signs: WeakMap<$hyoo_crowd_unit, Uint8Array>;
         grab(king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): Promise<$hyoo_crowd_land>;
-        delta_land(land: $hyoo_crowd_land, clocks?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): Promise<readonly $hyoo_crowd_unit[]>;
+        sign_units(units: readonly $hyoo_crowd_unit[]): Promise<$hyoo_crowd_unit[]>;
+        delta_land(land: $hyoo_crowd_land, clocks?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): Promise<$hyoo_crowd_unit[]>;
         delta_batch(land: $hyoo_crowd_land, clocks?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): Promise<Uint8Array>;
         delta(clocks?: Map<`${string}_${string}`, readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]>): AsyncGenerator<Uint8Array, void, unknown>;
         apply(delta: Uint8Array): Promise<{
@@ -1322,11 +1323,11 @@ declare namespace $ {
         }): void;
         line_land_neck({ line, land }: {
             line: Line;
-            land: $hyoo_crowd_land;
+            land: $mol_int62_string;
         }, next?: Promise<any>[]): Promise<any>[];
         line_receive(line: Line, message: Uint8Array): Promise<void>;
         line_send_clocks(line: Line, land: $hyoo_crowd_land): void;
-        line_send_units(line: Line, land: $hyoo_crowd_land, units: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): Promise<ArrayLike<any>>;
+        line_send_units(line: Line, units: readonly $hyoo_crowd_unit[]): Promise<void>;
     }
 }
 
@@ -1446,8 +1447,8 @@ declare namespace $ {
         db_land_save(land: $hyoo_crowd_land, units: readonly $hyoo_crowd_unit[]): Promise<void>;
         reconnects(reset?: null): number;
         master(): WebSocket;
-        line_send_clocks(line: WebSocket | Window, land: $hyoo_crowd_land): Uint8Array | readonly [$hyoo_crowd_clock, $hyoo_crowd_clock];
-        line_send_units(line: WebSocket | Window, land: $hyoo_crowd_land, clocks: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): Promise<readonly $hyoo_crowd_unit[] | Uint8Array>;
+        line_send_clocks(line: WebSocket | Window, land: $hyoo_crowd_land): void;
+        line_send_units(line: WebSocket | Window, units: readonly $hyoo_crowd_unit[]): Promise<void>;
     }
 }
 

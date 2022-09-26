@@ -2730,7 +2730,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "156014e";
+let $hyoo_sync_revision = "32b2823";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -3946,13 +3946,10 @@ var $;
             land_inner.apply(land_outer.delta());
             return land_inner;
         }
-        async delta_land(land, clocks = [new $hyoo_crowd_clock, new $hyoo_crowd_clock]) {
-            const units = land.delta(clocks);
-            if (!units.length)
-                return [];
-            for (const unit of units) {
+        sign_units(units) {
+            return Promise.all(units.map(async (unit) => {
                 if (unit.bin)
-                    continue;
+                    return unit;
                 const bin = $hyoo_crowd_unit_bin.from_unit(unit);
                 let sign = this._signs.get(unit);
                 if (!sign) {
@@ -3962,8 +3959,11 @@ var $;
                 bin.sign(sign);
                 unit.bin = bin;
                 this._signs.set(unit, sign);
-            }
-            return units;
+                return unit;
+            }));
+        }
+        delta_land(land, clocks = [new $hyoo_crowd_clock, new $hyoo_crowd_clock]) {
+            return this.sign_units(land.delta(clocks));
         }
         async delta_batch(land, clocks = [new $hyoo_crowd_clock, new $hyoo_crowd_clock]) {
             const units = await this.delta_land(land, clocks);
@@ -4353,18 +4353,18 @@ var $;
             let clocks = this.line_land_clocks({ line, land });
             if (!clocks)
                 return;
-            const delta = land.delta(clocks);
-            const sent = $mol_wire_sync(this).line_send_units(line, land, clocks);
-            if (!sent.length)
+            const units = land.delta(clocks);
+            if (!units.length)
                 return;
+            $mol_wire_sync(this).line_send_units(line, units);
             this.$.$mol_log3_rise({
                 place: this,
                 land: land.id(),
                 message: 'Sync Sent',
                 line: $mol_key(line),
-                batch: sent.length,
+                units: this.log_pack(units),
             });
-            for (const unit of delta) {
+            for (const unit of units) {
                 clocks[unit.group()].see_peer(unit.auth, unit.time);
             }
         }
@@ -4392,42 +4392,42 @@ var $;
                 lo: int0 << 1 >> 1,
                 hi: int1 << 1 >> 1,
             });
-            const world = this.world();
-            const land = await $mol_wire_async(this).land(land_id);
-            let clocks = this.line_land_clocks({ line, land });
-            if (!clocks)
-                this.line_land_clocks({ line, land }, clocks = [new $hyoo_crowd_clock, new $hyoo_crowd_clock]);
-            if (int0 << 1 >> 1 ^ int0) {
-                const bin = new $hyoo_crowd_clock_bin(message.buffer, message.byteOffset, message.byteLength);
-                for (let group = 0; group < clocks.length; ++group) {
-                    clocks[group].see_bin(bin, group);
-                }
-                const lands = this.line_lands(line);
-                if (lands.includes(land)) {
-                    this.$.$mol_log3_warn({
-                        place: this,
-                        land: land.id(),
-                        message: 'Already syncing',
-                        hint: 'Bug at $hyoo_sync_yard',
-                        line: $mol_key(line),
-                        clocks,
-                    });
-                }
-                else {
-                    this.line_lands(line, [...lands, land]);
-                    this.$.$mol_log3_done({
-                        place: this,
-                        land: land.id(),
-                        message: 'Sync Pair',
-                        line: $mol_key(line),
-                        clocks,
-                    });
-                }
-                return;
-            }
             const handle = async (prev) => {
                 if (prev)
                     await prev;
+                const world = this.world();
+                const land = await $mol_wire_async(this).land(land_id);
+                let clocks = this.line_land_clocks({ line, land });
+                if (!clocks)
+                    this.line_land_clocks({ line, land }, clocks = [new $hyoo_crowd_clock, new $hyoo_crowd_clock]);
+                if (int0 << 1 >> 1 ^ int0) {
+                    const bin = new $hyoo_crowd_clock_bin(message.buffer, message.byteOffset, message.byteLength);
+                    for (let group = 0; group < clocks.length; ++group) {
+                        clocks[group].see_bin(bin, group);
+                    }
+                    const lands = this.line_lands(line);
+                    if (lands.includes(land)) {
+                        this.$.$mol_log3_warn({
+                            place: this,
+                            land: land.id(),
+                            message: 'Already syncing',
+                            hint: 'Bug at $hyoo_sync_yard',
+                            line: $mol_key(line),
+                            clocks,
+                        });
+                    }
+                    else {
+                        this.line_lands(line, [...lands, land]);
+                        this.$.$mol_log3_done({
+                            place: this,
+                            land: land.id(),
+                            message: 'Sync Pair',
+                            line: $mol_key(line),
+                            clocks,
+                        });
+                    }
+                    return;
+                }
                 const { allow, forbid } = await world.apply(message);
                 for (const [unit, error] of forbid) {
                     this.$.$mol_log3_fail({
@@ -4451,14 +4451,12 @@ var $;
                     units: this.log_pack(allow),
                 });
             };
-            this.line_land_neck({ line, land }, [
-                handle(this.line_land_neck({ line, land })[0])
+            this.line_land_neck({ line, land: land_id }, [
+                handle(this.line_land_neck({ line, land: land_id })[0])
             ]);
         }
         line_send_clocks(line, land) { }
-        async line_send_units(line, land, units) {
-            return [];
-        }
+        async line_send_units(line, units) { }
         [$mol_dev_format_head]() {
             return $mol_dev_format_native(this);
         }
@@ -4825,26 +4823,20 @@ var $;
             if (line instanceof WebSocket) {
                 const message = new Uint8Array($hyoo_crowd_clock_bin.from(land.id(), land._clocks).buffer);
                 line.send(message);
-                return message;
             }
             else {
                 const message = land._clocks;
                 line.postMessage(['hyoo_sync_clocks', land.id(), message]);
-                return message;
             }
         }
-        async line_send_units(line, land, clocks) {
+        async line_send_units(line, units) {
             if (line instanceof WebSocket) {
-                const message = await this.world().delta_batch(land, clocks);
-                if (message.length)
-                    line.send(message);
-                return message;
+                await this.world().sign_units(units);
+                const message = new Blob(units.map(unit => unit.bin));
+                line.send(message);
             }
             else {
-                const message = await this.world().delta_land(land, clocks);
-                if (message.length)
-                    line.postMessage(['hyoo_sync_units', land.id(), message]);
-                return message;
+                line.postMessage(['hyoo_sync_units', units[0].land, units]);
             }
         }
     }
