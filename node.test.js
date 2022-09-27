@@ -15056,40 +15056,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_state_history extends $mol_object {
-        static data(next) {
-            const prev = history.state || {};
-            if (!next)
-                return prev;
-            history.replaceState(next, $mol_dom_context.document.title, $mol_dom_context.document.location.href);
-            return next;
-        }
-        static value(key, next) {
-            const prev = this.data();
-            if (next === undefined)
-                return prev[key] ?? null;
-            const state = { ...prev, [key]: next };
-            this.data(state);
-            return state[key] ?? null;
-        }
-        prefix() { return ''; }
-        value(key, next) {
-            return $mol_state_local.value(this.prefix() + '.' + key, next);
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $mol_state_history, "data", null);
-    __decorate([
-        $mol_mem_key
-    ], $mol_state_history, "value", null);
-    $.$mol_state_history = $mol_state_history;
-})($ || ($ = {}));
-//mol/state/history/history.ts
-;
-"use strict";
-var $;
-(function ($) {
     function $mol_match_text(query, values) {
         const tags = query.toLowerCase().trim().split(/\s+/).filter(tag => tag);
         if (tags.length === 0)
@@ -15450,10 +15416,10 @@ var $;
                 return this.store().peer().id;
             }
             editing(next) {
-                return this.$.$mol_state_history.value('edit', next) ?? false;
+                return this.$.$mol_state_session.value('edit', next) ?? false;
             }
             rights(next) {
-                return this.$.$mol_state_history.value('rights', next) ?? false;
+                return this.$.$mol_state_session.value('rights', next) ?? false;
             }
             info(next) {
                 return this.$.$mol_state_session.value('info', next) ?? false;

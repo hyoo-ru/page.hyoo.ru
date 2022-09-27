@@ -4051,15 +4051,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_state_history<Value> extends $mol_object {
-        static data(next?: {} | null): any;
-        static value<Value>(key: string, next?: Value): any;
-        prefix(): string;
-        value(key: string, next?: Value): Value | null;
-    }
-}
-
-declare namespace $ {
     function $mol_match_text<Variant>(query: string, values: (variant: Variant) => string[]): (variant: Variant) => boolean;
 }
 
@@ -4139,8 +4130,8 @@ declare namespace $.$$ {
         add(): void;
         profile(): $hyoo_crowd_land;
         profile_id(): `${string}_${string}`;
-        editing(next?: boolean): any;
-        rights(next?: boolean): any;
+        editing(next?: boolean): boolean;
+        rights(next?: boolean): boolean;
         info(next?: boolean): boolean;
         edit_close(): void;
         rights_close(): void;
