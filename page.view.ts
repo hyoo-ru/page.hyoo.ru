@@ -21,12 +21,12 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		editing( next?: boolean ) {
-			return this.$.$mol_state_history.value( 'edit', next ) ?? false
+			return this.$.$mol_state_session.value( 'edit', next ) ?? false
 		}
 		
 		@ $mol_mem
 		rights( next?: boolean ) {
-			return this.$.$mol_state_history.value( 'rights', next ) ?? false
+			return this.$.$mol_state_session.value( 'rights', next ) ?? false
 		}
 		
 		@ $mol_mem
