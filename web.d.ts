@@ -1112,10 +1112,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    let $mol_action: typeof $mol_wire_method;
-}
-
-declare namespace $ {
     class $hyoo_crowd_reg extends $hyoo_crowd_node {
         value(next?: unknown): {} | null;
         str(next?: string): string;
@@ -1231,6 +1227,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    let $mol_action: typeof $mol_wire_method;
+}
+
+declare namespace $ {
     function $mol_wire_race<Tasks extends (() => any)[]>(...tasks: Tasks): {
         [index in keyof Tasks]: ReturnType<Tasks[index]>;
     };
@@ -1277,12 +1277,14 @@ declare namespace $ {
         land(id: $mol_int62_string): $hyoo_crowd_land;
         land_grab(king_level?: $hyoo_crowd_peer_level, base_level?: $hyoo_crowd_peer_level): $hyoo_crowd_land;
         home(): $hyoo_crowd_land;
+        land_search(query: string): `${string}_${string}`[];
         sync(): void;
         land_sync(land: $hyoo_crowd_land): void;
         db_land_clocks(land: $mol_int62_string, next?: readonly [$hyoo_crowd_clock, $hyoo_crowd_clock]): readonly [$hyoo_crowd_clock, $hyoo_crowd_clock] | undefined;
         db_land_sync(land: $hyoo_crowd_land): void;
         db_land_init(land: $hyoo_crowd_land): void;
         db_land_load(land: $hyoo_crowd_land): Promise<$hyoo_crowd_unit[]>;
+        db_land_search(from: string | number, to?: string | number): Promise<Set<`${string}_${string}`>>;
         db_land_save(land: $hyoo_crowd_land, units: readonly $hyoo_crowd_unit[]): Promise<void>;
         master_cursor(next?: number): number;
         master_link(): string;
@@ -1419,10 +1421,12 @@ declare namespace $ {
                 Doc: $hyoo_crowd_unit;
                 Indexes: {
                     Land: [$mol_int62_string];
+                    Data: [$mol_int62_string];
                 };
             };
         }>>;
         db_land_load(land: $hyoo_crowd_land): Promise<$hyoo_crowd_unit[]>;
+        db_land_search(from: string, to?: string): Promise<Set<`${string}_${string}`>>;
         db_land_save(land: $hyoo_crowd_land, units: readonly $hyoo_crowd_unit[]): Promise<void>;
         reconnects(reset?: null): number;
         master(): WebSocket;

@@ -2730,7 +2730,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "2d1a185";
+let $hyoo_sync_revision = "f131b17";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -3680,13 +3680,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_action = $mol_wire_method;
-})($ || ($ = {}));
-//mol/action/action.ts
-;
-"use strict";
-var $;
-(function ($) {
     class $hyoo_crowd_reg extends $hyoo_crowd_node {
         value(next) {
             const unit = this.units()[0];
@@ -3715,12 +3708,10 @@ var $;
                 return null;
             const land = $mol_wire_sync(world).grab(king_level, base_level);
             this.value(land.id());
+            world.land_init(land);
             return land;
         }
     }
-    __decorate([
-        $mol_action
-    ], $hyoo_crowd_reg.prototype, "yoke", null);
     $.$hyoo_crowd_reg = $hyoo_crowd_reg;
 })($ || ($ = {}));
 //hyoo/crowd/reg/reg.ts
@@ -3733,10 +3724,8 @@ var $;
             return new Node(this.land, $mol_int62_hash_string(key + '\n' + this.head));
         }
         yoke(key, Node, king_level, base_level) {
-            return this.sub(key, $hyoo_crowd_reg)
-                .yoke(king_level, base_level)?.chief
-                .sub(key, Node)
-                ?? null;
+            const land = this.sub(key, $hyoo_crowd_reg).yoke(king_level, base_level);
+            return land?.chief.sub(key, Node) ?? null;
         }
     }
     $.$hyoo_crowd_struct = $hyoo_crowd_struct;
@@ -4279,6 +4268,13 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    $.$mol_action = $mol_wire_method;
+})($ || ($ = {}));
+//mol/action/action.ts
+;
+"use strict";
+var $;
+(function ($) {
     function $mol_wire_race(...tasks) {
         const results = tasks.map(task => {
             try {
@@ -4403,6 +4399,32 @@ var $;
         home() {
             return this.land(this.peer().id);
         }
+        land_search(query) {
+            const stat = new Map();
+            for (const prefix of query.match(/\p{Letter}{2,}/gu) ?? []) {
+                const lands = new Set();
+                const caps = prefix.slice(0, 1).toUpperCase() + prefix.slice(1);
+                if (caps !== prefix) {
+                    const found = $mol_wire_sync(this).db_land_search(caps);
+                    for (const land of found)
+                        lands.add(land);
+                }
+                exact: {
+                    const found = $mol_wire_sync(this).db_land_search(prefix);
+                    for (const land of found)
+                        lands.add(land);
+                }
+                spaced: {
+                    const found = $mol_wire_sync(this).db_land_search(' ' + prefix);
+                    for (const land of found)
+                        lands.add(land);
+                }
+                for (const land of lands) {
+                    stat.set(land, (stat.get(land) ?? 0) + 1);
+                }
+            }
+            return [...stat].sort((left, right) => right[1] - left[1]).map(pair => pair[0]);
+        }
         sync() {
             this.server();
             for (const land of this.world().lands.values()) {
@@ -4491,6 +4513,9 @@ var $;
         }
         async db_land_load(land) {
             return [];
+        }
+        async db_land_search(from, to = from) {
+            return new Set();
         }
         async db_land_save(land, units) { }
         master_cursor(next = 0) {
@@ -4641,6 +4666,9 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_sync_yard.prototype, "land", null);
+    __decorate([
+        $mol_action
+    ], $hyoo_sync_yard.prototype, "land_search", null);
     __decorate([
         $mol_mem
     ], $hyoo_sync_yard.prototype, "sync", null);
@@ -4913,7 +4941,7 @@ var $;
         async db() {
             const db1 = await this.$.$mol_db('$hyoo_sync_client_db');
             await db1.kill();
-            return await this.$.$mol_db('$hyoo_sync_client_db2', mig => mig.store_make('Unit'), mig => mig.stores.Unit.index_make('Land', ['land']));
+            return await this.$.$mol_db('$hyoo_sync_client_db2', mig => mig.store_make('Unit'), mig => mig.stores.Unit.index_make('Land', ['land']), mig => mig.stores.Unit.index_make('Data', ['data']));
         }
         async db_land_load(land) {
             try {
@@ -4929,6 +4957,19 @@ var $;
                 return [];
             const units = recs.map(rec => new $hyoo_crowd_unit(rec.land, rec.auth, rec.head, rec.self, rec.next, rec.prev, rec.time, rec.data, new $hyoo_crowd_unit_bin(rec.bin.buffer)));
             return units;
+        }
+        async db_land_search(from, to = from + '\xFFFF') {
+            try {
+                var db = await this.db();
+            }
+            catch (error) {
+                $mol_fail_log(error);
+                return new Set();
+            }
+            const Unit = db.read('Unit').Unit;
+            const query = IDBKeyRange.bound([from], [to]);
+            const recs = await Unit.indexes.Data.select(query);
+            return new Set(recs.map(rec => rec.land));
         }
         async db_land_save(land, units) {
             try {
