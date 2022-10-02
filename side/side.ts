@@ -24,8 +24,9 @@ namespace $.$$ {
 			return this.land().chief.yoke(
 				'referrers',
 				$hyoo_crowd_dict,
-				$hyoo_crowd_peer_level.law,
-				$hyoo_crowd_peer_level.add,
+				[''],
+				[],
+				['0_0']
 			)
 		}
 		@ $mol_mem
@@ -59,8 +60,6 @@ namespace $.$$ {
 			return this.land().chief.yoke(
 				'details',
 				$hyoo_crowd_text,
-				$hyoo_crowd_peer_level.law,
-				$hyoo_crowd_peer_level.get,
 			)
 		}
 		@ $mol_mem

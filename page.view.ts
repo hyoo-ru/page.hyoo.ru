@@ -4,7 +4,7 @@ namespace $.$$ {
 		
 		@ $mol_action
 		add() {
-			const land = this.store().land_grab( $hyoo_crowd_peer_level.law, $hyoo_crowd_peer_level.get )
+			const land = this.store().land_grab()
 			this.$.$mol_dom_context.location.href = '#!=' + land.id()
 			this.side_bookmark( land.id(), true )
 			this.editing( true )
