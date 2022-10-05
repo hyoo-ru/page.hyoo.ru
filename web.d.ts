@@ -2818,6 +2818,9 @@ declare namespace $ {
 }
 
 declare namespace $ {
+}
+
+declare namespace $ {
     class $hyoo_page_menu extends $mol_page {
         Logo(): $$.$hyoo_page_side_avatar;
         title(): string;

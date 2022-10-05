@@ -10004,6 +10004,20 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    const { rem } = $mol_style_unit;
+    $mol_style_define($hyoo_page_side_snippet, {
+        Name: {
+            flex: {
+                shrink: 1,
+            },
+        },
+    });
+})($ || ($ = {}));
+//hyoo/page/side/snippet/snippet.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $hyoo_page_menu extends $mol_page {
         Logo() {
             const obj = new this.$.$hyoo_page_side_avatar();
@@ -14550,7 +14564,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    const { rem, per } = $mol_style_unit;
+    const { rem } = $mol_style_unit;
     $mol_style_define($hyoo_page_side_edit, {
         margin: [0, 'auto'],
         flex: {
@@ -15152,7 +15166,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    const { rem, per } = $mol_style_unit;
+    const { rem } = $mol_style_unit;
     $mol_style_define($hyoo_page_side_info, {
         flex: {
             basis: rem(20),
@@ -15686,7 +15700,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    const { rem, per } = $mol_style_unit;
+    const { rem } = $mol_style_unit;
     $mol_style_define($hyoo_page_side_rights, {
         flex: {
             basis: rem(20),
