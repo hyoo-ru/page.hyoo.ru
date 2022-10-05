@@ -1,0 +1,53 @@
+$hyoo_page_side_view $mol_page
+	profile $hyoo_page_side
+	side $hyoo_page_side
+		id => id
+		editable => editable
+		title? => title?
+		details? => details?
+		details_selection? => details_selection?
+		changed_moment => changed_moment
+		authors => authors
+	plugins /
+		<= Search_start $mol_hotkey
+			key * F? <=> search_start? null
+			mod_ctrl true
+	Logo $mol_avatar
+		id <= id
+	head /
+		<= Title
+		<= Tools
+		<= Search $mol_search_jumper
+			query?val <=> search_query?val \
+			Root <= Details
+			clear? <=> search_stop? null
+	tools /
+		<= Edit_toggle $mol_check_icon
+			hint @ \Edit page
+			checked? <=> editing? false
+			Icon <= Edit_icon $mol_icon_pencil
+		<= Search_toggle $mol_check_icon
+			hint @ \Find on page
+			checked? <=> search_show? false
+			Icon <= Search_icon $mol_icon_magnify
+		<= Info_toggle $mol_check_icon
+			hint @ \Info page
+			checked? <=> info? false
+			Icon <= Info_icon $mol_icon_information_outline
+		<= Bookmark_toggle $mol_check_icon
+			hint @ \Bookmark page
+			checked? <=> bookmark? false
+			Icon <= Bookmark_icon $mol_icon_star_face
+	body /
+		<= Details $mol_text
+			text <= details
+			highlight <= search_query
+		<= Signature $mol_view
+			sub /
+				<= Changed $mol_date
+					value_moment <= changed_moment
+				<= Author_list $mol_view
+					sub <= author_list /
+						<= Author_link*0_0 $hyoo_page_side_avatar
+							side <= peer* $hyoo_page_side
+

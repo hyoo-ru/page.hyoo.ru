@@ -1,0 +1,55 @@
+$hyoo_page_side_info $mol_page
+	side $hyoo_page_side
+		details => details
+		details_node => details_node
+		referrers_list => referrers_list
+		referrers_stat* => referrers_stat*
+	title @ \Page Info
+	tools /
+		<= Close $mol_button_minor
+			click? <=> close? null
+			sub /
+				<= Close_icon $mol_icon_cross
+	body /
+		<= Stat $mol_view sub /
+			<= Size $mol_labeler
+				title @ \Size
+				content /
+					<= size \0
+			<= Chars $mol_labeler
+				title @ \Chars
+				content /
+					<= chars \0
+			<= Words $mol_labeler
+				title @ \Words
+				content /
+					<= words \0
+			<= Weight $mol_labeler
+				title @ \Weight
+				content /
+					<= weight \0B
+		<= Ref_list $mol_expander
+			title @ \Referrers
+			expanded? <=> ref_expanded? true
+			Content <= Ref_list_items $mol_list
+				rows <= ref_list /
+					<= Ref_item*0_0 $mol_view
+						sub /
+							<= Ref_item_link* $mol_link_iconed
+								uri <= ref_uri* \
+							<= Ref_item_stat* $mol_view
+								sub / <= ref_stat* 0
+				Empty <= Ref_list_empty $mol_card
+					title @ \No backlinks
+		<= Word_list $mol_expander
+			title @ \Key Words
+			Content <= Word_list_items $mol_list
+				rows <= word_list_items /
+					<= Word_item*0_0 $mol_view
+						sub /
+							<= Word_item_text* $mol_view
+								sub / <= word_item_text* \
+							<= Word_item_stat* $mol_view
+								sub / <= word_item_stat* 0
+				Empty <= Word_list_empty $mol_card
+					title @ \No words

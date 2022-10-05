@@ -1,0 +1,8 @@
+$hyoo_page_side_snippet $hyoo_page_side_avatar
+	hint \
+	sub /
+		<= Image
+		<= Name $mol_dimmer
+			haystack <= name
+			needle <= highlight \
+

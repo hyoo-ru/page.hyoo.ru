@@ -1,0 +1,29 @@
+$hyoo_page_side_edit $mol_page
+	side $hyoo_page_side
+		title? => title?
+		details? => details?
+		details_selection? => details_selection?
+		editable => editable
+	Title $mol_string
+		hint @ \Title
+		bring => bring
+		value? <=> title?
+		enabled <= editable
+	tools /
+		<= Download_md $mol_button_download
+			hint @ \Download markdown
+			file_name <= download_md_name \{filename}.md
+			blob <= download_md_blob Blob
+		<= Rights_toggle $mol_check_icon
+			hint @ \Access Rights
+			checked? <=> rights? false
+			Icon <= Rights_icon $mol_icon_shield_account
+		<= Close $mol_button_minor
+			click? <=> close? null
+			sub / <= Close_icon $mol_icon_cross
+	body /
+		<= Details_edit $mol_textarea
+			hint @ \Details
+			value? <=> details?
+			selection? <=> details_selection?
+			enabled <= editable

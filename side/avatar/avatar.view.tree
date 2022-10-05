@@ -1,0 +1,12 @@
+$hyoo_page_side_avatar $mol_link
+	side $hyoo_page_side
+		id => id
+		title => name
+	hint <= name
+	all_name @ \All
+	arg *
+		\
+			<= id
+	sub /
+		<= Image $mol_avatar
+			id <= id

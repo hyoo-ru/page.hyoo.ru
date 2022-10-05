@@ -76,6 +76,21 @@ namespace $.$$ {
 			return new $mol_time_moment( this.details_node()?.land.clock_data.last_stamp() )
 		}
 		
+		bookmarks( next?: readonly $mol_int62_string[] ) {
+			const node = this.land().chief.sub( 'bookmarks', $hyoo_crowd_list )
+			return node.list( next ) as $mol_int62_string[]
+		}
+		
+		@ $mol_mem_key
+		bookmarked( id: $mol_int62_string, next?: boolean ) {
+			return this.bookmarks(
+				next?.valueOf && ( next
+					? [ ... this.bookmarks(), id ]
+					: this.bookmarks().filter( i => i !== id )
+				)
+			).includes( id )
+		}
+		
 		@ $mol_mem
 		editors() {
 			return this.land().lords()
@@ -83,7 +98,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		authors() {
-			return this.details_node()?.land.authors() ?? []
+			return [ ... this.details_node()?.land.authors() ?? [] ]
 		}
 		
 	}

@@ -1,0 +1,27 @@
+$hyoo_page_menu $mol_page
+	Logo $hyoo_page_side_avatar
+		hint @ \Profile
+		side <= profile $hyoo_page_side
+			bookmarks? => bookmarks?
+	title @ \In Bookmarks
+	tools /
+		<= Add $mol_button_minor
+			hint @ \New page
+			click? <=> add? null
+			sub /
+				<= Add_icon $mol_icon_plus
+	foot /
+		<= Online $hyoo_sync_online
+			yard <= yard $hyoo_sync_yard
+		<= Source $mol_link_source
+			uri \https://github.com/hyoo-ru/page.hyoo.ru/
+		<= Lights $mol_lights_toggle
+	body /
+		<= Content $mol_list
+			rows <= content /
+				<= Filter $mol_search
+					query? <=> filter? \
+				<= Bookmark*0_0 $hyoo_page_side_snippet
+					side <= bookmark* $hyoo_page_side
+						title => bookmark_title*
+					highlight <= filter
