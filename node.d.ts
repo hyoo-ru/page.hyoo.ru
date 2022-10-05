@@ -21,57 +21,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_decor<Value> {
-        readonly value: Value;
-        constructor(value: Value);
-        prefix(): string;
-        valueOf(): Value;
-        postfix(): string;
-        toString(): string;
-    }
-}
-
-declare namespace $ {
-    type $mol_style_unit_length = '%' | 'px' | 'cm' | 'mm' | 'Q' | 'in' | 'pc' | 'pt' | 'cap' | 'ch' | 'em' | 'rem' | 'ex' | 'ic' | 'lh' | 'rlh' | 'vh' | 'vw' | 'vi' | 'vb' | 'vmin' | 'vmax';
-    type $mol_style_unit_angle = 'deg' | 'rad' | 'grad' | 'turn';
-    type $mol_style_unit_time = 's' | 'ms';
-    type $mol_style_unit_any = $mol_style_unit_length | $mol_style_unit_angle | $mol_style_unit_time;
-    class $mol_style_unit<Literal extends $mol_style_unit_any> extends $mol_decor<number> {
-        readonly literal: Literal;
-        constructor(value: number, literal: Literal);
-        postfix(): Literal;
-        static per(value: number): $mol_style_unit<"%">;
-        static px(value: number): $mol_style_unit<"px">;
-        static mm(value: number): $mol_style_unit<"mm">;
-        static cm(value: number): $mol_style_unit<"cm">;
-        static Q(value: number): $mol_style_unit<"Q">;
-        static in(value: number): $mol_style_unit<"in">;
-        static pc(value: number): $mol_style_unit<"pc">;
-        static pt(value: number): $mol_style_unit<"pt">;
-        static cap(value: number): $mol_style_unit<"cap">;
-        static ch(value: number): $mol_style_unit<"ch">;
-        static em(value: number): $mol_style_unit<"em">;
-        static rem(value: number): $mol_style_unit<"rem">;
-        static ex(value: number): $mol_style_unit<"ex">;
-        static ic(value: number): $mol_style_unit<"ic">;
-        static lh(value: number): $mol_style_unit<"lh">;
-        static rlh(value: number): $mol_style_unit<"rlh">;
-        static vh(value: number): $mol_style_unit<"vh">;
-        static vw(value: number): $mol_style_unit<"vw">;
-        static vi(value: number): $mol_style_unit<"vi">;
-        static vb(value: number): $mol_style_unit<"vb">;
-        static vmin(value: number): $mol_style_unit<"vmin">;
-        static vmax(value: number): $mol_style_unit<"vmax">;
-        static deg(value: number): $mol_style_unit<"deg">;
-        static rad(value: number): $mol_style_unit<"rad">;
-        static grad(value: number): $mol_style_unit<"grad">;
-        static turn(value: number): $mol_style_unit<"turn">;
-        static s(value: number): $mol_style_unit<"s">;
-        static ms(value: number): $mol_style_unit<"ms">;
-    }
-}
-
-declare namespace $ {
     const $mol_ambient_ref: unique symbol;
     type $mol_ambient_context = $;
     function $mol_ambient(this: $ | void, overrides: Partial<$>): $;
@@ -248,6 +197,57 @@ declare namespace $ {
 
 declare namespace $ {
     function $mol_style_attach(id: string, text: string): HTMLStyleElement | null;
+}
+
+declare namespace $ {
+    class $mol_decor<Value> {
+        readonly value: Value;
+        constructor(value: Value);
+        prefix(): string;
+        valueOf(): Value;
+        postfix(): string;
+        toString(): string;
+    }
+}
+
+declare namespace $ {
+    type $mol_style_unit_length = '%' | 'px' | 'cm' | 'mm' | 'Q' | 'in' | 'pc' | 'pt' | 'cap' | 'ch' | 'em' | 'rem' | 'ex' | 'ic' | 'lh' | 'rlh' | 'vh' | 'vw' | 'vi' | 'vb' | 'vmin' | 'vmax';
+    type $mol_style_unit_angle = 'deg' | 'rad' | 'grad' | 'turn';
+    type $mol_style_unit_time = 's' | 'ms';
+    type $mol_style_unit_any = $mol_style_unit_length | $mol_style_unit_angle | $mol_style_unit_time;
+    class $mol_style_unit<Literal extends $mol_style_unit_any> extends $mol_decor<number> {
+        readonly literal: Literal;
+        constructor(value: number, literal: Literal);
+        postfix(): Literal;
+        static per(value: number): $mol_style_unit<"%">;
+        static px(value: number): $mol_style_unit<"px">;
+        static mm(value: number): $mol_style_unit<"mm">;
+        static cm(value: number): $mol_style_unit<"cm">;
+        static Q(value: number): $mol_style_unit<"Q">;
+        static in(value: number): $mol_style_unit<"in">;
+        static pc(value: number): $mol_style_unit<"pc">;
+        static pt(value: number): $mol_style_unit<"pt">;
+        static cap(value: number): $mol_style_unit<"cap">;
+        static ch(value: number): $mol_style_unit<"ch">;
+        static em(value: number): $mol_style_unit<"em">;
+        static rem(value: number): $mol_style_unit<"rem">;
+        static ex(value: number): $mol_style_unit<"ex">;
+        static ic(value: number): $mol_style_unit<"ic">;
+        static lh(value: number): $mol_style_unit<"lh">;
+        static rlh(value: number): $mol_style_unit<"rlh">;
+        static vh(value: number): $mol_style_unit<"vh">;
+        static vw(value: number): $mol_style_unit<"vw">;
+        static vi(value: number): $mol_style_unit<"vi">;
+        static vb(value: number): $mol_style_unit<"vb">;
+        static vmin(value: number): $mol_style_unit<"vmin">;
+        static vmax(value: number): $mol_style_unit<"vmax">;
+        static deg(value: number): $mol_style_unit<"deg">;
+        static rad(value: number): $mol_style_unit<"rad">;
+        static grad(value: number): $mol_style_unit<"grad">;
+        static turn(value: number): $mol_style_unit<"turn">;
+        static s(value: number): $mol_style_unit<"s">;
+        static ms(value: number): $mol_style_unit<"ms">;
+    }
 }
 
 declare namespace $ {
@@ -1750,8 +1750,194 @@ declare namespace $.$$ {
         details(next?: string): string;
         details_selection(next?: number[]): number[];
         changed_moment(next?: $mol_time_moment): $mol_time_moment;
+        bookmarks(next?: readonly $mol_int62_string[]): `${string}_${string}`[];
+        bookmarked(id: $mol_int62_string, next?: boolean): boolean;
         editors(): readonly `${string}_${string}`[];
-        authors(): never[] | Set<`${string}_${string}`>;
+        authors(): `${string}_${string}`[];
+    }
+}
+
+declare namespace $ {
+    class $mol_theme_auto extends $mol_plugin {
+        attr(): {
+            mol_theme: string;
+        };
+        theme(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_state_arg extends $mol_object {
+        prefix: string;
+        static href(next?: string): string;
+        static href_normal(): string;
+        static dict(next?: {
+            [key: string]: string | null;
+        }): {
+            [key: string]: string;
+        };
+        static value(key: string, next?: string | null): string | null;
+        static link(next: any): string;
+        static make_link(next: {
+            [key: string]: any;
+        }): string;
+        constructor(prefix?: string);
+        value(key: string, next?: string): string | null;
+        sub(postfix: string): $mol_state_arg;
+        link(next: {
+            [key: string]: string;
+        }): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_media extends $mol_object2 {
+        static match(query: string, next?: boolean): boolean;
+    }
+}
+
+declare namespace $ {
+    function $mol_lights(this: $, next?: boolean): boolean;
+}
+
+declare namespace $.$$ {
+    class $mol_theme_auto extends $.$mol_theme_auto {
+        theme(): "$mol_theme_light" | "$mol_theme_dark";
+    }
+}
+
+declare namespace $ {
+    class $mol_page extends $mol_view {
+        dom_name(): string;
+        field(): {
+            tabIndex: number;
+        };
+        sub(): readonly any[];
+        tabindex(): number;
+        Logo(): any;
+        title_content(): readonly any[];
+        Title(): $mol_view;
+        tools(): readonly $mol_view_content[];
+        Tools(): $mol_view;
+        head(): readonly any[];
+        Head(): $mol_view;
+        body(): readonly $mol_view_content[];
+        body_scroll_top(val?: any): number;
+        Body(): $$.$mol_scroll;
+        foot(): readonly $mol_view[];
+        Foot(): $mol_view;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+    class $mol_svg extends $mol_view {
+        dom_name(): string;
+        dom_name_space(): string;
+        font_size(): number;
+        font_family(): string;
+        style_size(): {};
+    }
+}
+
+declare namespace $ {
+    class $mol_state_time extends $mol_object {
+        static task(precision: number, reset?: null): $mol_after_timeout | $mol_after_frame;
+        static now(precision: number): number;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_svg extends $.$mol_svg {
+        computed_style(): CSSStyleDeclaration;
+        font_size(): number;
+        font_family(): any;
+    }
+}
+
+declare namespace $ {
+    class $mol_svg_root extends $mol_svg {
+        dom_name(): string;
+        attr(): {
+            viewBox: string;
+            preserveAspectRatio: string;
+        };
+        view_box(): string;
+        aspect(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_svg_path extends $mol_svg {
+        dom_name(): string;
+        attr(): {
+            d: string;
+        };
+        geometry(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon extends $mol_svg_root {
+        view_box(): string;
+        minimal_width(): number;
+        minimal_height(): number;
+        sub(): readonly any[];
+        path(): string;
+        Path(): $mol_svg_path;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_link extends $mol_view {
+        uri(): string;
+        dom_name(): string;
+        attr(): {
+            href: string;
+            title: string;
+            target: string;
+            download: string;
+            mol_link_current: boolean;
+        };
+        sub(): readonly $mol_view_content[];
+        arg(): {};
+        event(): {
+            click: (event?: any) => any;
+        };
+        uri_toggle(): string;
+        hint(): string;
+        hint_safe(): string;
+        target(): string;
+        file_name(): string;
+        current(): boolean;
+        event_click(event?: any): any;
+        click(event?: any): any;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_link extends $.$mol_link {
+        uri_toggle(): string;
+        uri(): string;
+        uri_off(): string;
+        uri_native(): URL;
+        current(): boolean;
+        file_name(): string;
+        minimal_height(): number;
+        external(): boolean;
+        target(): '_self' | '_blank' | '_top' | '_parent' | string;
+        hint_safe(): string;
     }
 }
 
@@ -1830,64 +2016,95 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_theme_auto extends $mol_plugin {
-        attr(): {
-            mol_theme: string;
-        };
-        theme(): string;
+    class $mol_avatar extends $mol_icon {
+        view_box(): string;
+        id(): string;
+        path(): string;
     }
 }
 
 declare namespace $ {
-    class $mol_state_arg extends $mol_object {
-        prefix: string;
-        static href(next?: string): string;
-        static href_normal(): string;
-        static dict(next?: {
-            [key: string]: string | null;
-        }): {
-            [key: string]: string;
-        };
-        static value(key: string, next?: string | null): string | null;
-        static link(next: any): string;
-        static make_link(next: {
-            [key: string]: any;
-        }): string;
-        constructor(prefix?: string);
-        value(key: string, next?: string): string | null;
-        sub(postfix: string): $mol_state_arg;
-        link(next: {
-            [key: string]: string;
-        }): string;
-    }
+    function $mol_hash_string(str: string, seed?: number): number;
 }
 
 declare namespace $ {
-    class $mol_media extends $mol_object2 {
-        static match(query: string, next?: boolean): boolean;
-    }
-}
-
-declare namespace $ {
-    function $mol_lights(this: $, next?: boolean): boolean;
 }
 
 declare namespace $.$$ {
-    class $mol_theme_auto extends $.$mol_theme_auto {
-        theme(): "$mol_theme_light" | "$mol_theme_dark";
+    class $mol_avatar extends $.$mol_avatar {
+        path(): string;
     }
 }
 
 declare namespace $ {
-    class $mol_hotkey extends $mol_plugin {
+    class $hyoo_page_side_avatar extends $mol_link {
+        id(): `${string}_${string}`;
+        name(): string;
+        side(): $$.$hyoo_page_side;
+        hint(): string;
+        all_name(): string;
+        arg(): {
+            "": `${string}_${string}`;
+        };
+        sub(): readonly any[];
+        Image(): $$.$mol_avatar;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_page_side_avatar extends $.$hyoo_page_side_avatar {
+        name(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_plus extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_speck extends $mol_view {
+        attr(): {
+            mol_theme: string;
+        };
+        style(): {
+            minHeight: string;
+        };
+        sub(): readonly any[];
+        value(): any;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_button extends $mol_view {
+        enabled(): boolean;
+        click(event?: any): any;
+        event_click(event?: any): any;
         event(): {
+            click: (event?: any) => any;
+            dblclick: (event?: any) => any;
             keydown: (event?: any) => any;
         };
-        key(): {};
-        mod_ctrl(): boolean;
-        mod_alt(): boolean;
-        mod_shift(): boolean;
-        keydown(event?: any): any;
+        attr(): {
+            disabled: boolean;
+            role: string;
+            tabindex: number;
+            title: string;
+        };
+        sub(): readonly $mol_view_content[];
+        Speck(): $mol_speck;
+        event_activate(event?: any): any;
+        clicks(event?: any): any;
+        event_key_press(event?: any): any;
+        disabled(): boolean;
+        tab_index(): number;
+        hint(): string;
+        hint_safe(): string;
+        error(): string;
     }
 }
 
@@ -1993,296 +2210,6 @@ declare namespace $ {
         slashBackLeft = 226,
         bracketClose = 221,
         quoteSingle = 222
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_hotkey extends $.$mol_hotkey {
-        key(): {
-            [x: number]: ((event: KeyboardEvent) => void) | undefined;
-            readonly backspace?: ((event: KeyboardEvent) => void) | undefined;
-            readonly tab?: ((event: KeyboardEvent) => void) | undefined;
-            readonly enter?: ((event: KeyboardEvent) => void) | undefined;
-            readonly shift?: ((event: KeyboardEvent) => void) | undefined;
-            readonly ctrl?: ((event: KeyboardEvent) => void) | undefined;
-            readonly alt?: ((event: KeyboardEvent) => void) | undefined;
-            readonly pause?: ((event: KeyboardEvent) => void) | undefined;
-            readonly capsLock?: ((event: KeyboardEvent) => void) | undefined;
-            readonly escape?: ((event: KeyboardEvent) => void) | undefined;
-            readonly space?: ((event: KeyboardEvent) => void) | undefined;
-            readonly pageUp?: ((event: KeyboardEvent) => void) | undefined;
-            readonly pageDown?: ((event: KeyboardEvent) => void) | undefined;
-            readonly end?: ((event: KeyboardEvent) => void) | undefined;
-            readonly home?: ((event: KeyboardEvent) => void) | undefined;
-            readonly left?: ((event: KeyboardEvent) => void) | undefined;
-            readonly up?: ((event: KeyboardEvent) => void) | undefined;
-            readonly right?: ((event: KeyboardEvent) => void) | undefined;
-            readonly down?: ((event: KeyboardEvent) => void) | undefined;
-            readonly insert?: ((event: KeyboardEvent) => void) | undefined;
-            readonly delete?: ((event: KeyboardEvent) => void) | undefined;
-            readonly key0?: ((event: KeyboardEvent) => void) | undefined;
-            readonly key1?: ((event: KeyboardEvent) => void) | undefined;
-            readonly key2?: ((event: KeyboardEvent) => void) | undefined;
-            readonly key3?: ((event: KeyboardEvent) => void) | undefined;
-            readonly key4?: ((event: KeyboardEvent) => void) | undefined;
-            readonly key5?: ((event: KeyboardEvent) => void) | undefined;
-            readonly key6?: ((event: KeyboardEvent) => void) | undefined;
-            readonly key7?: ((event: KeyboardEvent) => void) | undefined;
-            readonly key8?: ((event: KeyboardEvent) => void) | undefined;
-            readonly key9?: ((event: KeyboardEvent) => void) | undefined;
-            readonly A?: ((event: KeyboardEvent) => void) | undefined;
-            readonly B?: ((event: KeyboardEvent) => void) | undefined;
-            readonly C?: ((event: KeyboardEvent) => void) | undefined;
-            readonly D?: ((event: KeyboardEvent) => void) | undefined;
-            readonly E?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F?: ((event: KeyboardEvent) => void) | undefined;
-            readonly G?: ((event: KeyboardEvent) => void) | undefined;
-            readonly H?: ((event: KeyboardEvent) => void) | undefined;
-            readonly I?: ((event: KeyboardEvent) => void) | undefined;
-            readonly J?: ((event: KeyboardEvent) => void) | undefined;
-            readonly K?: ((event: KeyboardEvent) => void) | undefined;
-            readonly L?: ((event: KeyboardEvent) => void) | undefined;
-            readonly M?: ((event: KeyboardEvent) => void) | undefined;
-            readonly N?: ((event: KeyboardEvent) => void) | undefined;
-            readonly O?: ((event: KeyboardEvent) => void) | undefined;
-            readonly P?: ((event: KeyboardEvent) => void) | undefined;
-            readonly Q?: ((event: KeyboardEvent) => void) | undefined;
-            readonly R?: ((event: KeyboardEvent) => void) | undefined;
-            readonly S?: ((event: KeyboardEvent) => void) | undefined;
-            readonly T?: ((event: KeyboardEvent) => void) | undefined;
-            readonly U?: ((event: KeyboardEvent) => void) | undefined;
-            readonly V?: ((event: KeyboardEvent) => void) | undefined;
-            readonly W?: ((event: KeyboardEvent) => void) | undefined;
-            readonly X?: ((event: KeyboardEvent) => void) | undefined;
-            readonly Y?: ((event: KeyboardEvent) => void) | undefined;
-            readonly Z?: ((event: KeyboardEvent) => void) | undefined;
-            readonly metaLeft?: ((event: KeyboardEvent) => void) | undefined;
-            readonly metaRight?: ((event: KeyboardEvent) => void) | undefined;
-            readonly select?: ((event: KeyboardEvent) => void) | undefined;
-            readonly numpad0?: ((event: KeyboardEvent) => void) | undefined;
-            readonly numpad1?: ((event: KeyboardEvent) => void) | undefined;
-            readonly numpad2?: ((event: KeyboardEvent) => void) | undefined;
-            readonly numpad3?: ((event: KeyboardEvent) => void) | undefined;
-            readonly numpad4?: ((event: KeyboardEvent) => void) | undefined;
-            readonly numpad5?: ((event: KeyboardEvent) => void) | undefined;
-            readonly numpad6?: ((event: KeyboardEvent) => void) | undefined;
-            readonly numpad7?: ((event: KeyboardEvent) => void) | undefined;
-            readonly numpad8?: ((event: KeyboardEvent) => void) | undefined;
-            readonly numpad9?: ((event: KeyboardEvent) => void) | undefined;
-            readonly multiply?: ((event: KeyboardEvent) => void) | undefined;
-            readonly add?: ((event: KeyboardEvent) => void) | undefined;
-            readonly subtract?: ((event: KeyboardEvent) => void) | undefined;
-            readonly decimal?: ((event: KeyboardEvent) => void) | undefined;
-            readonly divide?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F1?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F2?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F3?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F4?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F5?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F6?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F7?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F8?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F9?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F10?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F11?: ((event: KeyboardEvent) => void) | undefined;
-            readonly F12?: ((event: KeyboardEvent) => void) | undefined;
-            readonly numLock?: ((event: KeyboardEvent) => void) | undefined;
-            readonly scrollLock?: ((event: KeyboardEvent) => void) | undefined;
-            readonly semicolon?: ((event: KeyboardEvent) => void) | undefined;
-            readonly equals?: ((event: KeyboardEvent) => void) | undefined;
-            readonly comma?: ((event: KeyboardEvent) => void) | undefined;
-            readonly dash?: ((event: KeyboardEvent) => void) | undefined;
-            readonly period?: ((event: KeyboardEvent) => void) | undefined;
-            readonly forwardSlash?: ((event: KeyboardEvent) => void) | undefined;
-            readonly graveAccent?: ((event: KeyboardEvent) => void) | undefined;
-            readonly bracketOpen?: ((event: KeyboardEvent) => void) | undefined;
-            readonly slashBack?: ((event: KeyboardEvent) => void) | undefined;
-            readonly slashBackLeft?: ((event: KeyboardEvent) => void) | undefined;
-            readonly bracketClose?: ((event: KeyboardEvent) => void) | undefined;
-            readonly quoteSingle?: ((event: KeyboardEvent) => void) | undefined;
-        };
-        keydown(event?: KeyboardEvent): void;
-    }
-}
-
-declare namespace $ {
-    class $mol_svg extends $mol_view {
-        dom_name(): string;
-        dom_name_space(): string;
-        font_size(): number;
-        font_family(): string;
-        style_size(): {};
-    }
-}
-
-declare namespace $ {
-    class $mol_state_time extends $mol_object {
-        static task(precision: number, reset?: null): $mol_after_timeout | $mol_after_frame;
-        static now(precision: number): number;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_svg extends $.$mol_svg {
-        computed_style(): CSSStyleDeclaration;
-        font_size(): number;
-        font_family(): any;
-    }
-}
-
-declare namespace $ {
-    class $mol_svg_root extends $mol_svg {
-        dom_name(): string;
-        attr(): {
-            viewBox: string;
-            preserveAspectRatio: string;
-        };
-        view_box(): string;
-        aspect(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_svg_path extends $mol_svg {
-        dom_name(): string;
-        attr(): {
-            d: string;
-        };
-        geometry(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon extends $mol_svg_root {
-        view_box(): string;
-        minimal_width(): number;
-        minimal_height(): number;
-        sub(): readonly any[];
-        path(): string;
-        Path(): $mol_svg_path;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_avatar extends $mol_icon {
-        view_box(): string;
-        id(): string;
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    function $mol_hash_string(str: string, seed?: number): number;
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_avatar extends $.$mol_avatar {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_link extends $mol_view {
-        uri(): string;
-        dom_name(): string;
-        attr(): {
-            href: string;
-            title: string;
-            target: string;
-            download: string;
-            mol_link_current: boolean;
-        };
-        sub(): readonly $mol_view_content[];
-        arg(): {};
-        event(): {
-            click: (event?: any) => any;
-        };
-        uri_toggle(): string;
-        hint(): string;
-        hint_safe(): string;
-        target(): string;
-        file_name(): string;
-        current(): boolean;
-        event_click(event?: any): any;
-        click(event?: any): any;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_link extends $.$mol_link {
-        uri_toggle(): string;
-        uri(): string;
-        uri_off(): string;
-        uri_native(): URL;
-        current(): boolean;
-        file_name(): string;
-        minimal_height(): number;
-        external(): boolean;
-        target(): '_self' | '_blank' | '_top' | '_parent' | string;
-        hint_safe(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_plus extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_speck extends $mol_view {
-        attr(): {
-            mol_theme: string;
-        };
-        style(): {
-            minHeight: string;
-        };
-        sub(): readonly any[];
-        value(): any;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_button extends $mol_view {
-        enabled(): boolean;
-        click(event?: any): any;
-        event_click(event?: any): any;
-        event(): {
-            click: (event?: any) => any;
-            dblclick: (event?: any) => any;
-            keydown: (event?: any) => any;
-        };
-        attr(): {
-            disabled: boolean;
-            role: string;
-            tabindex: number;
-            title: string;
-        };
-        sub(): readonly $mol_view_content[];
-        Speck(): $mol_speck;
-        event_activate(event?: any): any;
-        clicks(event?: any): any;
-        event_key_press(event?: any): any;
-        disabled(): boolean;
-        tab_index(): number;
-        hint(): string;
-        hint_safe(): string;
-        error(): string;
     }
 }
 
@@ -2497,6 +2424,128 @@ declare namespace $.$$ {
             width: number;
             height: number;
         };
+    }
+}
+
+declare namespace $ {
+    class $mol_hotkey extends $mol_plugin {
+        event(): {
+            keydown: (event?: any) => any;
+        };
+        key(): {};
+        mod_ctrl(): boolean;
+        mod_alt(): boolean;
+        mod_shift(): boolean;
+        keydown(event?: any): any;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_hotkey extends $.$mol_hotkey {
+        key(): {
+            [x: number]: ((event: KeyboardEvent) => void) | undefined;
+            readonly backspace?: ((event: KeyboardEvent) => void) | undefined;
+            readonly tab?: ((event: KeyboardEvent) => void) | undefined;
+            readonly enter?: ((event: KeyboardEvent) => void) | undefined;
+            readonly shift?: ((event: KeyboardEvent) => void) | undefined;
+            readonly ctrl?: ((event: KeyboardEvent) => void) | undefined;
+            readonly alt?: ((event: KeyboardEvent) => void) | undefined;
+            readonly pause?: ((event: KeyboardEvent) => void) | undefined;
+            readonly capsLock?: ((event: KeyboardEvent) => void) | undefined;
+            readonly escape?: ((event: KeyboardEvent) => void) | undefined;
+            readonly space?: ((event: KeyboardEvent) => void) | undefined;
+            readonly pageUp?: ((event: KeyboardEvent) => void) | undefined;
+            readonly pageDown?: ((event: KeyboardEvent) => void) | undefined;
+            readonly end?: ((event: KeyboardEvent) => void) | undefined;
+            readonly home?: ((event: KeyboardEvent) => void) | undefined;
+            readonly left?: ((event: KeyboardEvent) => void) | undefined;
+            readonly up?: ((event: KeyboardEvent) => void) | undefined;
+            readonly right?: ((event: KeyboardEvent) => void) | undefined;
+            readonly down?: ((event: KeyboardEvent) => void) | undefined;
+            readonly insert?: ((event: KeyboardEvent) => void) | undefined;
+            readonly delete?: ((event: KeyboardEvent) => void) | undefined;
+            readonly key0?: ((event: KeyboardEvent) => void) | undefined;
+            readonly key1?: ((event: KeyboardEvent) => void) | undefined;
+            readonly key2?: ((event: KeyboardEvent) => void) | undefined;
+            readonly key3?: ((event: KeyboardEvent) => void) | undefined;
+            readonly key4?: ((event: KeyboardEvent) => void) | undefined;
+            readonly key5?: ((event: KeyboardEvent) => void) | undefined;
+            readonly key6?: ((event: KeyboardEvent) => void) | undefined;
+            readonly key7?: ((event: KeyboardEvent) => void) | undefined;
+            readonly key8?: ((event: KeyboardEvent) => void) | undefined;
+            readonly key9?: ((event: KeyboardEvent) => void) | undefined;
+            readonly A?: ((event: KeyboardEvent) => void) | undefined;
+            readonly B?: ((event: KeyboardEvent) => void) | undefined;
+            readonly C?: ((event: KeyboardEvent) => void) | undefined;
+            readonly D?: ((event: KeyboardEvent) => void) | undefined;
+            readonly E?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F?: ((event: KeyboardEvent) => void) | undefined;
+            readonly G?: ((event: KeyboardEvent) => void) | undefined;
+            readonly H?: ((event: KeyboardEvent) => void) | undefined;
+            readonly I?: ((event: KeyboardEvent) => void) | undefined;
+            readonly J?: ((event: KeyboardEvent) => void) | undefined;
+            readonly K?: ((event: KeyboardEvent) => void) | undefined;
+            readonly L?: ((event: KeyboardEvent) => void) | undefined;
+            readonly M?: ((event: KeyboardEvent) => void) | undefined;
+            readonly N?: ((event: KeyboardEvent) => void) | undefined;
+            readonly O?: ((event: KeyboardEvent) => void) | undefined;
+            readonly P?: ((event: KeyboardEvent) => void) | undefined;
+            readonly Q?: ((event: KeyboardEvent) => void) | undefined;
+            readonly R?: ((event: KeyboardEvent) => void) | undefined;
+            readonly S?: ((event: KeyboardEvent) => void) | undefined;
+            readonly T?: ((event: KeyboardEvent) => void) | undefined;
+            readonly U?: ((event: KeyboardEvent) => void) | undefined;
+            readonly V?: ((event: KeyboardEvent) => void) | undefined;
+            readonly W?: ((event: KeyboardEvent) => void) | undefined;
+            readonly X?: ((event: KeyboardEvent) => void) | undefined;
+            readonly Y?: ((event: KeyboardEvent) => void) | undefined;
+            readonly Z?: ((event: KeyboardEvent) => void) | undefined;
+            readonly metaLeft?: ((event: KeyboardEvent) => void) | undefined;
+            readonly metaRight?: ((event: KeyboardEvent) => void) | undefined;
+            readonly select?: ((event: KeyboardEvent) => void) | undefined;
+            readonly numpad0?: ((event: KeyboardEvent) => void) | undefined;
+            readonly numpad1?: ((event: KeyboardEvent) => void) | undefined;
+            readonly numpad2?: ((event: KeyboardEvent) => void) | undefined;
+            readonly numpad3?: ((event: KeyboardEvent) => void) | undefined;
+            readonly numpad4?: ((event: KeyboardEvent) => void) | undefined;
+            readonly numpad5?: ((event: KeyboardEvent) => void) | undefined;
+            readonly numpad6?: ((event: KeyboardEvent) => void) | undefined;
+            readonly numpad7?: ((event: KeyboardEvent) => void) | undefined;
+            readonly numpad8?: ((event: KeyboardEvent) => void) | undefined;
+            readonly numpad9?: ((event: KeyboardEvent) => void) | undefined;
+            readonly multiply?: ((event: KeyboardEvent) => void) | undefined;
+            readonly add?: ((event: KeyboardEvent) => void) | undefined;
+            readonly subtract?: ((event: KeyboardEvent) => void) | undefined;
+            readonly decimal?: ((event: KeyboardEvent) => void) | undefined;
+            readonly divide?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F1?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F2?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F3?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F4?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F5?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F6?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F7?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F8?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F9?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F10?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F11?: ((event: KeyboardEvent) => void) | undefined;
+            readonly F12?: ((event: KeyboardEvent) => void) | undefined;
+            readonly numLock?: ((event: KeyboardEvent) => void) | undefined;
+            readonly scrollLock?: ((event: KeyboardEvent) => void) | undefined;
+            readonly semicolon?: ((event: KeyboardEvent) => void) | undefined;
+            readonly equals?: ((event: KeyboardEvent) => void) | undefined;
+            readonly comma?: ((event: KeyboardEvent) => void) | undefined;
+            readonly dash?: ((event: KeyboardEvent) => void) | undefined;
+            readonly period?: ((event: KeyboardEvent) => void) | undefined;
+            readonly forwardSlash?: ((event: KeyboardEvent) => void) | undefined;
+            readonly graveAccent?: ((event: KeyboardEvent) => void) | undefined;
+            readonly bracketOpen?: ((event: KeyboardEvent) => void) | undefined;
+            readonly slashBack?: ((event: KeyboardEvent) => void) | undefined;
+            readonly slashBackLeft?: ((event: KeyboardEvent) => void) | undefined;
+            readonly bracketClose?: ((event: KeyboardEvent) => void) | undefined;
+            readonly quoteSingle?: ((event: KeyboardEvent) => void) | undefined;
+        };
+        keydown(event?: KeyboardEvent): void;
     }
 }
 
@@ -2747,29 +2796,52 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_page extends $mol_view {
-        dom_name(): string;
-        field(): {
-            tabIndex: number;
-        };
+    class $hyoo_page_side_snippet extends $hyoo_page_side_avatar {
+        hint(): string;
         sub(): readonly any[];
-        tabindex(): number;
-        Logo(): any;
-        title_content(): readonly any[];
-        Title(): $mol_view;
-        tools(): readonly $mol_view_content[];
-        Tools(): $mol_view;
-        head(): readonly any[];
-        Head(): $mol_view;
-        body(): readonly $mol_view_content[];
-        body_scroll_top(val?: any): number;
-        Body(): $$.$mol_scroll;
-        foot(): readonly $mol_view[];
-        Foot(): $mol_view;
+        highlight(): string;
+        Name(): $$.$mol_dimmer;
     }
 }
 
+declare namespace $ {
+    class $hyoo_page_menu extends $mol_page {
+        Logo(): $$.$hyoo_page_side_avatar;
+        title(): string;
+        tools(): readonly any[];
+        foot(): readonly any[];
+        body(): readonly any[];
+        bookmarks(next?: any): `${string}_${string}`[];
+        profile(): $$.$hyoo_page_side;
+        add(next?: any): any;
+        Add_icon(): $mol_icon_plus;
+        Add(): $mol_button_minor;
+        yard(): $hyoo_sync_yard<unknown>;
+        Online(): $$.$hyoo_sync_online;
+        Source(): $mol_link_source;
+        Lights(): $$.$mol_lights_toggle;
+        filter(next?: any): string;
+        Filter(): $$.$mol_search;
+        bookmark_title(id: any): string;
+        bookmark(id: any): $$.$hyoo_page_side;
+        Bookmark(id: any): $hyoo_page_side_snippet;
+        content(): readonly any[];
+        Content(): $$.$mol_list;
+    }
+}
+
+declare namespace $ {
+    function $mol_match_text<Variant>(query: string, values: (variant: Variant) => string[]): (variant: Variant) => boolean;
+}
+
+declare namespace $ {
+}
+
 declare namespace $.$$ {
+    class $hyoo_page_menu extends $.$hyoo_page_menu {
+        content(): ($mol_search | $hyoo_page_side_snippet)[];
+        bookmarks_filtered(): `${string}_${string}`[];
+    }
 }
 
 declare namespace $ {
@@ -3755,6 +3827,64 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $hyoo_page_side_view extends $mol_page {
+        profile(): $$.$hyoo_page_side;
+        id(): `${string}_${string}`;
+        editable(): boolean;
+        title(next?: any): string;
+        details(next?: any): string;
+        details_selection(next?: any): number[];
+        changed_moment(): $mol_time_moment;
+        authors(): `${string}_${string}`[];
+        side(): $$.$hyoo_page_side;
+        plugins(): readonly any[];
+        Logo(): $$.$mol_avatar;
+        head(): readonly any[];
+        tools(): readonly any[];
+        body(): readonly any[];
+        search_start(next?: any): any;
+        Search_start(): $$.$mol_hotkey;
+        search_query(val?: any): string;
+        search_stop(next?: any): any;
+        Search(): $$.$mol_search_jumper;
+        editing(next?: any): boolean;
+        Edit_icon(): $mol_icon_pencil;
+        Edit_toggle(): $mol_check_icon;
+        search_show(next?: any): boolean;
+        Search_icon(): $mol_icon_magnify;
+        Search_toggle(): $mol_check_icon;
+        info(next?: any): boolean;
+        Info_icon(): $mol_icon_information_outline;
+        Info_toggle(): $mol_check_icon;
+        bookmark(next?: any): boolean;
+        Bookmark_icon(): $mol_icon_star_face;
+        Bookmark_toggle(): $mol_check_icon;
+        Details(): $$.$mol_text;
+        Changed(): $$.$mol_date;
+        peer(id: any): $$.$hyoo_page_side;
+        Author_link(id: any): $$.$hyoo_page_side_avatar;
+        author_list(): readonly any[];
+        Author_list(): $mol_view;
+        Signature(): $mol_view;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_page_side_view extends $.$hyoo_page_side_view {
+        head(): ($mol_view | $mol_search_jumper)[];
+        bookmark(next?: boolean): boolean;
+        Edit_toggle(): any;
+        search_show(next?: boolean): boolean;
+        search_start(event?: KeyboardEvent): void;
+        search_stop(event?: KeyboardEvent): void;
+        author_list(): $hyoo_page_side_avatar[];
+    }
+}
+
+declare namespace $ {
     class $mol_icon_download extends $mol_icon {
         path(): string;
     }
@@ -3846,6 +3976,40 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $hyoo_page_side_edit extends $mol_page {
+        title(next?: any): string;
+        details(next?: any): string;
+        details_selection(next?: any): number[];
+        editable(): boolean;
+        side(): $$.$hyoo_page_side;
+        bring(): void;
+        Title(): $$.$mol_string;
+        tools(): readonly any[];
+        body(): readonly any[];
+        download_md_name(): string;
+        download_md_blob(): Blob;
+        Download_md(): $$.$mol_button_download;
+        rights(next?: any): boolean;
+        Rights_icon(): $mol_icon_shield_account;
+        Rights_toggle(): $mol_check_icon;
+        close(next?: any): any;
+        Close_icon(): $mol_icon_cross;
+        Close(): $mol_button_minor;
+        Details_edit(): $$.$mol_textarea;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_page_side_edit extends $.$hyoo_page_side_edit {
+        download_md_name(): string;
+        download_md_blob(): Blob;
+    }
+}
+
+declare namespace $ {
     class $mol_labeler extends $mol_list {
         rows(): readonly any[];
         label(): readonly $mol_view_content[];
@@ -3904,6 +4068,99 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $hyoo_page_side_info extends $mol_page {
+        details(): string;
+        details_node(): $hyoo_crowd_text | null;
+        referrers_list(): string[];
+        referrers_stat(id: any): number;
+        side(): $$.$hyoo_page_side;
+        title(): string;
+        tools(): readonly any[];
+        body(): readonly any[];
+        close(next?: any): any;
+        Close_icon(): $mol_icon_cross;
+        Close(): $mol_button_minor;
+        size(): string;
+        Size(): $mol_labeler;
+        chars(): string;
+        Chars(): $mol_labeler;
+        words(): string;
+        Words(): $mol_labeler;
+        weight(): string;
+        Weight(): $mol_labeler;
+        Stat(): $mol_view;
+        ref_expanded(next?: any): boolean;
+        ref_uri(id: any): string;
+        Ref_item_link(id: any): $$.$mol_link_iconed;
+        ref_stat(id: any): number;
+        Ref_item_stat(id: any): $mol_view;
+        Ref_item(id: any): $mol_view;
+        ref_list(): readonly any[];
+        Ref_list_empty(): $$.$mol_card;
+        Ref_list_items(): $$.$mol_list;
+        Ref_list(): $$.$mol_expander;
+        word_item_text(id: any): string;
+        Word_item_text(id: any): $mol_view;
+        word_item_stat(id: any): number;
+        Word_item_stat(id: any): $mol_view;
+        Word_item(id: any): $mol_view;
+        word_list_items(): readonly any[];
+        Word_list_empty(): $$.$mol_card;
+        Word_list_items(): $$.$mol_list;
+        Word_list(): $$.$mol_expander;
+    }
+}
+
+declare namespace $ {
+    enum $mol_si_prefix {
+        y = -8,
+        z = -7,
+        a = -6,
+        f = -5,
+        p = -4,
+        n = -3,
+        µ = -2,
+        m = -1,
+        '' = 0,
+        k = 1,
+        M = 2,
+        G = 3,
+        T = 4,
+        P = 5,
+        E = 6,
+        Z = 7,
+        Y = 8
+    }
+}
+
+declare namespace $ {
+    function $mol_si_short(numb: number, unit?: string): string;
+}
+
+declare namespace $ {
+    function $mol_text_profile(text: string): Map<string, number>;
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_page_side_info extends $.$hyoo_page_side_info {
+        ref_list(): $mol_view[];
+        ref_uri(uri: string): string;
+        ref_stat(uri: string): number;
+        weight(): string;
+        word_stat(): Map<string, number>;
+        word_list_items(): $mol_view[];
+        word_item_text(word: string): string;
+        word_item_stat(word: string): number;
+        size(): string;
+        chars(): string;
+        words(): string;
+    }
+}
+
+declare namespace $ {
     class $mol_button_major extends $mol_button_typed {
         attr(): {
             mol_theme: string;
@@ -3940,180 +4197,34 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $hyoo_page extends $mol_book2 {
-        side_main_id(): string;
-        side_land(id: any): $hyoo_crowd_land;
-        store(): $hyoo_sync_client;
-        side_id(id: any): `${string}_${string}`;
-        side_editable(id: any): boolean;
-        side_title(id: any, next?: any): string;
-        side_title_selection(id: any, next?: any): number[];
-        side_details(id: any, next?: any): string;
-        side_details_selection(id: any, next?: any): number[];
-        side_changed(id: any): $mol_time_moment;
-        side_editors(id: any): readonly `${string}_${string}`[];
-        side_authors(id: any): never[] | Set<`${string}_${string}`>;
-        side(id: any): $$.$hyoo_page_side;
-        bookmarks_filtered(): readonly string[];
-        Placeholder(): any;
-        peer_name(id: any): string;
-        plugins(): readonly any[];
-        auto(): readonly any[];
-        pages(): readonly any[];
-        bookmarks(next?: any): readonly string[];
-        Theme(): $$.$mol_theme_auto;
-        search_start(next?: any): any;
-        Search_start(): $$.$mol_hotkey;
-        ref_track(): any;
-        profile_id(): string;
-        Profile_avatar(): $$.$mol_avatar;
-        Profile(): $$.$mol_link;
-        add(next?: any): any;
-        Add_icon(): $mol_icon_plus;
-        Add(): $mol_button_minor;
-        Online(): $$.$hyoo_sync_online;
-        Source(): $mol_link_source;
-        Lights(): $$.$mol_lights_toggle;
-        menu_filter(next?: any): string;
-        Menu_filter(): $$.$mol_search;
-        menu_item_arg(id: any): {};
-        menu_item_id(id: any): string;
-        Menu_item_logo(id: any): $$.$mol_avatar;
-        menu_item_title(id: any): string;
-        Menu_item_title(id: any): $$.$mol_dimmer;
-        Menu_item(id: any): $$.$mol_link;
-        menu(): readonly any[];
-        Menu(): $$.$mol_list;
-        Menu_page(): $mol_page;
-        Logo(id: any): $$.$mol_avatar;
-        view_search(id: any, val?: any): string;
-        search_stop(id: any, next?: any): any;
-        View_search(id: any): $$.$mol_search_jumper;
-        view_page_head(id: any): readonly any[];
-        editing(next?: any): boolean;
-        Edit_icon(id: any): $mol_icon_pencil;
-        Edit_toggle(id: any): $mol_check_icon;
-        search_show(id: any, next?: any): boolean;
-        Search_icon(id: any): $mol_icon_magnify;
-        Search_toggle(id: any): $mol_check_icon;
-        info(next?: any): boolean;
-        Info_icon(id: any): $mol_icon_information_outline;
-        Info_toggle(id: any): $mol_check_icon;
-        side_bookmark(id: any, next?: any): boolean;
-        Bookmark_icon(id: any): $mol_icon_star_face;
-        Bookmark_toggle(id: any): $mol_check_icon;
-        Details(id: any): $$.$mol_text;
-        Changed(id: any): $$.$mol_date;
-        peer_id(id: any): string;
-        Auhtor_logo(id: any): $$.$mol_avatar;
-        Author_link(id: any): $$.$mol_link;
-        author_list(id: any): readonly any[];
-        Author_list(id: any): $mol_view;
-        Signature(id: any): $mol_view;
-        View_title(id: any): $mol_view;
-        View_tools(id: any): $mol_view;
-        View_page(id: any): $mol_page;
-        title_bring(id: any): void;
-        Title(id: any): $$.$mol_string;
-        download_md_name(id: any): string;
-        download_md_blob(id: any): Blob;
-        Download_md(id: any): $$.$mol_button_download;
-        rights(next?: any): boolean;
-        Rights_icon(id: any): $mol_icon_shield_account;
-        Rights_toggle(id: any): $mol_check_icon;
-        edit_close(id: any, next?: any): any;
-        Edit_close_icon(id: any): $mol_icon_cross;
-        Edit_close(id: any): $mol_button_minor;
-        Details_edit(id: any): $$.$mol_textarea;
-        Edit_page(id: any): $mol_page;
-        info_close(id: any, next?: any): any;
-        Info_close_icon(id: any): $mol_icon_cross;
-        Info_close(id: any): $mol_button_minor;
-        size(id: any): string;
-        Size(id: any): $mol_labeler;
-        chars(id: any): string;
-        Chars(id: any): $mol_labeler;
-        words(id: any): string;
-        Words(id: any): $mol_labeler;
-        weight(id: any): string;
-        Weight(id: any): $mol_labeler;
-        Stat(id: any): $mol_view;
-        ref_expanded(next?: any): boolean;
-        ref_uri(id: any): string;
-        Ref_item_link(id: any): $$.$mol_link_iconed;
-        ref_stat(id: any): number;
-        Ref_item_stat(id: any): $mol_view;
-        Ref_item(id: any): $mol_view;
-        ref_list(id: any): readonly any[];
-        Ref_list_empty(id: any): $$.$mol_card;
-        Ref_list_items(id: any): $$.$mol_list;
-        Ref_list(id: any): $$.$mol_expander;
-        word_item_text(id: any): string;
-        Word_item_text(id: any): $mol_view;
-        word_item_stat(id: any): number;
-        Word_item_stat(id: any): $mol_view;
-        Word_item(id: any): $mol_view;
-        word_list_items(id: any): readonly any[];
-        Word_list_empty(id: any): $$.$mol_card;
-        Word_list_items(id: any): $$.$mol_list;
-        Word_list(id: any): $$.$mol_expander;
-        Info_page(id: any): $mol_page;
-        rights_close(id: any, next?: any): any;
-        Rights_close_icon(id: any): $mol_icon_cross;
-        Rights_close(id: any): $mol_button_minor;
-        Editor_logo(id: any): $$.$mol_avatar;
-        Editor_link(id: any): $$.$mol_link;
-        editor_list(id: any): readonly any[];
-        Editor_list(id: any): $$.$mol_list;
-        editor_add_bid(id: any): string;
-        editor_add_id(id: any, next?: any): string;
-        Editor_add_id(id: any): $$.$mol_string;
-        editor_add_filled(id: any): boolean;
-        editor_add_submit(id: any, next?: any): any;
-        Editor_add_icon(id: any): $mol_icon_plus;
-        Editor_add_submit(id: any): $mol_button_major;
-        Editor_add_bar(id: any): $mol_bar;
-        editor_fill_all(id: any, next?: any): any;
-        Editor_fill_all(id: any): $mol_button_minor;
-        Editor_add_form(id: any): $$.$mol_list;
-        Editor_add(id: any): $$.$mol_form_field;
-        Rights_content(id: any): $$.$mol_list;
-        Rights_page(id: any): $mol_page;
+    class $hyoo_page_side_rights extends $mol_page {
+        editors(): readonly `${string}_${string}`[];
+        details_node(): $hyoo_crowd_text | null;
+        side(): $$.$hyoo_page_side;
+        title(): string;
+        tools(): readonly any[];
+        body(): readonly any[];
+        close(next?: any): any;
+        Сlose_icon(): $mol_icon_cross;
+        Сlose(): $mol_button_minor;
+        peer(id: any): $$.$hyoo_page_side;
+        Editor_link(id: any): $hyoo_page_side_snippet;
+        editor_list(): readonly any[];
+        Editor_list(): $$.$mol_list;
+        editor_add_bid(): string;
+        editor_add_id(next?: any): string;
+        Editor_add_id(): $$.$mol_string;
+        editor_add_filled(): boolean;
+        editor_add_submit(next?: any): any;
+        Editor_add_icon(): $mol_icon_plus;
+        Editor_add_submit(): $mol_button_major;
+        Editor_add_bar(): $mol_bar;
+        editor_fill_all(next?: any): any;
+        Editor_fill_all(): $mol_button_minor;
+        Editor_add_form(): $$.$mol_list;
+        Editor_add(): $$.$mol_form_field;
+        Content(): $$.$mol_list;
     }
-}
-
-declare namespace $ {
-    function $mol_match_text<Variant>(query: string, values: (variant: Variant) => string[]): (variant: Variant) => boolean;
-}
-
-declare namespace $ {
-    enum $mol_si_prefix {
-        y = -8,
-        z = -7,
-        a = -6,
-        f = -5,
-        p = -4,
-        n = -3,
-        µ = -2,
-        m = -1,
-        '' = 0,
-        k = 1,
-        M = 2,
-        G = 3,
-        T = 4,
-        P = 5,
-        E = 6,
-        Z = 7,
-        Y = 8
-    }
-}
-
-declare namespace $ {
-    function $mol_si_short(numb: number, unit?: string): string;
-}
-
-declare namespace $ {
-    function $mol_text_profile(text: string): Map<string, number>;
 }
 
 declare namespace $ {
@@ -4158,10 +4269,51 @@ declare namespace $ {
 }
 
 declare namespace $.$$ {
+    class $hyoo_page_side_rights extends $.$hyoo_page_side_rights {
+        editor_list(): $hyoo_page_side_snippet[];
+        editor_add_id(next?: string): `${string}_${string}`;
+        editor_add_filled(): boolean;
+        editor_add_bid(): string;
+        editor_fill_all(): void;
+        editor_add_submit(): void;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_page extends $mol_book2 {
+        side_main_id(): string;
+        side_land(id: any): $hyoo_crowd_land;
+        yard(): $hyoo_sync_client;
+        side(id: any): $$.$hyoo_page_side;
+        profile(): $$.$hyoo_page_side;
+        Placeholder(): any;
+        plugins(): readonly any[];
+        auto(): readonly any[];
+        pages(): readonly any[];
+        Theme(): $$.$mol_theme_auto;
+        ref_track(): any;
+        add(next?: any): any;
+        Menu(): $$.$hyoo_page_menu;
+        editing(next?: any): boolean;
+        info(next?: any): boolean;
+        View(id: any): $$.$hyoo_page_side_view;
+        rights(next?: any): boolean;
+        edit_close(id: any, next?: any): any;
+        Edit(id: any): $$.$hyoo_page_side_edit;
+        info_close(id: any, next?: any): any;
+        Info(id: any): $$.$hyoo_page_side_info;
+        rights_close(id: any, next?: any): any;
+        Rights(id: any): $$.$hyoo_page_side_rights;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
     class $hyoo_page extends $.$hyoo_page {
         add(): void;
-        profile(): $hyoo_crowd_land;
-        profile_id(): `${string}_${string}`;
+        profile(): $hyoo_page_side;
         editing(next?: boolean): boolean;
         rights(next?: boolean): boolean;
         info(next?: boolean): boolean;
@@ -4169,44 +4321,7 @@ declare namespace $.$$ {
         rights_close(): void;
         info_close(): void;
         side_current(): $hyoo_page_side;
-        pages(): $mol_page[];
-        view_page_head(side: $mol_int62_string): ($mol_view | $mol_search_jumper)[];
-        Edit_toggle(id: $mol_int62_string): any;
-        bookmarks_filtered(): `${string}_${string}`[];
-        search_show(side: $mol_int62_string, next?: boolean): boolean;
-        search_start(event?: KeyboardEvent): void;
-        search_stop(side: $mol_int62_string, event?: KeyboardEvent): void;
-        menu(): ($mol_link | $mol_search)[];
-        menu_item_id(id: $mol_int62_string): `${string}_${string}`;
-        menu_item_arg(id: $mol_int62_string): {
-            '': `${string}_${string}`;
-        };
-        menu_item_title(id: $mol_int62_string): string;
-        bookmarks(next?: $mol_int62_string[]): `${string}_${string}`[];
-        side_bookmark(id: $mol_int62_string, next?: boolean): boolean;
-        ref_list(id: $mol_int62_string): $mol_view[];
-        ref_uri([id, uri]: [$mol_int62_string, string]): string;
-        ref_stat([id, uri]: [$mol_int62_string, string]): number;
-        ref_track(): void;
-        weight(side: $mol_int62_string): string;
-        word_stat(id: $mol_int62_string): Map<string, number>;
-        word_list_items(side: $mol_int62_string): $mol_view[];
-        word_item_text([side, word]: readonly [$mol_int62_string, string]): string;
-        word_item_stat([side, word]: readonly [$mol_int62_string, string]): number;
-        size(side: $mol_int62_string): string;
-        chars(side: $mol_int62_string): string;
-        words(side: $mol_int62_string): string;
-        peer_id([side, peer]: [$mol_int62_string, $mol_int62_string]): `${string}_${string}`;
-        peer_name([side, peer]: [$mol_int62_string, $mol_int62_string]): string;
-        author_list(side: $mol_int62_string): $mol_link[];
-        editor_list(side: $mol_int62_string): $mol_link[];
-        editor_add_id(id: $mol_int62_string, next?: string): `${string}_${string}`;
-        editor_add_filled(id: $mol_int62_string): boolean;
-        editor_add_bid(id: $mol_int62_string): string;
-        editor_fill_all(id: $mol_int62_string): void;
-        editor_add_submit(id: $mol_int62_string): void;
-        download_md_name(id: $mol_int62_string): string;
-        download_md_blob(id: $mol_int62_string): Blob;
+        pages(): ($hyoo_page_menu | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_page_side_rights)[];
     }
 }
 

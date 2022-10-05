@@ -16,14 +16,29 @@ $mol_book2 $mol_scroll
 $mol_theme_auto $mol_plugin
 	attr * mol_theme <= theme \
 
-$mol_hotkey $mol_plugin
-	event *
+$mol_page $mol_view
+	dom_name \article
+	field *
 		^
-		keydown?event <=> keydown?event null
-	key *
-	mod_ctrl false
-	mod_alt false
-	mod_shift false
+		tabIndex <= tabindex -1
+	sub /
+		<= Head $mol_view
+			minimal_height 64
+			dom_name \header
+			sub <= head /
+				<= Title $mol_view
+					dom_name \h1
+					sub <= title_content /
+						<= Logo null
+						<= title
+				<= Tools $mol_view
+					sub <= tools /$mol_view_content
+		<= Body $mol_scroll
+			scroll_top?val => body_scroll_top?val
+			sub <= body /$mol_view_content
+		<= Foot $mol_view
+			dom_name \footer
+			sub <= foot /$mol_view
 
 $mol_svg $mol_view
 	dom_name \svg
@@ -54,11 +69,6 @@ $mol_icon $mol_svg_root
 		<= Path $mol_svg_path
 			geometry <= path \
 
-$mol_avatar $mol_icon
-	view_box \0 0 24 24
-	id \
-	path \M 12 12 l 0 0 M 0 0 l 0 0 M 24 24 l 0 0 M 0 24 l 0 0 M 24 0 l 0 0
-
 $mol_link $mol_view
 	uri \
 	dom_name \a
@@ -75,6 +85,24 @@ $mol_link $mol_view
 	event *
 		^
 		click?event <=> click?event <=> event_click?event null
+
+$mol_avatar $mol_icon
+	view_box \0 0 24 24
+	id \
+	path \M 12 12 l 0 0 M 0 0 l 0 0 M 24 24 l 0 0 M 0 24 l 0 0 M 24 0 l 0 0
+
+$hyoo_page_side_avatar $mol_link
+	side $hyoo_page_side
+		id => id
+		title => name
+	hint <= name
+	all_name @ \All
+	arg *
+		\
+			<= id
+	sub /
+		<= Image $mol_avatar
+			id <= id
 
 $mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
 
@@ -182,6 +210,15 @@ $mol_pop_bubble $mol_scroll
 		^
 		mol_pop_align <= align \
 		tabindex 0
+
+$mol_hotkey $mol_plugin
+	event *
+		^
+		keydown?event <=> keydown?event null
+	key *
+	mod_ctrl false
+	mod_alt false
+	mod_shift false
 
 $mol_nav $mol_plugin
 	cycle?val false
@@ -301,29 +338,42 @@ $mol_search $mol_pop
 				haystack <= suggest_label* \
 				needle <= query?val \
 
-$mol_page $mol_view
-	dom_name \article
-	field *
-		^
-		tabIndex <= tabindex -1
+$hyoo_page_side_snippet $hyoo_page_side_avatar
+	hint \
 	sub /
-		<= Head $mol_view
-			minimal_height 64
-			dom_name \header
-			sub <= head /
-				<= Title $mol_view
-					dom_name \h1
-					sub <= title_content /
-						<= Logo null
-						<= title
-				<= Tools $mol_view
-					sub <= tools /$mol_view_content
-		<= Body $mol_scroll
-			scroll_top?val => body_scroll_top?val
-			sub <= body /$mol_view_content
-		<= Foot $mol_view
-			dom_name \footer
-			sub <= foot /$mol_view
+		<= Image
+		<= Name $mol_dimmer
+			haystack <= name
+			needle <= highlight \
+
+
+$hyoo_page_menu $mol_page
+	Logo $hyoo_page_side_avatar
+		hint @ \Profile
+		side <= profile $hyoo_page_side
+			bookmarks? => bookmarks?
+	title @ \In Bookmarks
+	tools /
+		<= Add $mol_button_minor
+			hint @ \New page
+			click? <=> add? null
+			sub /
+				<= Add_icon $mol_icon_plus
+	foot /
+		<= Online $hyoo_sync_online
+			yard <= yard $hyoo_sync_yard
+		<= Source $mol_link_source
+			uri \https://github.com/hyoo-ru/page.hyoo.ru/
+		<= Lights $mol_lights_toggle
+	body /
+		<= Content $mol_list
+			rows <= content /
+				<= Filter $mol_search
+					query? <=> filter? \
+				<= Bookmark*0_0 $hyoo_page_side_snippet
+					side <= bookmark* $hyoo_page_side
+						title => bookmark_title*
+					highlight <= filter
 
 $mol_bar $mol_view
 
@@ -747,6 +797,60 @@ $mol_date_calendar $mol_calendar
 			event_click?event <=> day_click*?event null
 			minimal_height 24
 
+$hyoo_page_side_view $mol_page
+	profile $hyoo_page_side
+	side $hyoo_page_side
+		id => id
+		editable => editable
+		title? => title?
+		details? => details?
+		details_selection? => details_selection?
+		changed_moment => changed_moment
+		authors => authors
+	plugins /
+		<= Search_start $mol_hotkey
+			key * F? <=> search_start? null
+			mod_ctrl true
+	Logo $mol_avatar
+		id <= id
+	head /
+		<= Title
+		<= Tools
+		<= Search $mol_search_jumper
+			query?val <=> search_query?val \
+			Root <= Details
+			clear? <=> search_stop? null
+	tools /
+		<= Edit_toggle $mol_check_icon
+			hint @ \Edit page
+			checked? <=> editing? false
+			Icon <= Edit_icon $mol_icon_pencil
+		<= Search_toggle $mol_check_icon
+			hint @ \Find on page
+			checked? <=> search_show? false
+			Icon <= Search_icon $mol_icon_magnify
+		<= Info_toggle $mol_check_icon
+			hint @ \Info page
+			checked? <=> info? false
+			Icon <= Info_icon $mol_icon_information_outline
+		<= Bookmark_toggle $mol_check_icon
+			hint @ \Bookmark page
+			checked? <=> bookmark? false
+			Icon <= Bookmark_icon $mol_icon_star_face
+	body /
+		<= Details $mol_text
+			text <= details
+			highlight <= search_query
+		<= Signature $mol_view
+			sub /
+				<= Changed $mol_date
+					value_moment <= changed_moment
+				<= Author_list $mol_view
+					sub <= author_list /
+						<= Author_link*0_0 $hyoo_page_side_avatar
+							side <= peer* $hyoo_page_side
+
+
 $mol_icon_download $mol_icon path \M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z
 
 $mol_button_download $mol_button_minor
@@ -790,6 +894,36 @@ $mol_textarea_edit $mol_string
 		^
 		scrollTop 0
 
+$hyoo_page_side_edit $mol_page
+	side $hyoo_page_side
+		title? => title?
+		details? => details?
+		details_selection? => details_selection?
+		editable => editable
+	Title $mol_string
+		hint @ \Title
+		bring => bring
+		value? <=> title?
+		enabled <= editable
+	tools /
+		<= Download_md $mol_button_download
+			hint @ \Download markdown
+			file_name <= download_md_name \{filename}.md
+			blob <= download_md_blob Blob
+		<= Rights_toggle $mol_check_icon
+			hint @ \Access Rights
+			checked? <=> rights? false
+			Icon <= Rights_icon $mol_icon_shield_account
+		<= Close $mol_button_minor
+			click? <=> close? null
+			sub / <= Close_icon $mol_icon_cross
+	body /
+		<= Details_edit $mol_textarea
+			hint @ \Details
+			value? <=> details?
+			selection? <=> details_selection?
+			enabled <= editable
+
 $mol_labeler $mol_list
 	rows /
 		<= Label $mol_view
@@ -825,6 +959,62 @@ $mol_expander $mol_list
 		<= Content $mol_list
 			rows <= content /
 
+$hyoo_page_side_info $mol_page
+	side $hyoo_page_side
+		details => details
+		details_node => details_node
+		referrers_list => referrers_list
+		referrers_stat* => referrers_stat*
+	title @ \Page Info
+	tools /
+		<= Close $mol_button_minor
+			click? <=> close? null
+			sub /
+				<= Close_icon $mol_icon_cross
+	body /
+		<= Stat $mol_view sub /
+			<= Size $mol_labeler
+				title @ \Size
+				content /
+					<= size \0
+			<= Chars $mol_labeler
+				title @ \Chars
+				content /
+					<= chars \0
+			<= Words $mol_labeler
+				title @ \Words
+				content /
+					<= words \0
+			<= Weight $mol_labeler
+				title @ \Weight
+				content /
+					<= weight \0B
+		<= Ref_list $mol_expander
+			title @ \Referrers
+			expanded? <=> ref_expanded? true
+			Content <= Ref_list_items $mol_list
+				rows <= ref_list /
+					<= Ref_item*0_0 $mol_view
+						sub /
+							<= Ref_item_link* $mol_link_iconed
+								uri <= ref_uri* \
+							<= Ref_item_stat* $mol_view
+								sub / <= ref_stat* 0
+				Empty <= Ref_list_empty $mol_card
+					title @ \No backlinks
+		<= Word_list $mol_expander
+			title @ \Key Words
+			Content <= Word_list_items $mol_list
+				rows <= word_list_items /
+					<= Word_item*0_0 $mol_view
+						sub /
+							<= Word_item_text* $mol_view
+								sub / <= word_item_text* \
+							<= Word_item_stat* $mol_view
+								sub / <= word_item_stat* 0
+				Empty <= Word_list_empty $mol_card
+					title @ \No words
+
 $mol_button_major $mol_button_typed
 	attr *
 		^
@@ -838,224 +1028,40 @@ $mol_form_field $mol_labeler
 			sub / <= bid \
 	Content <= control null
 
-$hyoo_page $mol_book2
-	side_main_id \iy8wtn_tky6pc
-	store $hyoo_sync_client
-		land* => side_land*
-	side* $hyoo_page_side
-		id => side_id*
-		land <= side_land*
-		editable => side_editable*
-		title? => side_title*?
-		title_selection? => side_title_selection*?
-		details? => side_details*?
-		details_selection? => side_details_selection*?
-		changed_moment => side_changed*
-		editors => side_editors*
-		authors => side_authors*
-	bookmarks_filtered <= bookmarks? /string
-	Placeholder null
-	peer_name* @ \Enyone
-	plugins /
-		<= Theme $mol_theme_auto
-		<= Search_start $mol_hotkey
-			key * F? <=> search_start? null
-			mod_ctrl true
-	auto /
-		<= ref_track null
-	pages /
-		<= Menu_page $mol_page
-			Logo <= Profile $mol_link
-				hint @ \Profile
-				arg *
-					\
-						<= profile_id \
-				sub /
-					<= Profile_avatar $mol_avatar
-						id <= profile_id \
-			title @ \In Bookmarks
-			tools /
-				<= Add $mol_button_minor
-					hint @ \New page
-					click? <=> add? null
-					sub /
-						<= Add_icon $mol_icon_plus
-			foot /
-				<= Online $hyoo_sync_online
-					yard <= store
-				<= Source $mol_link_source
-					uri \https://github.com/hyoo-ru/page.hyoo.ru/
-				<= Lights $mol_lights_toggle
-			body /
-				<= Menu $mol_list
-					rows <= menu /
-						<= Menu_filter $mol_search
-							query? <=> menu_filter? \
-						<= Menu_item*id $mol_link
-							arg <= menu_item_arg* *
-							sub /
-								<= Menu_item_logo* $mol_avatar
-									id <= menu_item_id* \
-								<= Menu_item_title* $mol_dimmer
-									haystack <= menu_item_title* \
-									needle <= menu_filter
-		<= View_page*0_0 $mol_page
-			title <= side_title*
-			Logo <= Logo* $mol_avatar id <= side_id*
-			Title => View_title*
-			Tools => View_tools*
-			head <= view_page_head* /
-				<= View_title*
-				<= View_tools*
-				<= View_search* $mol_search_jumper
-					query?val <=> view_search*?val \
-					Root <= Details*
-					clear? <=> search_stop*? null
-			tools /
-				<= Edit_toggle* $mol_check_icon
-					hint @ \Edit page
-					checked? <=> editing? false
-					Icon <= Edit_icon* $mol_icon_pencil
-				<= Search_toggle* $mol_check_icon
-					hint @ \Find on page
-					checked? <=> search_show*? false
-					Icon <= Search_icon* $mol_icon_magnify
-				<= Info_toggle* $mol_check_icon
-					hint @ \Info page
-					checked? <=> info? false
-					Icon <= Info_icon* $mol_icon_information_outline
-				<= Bookmark_toggle* $mol_check_icon
-					hint @ \Bookmark page
-					checked? <=> side_bookmark*? false
-					Icon <= Bookmark_icon* $mol_icon_star_face
-			body /
-				<= Details* $mol_text
-					text <= side_details*
-					highlight <= view_search*
-				<= Signature* $mol_view
-					sub /
-						<= Changed* $mol_date
-							value_moment <= side_changed*
-						<= Author_list* $mol_view
-							sub <= author_list* /
-								<= Author_link*0_0 $mol_link
-									hint <= peer_name*
-									arg *
-										\
-											<= peer_id* \
+$hyoo_page_side_rights $mol_page
+	side $hyoo_page_side
+		editors => editors
+		details_node => details_node
+	title @ \Editors List
+	tools /
+		<= Сlose $mol_button_minor
+			click? <=> close? null
+			sub /
+				<= Сlose_icon $mol_icon_cross
+	body /
+		<= Content $mol_list
+			rows /
+				<= Editor_list $mol_list
+					rows <= editor_list /
+						<= Editor_link*0_0 $hyoo_page_side_snippet
+							side <= peer* $hyoo_page_side
+				<= Editor_add $mol_form_field
+					name @ \Add new
+					bid <= editor_add_bid @ \Irrevocable!
+					Content <= Editor_add_form $mol_list
+						rows /
+							<= Editor_add_bar $mol_bar sub /
+								<= Editor_add_id $mol_string
+									hint @ \Id or Profile Link
+									value? <=> editor_add_id? \
+								<= Editor_add_submit $mol_button_major
+									enabled <= editor_add_filled false
+									click? <=> editor_add_submit? null
 									sub /
-										<= Auhtor_logo* $mol_avatar
-											id <= peer_id* \
-		<= Edit_page*0_0 $mol_page
-			bring <= title_bring*
-			Title <= Title* $mol_string
-				hint @ \Title
-				bring => title_bring*
-				value? <=> side_title*?
-				enabled <= side_editable*
-				selection? <=> side_title_selection*?
-			tools /
-				<= Download_md* $mol_button_download
-					hint @ \Download markdown
-					file_name <= download_md_name* \{filename}.md
-					blob <= download_md_blob* Blob
-				<= Rights_toggle* $mol_check_icon
-					hint @ \Access Rights
-					checked? <=> rights? false
-					Icon <= Rights_icon* $mol_icon_shield_account
-				<= Edit_close* $mol_button_minor
-					click? <=> edit_close*? null
-					sub / <= Edit_close_icon* $mol_icon_cross
-			body /
-				<= Details_edit* $mol_textarea
-					hint @ \Details
-					value? <=> side_details*?
-					enabled <= side_editable*
-					selection? <=> side_details_selection*?
-		<= Info_page*0_0 $mol_page
-			title @ \Page Info
-			tools /
-				<= Info_close* $mol_button_minor
-					click? <=> info_close*? null
-					sub / <= Info_close_icon* $mol_icon_cross
-			body /
-				<= Stat* $mol_view sub /
-					<= Size* $mol_labeler
-						title @ \Size
-						content /
-							<= size* \0
-					<= Chars* $mol_labeler
-						title @ \Chars
-						content /
-							<= chars* \0
-					<= Words* $mol_labeler
-						title @ \Words
-						content /
-							<= words* \0
-					<= Weight* $mol_labeler
-						title @ \Weight
-						content /
-							<= weight* \0B
-				<= Ref_list* $mol_expander
-					title @ \Referrers
-					expanded? <=> ref_expanded? true
-					Content <= Ref_list_items* $mol_list
-						rows <= ref_list* /
-							<= Ref_item*0_0 $mol_view
-								sub /
-									<= Ref_item_link* $mol_link_iconed
-										uri <= ref_uri* \
-									<= Ref_item_stat* $mol_view
-										sub / <= ref_stat* 0
-						Empty <= Ref_list_empty* $mol_card
-							title @ \No backlinks
-				<= Word_list* $mol_expander
-					title @ \Key Words
-					Content <= Word_list_items* $mol_list
-						rows <= word_list_items* /
-							<= Word_item*0_0 $mol_view
-								sub /
-									<= Word_item_text* $mol_view
-										sub / <= word_item_text* \
-									<= Word_item_stat* $mol_view
-										sub / <= word_item_stat* 0
-						Empty <= Word_list_empty* $mol_card
-							title @ \No words
-		<= Rights_page*0_0 $mol_page
-			title @ \Editors List
-			tools /
-				<= Rights_close* $mol_button_minor
-					click? <=> rights_close*? null
-					sub / <= Rights_close_icon* $mol_icon_cross
-			body /
-				<= Rights_content* $mol_list
-					rows /
-						<= Editor_list* $mol_list
-							rows <= editor_list* /
-								<= Editor_link*0_0 $mol_link
-									arg *
-										\
-											<= peer_id* \
-									sub /
-										<= Editor_logo* $mol_avatar
-											id <= peer_id* \
-										<= peer_name*
-						<= Editor_add* $mol_form_field
-							name @ \Add new
-							bid <= editor_add_bid* @ \Irrevocable!
-							Content <= Editor_add_form* $mol_list rows /
-								<= Editor_add_bar* $mol_bar sub /
-									<= Editor_add_id* $mol_string
-										hint @ \Id or Profile Link
-										value? <=> editor_add_id*? \
-									<= Editor_add_submit* $mol_button_major
-										enabled <= editor_add_filled* false
-										click? <=> editor_add_submit*? null
-										sub /
-											<= Editor_add_icon* $mol_icon_plus
-								<= Editor_fill_all* $mol_button_minor
-									title @ \Allow anyone
-									click? <=> editor_fill_all*? null
+										<= Editor_add_icon $mol_icon_plus
+							<= Editor_fill_all $mol_button_minor
+								title @ \Allow anyone
+								click? <=> editor_fill_all? null
 
 $mol_row $mol_view
 
@@ -1070,3 +1076,39 @@ $mol_form $mol_list
 			sub <= body <= form_fields /$mol_form_field
 		<= Foot $mol_row
 			sub <= foot <= buttons /$mol_view
+
+$hyoo_page $mol_book2
+	side_main_id \iy8wtn_tky6pc
+	yard $hyoo_sync_client
+		land* => side_land*
+	side* $hyoo_page_side
+		land <= side_land*
+	profile $hyoo_page_side
+	Placeholder null
+	plugins /
+		<= Theme $mol_theme_auto
+	auto /
+		<= ref_track null
+	pages /
+		<= Menu $hyoo_page_menu
+			yard <= yard
+			bookmark* <= side*
+			profile <= profile
+			add? <=> add? null
+		<= View*0_0 $hyoo_page_side_view
+			side <= side*
+			peer* <= side*
+			profile <= profile
+			editing? <=> editing? false
+			info? <=> info? false
+		<= Edit*0_0 $hyoo_page_side_edit
+			side <= side*
+			rights? <=> rights? false
+			close? <=> edit_close*? null
+		<= Info*0_0 $hyoo_page_side_info
+			side <= side*
+			close? <=> info_close*? null
+		<= Rights*0_0 $hyoo_page_side_rights
+			side <= side*
+			peer* <= side*
+			close? <=> rights_close*? null
