@@ -64,6 +64,7 @@ namespace $.$$ {
 		}
 		@ $mol_mem
 		details( next?: string ) {
+			this.details_node()?.land.chief.sub( '$hyoo_page_side', $hyoo_crowd_reg ).str( this.id() )
 			return this.details_node()?.text( next ) ?? ''
 		}
 		@ $mol_mem

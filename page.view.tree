@@ -16,12 +16,14 @@ $hyoo_page $mol_book2
 			bookmark* <= side*
 			profile <= profile
 			add? <=> add? null
+			filter => search
 		<= View*0_0 $hyoo_page_side_view
 			side <= side*
 			peer* <= side*
 			profile <= profile
 			editing? <=> editing? false
 			info? <=> info? false
+			highlight <= search
 		<= Edit*0_0 $hyoo_page_side_edit
 			side <= side*
 			rights? <=> rights? false

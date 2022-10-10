@@ -1,5 +1,6 @@
 $hyoo_page_side_view $mol_page
 	profile $hyoo_page_side
+	highlight \
 	side $hyoo_page_side
 		id => id
 		editable => editable

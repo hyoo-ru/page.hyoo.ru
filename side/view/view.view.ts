@@ -21,7 +21,10 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		search_show( next = false ) {
-			if( next === true ) this.Search().bring()
+			if( next === true ) {
+				this.search_query( this.highlight() )
+				this.Search().bring()
+			}
 			if( next === false ) this.search_query( '' )
 			return next
 		}
