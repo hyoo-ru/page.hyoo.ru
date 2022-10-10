@@ -34,10 +34,13 @@ namespace $.$$ {
 		word_stat() {
 			
 			const stat = new Map< string, number >()
-			const words = ( this.details().toLowerCase().match( /\p{Letter}{2,}/ug ) ?? [] )
 			
-			for( const word of words ) {
-				stat.set( word, ( stat.get( word ) ?? 0 ) + 1 )
+			for( const match of this.details().toLowerCase().matchAll( /\p{Letter}{2,}(?=((?:\P{Letter}\p{Letter}{2,})*))/ug ) ?? [] ) {
+				const parts = match.join( '' ).match( /\P{Letter}?\p{Letter}{2,}/gu ) ?? []
+				for( let i = 1; i <= parts.length; ++i ) {
+					const word = parts.slice( 0, i ).join('')
+					stat.set( word, ( stat.get( word ) ?? 0 ) + 1 )
+				}
 			}
 			
 			return stat
@@ -47,7 +50,7 @@ namespace $.$$ {
 		word_list_items() {
 			
 			const stat = [ ... this.word_stat() ].filter( ([ word, stat ])=> stat > 2 )
-			stat.sort( ( left, right )=> right[1] - left[1] )
+			stat.sort( ( left, right )=> right[1] - left[1] || right[0].length - left[0].length )
 			
 			return stat.map( ([ word ])=> this.Word_item( word ) )
 		}
