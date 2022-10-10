@@ -3147,7 +3147,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "864e895";
+let $hyoo_sync_revision = "1560a1c";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4604,21 +4604,15 @@ var $;
         land_search(query) {
             const stat = new Map();
             for (const prefix of query.match(/\p{Letter}{2,}/gu) ?? []) {
-                const lands = new Set();
                 const caps = prefix.slice(0, 1).toUpperCase() + prefix.slice(1);
-                if (caps !== prefix) {
-                    const found = $mol_wire_sync(this).db_land_search(caps);
-                    for (const land of found)
-                        lands.add(land);
-                }
-                exact: {
-                    const found = $mol_wire_sync(this).db_land_search(prefix);
-                    for (const land of found)
-                        lands.add(land);
-                }
-                spaced: {
-                    const found = $mol_wire_sync(this).db_land_search(' ' + prefix);
-                    for (const land of found)
+                const prefs = new Set([
+                    caps, ' ' + caps,
+                    prefix, ' ' + prefix,
+                ]);
+                const lands = new Set();
+                const founds = $mol_wire_race(...[...prefs].map(pref => () => $mol_wire_sync(this).db_land_search(pref)));
+                for (const found of founds) {
+                    for (const land of [...found].reverse())
                         lands.add(land);
                 }
                 for (const land of lands) {
@@ -6530,6 +6524,7 @@ var $;
                 return this.land().chief.yoke('details', $hyoo_crowd_text);
             }
             details(next) {
+                this.details_node()?.land.chief.sub('$hyoo_page_side', $hyoo_crowd_reg).str(this.id());
                 return this.details_node()?.text(next) ?? '';
             }
             details_selection(next) {
@@ -9996,7 +9991,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    const { rem } = $mol_style_unit;
     $mol_style_define($hyoo_page_side_snippet, {
         Name: {
             flex: {
@@ -10219,6 +10213,14 @@ var $;
                 ];
             }
             bookmarks_filtered() {
+                if (this.filter()) {
+                    const yard = this.yard();
+                    return yard.land_search(this.filter()).map(id => {
+                        const land = yard.land(id);
+                        id = land.chief.sub('$hyoo_page_side', $hyoo_crowd_reg).str() || id;
+                        return id;
+                    });
+                }
                 return this.bookmarks().filter($mol_match_text(this.filter(), id => [this.bookmark_title(id)])).reverse();
             }
         }
@@ -13797,6 +13799,9 @@ var $;
             const obj = new this.$.$hyoo_page_side();
             return obj;
         }
+        highlight() {
+            return "";
+        }
         id() {
             return this.side().id();
         }
@@ -14126,8 +14131,10 @@ var $;
                 return this.editable() ? super.Edit_toggle() : null;
             }
             search_show(next = false) {
-                if (next === true)
+                if (next === true) {
+                    this.search_query(this.highlight());
                     this.Search().bring();
+                }
                 if (next === false)
                     this.search_query('');
                 return next;
@@ -15808,6 +15815,9 @@ var $;
                 return next;
             return null;
         }
+        search() {
+            return this.Menu().filter();
+        }
         Menu() {
             const obj = new this.$.$hyoo_page_menu();
             obj.yard = () => this.yard();
@@ -15833,6 +15843,7 @@ var $;
             obj.profile = () => this.profile();
             obj.editing = (next) => this.editing(next);
             obj.info = (next) => this.info(next);
+            obj.highlight = () => this.search();
             return obj;
         }
         rights(next) {

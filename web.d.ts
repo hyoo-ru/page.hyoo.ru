@@ -3804,6 +3804,7 @@ declare namespace $.$$ {
 declare namespace $ {
     class $hyoo_page_side_view extends $mol_page {
         profile(): $$.$hyoo_page_side;
+        highlight(): string;
         id(): `${string}_${string}`;
         editable(): boolean;
         title(next?: any): string;
@@ -4268,6 +4269,7 @@ declare namespace $ {
         Theme(): $$.$mol_theme_auto;
         ref_track(): any;
         add(next?: any): any;
+        search(): string;
         Menu(): $$.$hyoo_page_menu;
         editing(next?: any): boolean;
         info(next?: any): boolean;
