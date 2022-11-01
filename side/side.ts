@@ -74,7 +74,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		changed_moment( next?: $mol_time_moment ) {
-			return new $mol_time_moment( this.details_node()?.land.clock_data.last_stamp() )
+			return new $mol_time_moment( this.details_node()?.land.last_stamp()! )
 		}
 		
 		bookmarks( next?: readonly $mol_int62_string[] ) {
