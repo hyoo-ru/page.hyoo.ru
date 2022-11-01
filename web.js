@@ -3962,6 +3962,13 @@ var $;
             }
             return authors;
         }
+        first_stamp() {
+            const grab_unit = this._unit_all.get(`${this.id()}/${this.id()}`);
+            return (grab_unit && $hyoo_crowd_time_stamp(grab_unit.time)) ?? null;
+        }
+        last_stamp() {
+            return this.clock_data.last_stamp();
+        }
         selection(peer) {
             return this.world().land_sync(peer).chief.sub('$hyoo_crowd_land..selection', $hyoo_crowd_reg);
         }
@@ -6334,7 +6341,7 @@ var $;
                 return this.details_node()?.selection(this.land().peer().id, next) ?? [0, 0];
             }
             changed_moment(next) {
-                return new $mol_time_moment(this.details_node()?.land.clock_data.last_stamp());
+                return new $mol_time_moment(this.details_node()?.land.last_stamp());
             }
             bookmarks(next) {
                 const node = this.land().chief.sub('bookmarks', $hyoo_crowd_list);
