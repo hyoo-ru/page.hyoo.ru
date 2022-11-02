@@ -94,7 +94,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		editors() {
-			return this.land().lords()
+			return this.land().peers()
 		}
 		
 		@ $mol_mem
