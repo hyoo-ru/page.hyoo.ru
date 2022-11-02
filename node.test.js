@@ -4191,7 +4191,7 @@ var $;
             this.pub.emit();
             return next;
         }
-        lords() {
+        peers() {
             this.pub.promote();
             const lords = [];
             for (const unit of this._unit_all.values()) {
@@ -6569,7 +6569,7 @@ var $;
                     : this.bookmarks().filter(i => i !== id))).includes(id);
             }
             editors() {
-                return this.land().lords();
+                return this.land().peers();
             }
             authors() {
                 return [...this.details_node()?.land.authors() ?? []];
