@@ -574,6 +574,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    function $mol_wire_solid(): void;
+}
+
+declare namespace $ {
     function $mol_const<Value>(value: Value): {
         (): Value;
         '()': Value;
@@ -1166,6 +1170,7 @@ declare namespace $ {
         as<Node extends typeof $hyoo_crowd_node>(Node: Node): InstanceType<Node>;
         units(): readonly $hyoo_crowd_unit[];
         nodes<Node extends typeof $hyoo_crowd_node>(Node: Node): InstanceType<Node>[];
+        virgin(): boolean;
         [Symbol.toPrimitive](): string;
     }
 }
@@ -1297,10 +1302,6 @@ declare namespace $ {
     function $mol_wire_race<Tasks extends (() => any)[]>(...tasks: Tasks): {
         [index in keyof Tasks]: ReturnType<Tasks[index]>;
     };
-}
-
-declare namespace $ {
-    function $mol_wire_solid(): void;
 }
 
 declare namespace $ {
@@ -3681,6 +3682,26 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_format extends $mol_string {
+        allow(): string;
+        hint(): string;
+        keyboard(): string;
+        mask(id: any): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_format extends $.$mol_format {
+        selection([from, to]?: [number, number]): number[];
+        value_changed(next?: string): string;
+        event_change(next?: InputEvent): void;
+    }
+}
+
+declare namespace $ {
     class $mol_hor extends $mol_view {
     }
 }
@@ -3787,9 +3808,9 @@ declare namespace $ {
         value_number(val?: any): number;
         value_moment(val?: any): $mol_time_moment;
         value(val?: any): string;
-        input_hint(): string;
+        input_mask(id: any): string;
         enabled(): boolean;
-        Input(): $$.$mol_string;
+        Input(): $$.$mol_format;
         month_moment(): $mol_time_moment;
         day_selected(id: any): boolean;
         day_click(id: any, event?: any): any;
@@ -3822,6 +3843,7 @@ declare namespace $ {
 declare namespace $.$$ {
     class $mol_date extends $.$mol_date {
         trigger_content(): string[];
+        input_mask(val: string): "____-__-__ __:__" | "____-__-__ ";
         value(val?: string): string;
         value_moment(val?: $mol_time_moment): $mol_time_moment;
         month_moment(next?: $mol_time_moment): $mol_time_moment;
