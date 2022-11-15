@@ -45,6 +45,33 @@ namespace $.$$ {
 			return [ ... this.authors() ].map( peer => this.Author_link( peer ) )
 		}
 		
+		@ $mol_mem
+		slides_uri() {
+			const source = this.$.$mol_state_arg.href() + '/'
+			return super.slides_uri().replace( '{source}', encodeURIComponent( source ) )
+		}
+		
+		@ $mol_mem
+		slides_content() {
+			return super.slides_content()
+				.replace( '{title}', this.title() || '{title}' )
+				.replace( '{details}', this.details() || '{description}' )
+		}
+
+		@ $mol_mem
+		slides_send() {
+			
+			const parent = this.$.$mol_dom_context.parent
+			if( parent === this.$.$mol_dom_context.self ) return
+			if( !/^https?:\/\/(localhost|slides\.hyoo\.ru)[:\/]/.test( parent.origin ) ) return
+			
+			parent.postMessage(
+				[ 'done', this.slides_content() ],
+				{ targetOrigin: '*' }
+			)
+					
+		}
+		
 	}
 	
 }

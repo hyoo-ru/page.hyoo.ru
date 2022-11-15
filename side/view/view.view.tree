@@ -13,6 +13,8 @@ $hyoo_page_side_view $mol_page
 		<= Search_start $mol_hotkey
 			key * F? <=> search_start? null
 			mod_ctrl true
+	auto /
+		<= slides_send null
 	Logo $mol_avatar
 		id <= id
 	head /
@@ -35,10 +37,16 @@ $hyoo_page_side_view $mol_page
 			hint @ \Info page
 			checked? <=> info? false
 			Icon <= Info_icon $mol_icon_information_outline
+		<= Slides $mol_link_iconed
+			uri <= slides_uri \https://slides.hyoo.ru/#!slides={source}
+			title \
 		<= Bookmark_toggle $mol_check_icon
 			hint @ \Bookmark page
 			checked? <=> bookmark? false
 			Icon <= Bookmark_icon $mol_icon_star_face
+	slides_content \
+		\# {title}
+		\{details}
 	body /
 		<= Details $mol_text
 			text <= details
