@@ -2972,6 +2972,47 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_image extends $mol_view {
+        dom_name(): string;
+        field(): {
+            src: string;
+            alt: string;
+            loading: string;
+        };
+        minimal_width(): number;
+        minimal_height(): number;
+        uri(): string;
+        loading(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_link_iconed extends $mol_link {
+        sub(): readonly any[];
+        content(): readonly any[];
+        host(): string;
+        icon(): string;
+        Icon(): $mol_image;
+        title(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_link_iconed extends $.$mol_link_iconed {
+        icon(): string;
+        host(): string;
+        title(): string;
+        sub(): readonly any[];
+    }
+}
+
+declare namespace $ {
     class $mol_icon_star extends $mol_icon {
         path(): string;
     }
@@ -3326,47 +3367,6 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_image extends $mol_view {
-        dom_name(): string;
-        field(): {
-            src: string;
-            alt: string;
-            loading: string;
-        };
-        minimal_width(): number;
-        minimal_height(): number;
-        uri(): string;
-        loading(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_link_iconed extends $mol_link {
-        sub(): readonly any[];
-        content(): readonly any[];
-        host(): string;
-        icon(): string;
-        Icon(): $mol_image;
-        title(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_link_iconed extends $.$mol_link_iconed {
-        icon(): string;
-        host(): string;
-        title(): string;
-        sub(): readonly any[];
-    }
-}
-
-declare namespace $ {
     class $mol_ghost extends $mol_view {
         Sub(): $mol_view;
     }
@@ -3645,7 +3645,7 @@ declare namespace $.$$ {
         uri_base(): string;
         uri_resolve(uri: string): string | null;
         block_text(index: number): string;
-        block_content(index: number): ($mol_dimmer | $mol_text_code_row | $mol_link_iconed | $mol_embed_any | $mol_text_span)[];
+        block_content(index: number): ($mol_dimmer | $mol_link_iconed | $mol_text_code_row | $mol_embed_any | $mol_text_span)[];
         line_tokens(path: readonly number[]): readonly {
             name: string;
             found: string;
@@ -3658,7 +3658,7 @@ declare namespace $.$$ {
         };
         line_type(path: readonly number[]): string;
         line_text(path: readonly number[]): string;
-        line_content(path: readonly number[]): ($mol_dimmer | $mol_text_code_row | $mol_link_iconed | $mol_embed_any | $mol_text_span)[];
+        line_content(path: readonly number[]): ($mol_dimmer | $mol_link_iconed | $mol_text_code_row | $mol_embed_any | $mol_text_span)[];
         link_uri(path: readonly number[]): string;
         link_host(path: readonly number[]): string;
         auto_scroll(): void;
@@ -3710,7 +3710,6 @@ declare namespace $.$$ {
     class $mol_format extends $.$mol_format {
         selection([from, to]?: [number, number]): number[];
         value_changed(next?: string): string;
-        event_change(next?: InputEvent): void;
     }
 }
 
@@ -3880,12 +3879,15 @@ declare namespace $ {
         authors(): `${string}_${string}`[];
         side(): $$.$hyoo_page_side;
         plugins(): readonly any[];
+        auto(): readonly any[];
         Logo(): $$.$mol_avatar;
         head(): readonly any[];
         tools(): readonly any[];
+        slides_content(): string;
         body(): readonly any[];
         search_start(next?: any): any;
         Search_start(): $$.$mol_hotkey;
+        slides_send(): any;
         search_query(val?: any): string;
         search_stop(next?: any): any;
         Search(): $$.$mol_search_jumper;
@@ -3898,6 +3900,8 @@ declare namespace $ {
         info(next?: any): boolean;
         Info_icon(): $mol_icon_information_outline;
         Info_toggle(): $mol_check_icon;
+        slides_uri(): string;
+        Slides(): $$.$mol_link_iconed;
         bookmark(next?: any): boolean;
         Bookmark_icon(): $mol_icon_star_face;
         Bookmark_toggle(): $mol_check_icon;
@@ -3923,6 +3927,9 @@ declare namespace $.$$ {
         search_start(event?: KeyboardEvent): void;
         search_stop(event?: KeyboardEvent): void;
         author_list(): $hyoo_page_side_avatar[];
+        slides_uri(): string;
+        slides_content(): string;
+        slides_send(): void;
     }
 }
 

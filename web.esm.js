@@ -9155,7 +9155,12 @@ var $;
             event_change(next) {
                 if (!next)
                     return;
-                this.value_changed(next.target.value);
+                const el = next.target;
+                const from = el.selectionStart;
+                const to = el.selectionEnd;
+                el.value = this.value_changed(el.value);
+                el.selectionEnd = to;
+                el.selectionStart = from;
                 this.selection_change(next);
             }
             hint_visible() {
@@ -10549,6 +10554,133 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_image extends $mol_view {
+        dom_name() {
+            return "img";
+        }
+        field() {
+            return {
+                ...super.field(),
+                src: this.uri(),
+                alt: this.title(),
+                loading: this.loading()
+            };
+        }
+        minimal_width() {
+            return 16;
+        }
+        minimal_height() {
+            return 16;
+        }
+        uri() {
+            return "";
+        }
+        loading() {
+            return "eager";
+        }
+    }
+    $.$mol_image = $mol_image;
+})($ || ($ = {}));
+//mol/image/-view.tree/image.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/image/image.view.css", "[mol_image] {\n\tborder-radius: var(--mol_gap_round);\n\toverflow: hidden;\n\tflex: 0 1 auto;\n\tmax-width: 100%;\n\tobject-fit: cover;\n}\n");
+})($ || ($ = {}));
+//mol/image/-css/image.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_link_iconed extends $mol_link {
+        sub() {
+            return [
+                this.Icon()
+            ];
+        }
+        content() {
+            return [
+                this.title()
+            ];
+        }
+        host() {
+            return "";
+        }
+        icon() {
+            return "";
+        }
+        Icon() {
+            const obj = new this.$.$mol_image();
+            obj.uri = () => this.icon();
+            obj.title = () => "";
+            return obj;
+        }
+        title() {
+            return this.uri();
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_link_iconed.prototype, "Icon", null);
+    $.$mol_link_iconed = $mol_link_iconed;
+})($ || ($ = {}));
+//mol/link/iconed/-view.tree/iconed.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/link/iconed/iconed.view.css", "[mol_link_iconed] {\n\talign-items: baseline;\n\tdisplay: inline-flex;\n\tpadding: var(--mol_gap_text);\n}\n\n[mol_link_iconed_icon] {\n\tbox-shadow: none;\n\theight: 1rem;\n\twidth: 1rem;\n\tflex: 0 0 auto;\n\tdisplay: inline-block;\n\tmargin: .25rem 0;\n\talign-self: normal;\n\tvertical-align: text-top;\n\tborder-radius: 0;\n\tobject-fit: scale-down;\n}\n\n[mol_theme=\"$mol_theme_dark\"] [mol_link_iconed_icon] {\n\tfilter: var(--mol_theme_image);\n}\n");
+})($ || ($ = {}));
+//mol/link/iconed/-css/iconed.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_link_iconed extends $.$mol_link_iconed {
+            icon() {
+                return `https://favicon.yandex.net/favicon/${this.host()}?color=0,0,0,0&size=32&stub=1`;
+            }
+            host() {
+                const base = this.$.$mol_state_arg.href();
+                const url = new URL(this.uri(), base);
+                return url.hostname;
+            }
+            title() {
+                const uri = this.uri();
+                const host = this.host();
+                const suffix = (host ? uri.split(this.host(), 2)[1] : uri).replace(/^[\/\?#!]+/, '');
+                return decodeURIComponent(suffix || host).replace(/^\//, ' ');
+            }
+            sub() {
+                return [
+                    ...this.host() ? [this.Icon()] : [],
+                    ...this.content(),
+                ];
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_link_iconed.prototype, "icon", null);
+        __decorate([
+            $mol_mem
+        ], $mol_link_iconed.prototype, "host", null);
+        __decorate([
+            $mol_mem
+        ], $mol_link_iconed.prototype, "title", null);
+        __decorate([
+            $mol_mem
+        ], $mol_link_iconed.prototype, "sub", null);
+        $$.$mol_link_iconed = $mol_link_iconed;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//mol/link/iconed/iconed.view.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_icon_star extends $mol_icon {
         path() {
             return "M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z";
@@ -11678,133 +11810,6 @@ var $;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //mol/grid/grid.view.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_image extends $mol_view {
-        dom_name() {
-            return "img";
-        }
-        field() {
-            return {
-                ...super.field(),
-                src: this.uri(),
-                alt: this.title(),
-                loading: this.loading()
-            };
-        }
-        minimal_width() {
-            return 16;
-        }
-        minimal_height() {
-            return 16;
-        }
-        uri() {
-            return "";
-        }
-        loading() {
-            return "eager";
-        }
-    }
-    $.$mol_image = $mol_image;
-})($ || ($ = {}));
-//mol/image/-view.tree/image.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/image/image.view.css", "[mol_image] {\n\tborder-radius: var(--mol_gap_round);\n\toverflow: hidden;\n\tflex: 0 1 auto;\n\tmax-width: 100%;\n\tobject-fit: cover;\n}\n");
-})($ || ($ = {}));
-//mol/image/-css/image.view.css.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_link_iconed extends $mol_link {
-        sub() {
-            return [
-                this.Icon()
-            ];
-        }
-        content() {
-            return [
-                this.title()
-            ];
-        }
-        host() {
-            return "";
-        }
-        icon() {
-            return "";
-        }
-        Icon() {
-            const obj = new this.$.$mol_image();
-            obj.uri = () => this.icon();
-            obj.title = () => "";
-            return obj;
-        }
-        title() {
-            return this.uri();
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $mol_link_iconed.prototype, "Icon", null);
-    $.$mol_link_iconed = $mol_link_iconed;
-})($ || ($ = {}));
-//mol/link/iconed/-view.tree/iconed.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/link/iconed/iconed.view.css", "[mol_link_iconed] {\n\talign-items: baseline;\n\tdisplay: inline-flex;\n\tpadding: var(--mol_gap_text);\n}\n\n[mol_link_iconed_icon] {\n\tbox-shadow: none;\n\theight: 1rem;\n\twidth: 1rem;\n\tflex: 0 0 auto;\n\tdisplay: inline-block;\n\tmargin: .25rem 0;\n\talign-self: normal;\n\tvertical-align: text-top;\n\tborder-radius: 0;\n\tobject-fit: scale-down;\n}\n\n[mol_theme=\"$mol_theme_dark\"] [mol_link_iconed_icon] {\n\tfilter: var(--mol_theme_image);\n}\n");
-})($ || ($ = {}));
-//mol/link/iconed/-css/iconed.view.css.ts
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_link_iconed extends $.$mol_link_iconed {
-            icon() {
-                return `https://favicon.yandex.net/favicon/${this.host()}?color=0,0,0,0&size=32&stub=1`;
-            }
-            host() {
-                const base = this.$.$mol_state_arg.href();
-                const url = new URL(this.uri(), base);
-                return url.hostname;
-            }
-            title() {
-                const uri = this.uri();
-                const host = this.host();
-                const suffix = (host ? uri.split(this.host(), 2)[1] : uri).replace(/^[\/\?#!]+/, '');
-                return decodeURIComponent(suffix || host).replace(/^\//, ' ');
-            }
-            sub() {
-                return [
-                    ...this.host() ? [this.Icon()] : [],
-                    ...this.content(),
-                ];
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $mol_link_iconed.prototype, "icon", null);
-        __decorate([
-            $mol_mem
-        ], $mol_link_iconed.prototype, "host", null);
-        __decorate([
-            $mol_mem
-        ], $mol_link_iconed.prototype, "title", null);
-        __decorate([
-            $mol_mem
-        ], $mol_link_iconed.prototype, "sub", null);
-        $$.$mol_link_iconed = $mol_link_iconed;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//mol/link/iconed/iconed.view.ts
 ;
 "use strict";
 var $;
@@ -12958,15 +12963,21 @@ var $;
                 const prev = $mol_wire_probe(() => this.selection());
                 if (!prev)
                     return [0, 100];
-                if (from === to) {
-                    const allow = this.allow();
-                    const mask = this.mask([...this.value_changed()].filter(letter => allow.includes(letter)).join(''));
-                    if ((prev?.[0] ?? 0) < from) {
-                        while (from && mask[from] && mask[from] !== '_') {
-                            ++from;
-                            ++to;
-                        }
-                    }
+                if (from !== to)
+                    return [from, to];
+                const allow = this.allow();
+                const value = this.value_changed();
+                const filtered = [...value].filter(letter => allow.includes(letter)).join('');
+                const mask = this.mask(filtered);
+                if ((prev?.[0] ?? 0) >= from)
+                    return [from, to];
+                const lastAllow = (value.length - [...value].reverse().findIndex(letter => allow.includes(letter))) % (value.length + 1);
+                if (lastAllow < from) {
+                    from = to = lastAllow;
+                }
+                while (mask[from] && mask[from] !== '_') {
+                    ++from;
+                    ++to;
                 }
                 return [from, to];
             }
@@ -12983,13 +12994,6 @@ var $;
                         return next;
                 }
                 return normalize(this.value(next));
-            }
-            event_change(next) {
-                if (!next)
-                    return;
-                if (next.data && !this.allow().includes(next.data))
-                    return;
-                super.event_change(next);
             }
         }
         __decorate([
@@ -13744,6 +13748,11 @@ var $;
                 this.Search_start()
             ];
         }
+        auto() {
+            return [
+                this.slides_send()
+            ];
+        }
         Logo() {
             const obj = new this.$.$mol_avatar();
             obj.id = () => this.id();
@@ -13761,8 +13770,12 @@ var $;
                 this.Edit_toggle(),
                 this.Search_toggle(),
                 this.Info_toggle(),
+                this.Slides(),
                 this.Bookmark_toggle()
             ];
+        }
+        slides_content() {
+            return "# {title}\n{details}";
         }
         body() {
             return [
@@ -13782,6 +13795,9 @@ var $;
             });
             obj.mod_ctrl = () => true;
             return obj;
+        }
+        slides_send() {
+            return null;
         }
         search_query(val) {
             if (val !== undefined)
@@ -13846,6 +13862,15 @@ var $;
             obj.hint = () => this.$.$mol_locale.text('$hyoo_page_side_view_Info_toggle_hint');
             obj.checked = (next) => this.info(next);
             obj.Icon = () => this.Info_icon();
+            return obj;
+        }
+        slides_uri() {
+            return "https://slides.hyoo.ru/#!slides={source}";
+        }
+        Slides() {
+            const obj = new this.$.$mol_link_iconed();
+            obj.uri = () => this.slides_uri();
+            obj.title = () => "";
             return obj;
         }
         bookmark(next) {
@@ -13956,6 +13981,9 @@ var $;
     ], $hyoo_page_side_view.prototype, "Info_toggle", null);
     __decorate([
         $mol_mem
+    ], $hyoo_page_side_view.prototype, "Slides", null);
+    __decorate([
+        $mol_mem
     ], $hyoo_page_side_view.prototype, "bookmark", null);
     __decorate([
         $mol_mem
@@ -14063,6 +14091,23 @@ var $;
             author_list() {
                 return [...this.authors()].map(peer => this.Author_link(peer));
             }
+            slides_uri() {
+                const source = this.$.$mol_state_arg.href() + '/';
+                return super.slides_uri().replace('{source}', encodeURIComponent(source));
+            }
+            slides_content() {
+                return super.slides_content()
+                    .replace('{title}', this.title() || '{title}')
+                    .replace('{details}', this.details() || '{description}');
+            }
+            slides_send() {
+                const parent = this.$.$mol_dom_context.parent;
+                if (parent === this.$.$mol_dom_context.self)
+                    return;
+                if (!/^https?:\/\/(localhost|slides\.hyoo\.ru)[:\/]/.test(parent.origin))
+                    return;
+                parent.postMessage(['done', this.slides_content()], { targetOrigin: '*' });
+            }
         }
         __decorate([
             $mol_mem
@@ -14073,6 +14118,15 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page_side_view.prototype, "author_list", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side_view.prototype, "slides_uri", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side_view.prototype, "slides_content", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side_view.prototype, "slides_send", null);
         $$.$hyoo_page_side_view = $hyoo_page_side_view;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
