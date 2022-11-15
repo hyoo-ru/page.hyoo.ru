@@ -7,6 +7,7 @@ $hyoo_page_side_info $mol_page
 	title @ \Page Info
 	tools /
 		<= Slides $mol_link_iconed
+			hint @ \View as Slides
 			uri <= slides_uri \https://slides.hyoo.ru/#!slides={source}
 			title \
 		<= Close $mol_button_minor
