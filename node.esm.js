@@ -15054,6 +15054,7 @@ var $;
         }
         Slides() {
             const obj = new this.$.$mol_link_iconed();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_side_info_Slides_hint');
             obj.uri = () => this.slides_uri();
             obj.title = () => "";
             return obj;
