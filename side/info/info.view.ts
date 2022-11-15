@@ -3,6 +3,13 @@ namespace $.$$ {
 	export class $hyoo_page_side_info extends $.$hyoo_page_side_info {
 		
 		@ $mol_mem
+		slides_uri() {
+			const source = this.$.$mol_state_arg.href() + '/'
+			return super.slides_uri().replace( '{source}', encodeURIComponent( source ) )
+		}
+		
+		
+		@ $mol_mem
 		ref_list() {
 			return this.referrers_list().map( uri => this.Ref_item( uri ) )
 		}

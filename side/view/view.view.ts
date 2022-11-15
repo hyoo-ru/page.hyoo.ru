@@ -46,12 +46,6 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
-		slides_uri() {
-			const source = this.$.$mol_state_arg.href() + '/'
-			return super.slides_uri().replace( '{source}', encodeURIComponent( source ) )
-		}
-		
-		@ $mol_mem
 		slides_content() {
 			return super.slides_content()
 				.replace( '{title}', this.title() || '{title}' )
