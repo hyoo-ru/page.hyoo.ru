@@ -14104,9 +14104,7 @@ var $;
                 const parent = this.$.$mol_dom_context.parent;
                 if (parent === this.$.$mol_dom_context.self)
                     return;
-                if (!/^https?:\/\/(localhost|slides\.hyoo\.ru)[:\/]/.test(parent.origin))
-                    return;
-                parent.postMessage(['done', this.slides_content()], { targetOrigin: '*' });
+                parent.postMessage(['done', this.slides_content()], { targetOrigin: 'https://slides.hyoo.ru' });
             }
         }
         __decorate([
