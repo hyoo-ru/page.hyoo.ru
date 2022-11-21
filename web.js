@@ -2760,7 +2760,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "893f6d4";
+let $hyoo_sync_revision = "64cd80d";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -12994,8 +12994,13 @@ var $;
                 };
                 if (next !== undefined) {
                     next = normalize(next);
-                    if (next.includes('_'))
-                        return next;
+                    if (next === this.mask(next)) {
+                        next = '';
+                    }
+                    else {
+                        if (next.includes('_'))
+                            return next;
+                    }
                 }
                 return normalize(this.value(next));
             }
