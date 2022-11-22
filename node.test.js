@@ -15426,7 +15426,8 @@ var $;
             }
             word_stat() {
                 const stat = new Map();
-                for (const match of this.details().toLowerCase().matchAll(/\p{Letter}{2,}(?=((?:\P{Letter}\p{Letter}{2,})*))/ug) ?? []) {
+                const text = this.details().toLowerCase().replace(/\]\(.*?\)/g, '');
+                for (const match of text.matchAll(/\p{Letter}{2,}(?=((?:\P{Letter}\p{Letter}{2,})*))/ug) ?? []) {
                     const parts = match.join('').match(/\P{Letter}?\p{Letter}{2,}/gu) ?? [];
                     for (let i = 1; i <= parts.length; ++i) {
                         const word = parts.slice(0, i).join('');
