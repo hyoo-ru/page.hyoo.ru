@@ -64,8 +64,9 @@ namespace $.$$ {
 		}
 		@ $mol_mem
 		details( next?: string ) {
-			if( this.details_node()?.land.level( '' ) ?? 0 >= $hyoo_crowd_peer_level.mod ) {
-				this.details_node()?.land.chief.sub( '$hyoo_page_side', $hyoo_crowd_reg ).str( this.id() )
+			const land = this.details_node()?.land
+			if( ( land?.level( '' ) ?? 0 ) >= $hyoo_crowd_peer_level.mod ) {
+				land?.chief.sub( '$hyoo_page_side', $hyoo_crowd_reg ).str( this.id() )
 			}
 			return this.details_node()?.text( next ) ?? ''
 		}
