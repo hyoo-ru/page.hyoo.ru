@@ -1177,7 +1177,7 @@ declare namespace $ {
         join(): true | undefined;
         leave(): false | undefined;
         level_base(next?: $hyoo_crowd_peer_level): void;
-        level(peer: $mol_int62_string, next?: $hyoo_crowd_peer_level): $hyoo_crowd_peer_level;
+        level(peer: $mol_int62_string | '', next?: $hyoo_crowd_peer_level): $hyoo_crowd_peer_level;
         peers(): readonly `${string}_${string}`[];
         residents(): readonly `${string}_${string}`[];
         authors(): Set<`${string}_${string}`>;
@@ -1188,6 +1188,20 @@ declare namespace $ {
         wipe(unit: $hyoo_crowd_unit): $hyoo_crowd_unit;
         move(unit: $hyoo_crowd_unit, head: $mol_int62_string, prev: $mol_int62_string): $hyoo_crowd_unit;
         insert(unit: $hyoo_crowd_unit, head: $mol_int62_string, seat: number): $hyoo_crowd_unit;
+    }
+}
+
+declare namespace $ {
+    let $mol_action: typeof $mol_wire_method;
+}
+
+declare namespace $ {
+    class $hyoo_crowd_fund<Node extends typeof $hyoo_crowd_node> extends $mol_object {
+        world: $hyoo_crowd_world;
+        Node: Node;
+        constructor(world: $hyoo_crowd_world, Node: Node);
+        Item(id: $mol_int62_string | `${$mol_int62_string}!${$mol_int62_string}`): InstanceType<Node>;
+        make(law?: readonly ("" | `${string}_${string}`)[], mod?: readonly ("" | `${string}_${string}`)[], add?: readonly ("" | `${string}_${string}`)[]): InstanceType<Node>;
     }
 }
 
@@ -1224,6 +1238,7 @@ declare namespace $ {
         land_init(id: $hyoo_crowd_land): void;
         land(id: $mol_int62_string): $hyoo_crowd_land;
         land_sync(id: $mol_int62_string): $hyoo_crowd_land;
+        Fund<Item extends typeof $hyoo_crowd_node>(Item: Item): $hyoo_crowd_fund<Item>;
         home(): $hyoo_crowd_land;
         _knights: $mol_dict<`${string}_${string}`, $hyoo_crowd_peer>;
         _signs: WeakMap<$hyoo_crowd_unit, Uint8Array>;
@@ -1241,10 +1256,6 @@ declare namespace $ {
             forbid: Map<$hyoo_crowd_unit, string>;
         }>;
     }
-}
-
-declare namespace $ {
-    let $mol_action: typeof $mol_wire_method;
 }
 
 declare namespace $ {
