@@ -3179,7 +3179,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "95333f3";
+let $hyoo_sync_revision = "707ac49";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4680,6 +4680,7 @@ var $;
 (function ($) {
     $.$hyoo_sync_masters = [
         `wss://sync.hyoo.ru/`,
+        `wss://sync-hyoo-ru.up.railway.app/`,
         'wss://sync-hyoo-ru.herokuapp.com/',
     ];
 })($ || ($ = {}));
@@ -9201,8 +9202,7 @@ var $;
         event() {
             return {
                 ...super.event(),
-                input: (event) => this.event_change(event),
-                keydown: (event) => this.event_key_press(event)
+                input: (event) => this.event_change(event)
             };
         }
         plugins() {
@@ -9258,11 +9258,6 @@ var $;
                 return event;
             return null;
         }
-        event_key_press(event) {
-            if (event !== undefined)
-                return event;
-            return null;
-        }
         submit(event) {
             if (event !== undefined)
                 return event;
@@ -9288,9 +9283,6 @@ var $;
     __decorate([
         $mol_mem
     ], $mol_string.prototype, "event_change", null);
-    __decorate([
-        $mol_mem
-    ], $mol_string.prototype, "event_key_press", null);
     __decorate([
         $mol_mem
     ], $mol_string.prototype, "submit", null);
