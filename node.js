@@ -13160,12 +13160,12 @@ var $;
                 };
                 if (next !== undefined) {
                     next = normalize(next);
-                    if (next === this.mask(next)) {
-                        next = '';
-                    }
-                    else {
+                    if ([...next].filter(letter => allow.includes(letter)).join('')) {
                         if (next.includes('_'))
                             return next;
+                    }
+                    else {
+                        next = '';
                     }
                 }
                 return normalize(this.value(next));
@@ -16242,9 +16242,9 @@ var $;
                 const id = this.side_current().id();
                 return [
                     this.Menu(),
-                    this.View(id),
                     ...this.editing() ? [this.Edit(id)] : [],
                     ...this.rights() ? [this.Rights(id)] : [],
+                    this.View(id),
                     ...this.info() ? [this.Info(id)] : [],
                 ];
             }
