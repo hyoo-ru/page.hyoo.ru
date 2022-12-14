@@ -2728,7 +2728,14 @@ var $;
     (function ($$) {
         class $mol_book2 extends $.$mol_book2 {
             title() {
-                return this.pages().map(page => page?.title()).reverse().filter(Boolean).join(' | ');
+                return this.pages().map(page => {
+                    try {
+                        return page?.title();
+                    }
+                    catch (error) {
+                        $mol_fail_log(error);
+                    }
+                }).reverse().filter(Boolean).join(' | ');
             }
             sub() {
                 const next = [...this.pages(), this.Placeholder()];
@@ -2762,7 +2769,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "f0012b4";
+let $hyoo_sync_revision = "b05a91f";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -3992,6 +3999,10 @@ var $;
             this.pub.emit();
             return next;
         }
+        grabbed() {
+            this.pub.promote();
+            return this._unit_all.size > 0;
+        }
         peers() {
             this.pub.promote();
             const lords = [];
@@ -4505,7 +4516,11 @@ var $;
             return world;
         }
         land(id) {
-            return this.world().land_sync(id);
+            const land = this.world().land_sync(id);
+            if (!land.grabbed()) {
+                $mol_fail_hidden(new Promise(() => { }));
+            }
+            return land;
         }
         land_grab(law = [''], mod = [], add = []) {
             return $mol_wire_sync(this.world()).grab(law, mod, add);
@@ -4681,7 +4696,7 @@ var $;
                 if (prev)
                     await prev;
                 const world = this.world();
-                const land = await $mol_wire_async(this).land(land_id);
+                const land = await $mol_wire_async(world).land_sync(land_id);
                 let clocks = this.line_land_clocks({ line, land });
                 if (!clocks)
                     this.line_land_clocks({ line, land }, clocks = [new $hyoo_crowd_clock, new $hyoo_crowd_clock]);
