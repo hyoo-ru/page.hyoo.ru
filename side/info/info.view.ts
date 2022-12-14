@@ -58,7 +58,7 @@ namespace $.$$ {
 		word_list_items() {
 			
 			const stat = [ ... this.word_stat() ].filter( ([ word, stat ])=> stat > 2 )
-			stat.sort( ( left, right )=> right[1] - left[1] || right[0].length - left[0].length )
+			stat.sort( ( left, right )=> right[0].length - left[0].length || right[1] - left[1] )
 			
 			return stat.map( ([ word ])=> this.Word_item( word ) )
 		}
