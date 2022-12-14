@@ -42,13 +42,18 @@ namespace $.$$ {
 			this.info( false )
 		}
 		
+		@ $mol_mem
+		side_current_id() {
+			return ( this.$.$mol_state_arg.value( '' ) || this.side_main_id() ) as $mol_int62_string
+		}
+		
 		side_current() {
-			return this.side( ( this.$.$mol_state_arg.value( '' ) || this.side_main_id() ) as $mol_int62_string )
+			return this.side( this.side_current_id() )
 		}
 		
 		@ $mol_mem
 		pages() {
-			const id = this.side_current().id()
+			const id = this.side_current_id()
 			return [
 				this.Menu(),
 				this.View( id ),
