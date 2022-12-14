@@ -48,6 +48,7 @@ $hyoo_page_side_view $mol_page
 		<= Details $mol_text
 			text <= details
 			highlight <= search_query
+			Empty <= Details_empty $mol_card title \...
 		<= Signature $mol_view
 			sub /
 				<= Changed $mol_date
