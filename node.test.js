@@ -16241,11 +16241,14 @@ var $;
             info_close() {
                 this.info(false);
             }
+            side_current_id() {
+                return (this.$.$mol_state_arg.value('') || this.side_main_id());
+            }
             side_current() {
-                return this.side((this.$.$mol_state_arg.value('') || this.side_main_id()));
+                return this.side(this.side_current_id());
             }
             pages() {
-                const id = this.side_current().id();
+                const id = this.side_current_id();
                 return [
                     this.Menu(),
                     this.View(id),
@@ -16270,6 +16273,9 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page.prototype, "info", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page.prototype, "side_current_id", null);
         __decorate([
             $mol_mem
         ], $hyoo_page.prototype, "pages", null);

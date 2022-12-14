@@ -4360,6 +4360,7 @@ declare namespace $.$$ {
         edit_close(): void;
         rights_close(): void;
         info_close(): void;
+        side_current_id(): `${string}_${string}`;
         side_current(): $hyoo_page_side;
         pages(): ($hyoo_page_menu | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_page_side_rights)[];
     }
