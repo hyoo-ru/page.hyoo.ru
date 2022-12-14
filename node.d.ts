@@ -2997,6 +2997,29 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_card extends $mol_list {
+        attr(): {
+            mol_card_status_type: string;
+        };
+        rows(): readonly $mol_view[];
+        status(): string;
+        content(): readonly $mol_view_content[];
+        Content(): $mol_view;
+        status_text(): string;
+        Status(): $mol_view;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_card extends $.$mol_card {
+        rows(): $mol_view[];
+    }
+}
+
+declare namespace $ {
     class $mol_text_code_token extends $mol_dimmer {
         attr(): {
             mol_text_code_token_type: string;
@@ -3880,6 +3903,7 @@ declare namespace $ {
         bookmark(next?: any): boolean;
         Bookmark_icon(): $mol_icon_star_face;
         Bookmark_toggle(): $mol_check_icon;
+        Details_empty(): $$.$mol_card;
         Details(): $$.$mol_text;
         Changed(): $$.$mol_date;
         peer(id: any): $$.$hyoo_page_side;
@@ -4084,29 +4108,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_card extends $mol_list {
-        attr(): {
-            mol_card_status_type: string;
-        };
-        rows(): readonly $mol_view[];
-        status(): string;
-        content(): readonly $mol_view_content[];
-        Content(): $mol_view;
-        status_text(): string;
-        Status(): $mol_view;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_card extends $.$mol_card {
-        rows(): $mol_view[];
-    }
 }
 
 declare namespace $ {
