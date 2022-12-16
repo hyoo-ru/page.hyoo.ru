@@ -3186,7 +3186,7 @@ var $;
 //mol/book2/book2.view.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "b05a91f";
+let $hyoo_sync_revision = "4d87c3b";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4711,15 +4711,16 @@ var $;
         }
         world() {
             const world = new this.$.$hyoo_crowd_world(this.peer());
-            world.land_init = land => this.db_land_init(land);
+            world.land_init = land => this.land_init(land);
             return world;
         }
-        land(id) {
-            const land = this.world().land_sync(id);
-            if (!land.grabbed()) {
+        land_init(land) {
+            this.db_land_init(land);
+            if (!land.grabbed())
                 $mol_fail_hidden(new Promise(() => { }));
-            }
-            return land;
+        }
+        land(id) {
+            return this.world().land_sync(id);
         }
         land_grab(law = [''], mod = [], add = []) {
             return $mol_wire_sync(this.world()).grab(law, mod, add);
@@ -4895,7 +4896,7 @@ var $;
                 if (prev)
                     await prev;
                 const world = this.world();
-                const land = await $mol_wire_async(world).land_sync(land_id);
+                const land = await $mol_wire_async(world).land(land_id);
                 let clocks = this.line_land_clocks({ line, land });
                 if (!clocks)
                     this.line_land_clocks({ line, land }, clocks = [new $hyoo_crowd_clock, new $hyoo_crowd_clock]);
@@ -4961,7 +4962,7 @@ var $;
     ], $hyoo_sync_yard.prototype, "world", null);
     __decorate([
         $mol_mem_key
-    ], $hyoo_sync_yard.prototype, "land", null);
+    ], $hyoo_sync_yard.prototype, "land_init", null);
     __decorate([
         $mol_action
     ], $hyoo_sync_yard.prototype, "land_search", null);
