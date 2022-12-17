@@ -4,12 +4,20 @@ $hyoo_page_side_edit $mol_page
 		details? => details?
 		details_selection? => details_selection?
 		editable => editable
+		released => released
+		publish? => publish?
 	Title $mol_string
 		hint @ \Title
 		bring => bring
 		value? <=> title?
 		enabled <= editable
 	tools /
+		<= Publish $mol_button_minor
+			click? <=> publish?
+			disabled <= released
+			hint @ \Publish
+			sub /
+				<= Publish_icon $mol_icon_publish
 		<= Download_md $mol_button_download
 			hint @ \Download markdown
 			file_name <= download_md_name \{filename}.md

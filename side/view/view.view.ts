@@ -20,6 +20,11 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
+		edit_toggle_label() {
+			return this.released() ? [] : [ this.Unreleased() ]
+		}
+		
+		@ $mol_mem
 		search_show( next = false ) {
 			if( next === true ) {
 				this.search_query( this.highlight() )

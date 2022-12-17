@@ -76,6 +76,29 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
+		release_node() {
+			return this.land().chief.yoke( 'release', $hyoo_crowd_blob )
+		}
+		@ $mol_mem
+		release( next?: string ) {
+			return this.release_node()?.str( next ) ?? ''
+		}
+		
+		@ $mol_mem
+		released() {
+			return this.release_node() && ( this.release() === this.details() ) || false
+		}
+		@ $mol_action
+		publish() {
+			this.release( this.details() )
+		}
+		
+		@ $mol_mem
+		content() {
+			return this.release() || this.details()
+		}
+		
+		@ $mol_mem
 		changed_moment( next?: $mol_time_moment ) {
 			return new $mol_time_moment( this.details_node()?.land.last_stamp()! )
 		}

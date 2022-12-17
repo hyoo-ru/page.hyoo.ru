@@ -6,7 +6,8 @@ $hyoo_page_side_view $mol_page
 		editable => editable
 		title? => title?
 		details? => details?
-		details_selection? => details_selection?
+		released => released
+		content => content
 		changed_moment => changed_moment
 		authors => authors
 	plugins /
@@ -29,6 +30,8 @@ $hyoo_page_side_view $mol_page
 			hint @ \Edit page
 			checked? <=> editing? false
 			Icon <= Edit_icon $mol_icon_pencil
+			label <= edit_toggle_label /
+				<= Unreleased $mol_speck
 		<= Search_toggle $mol_check_icon
 			hint @ \Find on page
 			checked? <=> search_show? false
@@ -46,7 +49,7 @@ $hyoo_page_side_view $mol_page
 		\{details}
 	body /
 		<= Details $mol_text
-			text <= details
+			text <= content
 			highlight <= search_query
 			Empty <= Details_empty $mol_card title \...
 		<= Signature $mol_view
