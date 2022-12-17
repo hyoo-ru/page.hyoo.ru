@@ -5,7 +5,6 @@ $hyoo_page_side_edit $mol_page
 		details_selection? => details_selection?
 		editable => editable
 		released => released
-		publish? => publish?
 	Title $mol_string
 		hint @ \Title
 		bring => bring
@@ -13,7 +12,7 @@ $hyoo_page_side_edit $mol_page
 		enabled <= editable
 	tools /
 		<= Publish $mol_button_minor
-			click? <=> publish?
+			click? <=> publish? null
 			disabled <= released
 			hint @ \Publish
 			sub /
