@@ -1642,6 +1642,25 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    type $mol_blob = Blob;
+    let $mol_blob: {
+        new (blobParts?: BlobPart[] | undefined, options?: BlobPropertyBag | undefined): Blob;
+        prototype: Blob;
+    };
+}
+
+declare namespace $ {
+    class $hyoo_crowd_blob extends $hyoo_crowd_list {
+        uri(): string;
+        type(next?: string): string;
+        blob(next?: $mol_blob): Blob;
+        buffer(next?: Uint8Array, type?: string): Uint8Array;
+        str(next?: string, type?: string): string;
+        json(next?: any, type?: string): any;
+    }
+}
+
+declare namespace $ {
     class $mol_time_base {
         static patterns: Record<string, (arg: any) => string>;
         static formatter(pattern: string): (arg: any) => string;
@@ -1775,6 +1794,11 @@ declare namespace $.$$ {
         details_node(): $hyoo_crowd_text | null;
         details(next?: string): string;
         details_selection(next?: number[]): number[];
+        release_node(): $hyoo_crowd_blob | null;
+        release(next?: string): string;
+        released(): boolean;
+        publish(): void;
+        content(): string;
         changed_moment(next?: $mol_time_moment): $mol_time_moment;
         bookmarks(next?: readonly $mol_int62_string[]): `${string}_${string}`[];
         bookmarked(id: $mol_int62_string, next?: boolean): boolean;
@@ -3875,7 +3899,8 @@ declare namespace $ {
         editable(): boolean;
         title(next?: any): string;
         details(next?: any): string;
-        details_selection(next?: any): number[];
+        released(): boolean;
+        content(): string;
         changed_moment(): $mol_time_moment;
         authors(): `${string}_${string}`[];
         side(): $$.$hyoo_page_side;
@@ -3894,6 +3919,8 @@ declare namespace $ {
         Search(): $$.$mol_search_jumper;
         editing(next?: any): boolean;
         Edit_icon(): $mol_icon_pencil;
+        Unreleased(): $mol_speck;
+        edit_toggle_label(): readonly any[];
         Edit_toggle(): $mol_check_icon;
         search_show(next?: any): boolean;
         Search_icon(): $mol_icon_magnify;
@@ -3923,12 +3950,19 @@ declare namespace $.$$ {
         head(): ($mol_view | $mol_search_jumper)[];
         bookmark(next?: boolean): boolean;
         Edit_toggle(): any;
+        edit_toggle_label(): $mol_speck[];
         search_show(next?: boolean): boolean;
         search_start(event?: KeyboardEvent): void;
         search_stop(event?: KeyboardEvent): void;
         author_list(): $hyoo_page_side_avatar[];
         slides_content(): string;
         slides_send(): void;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_publish extends $mol_icon {
+        path(): string;
     }
 }
 
@@ -4070,11 +4104,15 @@ declare namespace $ {
         details(next?: any): string;
         details_selection(next?: any): number[];
         editable(): boolean;
+        released(): boolean;
         side(): $$.$hyoo_page_side;
         bring(): void;
         Title(): $$.$mol_string;
         tools(): readonly any[];
         body(): readonly any[];
+        publish(next?: any): any;
+        Publish_icon(): $mol_icon_publish;
+        Publish(): $mol_button_minor;
         download_md_name(): string;
         download_md_blob(): Blob;
         Download_md(): $$.$mol_button_download;
@@ -4093,6 +4131,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_page_side_edit extends $.$hyoo_page_side_edit {
+        publish(): void;
         download_md_name(): string;
         download_md_blob(): Blob;
     }

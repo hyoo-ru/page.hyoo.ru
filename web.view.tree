@@ -824,7 +824,8 @@ $hyoo_page_side_view $mol_page
 		editable => editable
 		title? => title?
 		details? => details?
-		details_selection? => details_selection?
+		released => released
+		content => content
 		changed_moment => changed_moment
 		authors => authors
 	plugins /
@@ -847,6 +848,8 @@ $hyoo_page_side_view $mol_page
 			hint @ \Edit page
 			checked? <=> editing? false
 			Icon <= Edit_icon $mol_icon_pencil
+			label <= edit_toggle_label /
+				<= Unreleased $mol_speck
 		<= Search_toggle $mol_check_icon
 			hint @ \Find on page
 			checked? <=> search_show? false
@@ -864,7 +867,7 @@ $hyoo_page_side_view $mol_page
 		\{details}
 	body /
 		<= Details $mol_text
-			text <= details
+			text <= content
 			highlight <= search_query
 			Empty <= Details_empty $mol_card title \...
 		<= Signature $mol_view
@@ -876,6 +879,8 @@ $hyoo_page_side_view $mol_page
 						<= Author_link*0_0 $hyoo_page_side_avatar
 							side <= peer* $hyoo_page_side
 
+
+$mol_icon_publish $mol_icon path \M5,4V6H19V4H5M5,14H9V20H15V14H19L12,7L5,14Z
 
 $mol_icon_download $mol_icon path \M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z
 
@@ -926,12 +931,19 @@ $hyoo_page_side_edit $mol_page
 		details? => details?
 		details_selection? => details_selection?
 		editable => editable
+		released => released
 	Title $mol_string
 		hint @ \Title
 		bring => bring
 		value? <=> title?
 		enabled <= editable
 	tools /
+		<= Publish $mol_button_minor
+			click? <=> publish? null
+			disabled <= released
+			hint @ \Publish
+			sub /
+				<= Publish_icon $mol_icon_publish
 		<= Download_md $mol_button_download
 			hint @ \Download markdown
 			file_name <= download_md_name \{filename}.md
