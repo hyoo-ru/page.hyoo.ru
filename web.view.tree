@@ -669,7 +669,7 @@ $mol_text $mol_list
 		auto_scroll null
 	Header* $mol_text_header
 		minimal_height 40
-		dom_name <= header_level* \h
+		level <= header_level* 1
 		content <= block_content* /
 		arg <= header_arg* *
 	Pre* $mol_text_code
@@ -714,6 +714,7 @@ $mol_text $mol_list
 		title <= line_text* \
 
 $mol_text_header $mol_paragraph
+	level 1
 	sub /
 		<= Link $mol_link
 			arg <= arg *
@@ -995,6 +996,11 @@ $mol_expander $mol_list
 			rows <= content /
 
 $hyoo_page_side_info $mol_page
+	Text $mol_text
+		flow_tokens => text_tokens
+		block_text* => text_header_title*
+		header_arg* => section_arg*
+		header_level* => section_level*
 	side $hyoo_page_side
 		details => details
 		details_node => details_node
@@ -1028,6 +1034,16 @@ $hyoo_page_side_info $mol_page
 				title @ \Weight
 				content /
 					<= weight \0B
+		<= Section_list $mol_expander
+			title @ \Sections
+			expanded? <=> section_expanded? true
+			Content <= Section_list_items $mol_list
+				rows <= section_list /
+					<= Section_link*0 $mol_link
+						arg <= section_arg*
+						title <= section_title* \
+				Empty <= Section_list_empty $mol_card
+					title @ \No sections
 		<= Ref_list $mol_expander
 			title @ \Referrers
 			expanded? <=> ref_expanded? true
@@ -1135,13 +1151,14 @@ $hyoo_page $mol_book2
 			profile <= profile
 			add? <=> add? null
 			filter => search
-		<= View*0_0 $hyoo_page_side_view
-			side <= side*
-			peer* <= side*
+		<= View $hyoo_page_side_view
+			side <= side_current $hyoo_page_side
+			peer* <= side_current $hyoo_page_side
 			profile <= profile
 			editing? <=> editing? false
 			info? <=> info? false
 			highlight <= search
+			Details => View_details
 		<= Edit*0_0 $hyoo_page_side_edit
 			side <= side*
 			rights? <=> rights? false
@@ -1149,6 +1166,7 @@ $hyoo_page $mol_book2
 		<= Info*0_0 $hyoo_page_side_info
 			side <= side*
 			close? <=> info_close*? null
+			Text <= View_details
 		<= Rights*0_0 $hyoo_page_side_rights
 			side <= side*
 			peer* <= side*

@@ -12802,7 +12802,7 @@ var $;
         Header(id) {
             const obj = new this.$.$mol_text_header();
             obj.minimal_height = () => 40;
-            obj.dom_name = () => this.header_level(id);
+            obj.level = () => this.header_level(id);
             obj.content = () => this.block_content(id);
             obj.arg = () => this.header_arg(id);
             return obj;
@@ -12896,7 +12896,7 @@ var $;
             return "";
         }
         header_level(id) {
-            return "h";
+            return 1;
         }
         header_arg(id) {
             return {};
@@ -12985,6 +12985,9 @@ var $;
     ], $mol_text.prototype, "Embed", null);
     $.$mol_text = $mol_text;
     class $mol_text_header extends $mol_paragraph {
+        level() {
+            return 1;
+        }
         sub() {
             return [
                 this.Link()
@@ -13064,11 +13067,11 @@ var $;
                 return this.toString().replace(/^.*?\)\./, '').replace(/[()]/g, '');
             }
             header_level(index) {
-                return 'h' + this.flow_tokens()[index].chunks[0].length;
+                return this.flow_tokens()[index].chunks[0].length;
             }
             header_arg(index) {
                 return {
-                    [this.param()]: this.flow_tokens()[index].chunks[2]
+                    [this.param()]: this.block_text(index)
                 };
             }
             pre_text(index) {
@@ -13255,6 +13258,12 @@ var $;
             $mol_mem
         ], $mol_text.prototype, "auto_scroll", null);
         $$.$mol_text = $mol_text;
+        class $mol_text_header extends $.$mol_text_header {
+            dom_name() {
+                return 'h' + this.level();
+            }
+        }
+        $$.$mol_text_header = $mol_text_header;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //mol/text/text/text.view.ts
@@ -15227,6 +15236,22 @@ var $;
 var $;
 (function ($) {
     class $hyoo_page_side_info extends $mol_page {
+        text_tokens() {
+            return this.Text().flow_tokens();
+        }
+        text_header_title(id) {
+            return this.Text().block_text(id);
+        }
+        section_arg(id) {
+            return this.Text().header_arg(id);
+        }
+        section_level(id) {
+            return this.Text().header_level(id);
+        }
+        Text() {
+            const obj = new this.$.$mol_text();
+            return obj;
+        }
         details() {
             return this.side().details();
         }
@@ -15255,6 +15280,7 @@ var $;
         body() {
             return [
                 this.Stat(),
+                this.Section_list(),
                 this.Ref_list(),
                 this.Word_list()
             ];
@@ -15338,6 +15364,43 @@ var $;
                 this.Words(),
                 this.Weight()
             ];
+            return obj;
+        }
+        section_expanded(next) {
+            if (next !== undefined)
+                return next;
+            return true;
+        }
+        section_title(id) {
+            return "";
+        }
+        Section_link(id) {
+            const obj = new this.$.$mol_link();
+            obj.arg = () => this.section_arg(id);
+            obj.title = () => this.section_title(id);
+            return obj;
+        }
+        section_list() {
+            return [
+                this.Section_link("0")
+            ];
+        }
+        Section_list_empty() {
+            const obj = new this.$.$mol_card();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_side_info_Section_list_empty_title');
+            return obj;
+        }
+        Section_list_items() {
+            const obj = new this.$.$mol_list();
+            obj.rows = () => this.section_list();
+            obj.Empty = () => this.Section_list_empty();
+            return obj;
+        }
+        Section_list() {
+            const obj = new this.$.$mol_expander();
+            obj.title = () => this.$.$mol_locale.text('$hyoo_page_side_info_Section_list_title');
+            obj.expanded = (next) => this.section_expanded(next);
+            obj.Content = () => this.Section_list_items();
             return obj;
         }
         ref_expanded(next) {
@@ -15447,6 +15510,9 @@ var $;
     }
     __decorate([
         $mol_mem
+    ], $hyoo_page_side_info.prototype, "Text", null);
+    __decorate([
+        $mol_mem
     ], $hyoo_page_side_info.prototype, "side", null);
     __decorate([
         $mol_mem
@@ -15475,6 +15541,21 @@ var $;
     __decorate([
         $mol_mem
     ], $hyoo_page_side_info.prototype, "Stat", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_info.prototype, "section_expanded", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page_side_info.prototype, "Section_link", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_info.prototype, "Section_list_empty", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_info.prototype, "Section_list_items", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_info.prototype, "Section_list", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_info.prototype, "ref_expanded", null);
@@ -15604,6 +15685,9 @@ var $;
                 wrap: 'wrap',
             },
         },
+        Section_list: {
+            padding: $mol_gap.block,
+        },
         Ref_list: {
             padding: $mol_gap.block,
         },
@@ -15642,6 +15726,18 @@ var $;
             slides_uri() {
                 const source = this.$.$mol_state_arg.href() + '/';
                 return super.slides_uri().replace('{source}', encodeURIComponent(source));
+            }
+            section_indexes() {
+                return [...this.text_tokens().entries()]
+                    .filter(([index, token]) => token.name === 'header')
+                    .map(([index]) => index);
+            }
+            section_list() {
+                return this.section_indexes().map(index => this.Section_link(index));
+            }
+            section_title(index) {
+                const prefix = ''.padEnd(2 * this.section_level(index), '• ');
+                return prefix + this.text_header_title(index);
             }
             ref_list() {
                 return this.referrers_list().map(uri => this.Ref_item(uri));
@@ -15695,6 +15791,15 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page_side_info.prototype, "slides_uri", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side_info.prototype, "section_indexes", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side_info.prototype, "section_list", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page_side_info.prototype, "section_title", null);
         __decorate([
             $mol_mem
         ], $hyoo_page_side_info.prototype, "ref_list", null);
@@ -16234,7 +16339,7 @@ var $;
         pages() {
             return [
                 this.Menu(),
-                this.View("0_0"),
+                this.View(),
                 this.Edit("0_0"),
                 this.Info("0_0"),
                 this.Rights("0_0")
@@ -16263,6 +16368,10 @@ var $;
             obj.add = (next) => this.add(next);
             return obj;
         }
+        side_current() {
+            const obj = new this.$.$hyoo_page_side();
+            return obj;
+        }
         editing(next) {
             if (next !== undefined)
                 return next;
@@ -16273,10 +16382,13 @@ var $;
                 return next;
             return false;
         }
-        View(id) {
+        View_details() {
+            return this.View().Details();
+        }
+        View() {
             const obj = new this.$.$hyoo_page_side_view();
-            obj.side = () => this.side(id);
-            obj.peer = (id) => this.side(id);
+            obj.side = () => this.side_current();
+            obj.peer = (id) => this.side_current();
             obj.profile = () => this.profile();
             obj.editing = (next) => this.editing(next);
             obj.info = (next) => this.info(next);
@@ -16309,6 +16421,7 @@ var $;
             const obj = new this.$.$hyoo_page_side_info();
             obj.side = () => this.side(id);
             obj.close = (next) => this.info_close(id, next);
+            obj.Text = () => this.View_details();
             return obj;
         }
         rights_close(id, next) {
@@ -16344,12 +16457,15 @@ var $;
     ], $hyoo_page.prototype, "Menu", null);
     __decorate([
         $mol_mem
+    ], $hyoo_page.prototype, "side_current", null);
+    __decorate([
+        $mol_mem
     ], $hyoo_page.prototype, "editing", null);
     __decorate([
         $mol_mem
     ], $hyoo_page.prototype, "info", null);
     __decorate([
-        $mol_mem_key
+        $mol_mem
     ], $hyoo_page.prototype, "View", null);
     __decorate([
         $mol_mem
@@ -16426,7 +16542,7 @@ var $;
                 const id = this.side_current_id();
                 return [
                     this.Menu(),
-                    this.View(id),
+                    this.View(),
                     ...this.editing() ? [this.Edit(id)] : [],
                     ...this.rights() ? [this.Rights(id)] : [],
                     ...this.info() ? [this.Info(id)] : [],

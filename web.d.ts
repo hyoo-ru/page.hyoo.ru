@@ -3646,7 +3646,7 @@ declare namespace $ {
         Paragraph(id: any): $$.$mol_paragraph;
         Quote(id: any): $$.$mol_text;
         List(id: any): $$.$mol_text;
-        Header(id: any): $mol_text_header;
+        Header(id: any): $$.$mol_text_header;
         Pre(id: any): $$.$mol_text_code;
         Table(id: any): $$.$mol_grid;
         Table_row(id: any): $mol_grid_row;
@@ -3663,7 +3663,7 @@ declare namespace $ {
         quote_text(id: any): string;
         highlight(): string;
         list_text(id: any): string;
-        header_level(id: any): string;
+        header_level(id: any): number;
         header_arg(id: any): {};
         pre_text(id: any): string;
         code_sidebar_showed(): boolean;
@@ -3680,6 +3680,7 @@ declare namespace $ {
         link_host(id: any): string;
     }
     class $mol_text_header extends $mol_paragraph {
+        level(): number;
         sub(): readonly any[];
         arg(): {};
         content(): readonly any[];
@@ -3707,7 +3708,7 @@ declare namespace $.$$ {
         block_type(index: number): string;
         rows(): ($mol_paragraph | $mol_text_code | $mol_grid | $mol_text | $mol_text_header)[];
         param(): string;
-        header_level(index: number): string;
+        header_level(index: number): number;
         header_arg(index: number): {
             [x: string]: string;
         };
@@ -3764,6 +3765,9 @@ declare namespace $.$$ {
         link_uri(path: readonly number[]): string;
         link_host(path: readonly number[]): string;
         auto_scroll(): void;
+    }
+    class $mol_text_header extends $.$mol_text_header {
+        dom_name(): string;
     }
 }
 
@@ -4190,6 +4194,17 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_page_side_info extends $mol_page {
+        text_tokens(): readonly {
+            name: string;
+            found: string;
+            chunks: string[];
+        }[];
+        text_header_title(id: any): string;
+        section_arg(id: any): {
+            [x: string]: string;
+        };
+        section_level(id: any): number;
+        Text(): $$.$mol_text;
         details(): string;
         details_node(): $hyoo_crowd_text | null;
         referrers_list(): string[];
@@ -4212,6 +4227,13 @@ declare namespace $ {
         weight(): string;
         Weight(): $mol_labeler;
         Stat(): $mol_view;
+        section_expanded(next?: any): boolean;
+        section_title(id: any): string;
+        Section_link(id: any): $$.$mol_link;
+        section_list(): readonly any[];
+        Section_list_empty(): $$.$mol_card;
+        Section_list_items(): $$.$mol_list;
+        Section_list(): $$.$mol_expander;
         ref_expanded(next?: any): boolean;
         ref_uri(id: any): string;
         Ref_item_link(id: any): $$.$mol_link_iconed;
@@ -4270,6 +4292,9 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_page_side_info extends $.$hyoo_page_side_info {
         slides_uri(): string;
+        section_indexes(): number[];
+        section_list(): $mol_link[];
+        section_title(index: number): string;
         ref_list(): $mol_view[];
         ref_uri(uri: string): string;
         ref_stat(uri: string): number;
@@ -4419,9 +4444,11 @@ declare namespace $ {
         add(next?: any): any;
         search(): string;
         Menu(): $$.$hyoo_page_menu;
+        side_current(): $$.$hyoo_page_side;
         editing(next?: any): boolean;
         info(next?: any): boolean;
-        View(id: any): $$.$hyoo_page_side_view;
+        View_details(): $$.$mol_text;
+        View(): $$.$hyoo_page_side_view;
         rights(next?: any): boolean;
         edit_close(id: any, next?: any): any;
         Edit(id: any): $$.$hyoo_page_side_edit;
