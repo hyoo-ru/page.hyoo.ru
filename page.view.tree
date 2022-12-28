@@ -19,7 +19,7 @@ $hyoo_page $mol_book2
 			filter => search
 		<= View $hyoo_page_side_view
 			side <= side_current $hyoo_page_side
-			peer* <= side_current $hyoo_page_side
+			peer* <= side*
 			profile <= profile
 			editing? <=> editing? false
 			info? <=> info? false
