@@ -13945,13 +13945,13 @@ var $;
         title(next) {
             return this.side().title(next);
         }
-        details(next) {
+        side_details(next) {
             return this.side().details(next);
         }
         released() {
             return this.side().released();
         }
-        content() {
+        side_content() {
             return this.side().content();
         }
         changed_moment() {
@@ -14110,6 +14110,9 @@ var $;
             obj.Icon = () => this.Bookmark_icon();
             return obj;
         }
+        details() {
+            return "";
+        }
         Details_empty() {
             const obj = new this.$.$mol_card();
             obj.title = () => "...";
@@ -14117,7 +14120,7 @@ var $;
         }
         Details() {
             const obj = new this.$.$mol_text();
-            obj.text = () => this.content();
+            obj.text = () => this.details();
             obj.highlight = () => this.search_query();
             obj.Empty = () => this.Details_empty();
             return obj;
@@ -14320,6 +14323,9 @@ var $;
                 this.search_show(false);
                 this.Search_toggle().focused(true);
                 event?.preventDefault();
+            }
+            details() {
+                return this.editing() ? this.side_details() : this.side_content();
             }
             author_list() {
                 return [...this.authors()].map(peer => this.Author_link(peer));
@@ -16131,7 +16137,7 @@ var $;
         View() {
             const obj = new this.$.$hyoo_page_side_view();
             obj.side = () => this.side_current();
-            obj.peer = (id) => this.side_current();
+            obj.peer = (id) => this.side(id);
             obj.profile = () => this.profile();
             obj.editing = (next) => this.editing(next);
             obj.info = (next) => this.info(next);

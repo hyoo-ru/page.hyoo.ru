@@ -3946,9 +3946,9 @@ declare namespace $ {
         id(): `${string}_${string}`;
         editable(): boolean;
         title(next?: any): string;
-        details(next?: any): string;
+        side_details(next?: any): string;
         released(): boolean;
-        content(): string;
+        side_content(): string;
         changed_moment(): $mol_time_moment;
         authors(): `${string}_${string}`[];
         side(): $$.$hyoo_page_side;
@@ -3979,6 +3979,7 @@ declare namespace $ {
         bookmark(next?: any): boolean;
         Bookmark_icon(): $mol_icon_star_face;
         Bookmark_toggle(): $mol_check_icon;
+        details(): string;
         Details_empty(): $$.$mol_card;
         Details(): $$.$mol_text;
         Changed(): $$.$mol_date;
@@ -4002,6 +4003,7 @@ declare namespace $.$$ {
         search_show(next?: boolean): boolean;
         search_start(event?: KeyboardEvent): void;
         search_stop(event?: KeyboardEvent): void;
+        details(): string;
         author_list(): $hyoo_page_side_avatar[];
         slides_content(): string;
         slides_send(): void;
