@@ -1,4 +1,9 @@
 $hyoo_page_side_info $mol_page
+	Text $mol_text
+		flow_tokens => text_tokens
+		block_text* => text_header_title*
+		header_arg* => section_arg*
+		header_level* => section_level*
 	side $hyoo_page_side
 		details => details
 		details_node => details_node
@@ -32,6 +37,16 @@ $hyoo_page_side_info $mol_page
 				title @ \Weight
 				content /
 					<= weight \0B
+		<= Section_list $mol_expander
+			title @ \Sections
+			expanded? <=> section_expanded? true
+			Content <= Section_list_items $mol_list
+				rows <= section_list /
+					<= Section_link*0 $mol_link
+						arg <= section_arg*
+						title <= section_title* \
+				Empty <= Section_list_empty $mol_card
+					title @ \No sections
 		<= Ref_list $mol_expander
 			title @ \Referrers
 			expanded? <=> ref_expanded? true

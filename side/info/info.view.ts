@@ -10,6 +10,25 @@ namespace $.$$ {
 		
 		
 		@ $mol_mem
+		section_indexes() {
+			return [ ... this.text_tokens().entries() ]
+			.filter( ([ index, token ])=> token.name === 'header' )
+			.map( ([ index ])=> index )
+		}
+		
+		@ $mol_mem
+		section_list() {
+			return this.section_indexes().map( index => this.Section_link( index ) )
+		}
+		
+		@ $mol_mem_key
+		section_title( index: number ) {
+			const prefix = ''.padEnd( 2 * this.section_level( index ), '• ' )
+			return prefix + this.text_header_title( index )
+		}
+		
+		
+		@ $mol_mem
 		ref_list() {
 			return this.referrers_list().map( uri => this.Ref_item( uri ) )
 		}

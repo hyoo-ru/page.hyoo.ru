@@ -56,7 +56,7 @@ namespace $.$$ {
 			const id = this.side_current_id()
 			return [
 				this.Menu(),
-				this.View( id ),
+				this.View(),
 				... this.editing() ? [ this.Edit( id ) ] : [],
 				... this.rights() ? [ this.Rights( id ) ] : [],
 				... this.info() ? [ this.Info( id ) ] : [],

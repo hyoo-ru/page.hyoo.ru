@@ -17,6 +17,10 @@ namespace $ {
 			},
 		},
 		
+		Section_list: {
+			padding: $mol_gap.block,
+		},
+		
 		Ref_list: {
 			padding: $mol_gap.block,
 		},
