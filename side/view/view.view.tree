@@ -5,9 +5,9 @@ $hyoo_page_side_view $mol_page
 		id => id
 		editable => editable
 		title? => title?
-		details? => details?
+		details? => side_details?
 		released => released
-		content => content
+		content => side_content
 		changed_moment => changed_moment
 		authors => authors
 	plugins /
@@ -49,7 +49,7 @@ $hyoo_page_side_view $mol_page
 		\{details}
 	body /
 		<= Details $mol_text
-			text <= content
+			text <= details
 			highlight <= search_query
 			Empty <= Details_empty $mol_card title \...
 		<= Signature $mol_view

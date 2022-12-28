@@ -45,6 +45,10 @@ namespace $.$$ {
 			event?.preventDefault()
 		}
 		
+		details() {
+			return this.editing() ? this.side_details() : this.side_content()
+		}
+		
 		@ $mol_mem
 		author_list() {
 			return [ ... this.authors() ].map( peer => this.Author_link( peer ) )
