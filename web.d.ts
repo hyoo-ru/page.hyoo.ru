@@ -4444,11 +4444,10 @@ declare namespace $ {
         add(next?: any): any;
         search(): string;
         Menu(): $$.$hyoo_page_menu;
-        side_current(): $$.$hyoo_page_side;
         editing(next?: any): boolean;
         info(next?: any): boolean;
-        View_details(): $$.$mol_text;
-        View(): $$.$hyoo_page_side_view;
+        View_details(id: any): $$.$mol_text;
+        View(id: any): $$.$hyoo_page_side_view;
         rights(next?: any): boolean;
         edit_close(id: any, next?: any): any;
         Edit(id: any): $$.$hyoo_page_side_edit;

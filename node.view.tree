@@ -1152,14 +1152,14 @@ $hyoo_page $mol_book2
 			profile <= profile
 			add? <=> add? null
 			filter => search
-		<= View $hyoo_page_side_view
-			side <= side_current $hyoo_page_side
+		<= View*0_0 $hyoo_page_side_view
+			side <= side*
 			peer* <= side*
 			profile <= profile
 			editing? <=> editing? false
 			info? <=> info? false
 			highlight <= search
-			Details => View_details
+			Details => View_details*
 		<= Edit*0_0 $hyoo_page_side_edit
 			side <= side*
 			rights? <=> rights? false
@@ -1167,7 +1167,7 @@ $hyoo_page $mol_book2
 		<= Info*0_0 $hyoo_page_side_info
 			side <= side*
 			close? <=> info_close*? null
-			Text <= View_details
+			Text <= View_details*
 		<= Rights*0_0 $hyoo_page_side_rights
 			side <= side*
 			peer* <= side*

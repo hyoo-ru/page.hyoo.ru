@@ -3136,7 +3136,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/book2/book2.view.css", "[mol_book2] {\n\tdisplay: flex;\n\tflex-flow: row nowrap;\n\talign-items: stretch;\n\tflex: 1 1 auto;\n\talign-self: stretch;\n\tmargin: 0;\n\t/* box-shadow: 0 0 0 1px var(--mol_theme_line); */\n\t/* transform: translateZ(0); */\n\ttransition: none;\n\toverflow: overlay;\n\tscroll-snap-type: x mandatory;\n}\n\n[mol_book2] > * {\n/* \tflex: none; */\n\tscroll-snap-stop: always;\n\tscroll-snap-align: end;\n\tposition: relative;\n\tmin-height: 100%;\n\tmax-height: 100%;\n\tmax-width: 100%;\n\tflex-shrink: 0;\n}\n[mol_book2] > * + *:not([mol_book2_placeholder]):before {\n\tdisplay: block;\n\tcontent: '=';\n\topacity: .5;\n\tposition: absolute;\n\ttop: -.5rem;\n\tleft: -.325rem;\n}\n\n[mol_book2] > * {\n\tbackground-color: var(--mol_theme_card);\n\tbox-shadow: inset 0 0 0 1px var(--mol_theme_back);\n}\n\n[mol_book2] > [mol_book2] {\n\tdisplay: contents;\n}\n\n[mol_book2] > *:first-child {\n\tscroll-snap-align: start;\n}\n\n[mol_book2] > [mol_view] {\n\ttransform: none; /* prevent content clipping */\n}\n\n[mol_book2_placeholder] {\n\tflex: 1 1 0;\n\t/* background: var(--mol_theme_back); */\n}\n");
+    $mol_style_attach("mol/book2/book2.view.css", "[mol_book2] {\n\tdisplay: flex;\n\tflex-flow: row nowrap;\n\talign-items: stretch;\n\tflex: 1 1 auto;\n\talign-self: stretch;\n\tmargin: 0;\n\t/* box-shadow: 0 0 0 1px var(--mol_theme_line); */\n\t/* transform: translateZ(0); */\n\ttransition: none;\n\toverflow: overlay;\n\tscroll-snap-type: x mandatory;\n}\n\n[mol_book2] > * {\n/* \tflex: none; */\n\tscroll-snap-stop: always;\n\tscroll-snap-align: end;\n\tposition: relative;\n\tmin-height: 100%;\n\tmax-height: 100%;\n\tmax-width: 100%;\n\tflex-shrink: 0;\n}\n[mol_book2] > * + *:not([mol_book2_placeholder]):before {\n\tdisplay: block;\n\tcontent: '=';\n\topacity: .5;\n\tposition: absolute;\n\ttop: -.5rem;\n\tleft: -.35rem;\n}\n\n[mol_book2] > * {\n\tbackground-color: var(--mol_theme_card);\n\tbox-shadow: inset 0 0 0 1px var(--mol_theme_back);\n}\n\n[mol_book2] > [mol_book2] {\n\tdisplay: contents;\n}\n\n[mol_book2] > *:first-child {\n\tscroll-snap-align: start;\n}\n\n[mol_book2] > [mol_view] {\n\ttransform: none; /* prevent content clipping */\n}\n\n[mol_book2_placeholder] {\n\tflex: 1 1 0;\n\t/* background: var(--mol_theme_back); */\n}\n");
 })($ || ($ = {}));
 //mol/book2/-css/book2.view.css.ts
 ;
@@ -16326,7 +16326,7 @@ var $;
         pages() {
             return [
                 this.Menu(),
-                this.View(),
+                this.View("0_0"),
                 this.Edit("0_0"),
                 this.Info("0_0"),
                 this.Rights("0_0")
@@ -16355,10 +16355,6 @@ var $;
             obj.add = (next) => this.add(next);
             return obj;
         }
-        side_current() {
-            const obj = new this.$.$hyoo_page_side();
-            return obj;
-        }
         editing(next) {
             if (next !== undefined)
                 return next;
@@ -16369,12 +16365,12 @@ var $;
                 return next;
             return false;
         }
-        View_details() {
-            return this.View().Details();
+        View_details(id) {
+            return this.View(id).Details();
         }
-        View() {
+        View(id) {
             const obj = new this.$.$hyoo_page_side_view();
-            obj.side = () => this.side_current();
+            obj.side = () => this.side(id);
             obj.peer = (id) => this.side(id);
             obj.profile = () => this.profile();
             obj.editing = (next) => this.editing(next);
@@ -16408,7 +16404,7 @@ var $;
             const obj = new this.$.$hyoo_page_side_info();
             obj.side = () => this.side(id);
             obj.close = (next) => this.info_close(id, next);
-            obj.Text = () => this.View_details();
+            obj.Text = () => this.View_details(id);
             return obj;
         }
         rights_close(id, next) {
@@ -16444,15 +16440,12 @@ var $;
     ], $hyoo_page.prototype, "Menu", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page.prototype, "side_current", null);
-    __decorate([
-        $mol_mem
     ], $hyoo_page.prototype, "editing", null);
     __decorate([
         $mol_mem
     ], $hyoo_page.prototype, "info", null);
     __decorate([
-        $mol_mem
+        $mol_mem_key
     ], $hyoo_page.prototype, "View", null);
     __decorate([
         $mol_mem
@@ -16529,7 +16522,7 @@ var $;
                 const id = this.side_current_id();
                 return [
                     this.Menu(),
-                    this.View(),
+                    this.View(id),
                     ...this.editing() ? [this.Edit(id)] : [],
                     ...this.rights() ? [this.Rights(id)] : [],
                     ...this.info() ? [this.Info(id)] : [],
