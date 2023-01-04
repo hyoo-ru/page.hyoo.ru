@@ -5274,7 +5274,7 @@ var $;
             this.native.abort();
         }
         commit() {
-            this.native.commit();
+            this.native.commit?.();
             return new Promise((done, fail) => {
                 this.native.onerror = () => fail(new Error(this.native.error.message));
                 this.native.oncomplete = () => done();
