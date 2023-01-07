@@ -3,15 +3,6 @@ namespace $.$$ {
 	export class $hyoo_page_menu extends $.$hyoo_page_menu {
 		
 		@ $mol_mem
-		content() {
-			const bookmarks = this.bookmarks()
-			return [
-				... bookmarks.length > 2 ? [ this.Filter() ] : [],
-				... this.bookmarks_filtered().map( id => this.Bookmark( id ) )
-			]
-		}
-		
-		@ $mol_mem
 		bookmarks_filtered() {
 			
 			if( this.filter() ) {
@@ -23,11 +14,16 @@ namespace $.$$ {
 				} )
 			}
 			
-			return this.bookmarks().filter( $mol_match_text(
-				this.filter(),
-				id => [ this.bookmark_title( id ) ],
-			) ).reverse()
+			return super.bookmarks_filtered()
 			
+		}
+		
+		@ $mol_action
+		add() {
+			const land = this.yard().land_grab()
+			this.$.$mol_dom_context.location.href = '#!=' + land.id()
+			this.side().bookmarked( land.id(), true )
+			this.editing( true )
 		}
 		
 	}

@@ -1,9 +1,7 @@
 $hyoo_page $mol_book2
 	side_main_id \iy8wtn_tky6pc
 	yard $hyoo_sync_client
-		land* => side_land*
 	side* $hyoo_page_side
-		land <= side_land*
 	profile $hyoo_page_side
 	Placeholder null
 	plugins /
@@ -13,10 +11,15 @@ $hyoo_page $mol_book2
 	pages /
 		<= Menu $hyoo_page_menu
 			yard <= yard
+			side <= profile
 			bookmark* <= side*
-			profile <= profile
-			add? <=> add? null
 			filter => search
+			editing? <=> editing? false
+		<= Side_menu*0_0 $hyoo_page_side_menu
+			yard <= yard
+			side <= side*
+			bookmark* <= side*
+			editing? <=> editing? false
 		<= View*0_0 $hyoo_page_side_view
 			side <= side*
 			peer* <= side*

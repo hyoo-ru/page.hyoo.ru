@@ -1,0 +1,45 @@
+$hyoo_page_side_menu $mol_page
+	editing? false
+	side $hyoo_page_side
+		bookmarks? => bookmarks?
+		title => title
+		editable => editable
+		yard => yard
+	bookmarks_filtered <= bookmarks
+	Logo $hyoo_page_side_avatar
+		side <= side
+	tools /
+		<= Self_editing_toggle $mol_check_icon
+			hint @ \Edit list
+			checked? <=> self_editing? false
+			Icon <= Self_editing_icon $mol_icon_pencil_outline
+		<= Add $mol_button_minor
+			hint @ \New page
+			click? <=> add? null
+			sub /
+				<= Add_icon $mol_icon_playlist_plus
+	body /
+		<= Content $mol_list
+			rows <= content /
+				<= Filter $mol_search
+					query? <=> filter? \
+				<= Bookmark_drop*0_0 $mol_drop
+					enabled <= editable
+					adopt? <=> transfer_adopt? null
+					receive? <=> receive_after*? null
+					Sub <= Bookmark_row* $mol_view
+						sub <= bookmark_row* /
+							<= Bookmark_snippet* $hyoo_page_side_snippet
+								uri_toggle <= bookmark_uri* \
+								side <= bookmark* $hyoo_page_side
+									title => bookmark_title*
+								highlight <= filter
+							<= Bookmark_remove* $mol_button_minor
+								click? <=> bookmark_remove*? null
+								sub /
+									<= Bookmark_reove_icon* $mol_icon_cross
+		<= Drop_end $mol_drop
+			enabled <= editable
+			adopt? <=> transfer_adopt? null
+			receive? <=> receive_end? null
+			Sub <= Content_drop_zone $mol_view sub /

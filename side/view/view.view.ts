@@ -5,6 +5,7 @@ namespace $.$$ {
 		@ $mol_mem
 		head() {
 			return [
+				this.Public_toggle(),
 				this.Title(),
 				this.Tools(),
 				... this.search_show() ? [ this.Search() ] : [],
@@ -13,6 +14,16 @@ namespace $.$$ {
 		
 		bookmark( next?: boolean ) {
 			return this.profile().bookmarked( this.side().id(), next )
+		}
+		
+		@ $mol_mem
+		book() {
+			const fund = this.side().world()!.Fund( $hyoo_page_side )
+			return fund.Item( this.side().book() || this.side().id() )
+		}
+		
+		public( next?: boolean ) {
+			return this.book().bookmarked( this.side().id(), next )
 		}
 		
 		Edit_toggle() {

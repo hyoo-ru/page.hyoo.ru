@@ -1,27 +1,19 @@
 namespace $.$$ {
 	
-	export class $hyoo_page_side extends $mol_object {
-		
-		land() {
-			return null as any as $hyoo_crowd_land
-		}
+	export class $hyoo_page_side extends $hyoo_crowd_struct {
 		
 		id() {
-			return this.land().id()
-		}
-		
-		toJSON() {
-			return this.id()
+			return this.land.id()
 		}
 		
 		@ $mol_mem
 		editable() {
-			return this.land().level( this.land().peer().id ) >= $hyoo_crowd_peer_level.add
+			return this.land.allowed_mod()
 		}
 		
 		@ $mol_mem
 		referrers_node() {
-			return this.land().chief.yoke(
+			return this.yoke(
 				'referrers',
 				$hyoo_crowd_dict,
 				[''],
@@ -39,12 +31,12 @@ namespace $.$$ {
 		}
 		@ $mol_action
 		referrers_track( uri: string ) {
-			return this.referrers_node()?.sub( uri, $hyoo_crowd_list ).add( this.land().peer().id )
+			return this.referrers_node()?.sub( uri, $hyoo_crowd_list ).add( this.land.peer().id )
 		}
 		
 		@ $mol_mem
 		title_node() {
-			return this.land().chief.sub( 'title', $hyoo_crowd_text )
+			return this.sub( 'title', $hyoo_crowd_text )
 		}
 		@ $mol_mem
 		title( next?: string ) {
@@ -52,32 +44,29 @@ namespace $.$$ {
 		}
 		@ $mol_mem
 		title_selection( next?: number[] ) {
-			return this.title_node().selection( this.land().peer().id, next )
+			return this.title_node().selection( this.land.peer().id, next )
 		}
 
 		@ $mol_mem
 		details_node() {
-			return this.land().chief.yoke(
-				'details',
-				$hyoo_crowd_text,
-			)
+			return this.yoke( 'details', $hyoo_crowd_text )
 		}
 		@ $mol_mem
 		details( next?: string ) {
 			const land = this.details_node()?.land
-			if( ( land?.level( '' ) ?? 0 ) >= $hyoo_crowd_peer_level.mod ) {
+			if( land?.allowed_mod() ) {
 				land?.chief.sub( '$hyoo_page_side', $hyoo_crowd_reg ).str( this.id() )
 			}
 			return this.details_node()?.text( next ) ?? ''
 		}
 		@ $mol_mem
 		details_selection( next?: number[] ) {
-			return this.details_node()?.selection( this.land().peer().id, next ) ?? [ 0, 0 ]
+			return this.details_node()?.selection( this.land.peer().id, next ) ?? [ 0, 0 ]
 		}
 
 		@ $mol_mem
 		release_node() {
-			return this.land().chief.yoke( 'release', $hyoo_crowd_blob )
+			return this.yoke( 'release', $hyoo_crowd_blob )
 		}
 		@ $mol_mem
 		release( next?: string ) {
@@ -103,8 +92,12 @@ namespace $.$$ {
 			return new $mol_time_moment( this.details_node()?.land.last_stamp()! )
 		}
 		
+		book( next?: $mol_int62_string ) {
+			return $mol_int62_string_ensure( this.sub( 'book', $hyoo_crowd_reg ).str( next ) )
+		}
+		
 		bookmarks( next?: readonly $mol_int62_string[] ) {
-			const node = this.land().chief.sub( 'bookmarks', $hyoo_crowd_list )
+			const node = this.sub( 'bookmarks', $hyoo_crowd_list )
 			return node.list( next ) as $mol_int62_string[]
 		}
 		
@@ -120,12 +113,16 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		editors() {
-			return this.land().peers()
+			return this.land.peers()
 		}
 		
 		@ $mol_mem
 		authors() {
 			return [ ... this.details_node()?.land.authors() ?? [] ]
+		}
+		
+		steal_rights( side: $hyoo_page_side ) {
+			this.land.steal_rights( side.land )
 		}
 		
 	}

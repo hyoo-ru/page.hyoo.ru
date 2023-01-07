@@ -19,7 +19,7 @@ $hyoo_page_side_rights $mol_page
 					name @ \Add new
 					bid <= editor_add_bid @ \Irrevocable!
 					Content <= Editor_add_form $mol_list
-						rows /
+						rows <= editor_add_rows /
 							<= Editor_add_bar $mol_bar sub /
 								<= Editor_add_id $mol_string
 									hint @ \Id or Profile Link
@@ -29,6 +29,8 @@ $hyoo_page_side_rights $mol_page
 									click? <=> editor_add_submit? null
 									sub /
 										<= Editor_add_icon $mol_icon_plus
+							<= Editor_add_preview $hyoo_page_side_snippet
+								side <= editor_add_preview $hyoo_page_side
 							<= Editor_fill_all $mol_button_minor
 								title @ \Allow anyone
 								click? <=> editor_fill_all? null

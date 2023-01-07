@@ -4,7 +4,18 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		editor_list() {
-			return this.editors().map( peer => this.Editor_link( peer ) )
+			const side = this.side().id()
+			return this.editors()
+				.filter( peer => peer !== side )
+				.map( peer => this.Editor_link( peer ) )
+		}
+		
+		@ $mol_mem
+		editor_add_rows() {
+			return [
+				this.Editor_add_bar(),
+				this.editor_add_id() ? this.Editor_add_preview() : this.Editor_fill_all(),
+			]
 		}
 		
 		@ $mol_mem
@@ -28,11 +39,15 @@ namespace $.$$ {
 			
 			const peer = this.editor_add_id()
 			
-			this.side().land().level( peer, $hyoo_crowd_peer_level.mod )
+			this.side().land.level( peer, $hyoo_crowd_peer_level.mod )
 			this.details_node()?.land.level( peer, $hyoo_crowd_peer_level.mod )
 			
 			this.editor_add_id( '' )
 			
+		}
+		
+		editor_add_preview() {
+			return this.peer( this.editor_add_id() )
 		}
 
 	}

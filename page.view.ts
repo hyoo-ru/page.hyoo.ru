@@ -2,14 +2,6 @@ namespace $.$$ {
 	
 	export class $hyoo_page extends $.$hyoo_page {
 		
-		@ $mol_action
-		add() {
-			const land = this.yard().land_grab()
-			this.$.$mol_dom_context.location.href = '#!=' + land.id()
-			this.profile().bookmarked(  land.id(), true )
-			this.editing( true )
-		}
-		
 		@ $mol_mem
 		profile() {
 			return this.side( this.yard().home().id() )
@@ -42,6 +34,10 @@ namespace $.$$ {
 			this.info( false )
 		}
 		
+		side( id: $mol_int62_string ) {
+			return this.yard().world().Fund( $hyoo_page_side ).Item( id )
+		}
+		
 		@ $mol_mem
 		side_current_id() {
 			return ( this.$.$mol_state_arg.value( '' ) || this.side_main_id() ) as $mol_int62_string
@@ -51,11 +47,17 @@ namespace $.$$ {
 			return this.side( this.side_current_id() )
 		}
 		
+		@ $mol_mem_key
+		side_menu_showed( id: $mol_int62_string, next?: boolean ) {
+			return next ?? this.side( this.side( id ).book() || id ).bookmarks().length > 0
+		}
+		
 		@ $mol_mem
 		pages() {
 			const id = this.side_current_id()
 			return [
 				this.Menu(),
+				... this.side_menu_showed( id ) ? [ this.Side_menu( this.side_current().book() || id ) ] : [],
 				this.View( id ),
 				... this.editing() ? [ this.Edit( id ) ] : [],
 				... this.rights() ? [ this.Rights( id ) ] : [],

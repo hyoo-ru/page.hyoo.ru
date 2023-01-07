@@ -1,5 +1,6 @@
 $hyoo_page_side_view $mol_page
 	profile $hyoo_page_side
+	book $hyoo_page_side
 	highlight \
 	side $hyoo_page_side
 		id => id
@@ -16,9 +17,13 @@ $hyoo_page_side_view $mol_page
 			mod_ctrl true
 	auto /
 		<= slides_send null
-	Logo $mol_avatar
-		id <= id
 	head /
+		<= Public_toggle $mol_check
+			checked? <=> public? false
+			hint @ \Show in menu
+			sub /
+				<= Avatar $mol_avatar
+					id <= id
 		<= Title
 		<= Tools
 		<= Search $mol_search_jumper
@@ -29,7 +34,7 @@ $hyoo_page_side_view $mol_page
 		<= Edit_toggle $mol_check_icon
 			hint @ \Edit page
 			checked? <=> editing? false
-			Icon <= Edit_icon $mol_icon_pencil
+			Icon <= Edit_icon $mol_icon_pencil_outline
 			label <= edit_toggle_label /
 				<= Unreleased $mol_speck
 		<= Search_toggle $mol_check_icon
@@ -43,7 +48,7 @@ $hyoo_page_side_view $mol_page
 		<= Bookmark_toggle $mol_check_icon
 			hint @ \Bookmark page
 			checked? <=> bookmark? false
-			Icon <= Bookmark_icon $mol_icon_star_face
+			Icon <= Bookmark_icon $mol_icon_bookmark_outline
 	slides_content \
 		\# {title}
 		\{details}
@@ -51,7 +56,7 @@ $hyoo_page_side_view $mol_page
 		<= Details $mol_text
 			text <= details \
 			highlight <= search_query
-			Empty <= Details_empty $mol_card title \...
+			Empty <= Details_empty $mol_text text @ \Empty
 		<= Signature $mol_view
 			sub /
 				<= Changed $mol_date
