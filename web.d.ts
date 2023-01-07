@@ -1183,12 +1183,16 @@ declare namespace $ {
         _joined: boolean;
         join(): true | undefined;
         leave(): false | undefined;
+        allowed_add(peer?: `${string}_${string}`): boolean;
+        allowed_mod(peer?: `${string}_${string}`): boolean;
+        allowed_law(peer?: `${string}_${string}`): boolean;
         level_base(next?: $hyoo_crowd_peer_level): void;
         level(peer: $mol_int62_string | '', next?: $hyoo_crowd_peer_level): $hyoo_crowd_peer_level;
         grabbed(): boolean;
         peers(): readonly `${string}_${string}`[];
         residents(): readonly `${string}_${string}`[];
         authors(): Set<`${string}_${string}`>;
+        steal_rights(donor: $hyoo_crowd_land): void;
         first_stamp(): number | null;
         last_stamp(): number;
         selection(peer: $mol_int62_string): $hyoo_crowd_reg;
@@ -1784,10 +1788,8 @@ declare namespace $ {
 }
 
 declare namespace $.$$ {
-    class $hyoo_page_side extends $mol_object {
-        land(): $hyoo_crowd_land;
+    class $hyoo_page_side extends $hyoo_crowd_struct {
         id(): `${string}_${string}`;
-        toJSON(): `${string}_${string}`;
         editable(): boolean;
         referrers_node(): $hyoo_crowd_dict | null;
         referrers_list(): string[];
@@ -1805,10 +1807,12 @@ declare namespace $.$$ {
         publish(): void;
         content(): string;
         changed_moment(next?: $mol_time_moment): $mol_time_moment;
+        book(next?: $mol_int62_string): `${string}_${string}` | null;
         bookmarks(next?: readonly $mol_int62_string[]): `${string}_${string}`[];
         bookmarked(id: $mol_int62_string, next?: boolean): boolean;
         editors(): readonly `${string}_${string}`[];
         authors(): `${string}_${string}`[];
+        steal_rights(side: $hyoo_page_side): void;
     }
 }
 
@@ -2152,7 +2156,13 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_icon_plus extends $mol_icon {
+    class $mol_icon_pencil extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_pencil_outline extends $mol_icon {
         path(): string;
     }
 }
@@ -2355,66 +2365,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_icon_sync extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_sync_off extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_sync_online extends $mol_link {
-        minimal_width(): number;
-        minimal_height(): number;
-        yard(): $hyoo_sync_yard<unknown>;
-        uri(): string;
-        sub(): readonly any[];
-        attr(): {
-            title: string;
-            href: string;
-            target: string;
-            download: string;
-            mol_link_current: boolean;
-        };
-        master_link(): string;
-        Well(): $$.$mol_avatar;
-        Fail(): $mol_icon_sync_off;
-        hint(): string;
-        message(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $hyoo_sync_online extends $.$hyoo_sync_online {
-        message(): string;
-        sub(): $mol_icon_sync_off[];
-        hint(): string;
-        master_link(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_github_circle extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_link_source extends $mol_link {
-        hint(): string;
-        sub(): readonly any[];
-        Icon(): $mol_icon_github_circle;
-    }
-}
-
-declare namespace $ {
     class $mol_check extends $mol_button_minor {
         attr(): {
             mol_check_checked: boolean;
@@ -2453,24 +2403,8 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_icon_brightness_6 extends $mol_icon {
+    class $mol_icon_playlist_plus extends $mol_icon {
         path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_lights_toggle extends $mol_check_icon {
-        Icon(): $mol_icon_brightness_6;
-        hint(): string;
-        checked(val?: any): boolean;
-        Lights_icon(): $mol_icon_brightness_6;
-        lights(val?: any): boolean;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_lights_toggle extends $.$mol_lights_toggle {
-        lights(next?: boolean): boolean;
     }
 }
 
@@ -2909,28 +2843,92 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $hyoo_page_menu extends $mol_page {
-        Logo(): $$.$hyoo_page_side_avatar;
+    class $mol_ghost extends $mol_view {
+        Sub(): $mol_view;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_ghost extends $.$mol_ghost {
+        dom_node(next?: Element): Element;
+        dom_node_actual(): Element;
+        dom_tree(): Element;
         title(): string;
-        tools(): readonly any[];
-        foot(): readonly any[];
-        body(): readonly any[];
+        minimal_width(): number;
+        minimal_height(): number;
+    }
+}
+
+declare namespace $ {
+    class $mol_drop extends $mol_ghost {
+        enabled(next?: any): boolean;
+        event(): {
+            dragenter: (event?: any) => any;
+            dragover: (event?: any) => any;
+            dragleave: (event?: any) => any;
+            drop: (event?: any) => any;
+        };
+        attr(): {
+            mol_drop_status: string;
+        };
+        adopt(transfer?: any): {};
+        receive(transfer?: any): any;
+        enter(event?: any): any;
+        move(event?: any): any;
+        leave(event?: any): any;
+        drop(event?: any): any;
+        status(val?: any): string;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_drop extends $.$mol_drop {
+        status(next?: "ready" | "drag"): "ready" | "drag";
+        protected _target: EventTarget | null;
+        enter(event: DragEvent): void;
+        move(event: DragEvent): void;
+        leave(event: DragEvent): void;
+        receive(transfer: unknown): unknown;
+        drop(event: DragEvent): void;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_page_side_menu extends $mol_page {
+        editing(next?: any): boolean;
         bookmarks(next?: any): `${string}_${string}`[];
-        profile(): $$.$hyoo_page_side;
+        title(): string;
+        editable(): boolean;
+        side(): $$.$hyoo_page_side;
+        bookmarks_filtered(): `${string}_${string}`[];
+        Logo(): $$.$hyoo_page_side_avatar;
+        tools(): readonly any[];
+        body(): readonly any[];
+        self_editing(next?: any): boolean;
+        Self_editing_icon(): $mol_icon_pencil_outline;
+        Self_editing_toggle(): $mol_check_icon;
         add(next?: any): any;
-        Add_icon(): $mol_icon_plus;
+        Add_icon(): $mol_icon_playlist_plus;
         Add(): $mol_button_minor;
-        yard(): $hyoo_sync_yard<unknown>;
-        Online(): $$.$hyoo_sync_online;
-        Source(): $mol_link_source;
-        Lights(): $$.$mol_lights_toggle;
         filter(next?: any): string;
         Filter(): $$.$mol_search;
+        transfer_adopt(next?: any): any;
+        receive_after(id: any, next?: any): any;
+        bookmark_uri(id: any): string;
         bookmark_title(id: any): string;
         bookmark(id: any): $$.$hyoo_page_side;
-        Bookmark(id: any): $hyoo_page_side_snippet;
+        Bookmark_snippet(id: any): $hyoo_page_side_snippet;
+        bookmark_remove(id: any, next?: any): any;
+        Bookmark_reove_icon(id: any): $mol_icon_cross;
+        Bookmark_remove(id: any): $mol_button_minor;
+        bookmark_row(id: any): readonly any[];
+        Bookmark_row(id: any): $mol_view;
+        Bookmark_drop(id: any): $$.$mol_drop;
         content(): readonly any[];
         Content(): $$.$mol_list;
+        receive_end(next?: any): any;
+        Content_drop_zone(): $mol_view;
+        Drop_end(): $$.$mol_drop;
     }
 }
 
@@ -2942,9 +2940,151 @@ declare namespace $ {
 }
 
 declare namespace $.$$ {
-    class $hyoo_page_menu extends $.$hyoo_page_menu {
-        content(): ($mol_search | $hyoo_page_side_snippet)[];
+    class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
+        content(): ($mol_search | $mol_drop)[];
         bookmarks_filtered(): `${string}_${string}`[];
+        Add(): any;
+        add(): void;
+        bookmark_row(id: $mol_int62_string): ($mol_button_minor | $hyoo_page_side_snippet)[];
+        bookmark_remove(id: $mol_int62_string): void;
+        bookmark_uri(id: $mol_int62_string): string;
+        transfer_adopt(transfer: DataTransfer): `${string}_${string}` | null | undefined;
+        receive_after(anchor: $mol_int62_string, bookmark: $mol_int62_string): void;
+        receive_end(bookmark: $mol_int62_string): void;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_file extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_file_document extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_file_document_box extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_file_document_box_plus extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_file_document_box_plus_outline extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_sync extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_sync_off extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_sync_online extends $mol_link {
+        minimal_width(): number;
+        minimal_height(): number;
+        yard(): $hyoo_sync_yard<unknown>;
+        uri(): string;
+        sub(): readonly any[];
+        attr(): {
+            title: string;
+            href: string;
+            target: string;
+            download: string;
+            mol_link_current: boolean;
+        };
+        master_link(): string;
+        Well(): $$.$mol_avatar;
+        Fail(): $mol_icon_sync_off;
+        hint(): string;
+        message(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_sync_online extends $.$hyoo_sync_online {
+        message(): string;
+        sub(): $mol_icon_sync_off[];
+        hint(): string;
+        master_link(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_github_circle extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_link_source extends $mol_link {
+        hint(): string;
+        sub(): readonly any[];
+        Icon(): $mol_icon_github_circle;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_brightness_6 extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_lights_toggle extends $mol_check_icon {
+        Icon(): $mol_icon_brightness_6;
+        hint(): string;
+        checked(val?: any): boolean;
+        Lights_icon(): $mol_icon_brightness_6;
+        lights(val?: any): boolean;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_lights_toggle extends $.$mol_lights_toggle {
+        lights(next?: boolean): boolean;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_page_menu extends $hyoo_page_side_menu {
+        title(): string;
+        foot(): readonly any[];
+        Add_icon(): $mol_icon_file_document_box_plus_outline;
+        yard(): $hyoo_sync_yard<unknown>;
+        Online(): $$.$hyoo_sync_online;
+        Source(): $mol_link_source;
+        Lights(): $$.$mol_lights_toggle;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_page_menu extends $.$hyoo_page_menu {
+        bookmarks_filtered(): `${string}_${string}`[];
+        add(): void;
     }
 }
 
@@ -3023,12 +3163,6 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_icon_pencil extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
     class $mol_icon_magnify extends $mol_icon {
         path(): string;
     }
@@ -3047,37 +3181,14 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_icon_star extends $mol_icon {
+    class $mol_icon_bookmark extends $mol_icon {
         path(): string;
     }
 }
 
 declare namespace $ {
-    class $mol_icon_star_face extends $mol_icon {
+    class $mol_icon_bookmark_outline extends $mol_icon {
         path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_card extends $mol_list {
-        attr(): {
-            mol_card_status_type: string;
-        };
-        rows(): readonly $mol_view[];
-        status(): string;
-        content(): readonly $mol_view_content[];
-        Content(): $mol_view;
-        status_text(): string;
-        Status(): $mol_view;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_card extends $.$mol_card {
-        rows(): $mol_view[];
     }
 }
 
@@ -3515,23 +3626,6 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_ghost extends $mol_view {
-        Sub(): $mol_view;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_ghost extends $.$mol_ghost {
-        dom_node(next?: Element): Element;
-        dom_node_actual(): Element;
-        dom_tree(): Element;
-        title(): string;
-        minimal_width(): number;
-        minimal_height(): number;
-    }
-}
-
-declare namespace $ {
     class $mol_embed_native extends $mol_scroll {
         uri(val?: any): string;
         dom_name(): string;
@@ -3962,6 +4056,7 @@ declare namespace $.$$ {
 declare namespace $ {
     class $hyoo_page_side_view extends $mol_page {
         profile(): $$.$hyoo_page_side;
+        book(): $$.$hyoo_page_side;
         highlight(): string;
         id(): `${string}_${string}`;
         editable(): boolean;
@@ -3974,7 +4069,6 @@ declare namespace $ {
         side(): $$.$hyoo_page_side;
         plugins(): readonly any[];
         auto(): readonly any[];
-        Logo(): $$.$mol_avatar;
         head(): readonly any[];
         tools(): readonly any[];
         slides_content(): string;
@@ -3982,11 +4076,14 @@ declare namespace $ {
         search_start(next?: any): any;
         Search_start(): $$.$mol_hotkey;
         slides_send(): any;
+        public(next?: any): boolean;
+        Avatar(): $$.$mol_avatar;
+        Public_toggle(): $$.$mol_check;
         search_query(val?: any): string;
         search_stop(next?: any): any;
         Search(): $$.$mol_search_jumper;
         editing(next?: any): boolean;
-        Edit_icon(): $mol_icon_pencil;
+        Edit_icon(): $mol_icon_pencil_outline;
         Unreleased(): $mol_speck;
         edit_toggle_label(): readonly any[];
         Edit_toggle(): $mol_check_icon;
@@ -3997,10 +4094,10 @@ declare namespace $ {
         Info_icon(): $mol_icon_information_outline;
         Info_toggle(): $mol_check_icon;
         bookmark(next?: any): boolean;
-        Bookmark_icon(): $mol_icon_star_face;
+        Bookmark_icon(): $mol_icon_bookmark_outline;
         Bookmark_toggle(): $mol_check_icon;
         details(): string;
-        Details_empty(): $$.$mol_card;
+        Details_empty(): $$.$mol_text;
         Details(): $$.$mol_text;
         Changed(): $$.$mol_date;
         peer(id: any): $$.$hyoo_page_side;
@@ -4018,6 +4115,8 @@ declare namespace $.$$ {
     class $hyoo_page_side_view extends $.$hyoo_page_side_view {
         head(): ($mol_view | $mol_search_jumper)[];
         bookmark(next?: boolean): boolean;
+        book(): $hyoo_page_side;
+        public(next?: boolean): boolean;
         Edit_toggle(): any;
         edit_toggle_label(): $mol_speck[];
         search_show(next?: boolean): boolean;
@@ -4180,6 +4279,29 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_card extends $mol_list {
+        attr(): {
+            mol_card_status_type: string;
+        };
+        rows(): readonly $mol_view[];
+        status(): string;
+        content(): readonly $mol_view_content[];
+        Content(): $mol_view;
+        status_text(): string;
+        Status(): $mol_view;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_card extends $.$mol_card {
+        rows(): $mol_view[];
+    }
+}
+
+declare namespace $ {
     class $mol_expander extends $mol_list {
         rows(): readonly any[];
         expanded(val?: any): boolean;
@@ -4319,6 +4441,12 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_icon_plus extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
     class $mol_button_major extends $mol_button_typed {
         attr(): {
             mol_theme: string;
@@ -4377,8 +4505,11 @@ declare namespace $ {
         Editor_add_icon(): $mol_icon_plus;
         Editor_add_submit(): $mol_button_major;
         Editor_add_bar(): $mol_bar;
+        editor_add_preview(): $$.$hyoo_page_side;
+        Editor_add_preview(): $hyoo_page_side_snippet;
         editor_fill_all(next?: any): any;
         Editor_fill_all(): $mol_button_minor;
+        editor_add_rows(): readonly any[];
         Editor_add_form(): $$.$mol_list;
         Editor_add(): $$.$mol_form_field;
         Content(): $$.$mol_list;
@@ -4427,18 +4558,19 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_page_side_rights extends $.$hyoo_page_side_rights {
         editor_list(): $hyoo_page_side_snippet[];
+        editor_add_rows(): ($mol_button_minor | $hyoo_page_side_snippet | $mol_bar)[];
         editor_add_id(next?: string): `${string}_${string}`;
         editor_add_filled(): boolean;
         editor_add_bid(): string;
         editor_fill_all(): void;
         editor_add_submit(): void;
+        editor_add_preview(): $hyoo_page_side;
     }
 }
 
 declare namespace $ {
     class $hyoo_page extends $mol_book2 {
         side_main_id(): string;
-        side_land(id: any): $hyoo_crowd_land;
         yard(): $hyoo_sync_client;
         side(id: any): $$.$hyoo_page_side;
         profile(): $$.$hyoo_page_side;
@@ -4448,10 +4580,10 @@ declare namespace $ {
         pages(): readonly any[];
         Theme(): $$.$mol_theme_auto;
         ref_track(): any;
-        add(next?: any): any;
+        editing(next?: any): boolean;
         search(): string;
         Menu(): $$.$hyoo_page_menu;
-        editing(next?: any): boolean;
+        Side_menu(id: any): $$.$hyoo_page_side_menu;
         info(next?: any): boolean;
         View_details(id: any): $$.$mol_text;
         View(id: any): $$.$hyoo_page_side_view;
@@ -4470,7 +4602,6 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_page extends $.$hyoo_page {
-        add(): void;
         profile(): $hyoo_page_side;
         editing(next?: boolean): boolean;
         rights(next?: boolean): boolean;
@@ -4478,9 +4609,11 @@ declare namespace $.$$ {
         edit_close(): void;
         rights_close(): void;
         info_close(): void;
+        side(id: $mol_int62_string): $hyoo_page_side;
         side_current_id(): `${string}_${string}`;
         side_current(): $hyoo_page_side;
-        pages(): ($hyoo_page_menu | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_page_side_rights)[];
+        side_menu_showed(id: $mol_int62_string, next?: boolean): boolean;
+        pages(): ($hyoo_page_side_menu | $hyoo_page_menu | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_page_side_rights)[];
     }
 }
 

@@ -2736,7 +2736,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/book2/book2.view.css", "[mol_book2] {\n\tdisplay: flex;\n\tflex-flow: row nowrap;\n\talign-items: stretch;\n\tflex: 1 1 auto;\n\talign-self: stretch;\n\tmargin: 0;\n\t/* box-shadow: 0 0 0 1px var(--mol_theme_line); */\n\t/* transform: translateZ(0); */\n\ttransition: none;\n\toverflow: overlay;\n\tscroll-snap-type: x mandatory;\n}\n\n[mol_book2] > * {\n/* \tflex: none; */\n\tscroll-snap-stop: always;\n\tscroll-snap-align: end;\n\tposition: relative;\n\tmin-height: 100%;\n\tmax-height: 100%;\n\tmax-width: 100%;\n\tflex-shrink: 0;\n}\n[mol_book2] > * + *:not([mol_book2_placeholder]):before {\n\tdisplay: block;\n\tcontent: '=';\n\topacity: .5;\n\tposition: absolute;\n\ttop: -.5rem;\n\tleft: -.35rem;\n}\n[mol_book2] > *:not(:last-child):after {\n\tdisplay: block;\n\tcontent: '=';\n\topacity: .5;\n\tposition: absolute;\n\ttop: -.5rem;\n\tright: -.35rem;\n}\n\n[mol_book2] > * {\n\tbackground-color: var(--mol_theme_card);\n\tbox-shadow: inset 0 0 0 1px var(--mol_theme_back);\n}\n\n[mol_book2] > [mol_book2] {\n\tdisplay: contents;\n}\n\n[mol_book2] > *:first-child {\n\tscroll-snap-align: start;\n}\n\n[mol_book2] > [mol_view] {\n\ttransform: none; /* prevent content clipping */\n}\n\n[mol_book2_placeholder] {\n\tflex: 1 1 0;\n\t/* background: var(--mol_theme_back); */\n}\n");
+    $mol_style_attach("mol/book2/book2.view.css", "[mol_book2] {\n\tdisplay: flex;\n\tflex-flow: row nowrap;\n\talign-items: stretch;\n\tflex: 1 1 auto;\n\talign-self: stretch;\n\tmargin: 0;\n\t/* box-shadow: 0 0 0 1px var(--mol_theme_line); */\n\t/* transform: translateZ(0); */\n\ttransition: none;\n\toverflow: overlay;\n\tscroll-snap-type: x mandatory;\n}\n\n[mol_book2] > * {\n/* \tflex: none; */\n\tscroll-snap-stop: always;\n\tscroll-snap-align: end;\n\tposition: relative;\n\tmin-height: 100%;\n\tmax-height: 100%;\n\tmax-width: 100%;\n\tflex-shrink: 0;\n}\n[mol_book2] > * + *:not([mol_book2_placeholder]):before {\n\tdisplay: block;\n\tcontent: '-';\n\topacity: .5;\n\tposition: absolute;\n\ttop: -.5rem;\n\tleft: -.35rem;\n}\n[mol_book2] > *:not(:last-child):after {\n\tdisplay: block;\n\tcontent: '-';\n\topacity: .5;\n\tposition: absolute;\n\ttop: -.5rem;\n\tright: -.35rem;\n}\n\n[mol_book2] > * {\n\tbackground-color: var(--mol_theme_card);\n\tbox-shadow: inset 0 0 0 1px var(--mol_theme_back);\n}\n\n[mol_book2] > [mol_book2] {\n\tdisplay: contents;\n}\n\n[mol_book2] > *:first-child {\n\tscroll-snap-align: start;\n}\n\n[mol_book2] > [mol_view] {\n\ttransform: none; /* prevent content clipping */\n}\n\n[mol_book2_placeholder] {\n\tflex: 1 1 0;\n\t/* background: var(--mol_theme_back); */\n}\n");
 })($ || ($ = {}));
 //mol/book2/-css/book2.view.css.ts
 ;
@@ -3996,6 +3996,15 @@ var $;
             this._joined = false;
             this.pub.emit();
         }
+        allowed_add(peer = this.peer().id) {
+            return this.level(peer) >= $hyoo_crowd_peer_level.add;
+        }
+        allowed_mod(peer = this.peer().id) {
+            return this.level(peer) >= $hyoo_crowd_peer_level.mod;
+        }
+        allowed_law(peer = this.peer().id) {
+            return this.level(peer) >= $hyoo_crowd_peer_level.law;
+        }
         level_base(next) {
             this.level('0_0', next);
         }
@@ -4062,6 +4071,11 @@ var $;
                 authors.add(unit.auth);
             }
             return authors;
+        }
+        steal_rights(donor) {
+            for (const peer of donor.peers()) {
+                this.level(peer, donor.level(peer));
+            }
         }
         first_stamp() {
             this.pub.promote();
@@ -6528,21 +6542,15 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $hyoo_page_side extends $mol_object {
-            land() {
-                return null;
-            }
+        class $hyoo_page_side extends $hyoo_crowd_struct {
             id() {
-                return this.land().id();
-            }
-            toJSON() {
-                return this.id();
+                return this.land.id();
             }
             editable() {
-                return this.land().level(this.land().peer().id) >= $hyoo_crowd_peer_level.add;
+                return this.land.allowed_mod();
             }
             referrers_node() {
-                return this.land().chief.yoke('referrers', $hyoo_crowd_dict, [''], [], ['0_0']);
+                return this.yoke('referrers', $hyoo_crowd_dict, [''], [], ['0_0']);
             }
             referrers_list() {
                 return this.referrers_node()?.keys() ?? [];
@@ -6551,32 +6559,32 @@ var $;
                 return this.referrers_node()?.sub(uri, $hyoo_crowd_list).list().length ?? 0;
             }
             referrers_track(uri) {
-                return this.referrers_node()?.sub(uri, $hyoo_crowd_list).add(this.land().peer().id);
+                return this.referrers_node()?.sub(uri, $hyoo_crowd_list).add(this.land.peer().id);
             }
             title_node() {
-                return this.land().chief.sub('title', $hyoo_crowd_text);
+                return this.sub('title', $hyoo_crowd_text);
             }
             title(next) {
                 return this.title_node().str(next);
             }
             title_selection(next) {
-                return this.title_node().selection(this.land().peer().id, next);
+                return this.title_node().selection(this.land.peer().id, next);
             }
             details_node() {
-                return this.land().chief.yoke('details', $hyoo_crowd_text);
+                return this.yoke('details', $hyoo_crowd_text);
             }
             details(next) {
                 const land = this.details_node()?.land;
-                if ((land?.level('') ?? 0) >= $hyoo_crowd_peer_level.mod) {
+                if (land?.allowed_mod()) {
                     land?.chief.sub('$hyoo_page_side', $hyoo_crowd_reg).str(this.id());
                 }
                 return this.details_node()?.text(next) ?? '';
             }
             details_selection(next) {
-                return this.details_node()?.selection(this.land().peer().id, next) ?? [0, 0];
+                return this.details_node()?.selection(this.land.peer().id, next) ?? [0, 0];
             }
             release_node() {
-                return this.land().chief.yoke('release', $hyoo_crowd_blob);
+                return this.yoke('release', $hyoo_crowd_blob);
             }
             release(next) {
                 return this.release_node()?.str(next) ?? '';
@@ -6593,8 +6601,11 @@ var $;
             changed_moment(next) {
                 return new $mol_time_moment(this.details_node()?.land.last_stamp());
             }
+            book(next) {
+                return $mol_int62_string_ensure(this.sub('book', $hyoo_crowd_reg).str(next));
+            }
             bookmarks(next) {
-                const node = this.land().chief.sub('bookmarks', $hyoo_crowd_list);
+                const node = this.sub('bookmarks', $hyoo_crowd_list);
                 return node.list(next);
             }
             bookmarked(id, next) {
@@ -6603,10 +6614,13 @@ var $;
                     : this.bookmarks().filter(i => i !== id))).includes(id);
             }
             editors() {
-                return this.land().peers();
+                return this.land.peers();
             }
             authors() {
                 return [...this.details_node()?.land.authors() ?? []];
+            }
+            steal_rights(side) {
+                this.land.steal_rights(side.land);
             }
         }
         __decorate([
@@ -7163,7 +7177,7 @@ var $;
         boxSizing: 'border-box',
         position: 'relative',
         minWidth: rem(2.5),
-        gap: $mol_gap.space,
+        gap: $mol_gap.block,
         border: {
             radius: $mol_gap.round,
         },
@@ -7865,7 +7879,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/icon/icon.view.css", "[mol_icon] {\n\tfill: currentColor;\n\tstroke: none;\n\twidth: 1rem;\n\theight: 1rem;\n\tflex: 0 0 auto;\n\tvertical-align: top;\n\tmargin: .25rem 0;\n\tdisplay: inline-block;\n\tfilter: drop-shadow(0px 1px 1px var(--mol_theme_back));\n\ttransform-origin: center;\n}\n\n[mol_icon_path] {\n\ttransform-origin: center;\n}\n");
+    $mol_style_attach("mol/icon/icon.view.css", "[mol_icon] {\n\tfill: currentColor;\n\tstroke: none;\n\twidth: 1.5rem;\n\theight: 1.5rem;\n\tflex: 0 0 auto;\n\tvertical-align: top;\n\tdisplay: inline-block;\n\tfilter: drop-shadow(0px 1px 1px var(--mol_theme_back));\n\ttransform-origin: center;\n}\n\n[mol_icon_path] {\n\ttransform-origin: center;\n}\n");
 })($ || ($ = {}));
 //mol/icon/-css/icon.view.css.ts
 ;
@@ -7909,7 +7923,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/avatar/avatar.view.css", "[mol_avatar] {\n\tstroke-linecap: round;\n\tstroke-width: 3.8px;\n\tfill: none;\n\tstroke: currentColor;\n\t/* width: 1.5rem;\n\theight: 1.5rem;\n\tmargin: 0 -.25rem; */\n\t/* box-shadow: 0 0 0 1px var(--mol_theme_line); */\n}\n");
+    $mol_style_attach("mol/avatar/avatar.view.css", "[mol_avatar] {\n\tstroke-linecap: round;\n\tstroke-width: 3.5px;\n\tfill: none;\n\tstroke: currentColor;\n\t/* width: 1.5rem;\n\theight: 1.5rem;\n\tmargin: 0 -.25rem; */\n\t/* box-shadow: 0 0 0 1px var(--mol_theme_line); */\n}\n");
 })($ || ($ = {}));
 //mol/avatar/-css/avatar.view.css.ts
 ;
@@ -8008,14 +8022,26 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_icon_plus extends $mol_icon {
+    class $mol_icon_pencil extends $mol_icon {
         path() {
-            return "M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z";
+            return "M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z";
         }
     }
-    $.$mol_icon_plus = $mol_icon_plus;
+    $.$mol_icon_pencil = $mol_icon_pencil;
 })($ || ($ = {}));
-//mol/icon/plus/-view.tree/plus.view.tree.ts
+//mol/icon/pencil/-view.tree/pencil.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_pencil_outline extends $mol_icon {
+        path() {
+            return "M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z";
+        }
+    }
+    $.$mol_icon_pencil_outline = $mol_icon_pencil_outline;
+})($ || ($ = {}));
+//mol/icon/pencil/outline/-view.tree/outline.view.tree.ts
 ;
 "use strict";
 var $;
@@ -8394,188 +8420,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_icon_sync extends $mol_icon {
-        path() {
-            return "M12,18C8.69,18 6,15.31 6,12C6,11 6.25,10.03 6.7,9.2L5.24,7.74C4.46,8.97 4,10.43 4,12C4,16.42 7.58,20 12,20V23L16,19L12,15M12,4V1L8,5L12,9V6C15.31,6 18,8.69 18,12C18,13 17.75,13.97 17.3,14.8L18.76,16.26C19.54,15.03 20,13.57 20,12C20,7.58 16.42,4 12,4Z";
-        }
-    }
-    $.$mol_icon_sync = $mol_icon_sync;
-})($ || ($ = {}));
-//mol/icon/sync/-view.tree/sync.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_icon_sync_off extends $mol_icon {
-        path() {
-            return "M20,4H14V10L16.24,7.76C17.32,8.85 18,10.34 18,12C18,13 17.75,13.94 17.32,14.77L18.78,16.23C19.55,15 20,13.56 20,12C20,9.79 19.09,7.8 17.64,6.36L20,4M2.86,5.41L5.22,7.77C4.45,9 4,10.44 4,12C4,14.21 4.91,16.2 6.36,17.64L4,20H10V14L7.76,16.24C6.68,15.15 6,13.66 6,12C6,11 6.25,10.06 6.68,9.23L14.76,17.31C14.5,17.44 14.26,17.56 14,17.65V19.74C14.79,19.53 15.54,19.2 16.22,18.78L18.58,21.14L19.85,19.87L4.14,4.14L2.86,5.41M10,6.35V4.26C9.2,4.47 8.45,4.8 7.77,5.22L9.23,6.68C9.5,6.56 9.73,6.44 10,6.35Z";
-        }
-    }
-    $.$mol_icon_sync_off = $mol_icon_sync_off;
-})($ || ($ = {}));
-//mol/icon/sync/off/-view.tree/off.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $hyoo_sync_online extends $mol_link {
-        minimal_width() {
-            return 40;
-        }
-        minimal_height() {
-            return 40;
-        }
-        yard() {
-            const obj = new this.$.$hyoo_sync_yard();
-            return obj;
-        }
-        uri() {
-            return this.master_link();
-        }
-        sub() {
-            return [
-                this.Well(),
-                this.Fail()
-            ];
-        }
-        attr() {
-            return {
-                ...super.attr(),
-                title: this.message()
-            };
-        }
-        master_link() {
-            return "";
-        }
-        Well() {
-            const obj = new this.$.$mol_avatar();
-            obj.id = () => this.master_link();
-            return obj;
-        }
-        Fail() {
-            const obj = new this.$.$mol_icon_sync_off();
-            return obj;
-        }
-        hint() {
-            return "$hyoo_sync";
-        }
-        message() {
-            return this.hint();
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $hyoo_sync_online.prototype, "yard", null);
-    __decorate([
-        $mol_mem
-    ], $hyoo_sync_online.prototype, "Well", null);
-    __decorate([
-        $mol_mem
-    ], $hyoo_sync_online.prototype, "Fail", null);
-    $.$hyoo_sync_online = $hyoo_sync_online;
-})($ || ($ = {}));
-//hyoo/sync/online/-view.tree/online.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("hyoo/sync/online/online.view.css", "[hyoo_sync_online] {\n\tpadding: var(--mol_gap_text);\n}\n\n[hyoo_sync_online_well] {\n\tcolor: var(--mol_theme_current);\n}\n\n[hyoo_sync_online_fail] {\n\tcolor: var(--mol_theme_focus);\n}\n\n[hyoo_sync_online][mol_view_error=\"Promise\"] {\n\tanimation: hyoo_sync_online_wait 1s linear infinite;\n}\n\n@keyframes hyoo_sync_online_wait {\n\tfrom {\n\t\topacity: 1;\n\t}\n\tto {\n\t\topacity: .5;\n\t}\n}\n");
-})($ || ($ = {}));
-//hyoo/sync/online/-css/online.view.css.ts
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $hyoo_sync_online extends $.$hyoo_sync_online {
-            message() {
-                try {
-                    this.yard().sync();
-                    return this.hint();
-                }
-                catch (error) {
-                    if (error instanceof Promise)
-                        $mol_fail_hidden(error);
-                    $mol_fail_log(error);
-                    return String(error);
-                }
-            }
-            sub() {
-                try {
-                    this.yard().sync();
-                    return [this.Well()];
-                }
-                catch (error) {
-                    if (error instanceof Promise)
-                        $mol_fail_hidden(error);
-                    $mol_fail_log(error);
-                    return [this.Fail()];
-                }
-            }
-            hint() {
-                return super.hint() + ' ' + $hyoo_sync_revision;
-            }
-            master_link() {
-                return this.yard().master_link().replace(/^ws(s?):/, 'http$1:');
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $hyoo_sync_online.prototype, "message", null);
-        __decorate([
-            $mol_mem
-        ], $hyoo_sync_online.prototype, "sub", null);
-        __decorate([
-            $mol_mem
-        ], $hyoo_sync_online.prototype, "hint", null);
-        __decorate([
-            $mol_mem
-        ], $hyoo_sync_online.prototype, "master_link", null);
-        $$.$hyoo_sync_online = $hyoo_sync_online;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//hyoo/sync/online/online.view.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_icon_github_circle extends $mol_icon {
-        path() {
-            return "M12,2C6.48,2 2,6.48 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12C22,6.48 17.52,2 12,2Z";
-        }
-    }
-    $.$mol_icon_github_circle = $mol_icon_github_circle;
-})($ || ($ = {}));
-//mol/icon/github/circle/-view.tree/circle.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_link_source extends $mol_link {
-        hint() {
-            return this.$.$mol_locale.text('$mol_link_source_hint');
-        }
-        sub() {
-            return [
-                this.Icon()
-            ];
-        }
-        Icon() {
-            const obj = new this.$.$mol_icon_github_circle();
-            return obj;
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $mol_link_source.prototype, "Icon", null);
-    $.$mol_link_source = $mol_link_source;
-})($ || ($ = {}));
-//mol/link/source/-view.tree/source.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
     class $mol_check extends $mol_button_minor {
         attr() {
             return {
@@ -8628,7 +8472,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/check/check.css", "[mol_check] {\n\tflex: 0 0 auto;\n\tjustify-content: flex-start;\n\talign-content: center;\n\talign-items: flex-start;\n\tborder: none;\n\tfont-weight: inherit;\n\tbox-shadow: none;\n\ttext-align: left;\n\tpadding: var(--mol_gap_text);\n\tdisplay: inline-flex;\n\tflex-wrap: nowrap;\n}\n\n[mol_check_title] {\n\tflex-shrink: 1;\n}\n");
+    $mol_style_attach("mol/check/check.css", "[mol_check] {\n\tflex: 0 0 auto;\n\tjustify-content: flex-start;\n\talign-content: center;\n\talign-items: flex-start;\n\tborder: none;\n\tfont-weight: inherit;\n\tbox-shadow: none;\n\ttext-align: left;\n\tpadding: var(--mol_gap_text);\n\tdisplay: inline-flex;\n\tflex-wrap: nowrap;\n}\n\n[mol_check_title] {\n\tflex-shrink: 1;\n}\n\n[mol_check_checked] {\n\tcolor: var(--mol_theme_current);\n}\n");
 })($ || ($ = {}));
 //mol/check/-css/check.css.ts
 ;
@@ -8672,69 +8516,21 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/check/icon/icon.view.css", "[mol_check_icon][mol_check_checked] {\n\tcolor: var(--mol_theme_current);\n}\n");
+    $mol_style_attach("mol/check/icon/icon.view.css", "");
 })($ || ($ = {}));
 //mol/check/icon/-css/icon.view.css.ts
 ;
 "use strict";
 var $;
 (function ($) {
-    class $mol_icon_brightness_6 extends $mol_icon {
+    class $mol_icon_playlist_plus extends $mol_icon {
         path() {
-            return "M12,18V6C15.31,6 18,8.69 18,12C18,15.31 15.31,18 12,18M20,15.31L23.31,12L20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31Z";
+            return "M2,16H10V14H2M18,14V10H16V14H12V16H16V20H18V16H22V14M14,6H2V8H14M14,10H2V12H14V10Z";
         }
     }
-    $.$mol_icon_brightness_6 = $mol_icon_brightness_6;
+    $.$mol_icon_playlist_plus = $mol_icon_playlist_plus;
 })($ || ($ = {}));
-//mol/icon/brightness/6/-view.tree/6.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_lights_toggle extends $mol_check_icon {
-        Icon() {
-            return this.Lights_icon();
-        }
-        hint() {
-            return this.$.$mol_locale.text('$mol_lights_toggle_hint');
-        }
-        checked(val) {
-            return this.lights(val);
-        }
-        Lights_icon() {
-            const obj = new this.$.$mol_icon_brightness_6();
-            return obj;
-        }
-        lights(val) {
-            if (val !== undefined)
-                return val;
-            return false;
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $mol_lights_toggle.prototype, "Lights_icon", null);
-    __decorate([
-        $mol_mem
-    ], $mol_lights_toggle.prototype, "lights", null);
-    $.$mol_lights_toggle = $mol_lights_toggle;
-})($ || ($ = {}));
-//mol/lights/toggle/-view.tree/toggle.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_lights_toggle extends $.$mol_lights_toggle {
-            lights(next) {
-                return this.$.$mol_lights(next);
-            }
-        }
-        $$.$mol_lights_toggle = $mol_lights_toggle;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//mol/lights/toggle/toggle.view.ts
+//mol/icon/playlist/plus/-view.tree/plus.view.tree.ts
 ;
 "use strict";
 var $;
@@ -10149,38 +9945,270 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $hyoo_page_menu extends $mol_page {
-        Logo() {
-            const obj = new this.$.$hyoo_page_side_avatar();
-            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_menu_Logo_hint');
-            obj.side = () => this.profile();
+    class $mol_ghost extends $mol_view {
+        Sub() {
+            const obj = new this.$.$mol_view();
             return obj;
         }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_ghost.prototype, "Sub", null);
+    $.$mol_ghost = $mol_ghost;
+})($ || ($ = {}));
+//mol/ghost/-view.tree/ghost.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_ghost extends $.$mol_ghost {
+            dom_node(next) {
+                const node = this.Sub().dom_node(next);
+                $mol_dom_render_attributes(node, this.attr_static());
+                $mol_dom_render_events(node, this.event());
+                return node;
+            }
+            dom_node_actual() {
+                this.dom_node();
+                const node = this.Sub().dom_node_actual();
+                const attr = this.attr();
+                const style = this.style();
+                const fields = this.field();
+                $mol_dom_render_attributes(node, attr);
+                $mol_dom_render_styles(node, style);
+                $mol_dom_render_fields(node, fields);
+                return node;
+            }
+            dom_tree() {
+                const Sub = this.Sub();
+                const node = Sub.dom_tree();
+                try {
+                    this.dom_node_actual();
+                    this.auto();
+                }
+                catch (error) {
+                    $mol_fail_log(error);
+                }
+                return node;
+            }
+            title() {
+                return this.Sub().title();
+            }
+            minimal_width() {
+                return this.Sub().minimal_width();
+            }
+            minimal_height() {
+                return this.Sub().minimal_height();
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_ghost.prototype, "dom_node", null);
+        __decorate([
+            $mol_mem
+        ], $mol_ghost.prototype, "dom_node_actual", null);
+        $$.$mol_ghost = $mol_ghost;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//mol/ghost/ghost.view.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_drop extends $mol_ghost {
+        enabled(next) {
+            if (next !== undefined)
+                return next;
+            return true;
+        }
+        event() {
+            return {
+                dragenter: (event) => this.enter(event),
+                dragover: (event) => this.move(event),
+                dragleave: (event) => this.leave(event),
+                drop: (event) => this.drop(event)
+            };
+        }
+        attr() {
+            return {
+                mol_drop_status: this.status()
+            };
+        }
+        adopt(transfer) {
+            if (transfer !== undefined)
+                return transfer;
+            return {};
+        }
+        receive(transfer) {
+            if (transfer !== undefined)
+                return transfer;
+            return null;
+        }
+        enter(event) {
+            if (event !== undefined)
+                return event;
+            return null;
+        }
+        move(event) {
+            if (event !== undefined)
+                return event;
+            return null;
+        }
+        leave(event) {
+            if (event !== undefined)
+                return event;
+            return null;
+        }
+        drop(event) {
+            if (event !== undefined)
+                return event;
+            return null;
+        }
+        status(val) {
+            if (val !== undefined)
+                return val;
+            return "ready";
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_drop.prototype, "enabled", null);
+    __decorate([
+        $mol_mem
+    ], $mol_drop.prototype, "adopt", null);
+    __decorate([
+        $mol_mem
+    ], $mol_drop.prototype, "receive", null);
+    __decorate([
+        $mol_mem
+    ], $mol_drop.prototype, "enter", null);
+    __decorate([
+        $mol_mem
+    ], $mol_drop.prototype, "move", null);
+    __decorate([
+        $mol_mem
+    ], $mol_drop.prototype, "leave", null);
+    __decorate([
+        $mol_mem
+    ], $mol_drop.prototype, "drop", null);
+    __decorate([
+        $mol_mem
+    ], $mol_drop.prototype, "status", null);
+    $.$mol_drop = $mol_drop;
+})($ || ($ = {}));
+//mol/drop/-view.tree/drop.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_drop extends $.$mol_drop {
+            status(next = 'ready') { return next; }
+            _target = null;
+            enter(event) {
+                if (event.defaultPrevented)
+                    return;
+                if (!this.enabled())
+                    return;
+                this.status('drag');
+                this._target = event.target;
+                event.dataTransfer.dropEffect = 'move';
+                event.preventDefault();
+            }
+            move(event) {
+                if (event.defaultPrevented)
+                    return;
+                if (!this.enabled())
+                    return;
+                event.dataTransfer.dropEffect = 'move';
+                event.preventDefault();
+            }
+            leave(event) {
+                if (this._target === event.target) {
+                    this.status('ready');
+                }
+            }
+            receive(transfer) {
+                return transfer;
+            }
+            drop(event) {
+                if (event.defaultPrevented)
+                    return;
+                event.preventDefault();
+                setTimeout(() => this.status('ready'));
+                const obj = this.adopt(event.dataTransfer);
+                if (!obj)
+                    return;
+                this.receive(obj);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_drop.prototype, "status", null);
+        $$.$mol_drop = $mol_drop;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//mol/drop/drop.view.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $hyoo_page_side_menu extends $mol_page {
+        editing(next) {
+            if (next !== undefined)
+                return next;
+            return false;
+        }
+        bookmarks(next) {
+            return this.side().bookmarks(next);
+        }
         title() {
-            return this.$.$mol_locale.text('$hyoo_page_menu_title');
+            return this.side().title();
+        }
+        editable() {
+            return this.side().editable();
+        }
+        side() {
+            const obj = new this.$.$hyoo_page_side();
+            return obj;
+        }
+        bookmarks_filtered() {
+            return this.bookmarks();
+        }
+        Logo() {
+            const obj = new this.$.$hyoo_page_side_avatar();
+            obj.side = () => this.side();
+            return obj;
         }
         tools() {
             return [
+                this.Self_editing_toggle(),
                 this.Add()
-            ];
-        }
-        foot() {
-            return [
-                this.Online(),
-                this.Source(),
-                this.Lights()
             ];
         }
         body() {
             return [
-                this.Content()
+                this.Content(),
+                this.Drop_end()
             ];
         }
-        bookmarks(next) {
-            return this.profile().bookmarks(next);
+        self_editing(next) {
+            if (next !== undefined)
+                return next;
+            return false;
         }
-        profile() {
-            const obj = new this.$.$hyoo_page_side();
+        Self_editing_icon() {
+            const obj = new this.$.$mol_icon_pencil_outline();
+            return obj;
+        }
+        Self_editing_toggle() {
+            const obj = new this.$.$mol_check_icon();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_side_menu_Self_editing_toggle_hint');
+            obj.checked = (next) => this.self_editing(next);
+            obj.Icon = () => this.Self_editing_icon();
             return obj;
         }
         add(next) {
@@ -10189,34 +10217,16 @@ var $;
             return null;
         }
         Add_icon() {
-            const obj = new this.$.$mol_icon_plus();
+            const obj = new this.$.$mol_icon_playlist_plus();
             return obj;
         }
         Add() {
             const obj = new this.$.$mol_button_minor();
-            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_menu_Add_hint');
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_side_menu_Add_hint');
             obj.click = (next) => this.add(next);
             obj.sub = () => [
                 this.Add_icon()
             ];
-            return obj;
-        }
-        yard() {
-            const obj = new this.$.$hyoo_sync_yard();
-            return obj;
-        }
-        Online() {
-            const obj = new this.$.$hyoo_sync_online();
-            obj.yard = () => this.yard();
-            return obj;
-        }
-        Source() {
-            const obj = new this.$.$mol_link_source();
-            obj.uri = () => "https://github.com/hyoo-ru/page.hyoo.ru/";
-            return obj;
-        }
-        Lights() {
-            const obj = new this.$.$mol_lights_toggle();
             return obj;
         }
         filter(next) {
@@ -10229,6 +10239,19 @@ var $;
             obj.query = (next) => this.filter(next);
             return obj;
         }
+        transfer_adopt(next) {
+            if (next !== undefined)
+                return next;
+            return null;
+        }
+        receive_after(id, next) {
+            if (next !== undefined)
+                return next;
+            return null;
+        }
+        bookmark_uri(id) {
+            return "";
+        }
         bookmark_title(id) {
             return this.bookmark(id).title();
         }
@@ -10236,16 +10259,53 @@ var $;
             const obj = new this.$.$hyoo_page_side();
             return obj;
         }
-        Bookmark(id) {
+        Bookmark_snippet(id) {
             const obj = new this.$.$hyoo_page_side_snippet();
+            obj.uri_toggle = () => this.bookmark_uri(id);
             obj.side = () => this.bookmark(id);
             obj.highlight = () => this.filter();
+            return obj;
+        }
+        bookmark_remove(id, next) {
+            if (next !== undefined)
+                return next;
+            return null;
+        }
+        Bookmark_reove_icon(id) {
+            const obj = new this.$.$mol_icon_cross();
+            return obj;
+        }
+        Bookmark_remove(id) {
+            const obj = new this.$.$mol_button_minor();
+            obj.click = (next) => this.bookmark_remove(id, next);
+            obj.sub = () => [
+                this.Bookmark_reove_icon(id)
+            ];
+            return obj;
+        }
+        bookmark_row(id) {
+            return [
+                this.Bookmark_snippet(id),
+                this.Bookmark_remove(id)
+            ];
+        }
+        Bookmark_row(id) {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => this.bookmark_row(id);
+            return obj;
+        }
+        Bookmark_drop(id) {
+            const obj = new this.$.$mol_drop();
+            obj.enabled = () => this.editable();
+            obj.adopt = (next) => this.transfer_adopt(next);
+            obj.receive = (next) => this.receive_after(id, next);
+            obj.Sub = () => this.Bookmark_row(id);
             return obj;
         }
         content() {
             return [
                 this.Filter(),
-                this.Bookmark("0_0")
+                this.Bookmark_drop("0_0")
             ];
         }
         Content() {
@@ -10253,52 +10313,100 @@ var $;
             obj.rows = () => this.content();
             return obj;
         }
+        receive_end(next) {
+            if (next !== undefined)
+                return next;
+            return null;
+        }
+        Content_drop_zone() {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [];
+            return obj;
+        }
+        Drop_end() {
+            const obj = new this.$.$mol_drop();
+            obj.enabled = () => this.editable();
+            obj.adopt = (next) => this.transfer_adopt(next);
+            obj.receive = (next) => this.receive_end(next);
+            obj.Sub = () => this.Content_drop_zone();
+            return obj;
+        }
     }
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "Logo", null);
+    ], $hyoo_page_side_menu.prototype, "editing", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "profile", null);
+    ], $hyoo_page_side_menu.prototype, "side", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "add", null);
+    ], $hyoo_page_side_menu.prototype, "Logo", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "Add_icon", null);
+    ], $hyoo_page_side_menu.prototype, "self_editing", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "Add", null);
+    ], $hyoo_page_side_menu.prototype, "Self_editing_icon", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "yard", null);
+    ], $hyoo_page_side_menu.prototype, "Self_editing_toggle", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "Online", null);
+    ], $hyoo_page_side_menu.prototype, "add", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "Source", null);
+    ], $hyoo_page_side_menu.prototype, "Add_icon", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "Lights", null);
+    ], $hyoo_page_side_menu.prototype, "Add", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "filter", null);
+    ], $hyoo_page_side_menu.prototype, "filter", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "Filter", null);
+    ], $hyoo_page_side_menu.prototype, "Filter", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_menu.prototype, "transfer_adopt", null);
     __decorate([
         $mol_mem_key
-    ], $hyoo_page_menu.prototype, "bookmark", null);
+    ], $hyoo_page_side_menu.prototype, "receive_after", null);
     __decorate([
         $mol_mem_key
-    ], $hyoo_page_menu.prototype, "Bookmark", null);
+    ], $hyoo_page_side_menu.prototype, "bookmark", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page_side_menu.prototype, "Bookmark_snippet", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page_side_menu.prototype, "bookmark_remove", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page_side_menu.prototype, "Bookmark_reove_icon", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page_side_menu.prototype, "Bookmark_remove", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page_side_menu.prototype, "Bookmark_row", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page_side_menu.prototype, "Bookmark_drop", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_menu.prototype, "Content", null);
-    $.$hyoo_page_menu = $hyoo_page_menu;
+    ], $hyoo_page_side_menu.prototype, "Content", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_menu.prototype, "receive_end", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_menu.prototype, "Content_drop_zone", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_menu.prototype, "Drop_end", null);
+    $.$hyoo_page_side_menu = $hyoo_page_side_menu;
 })($ || ($ = {}));
-//hyoo/page/menu/-view.tree/menu.view.tree.ts
+//hyoo/page/side/menu/-view.tree/menu.view.tree.ts
 ;
 "use strict";
 var $;
@@ -10319,8 +10427,8 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    const { rem, per } = $mol_style_unit;
-    $mol_style_define($hyoo_page_menu, {
+    const { rem, px } = $mol_style_unit;
+    $mol_style_define($hyoo_page_side_menu, {
         flex: {
             basis: rem(20),
             grow: 0,
@@ -10328,17 +10436,513 @@ var $;
         Logo: {
             margin: [rem(-0.5), rem(-0.75)],
         },
-        Foot: {
-            padding: $mol_gap.block,
-        },
-        Content: {
-            padding: $mol_gap.block,
-        },
         Filter: {
             alignSelf: 'stretch',
         },
-        Bookmark: {
-            gap: $mol_gap.block,
+        Body: {
+            padding: $mol_gap.block,
+        },
+        Bookmark_drop: {
+            '@': {
+                'mol_drop_status': {
+                    'drag': {
+                        box: {
+                            shadow: [{
+                                    inset: false,
+                                    x: 0,
+                                    y: px(-1),
+                                    blur: 0,
+                                    spread: 0,
+                                    color: $mol_theme.focus,
+                                }]
+                        },
+                    },
+                },
+            },
+        },
+        Bookmark_snippet: {
+            flex: {
+                grow: 1,
+                shrink: 1,
+            },
+        },
+        Drop_end: {
+            '@': {
+                'mol_drop_status': {
+                    'drag': {
+                        box: {
+                            shadow: [{
+                                    inset: false,
+                                    x: 0,
+                                    y: px(-1),
+                                    blur: 0,
+                                    spread: 0,
+                                    color: $mol_theme.focus,
+                                }]
+                        },
+                    },
+                },
+            },
+        },
+        Content_drop_zone: {
+            flex: {
+                grow: 1,
+                basis: rem(1.5),
+            },
+        },
+    });
+})($ || ($ = {}));
+//hyoo/page/side/menu/menu.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
+            content() {
+                const bookmarks = this.bookmarks();
+                return [
+                    ...bookmarks.length > 2 ? [this.Filter()] : [],
+                    ...this.bookmarks_filtered().map(id => this.Bookmark_drop(id)),
+                ];
+            }
+            bookmarks_filtered() {
+                return this.bookmarks().filter($mol_match_text(this.filter(), id => [this.bookmark_title(id)])).reverse();
+            }
+            Add() {
+                return this.editable() ? super.Add() : null;
+            }
+            add() {
+                const side = this.side();
+                const page = this.side().world().Fund($hyoo_page_side).make();
+                side.bookmarked(page.id(), true);
+                page.book(this.side().id());
+                page.steal_rights(side);
+                this.$.$mol_dom_context.location.href = '#!=' + page.id();
+                this.editing(true);
+            }
+            bookmark_row(id) {
+                return [
+                    this.Bookmark_snippet(id),
+                    ...this.self_editing() ? [this.Bookmark_remove(id)] : [],
+                ];
+            }
+            bookmark_remove(id) {
+                this.bookmarks(this.bookmarks().filter(b => b !== id));
+            }
+            bookmark_uri(id) {
+                return `#!=${id}`;
+            }
+            transfer_adopt(transfer) {
+                const uri = transfer.getData("text/uri-list");
+                if (!uri)
+                    return;
+                const id = $mol_int62_string_ensure(uri.match(/#!=(\w+_\w+)/)?.[1] ?? '');
+                return id;
+            }
+            receive_after(anchor, bookmark) {
+                if (anchor === bookmark)
+                    return;
+                const bookmarks = this.bookmarks().filter(b => b !== bookmark);
+                const index = bookmarks.indexOf(anchor);
+                bookmarks.splice(index + 1, 0, bookmark);
+                this.bookmarks(bookmarks);
+            }
+            receive_end(bookmark) {
+                const bookmarks = this.bookmarks().filter(b => b !== bookmark);
+                bookmarks.unshift(bookmark);
+                this.bookmarks(bookmarks);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side_menu.prototype, "content", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side_menu.prototype, "bookmarks_filtered", null);
+        __decorate([
+            $mol_action
+        ], $hyoo_page_side_menu.prototype, "add", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page_side_menu.prototype, "bookmark_row", null);
+        __decorate([
+            $mol_action
+        ], $hyoo_page_side_menu.prototype, "bookmark_remove", null);
+        $$.$hyoo_page_side_menu = $hyoo_page_side_menu;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//hyoo/page/side/menu/menu.view.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_file extends $mol_icon {
+        path() {
+            return "M13,9V3.5L18.5,9M6,2C4.89,2 4,2.89 4,4V20C4,21.1 4.9,22 6,22H18C19.1,22 20,21.1 20,20V8L14,2H6Z";
+        }
+    }
+    $.$mol_icon_file = $mol_icon_file;
+})($ || ($ = {}));
+//mol/icon/file/-view.tree/file.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_file_document extends $mol_icon {
+        path() {
+            return "M13,9H18.5L13,3.5V9M6,2H14L20,8V20C20,21.1 19.1,22 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z";
+        }
+    }
+    $.$mol_icon_file_document = $mol_icon_file_document;
+})($ || ($ = {}));
+//mol/icon/file/document/-view.tree/document.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_file_document_box extends $mol_icon {
+        path() {
+            return "M14,17H7V15H14M17,13H7V11H17M17,9H7V7H17M19,3H5C3.89,3 3,3.89 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.89 20.1,3 19,3Z";
+        }
+    }
+    $.$mol_icon_file_document_box = $mol_icon_file_document_box;
+})($ || ($ = {}));
+//mol/icon/file/document/box/-view.tree/box.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_file_document_box_plus extends $mol_icon {
+        path() {
+            return "M17,14H19V17H22V19H19V22H17V19H14V17H17V14M12,17V15H7V17H12M17,11H7V13H14.69C13.07,14.07 12,15.91 12,18C12,19.09 12.29,20.12 12.8,21H5C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3H19C20.1,3 21,3.9 21,5V12.8C20.12,12.29 19.09,12 18,12L17,12.08V11M17,9V7H7V9H17Z";
+        }
+    }
+    $.$mol_icon_file_document_box_plus = $mol_icon_file_document_box_plus;
+})($ || ($ = {}));
+//mol/icon/file/document/box/plus/-view.tree/plus.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_file_document_box_plus_outline extends $mol_icon {
+        path() {
+            return "M17,14H19V17H22V19H19V22H17V19H14V17H17V14M5,3H19C20.11,3 21,3.89 21,5V12.8C20.39,12.45 19.72,12.2 19,12.08V5H5V19H12.08C12.2,19.72 12.45,20.39 12.8,21H5C3.89,21 3,20.11 3,19V5C3,3.89 3.89,3 5,3M7,7H17V9H7V7M7,11H17V12.08C16.15,12.22 15.37,12.54 14.68,13H7V11M7,15H12V17H7V15Z";
+        }
+    }
+    $.$mol_icon_file_document_box_plus_outline = $mol_icon_file_document_box_plus_outline;
+})($ || ($ = {}));
+//mol/icon/file/document/box/plus/outline/-view.tree/outline.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_sync extends $mol_icon {
+        path() {
+            return "M12,18C8.69,18 6,15.31 6,12C6,11 6.25,10.03 6.7,9.2L5.24,7.74C4.46,8.97 4,10.43 4,12C4,16.42 7.58,20 12,20V23L16,19L12,15M12,4V1L8,5L12,9V6C15.31,6 18,8.69 18,12C18,13 17.75,13.97 17.3,14.8L18.76,16.26C19.54,15.03 20,13.57 20,12C20,7.58 16.42,4 12,4Z";
+        }
+    }
+    $.$mol_icon_sync = $mol_icon_sync;
+})($ || ($ = {}));
+//mol/icon/sync/-view.tree/sync.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_sync_off extends $mol_icon {
+        path() {
+            return "M20,4H14V10L16.24,7.76C17.32,8.85 18,10.34 18,12C18,13 17.75,13.94 17.32,14.77L18.78,16.23C19.55,15 20,13.56 20,12C20,9.79 19.09,7.8 17.64,6.36L20,4M2.86,5.41L5.22,7.77C4.45,9 4,10.44 4,12C4,14.21 4.91,16.2 6.36,17.64L4,20H10V14L7.76,16.24C6.68,15.15 6,13.66 6,12C6,11 6.25,10.06 6.68,9.23L14.76,17.31C14.5,17.44 14.26,17.56 14,17.65V19.74C14.79,19.53 15.54,19.2 16.22,18.78L18.58,21.14L19.85,19.87L4.14,4.14L2.86,5.41M10,6.35V4.26C9.2,4.47 8.45,4.8 7.77,5.22L9.23,6.68C9.5,6.56 9.73,6.44 10,6.35Z";
+        }
+    }
+    $.$mol_icon_sync_off = $mol_icon_sync_off;
+})($ || ($ = {}));
+//mol/icon/sync/off/-view.tree/off.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $hyoo_sync_online extends $mol_link {
+        minimal_width() {
+            return 40;
+        }
+        minimal_height() {
+            return 40;
+        }
+        yard() {
+            const obj = new this.$.$hyoo_sync_yard();
+            return obj;
+        }
+        uri() {
+            return this.master_link();
+        }
+        sub() {
+            return [
+                this.Well(),
+                this.Fail()
+            ];
+        }
+        attr() {
+            return {
+                ...super.attr(),
+                title: this.message()
+            };
+        }
+        master_link() {
+            return "";
+        }
+        Well() {
+            const obj = new this.$.$mol_avatar();
+            obj.id = () => this.master_link();
+            return obj;
+        }
+        Fail() {
+            const obj = new this.$.$mol_icon_sync_off();
+            return obj;
+        }
+        hint() {
+            return "$hyoo_sync";
+        }
+        message() {
+            return this.hint();
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $hyoo_sync_online.prototype, "yard", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_sync_online.prototype, "Well", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_sync_online.prototype, "Fail", null);
+    $.$hyoo_sync_online = $hyoo_sync_online;
+})($ || ($ = {}));
+//hyoo/sync/online/-view.tree/online.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("hyoo/sync/online/online.view.css", "[hyoo_sync_online] {\n\tpadding: var(--mol_gap_text);\n}\n\n[hyoo_sync_online_well] {\n\tcolor: var(--mol_theme_current);\n}\n\n[hyoo_sync_online_fail] {\n\tcolor: var(--mol_theme_focus);\n}\n\n[hyoo_sync_online][mol_view_error=\"Promise\"] {\n\tanimation: hyoo_sync_online_wait 1s linear infinite;\n}\n\n@keyframes hyoo_sync_online_wait {\n\tfrom {\n\t\topacity: 1;\n\t}\n\tto {\n\t\topacity: .5;\n\t}\n}\n");
+})($ || ($ = {}));
+//hyoo/sync/online/-css/online.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $hyoo_sync_online extends $.$hyoo_sync_online {
+            message() {
+                try {
+                    this.yard().sync();
+                    return this.hint();
+                }
+                catch (error) {
+                    if (error instanceof Promise)
+                        $mol_fail_hidden(error);
+                    $mol_fail_log(error);
+                    return String(error);
+                }
+            }
+            sub() {
+                try {
+                    this.yard().sync();
+                    return [this.Well()];
+                }
+                catch (error) {
+                    if (error instanceof Promise)
+                        $mol_fail_hidden(error);
+                    $mol_fail_log(error);
+                    return [this.Fail()];
+                }
+            }
+            hint() {
+                return super.hint() + ' ' + $hyoo_sync_revision;
+            }
+            master_link() {
+                return this.yard().master_link().replace(/^ws(s?):/, 'http$1:');
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $hyoo_sync_online.prototype, "message", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_sync_online.prototype, "sub", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_sync_online.prototype, "hint", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_sync_online.prototype, "master_link", null);
+        $$.$hyoo_sync_online = $hyoo_sync_online;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//hyoo/sync/online/online.view.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_github_circle extends $mol_icon {
+        path() {
+            return "M12,2C6.48,2 2,6.48 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12C22,6.48 17.52,2 12,2Z";
+        }
+    }
+    $.$mol_icon_github_circle = $mol_icon_github_circle;
+})($ || ($ = {}));
+//mol/icon/github/circle/-view.tree/circle.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_link_source extends $mol_link {
+        hint() {
+            return this.$.$mol_locale.text('$mol_link_source_hint');
+        }
+        sub() {
+            return [
+                this.Icon()
+            ];
+        }
+        Icon() {
+            const obj = new this.$.$mol_icon_github_circle();
+            return obj;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_link_source.prototype, "Icon", null);
+    $.$mol_link_source = $mol_link_source;
+})($ || ($ = {}));
+//mol/link/source/-view.tree/source.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_brightness_6 extends $mol_icon {
+        path() {
+            return "M12,18V6C15.31,6 18,8.69 18,12C18,15.31 15.31,18 12,18M20,15.31L23.31,12L20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31Z";
+        }
+    }
+    $.$mol_icon_brightness_6 = $mol_icon_brightness_6;
+})($ || ($ = {}));
+//mol/icon/brightness/6/-view.tree/6.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_lights_toggle extends $mol_check_icon {
+        Icon() {
+            return this.Lights_icon();
+        }
+        hint() {
+            return this.$.$mol_locale.text('$mol_lights_toggle_hint');
+        }
+        checked(val) {
+            return this.lights(val);
+        }
+        Lights_icon() {
+            const obj = new this.$.$mol_icon_brightness_6();
+            return obj;
+        }
+        lights(val) {
+            if (val !== undefined)
+                return val;
+            return false;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_lights_toggle.prototype, "Lights_icon", null);
+    __decorate([
+        $mol_mem
+    ], $mol_lights_toggle.prototype, "lights", null);
+    $.$mol_lights_toggle = $mol_lights_toggle;
+})($ || ($ = {}));
+//mol/lights/toggle/-view.tree/toggle.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_lights_toggle extends $.$mol_lights_toggle {
+            lights(next) {
+                return this.$.$mol_lights(next);
+            }
+        }
+        $$.$mol_lights_toggle = $mol_lights_toggle;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//mol/lights/toggle/toggle.view.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $hyoo_page_menu extends $hyoo_page_side_menu {
+        title() {
+            return this.$.$mol_locale.text('$hyoo_page_menu_title');
+        }
+        foot() {
+            return [
+                this.Online(),
+                this.Source(),
+                this.Lights()
+            ];
+        }
+        Add_icon() {
+            const obj = new this.$.$mol_icon_file_document_box_plus_outline();
+            return obj;
+        }
+        yard() {
+            const obj = new this.$.$hyoo_sync_yard();
+            return obj;
+        }
+        Online() {
+            const obj = new this.$.$hyoo_sync_online();
+            obj.yard = () => this.yard();
+            return obj;
+        }
+        Source() {
+            const obj = new this.$.$mol_link_source();
+            obj.uri = () => "https://github.com/hyoo-ru/page.hyoo.ru/";
+            return obj;
+        }
+        Lights() {
+            const obj = new this.$.$mol_lights_toggle();
+            return obj;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_menu.prototype, "Add_icon", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_menu.prototype, "yard", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_menu.prototype, "Online", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_menu.prototype, "Source", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_menu.prototype, "Lights", null);
+    $.$hyoo_page_menu = $hyoo_page_menu;
+})($ || ($ = {}));
+//hyoo/page/menu/-view.tree/menu.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    const { rem, per } = $mol_style_unit;
+    $mol_style_define($hyoo_page_menu, {
+        margin: {
+            right: 'auto',
+        },
+        Foot: {
+            padding: $mol_gap.block,
         },
     });
 })($ || ($ = {}));
@@ -10350,13 +10954,6 @@ var $;
     var $$;
     (function ($$) {
         class $hyoo_page_menu extends $.$hyoo_page_menu {
-            content() {
-                const bookmarks = this.bookmarks();
-                return [
-                    ...bookmarks.length > 2 ? [this.Filter()] : [],
-                    ...this.bookmarks_filtered().map(id => this.Bookmark(id))
-                ];
-            }
             bookmarks_filtered() {
                 if (this.filter()) {
                     const yard = this.yard();
@@ -10366,15 +10963,21 @@ var $;
                         return id;
                     });
                 }
-                return this.bookmarks().filter($mol_match_text(this.filter(), id => [this.bookmark_title(id)])).reverse();
+                return super.bookmarks_filtered();
+            }
+            add() {
+                const land = this.yard().land_grab();
+                this.$.$mol_dom_context.location.href = '#!=' + land.id();
+                this.side().bookmarked(land.id(), true);
+                this.editing(true);
             }
         }
         __decorate([
             $mol_mem
-        ], $hyoo_page_menu.prototype, "content", null);
-        __decorate([
-            $mol_mem
         ], $hyoo_page_menu.prototype, "bookmarks_filtered", null);
+        __decorate([
+            $mol_action
+        ], $hyoo_page_menu.prototype, "add", null);
         $$.$hyoo_page_menu = $hyoo_page_menu;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -10695,18 +11298,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_icon_pencil extends $mol_icon {
-        path() {
-            return "M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z";
-        }
-    }
-    $.$mol_icon_pencil = $mol_icon_pencil;
-})($ || ($ = {}));
-//mol/icon/pencil/-view.tree/pencil.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
     class $mol_icon_magnify extends $mol_icon {
         path() {
             return "M9.5,3C13.09,3 16,5.91 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16C5.91,16 3,13.09 3,9.5C3,5.91 5.91,3 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z";
@@ -10743,102 +11334,26 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_icon_star extends $mol_icon {
+    class $mol_icon_bookmark extends $mol_icon {
         path() {
-            return "M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z";
+            return "M17,3H7C5.9,3 5,3.9 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z";
         }
     }
-    $.$mol_icon_star = $mol_icon_star;
+    $.$mol_icon_bookmark = $mol_icon_bookmark;
 })($ || ($ = {}));
-//mol/icon/star/-view.tree/star.view.tree.ts
+//mol/icon/bookmark/-view.tree/bookmark.view.tree.ts
 ;
 "use strict";
 var $;
 (function ($) {
-    class $mol_icon_star_face extends $mol_icon {
+    class $mol_icon_bookmark_outline extends $mol_icon {
         path() {
-            return "M12,2.5L8.42,8.06L2,9.74L6.2,14.88L5.82,21.5L12,19.09L18.18,21.5L17.8,14.88L22,9.74L15.58,8.06L12,2.5M9.38,10.5C10,10.5 10.5,11 10.5,11.63C10.5,12.25 10,12.75 9.38,12.75C8.75,12.75 8.25,12.25 8.25,11.63C8.25,11 8.75,10.5 9.38,10.5M14.63,10.5C15.25,10.5 15.75,11 15.75,11.63C15.75,12.25 15.25,12.75 14.63,12.75C14,12.75 13.5,12.25 13.5,11.63C13.5,11 14,10.5 14.63,10.5M9,15H15C14.5,16.21 13.31,17 12,17C10.69,17 9.5,16.21 9,15Z";
+            return "M17,18L12,15.82L7,18V5H17M17,3H7C5.9,3 5,3.9 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z";
         }
     }
-    $.$mol_icon_star_face = $mol_icon_star_face;
+    $.$mol_icon_bookmark_outline = $mol_icon_bookmark_outline;
 })($ || ($ = {}));
-//mol/icon/star/face/-view.tree/face.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_card extends $mol_list {
-        attr() {
-            return {
-                ...super.attr(),
-                mol_card_status_type: this.status()
-            };
-        }
-        rows() {
-            return [
-                this.Content(),
-                this.Status()
-            ];
-        }
-        status() {
-            return "";
-        }
-        content() {
-            return [
-                this.title()
-            ];
-        }
-        Content() {
-            const obj = new this.$.$mol_view();
-            obj.sub = () => this.content();
-            return obj;
-        }
-        status_text() {
-            return this.status();
-        }
-        Status() {
-            const obj = new this.$.$mol_view();
-            obj.minimal_height = () => 30;
-            obj.sub = () => [
-                this.status_text()
-            ];
-            return obj;
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $mol_card.prototype, "Content", null);
-    __decorate([
-        $mol_mem
-    ], $mol_card.prototype, "Status", null);
-    $.$mol_card = $mol_card;
-})($ || ($ = {}));
-//mol/card/-view.tree/card.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/card/card.view.css", "[mol_card] {\n\tbackground: var(--mol_theme_card);\n\tcolor: var(--mol_theme_text);\n\tborder-radius: var(--mol_gap_round);\n\tdisplay: flex;\n\tflex: 0 1 auto;\n\tflex-direction: column;\n\tposition: relative;\n\toverflow: hidden;\n}\n\n[mol_card_content] {\n\tflex: 1 1 auto;\n\tborder-radius: var(--mol_gap_round);\n\tmargin: 0;\n\tpadding: var(--mol_gap_block);\n}\n\n[mol_card_status] {\n\tbackground: var(--mol_theme_line);\n\ttext-transform: capitalize;\n\tpadding: var(--mol_gap_text);\n\tmargin: 0;\n}\n\n[mol_card_status] {\n\tbackground: var(--mol_theme_line);\n}\n");
-})($ || ($ = {}));
-//mol/card/-css/card.view.css.ts
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_card extends $.$mol_card {
-            rows() {
-                return [
-                    this.Content(),
-                    ...this.status_text() ? [this.Status()] : [],
-                ];
-            }
-        }
-        $$.$mol_card = $mol_card;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//mol/card/card.view.ts
+//mol/icon/bookmark/outline/-view.tree/outline.view.tree.ts
 ;
 "use strict";
 var $;
@@ -11424,7 +11939,7 @@ var $;
                         color: $mol_theme.card,
                     },
                 },
-                transform: 'translate(-6px,-1px)',
+                transform: 'translate(-10px,-2px)',
             },
             '@': {
                 'mol_text_code_sidebar_showed': {
@@ -11586,7 +12101,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/check/expand/expand.view.css", "[mol_check_expand] {\n\tmin-width: 20px;\n}\n\n:where([mol_check_expand][disabled]) [mol_check_expand_icon] {\n\tvisibility: hidden;\n}\n\n[mol_check_expand_icon] {\n\tbox-shadow: none;\n\tmargin: .25rem -.25rem;\n}\n[mol_check_expand_icon] {\n\ttransform: rotateZ(0deg);\n}\n\n:where([mol_check_checked]) [mol_check_expand_icon] {\n\ttransform: rotateZ(90deg);\n}\n\n[mol_check_expand_icon] {\n\tvertical-align: text-top;\n}\n\n[mol_check_expand_label] {\n\tmargin-left: 0;\n}\n");
+    $mol_style_attach("mol/check/expand/expand.view.css", "[mol_check_expand] {\n\tmin-width: 20px;\n}\n\n:where([mol_check_expand][disabled]) [mol_check_expand_icon] {\n\tvisibility: hidden;\n}\n\n[mol_check_expand_icon] {\n\tbox-shadow: none;\n}\n[mol_check_expand_icon] {\n\ttransform: rotateZ(0deg);\n}\n\n:where([mol_check_checked]) [mol_check_expand_icon] {\n\ttransform: rotateZ(90deg);\n}\n\n[mol_check_expand_icon] {\n\tvertical-align: text-top;\n}\n\n[mol_check_expand_label] {\n\tmargin-left: 0;\n}\n");
 })($ || ($ = {}));
 //mol/check/expand/-css/expand.view.css.ts
 ;
@@ -12130,78 +12645,6 @@ var $;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //mol/link/iconed/iconed.view.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_ghost extends $mol_view {
-        Sub() {
-            const obj = new this.$.$mol_view();
-            return obj;
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $mol_ghost.prototype, "Sub", null);
-    $.$mol_ghost = $mol_ghost;
-})($ || ($ = {}));
-//mol/ghost/-view.tree/ghost.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_ghost extends $.$mol_ghost {
-            dom_node(next) {
-                const node = this.Sub().dom_node(next);
-                $mol_dom_render_attributes(node, this.attr_static());
-                $mol_dom_render_events(node, this.event());
-                return node;
-            }
-            dom_node_actual() {
-                this.dom_node();
-                const node = this.Sub().dom_node_actual();
-                const attr = this.attr();
-                const style = this.style();
-                const fields = this.field();
-                $mol_dom_render_attributes(node, attr);
-                $mol_dom_render_styles(node, style);
-                $mol_dom_render_fields(node, fields);
-                return node;
-            }
-            dom_tree() {
-                const Sub = this.Sub();
-                const node = Sub.dom_tree();
-                try {
-                    this.dom_node_actual();
-                    this.auto();
-                }
-                catch (error) {
-                    $mol_fail_log(error);
-                }
-                return node;
-            }
-            title() {
-                return this.Sub().title();
-            }
-            minimal_width() {
-                return this.Sub().minimal_width();
-            }
-            minimal_height() {
-                return this.Sub().minimal_height();
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $mol_ghost.prototype, "dom_node", null);
-        __decorate([
-            $mol_mem
-        ], $mol_ghost.prototype, "dom_node_actual", null);
-        $$.$mol_ghost = $mol_ghost;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//mol/ghost/ghost.view.ts
 ;
 "use strict";
 var $;
@@ -13943,6 +14386,10 @@ var $;
             const obj = new this.$.$hyoo_page_side();
             return obj;
         }
+        book() {
+            const obj = new this.$.$hyoo_page_side();
+            return obj;
+        }
         highlight() {
             return "";
         }
@@ -13984,13 +14431,9 @@ var $;
                 this.slides_send()
             ];
         }
-        Logo() {
-            const obj = new this.$.$mol_avatar();
-            obj.id = () => this.id();
-            return obj;
-        }
         head() {
             return [
+                this.Public_toggle(),
                 this.Title(),
                 this.Tools(),
                 this.Search()
@@ -14029,6 +14472,25 @@ var $;
         slides_send() {
             return null;
         }
+        public(next) {
+            if (next !== undefined)
+                return next;
+            return false;
+        }
+        Avatar() {
+            const obj = new this.$.$mol_avatar();
+            obj.id = () => this.id();
+            return obj;
+        }
+        Public_toggle() {
+            const obj = new this.$.$mol_check();
+            obj.checked = (next) => this.public(next);
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_side_view_Public_toggle_hint');
+            obj.sub = () => [
+                this.Avatar()
+            ];
+            return obj;
+        }
         search_query(val) {
             if (val !== undefined)
                 return val;
@@ -14052,7 +14514,7 @@ var $;
             return false;
         }
         Edit_icon() {
-            const obj = new this.$.$mol_icon_pencil();
+            const obj = new this.$.$mol_icon_pencil_outline();
             return obj;
         }
         Unreleased() {
@@ -14110,7 +14572,7 @@ var $;
             return false;
         }
         Bookmark_icon() {
-            const obj = new this.$.$mol_icon_star_face();
+            const obj = new this.$.$mol_icon_bookmark_outline();
             return obj;
         }
         Bookmark_toggle() {
@@ -14124,8 +14586,8 @@ var $;
             return "";
         }
         Details_empty() {
-            const obj = new this.$.$mol_card();
-            obj.title = () => "...";
+            const obj = new this.$.$mol_text();
+            obj.text = () => this.$.$mol_locale.text('$hyoo_page_side_view_Details_empty_text');
             return obj;
         }
         Details() {
@@ -14173,16 +14635,25 @@ var $;
     ], $hyoo_page_side_view.prototype, "profile", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_view.prototype, "side", null);
+    ], $hyoo_page_side_view.prototype, "book", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_view.prototype, "Logo", null);
+    ], $hyoo_page_side_view.prototype, "side", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_view.prototype, "search_start", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_view.prototype, "Search_start", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_view.prototype, "public", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_view.prototype, "Avatar", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_view.prototype, "Public_toggle", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_view.prototype, "search_query", null);
@@ -14261,7 +14732,9 @@ var $;
 (function ($) {
     const { rem, per } = $mol_style_unit;
     $mol_style_define($hyoo_page_side_view, {
-        margin: [0, 'auto'],
+        margin: {
+            right: 'auto',
+        },
         flex: {
             basis: rem(50),
             grow: 0,
@@ -14302,6 +14775,7 @@ var $;
         class $hyoo_page_side_view extends $.$hyoo_page_side_view {
             head() {
                 return [
+                    this.Public_toggle(),
                     this.Title(),
                     this.Tools(),
                     ...this.search_show() ? [this.Search()] : [],
@@ -14309,6 +14783,13 @@ var $;
             }
             bookmark(next) {
                 return this.profile().bookmarked(this.side().id(), next);
+            }
+            book() {
+                const fund = this.side().world().Fund($hyoo_page_side);
+                return fund.Item(this.side().book() || this.side().id());
+            }
+            public(next) {
+                return this.book().bookmarked(this.side().id(), next);
             }
             Edit_toggle() {
                 return this.editable() ? super.Edit_toggle() : null;
@@ -14355,6 +14836,9 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page_side_view.prototype, "head", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side_view.prototype, "book", null);
         __decorate([
             $mol_mem
         ], $hyoo_page_side_view.prototype, "edit_toggle_label", null);
@@ -14907,6 +15391,82 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_card extends $mol_list {
+        attr() {
+            return {
+                ...super.attr(),
+                mol_card_status_type: this.status()
+            };
+        }
+        rows() {
+            return [
+                this.Content(),
+                this.Status()
+            ];
+        }
+        status() {
+            return "";
+        }
+        content() {
+            return [
+                this.title()
+            ];
+        }
+        Content() {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => this.content();
+            return obj;
+        }
+        status_text() {
+            return this.status();
+        }
+        Status() {
+            const obj = new this.$.$mol_view();
+            obj.minimal_height = () => 30;
+            obj.sub = () => [
+                this.status_text()
+            ];
+            return obj;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_card.prototype, "Content", null);
+    __decorate([
+        $mol_mem
+    ], $mol_card.prototype, "Status", null);
+    $.$mol_card = $mol_card;
+})($ || ($ = {}));
+//mol/card/-view.tree/card.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/card/card.view.css", "[mol_card] {\n\tbackground: var(--mol_theme_card);\n\tcolor: var(--mol_theme_text);\n\tborder-radius: var(--mol_gap_round);\n\tdisplay: flex;\n\tflex: 0 1 auto;\n\tflex-direction: column;\n\tposition: relative;\n\toverflow: hidden;\n}\n\n[mol_card_content] {\n\tflex: 1 1 auto;\n\tborder-radius: var(--mol_gap_round);\n\tmargin: 0;\n\tpadding: var(--mol_gap_block);\n}\n\n[mol_card_status] {\n\tbackground: var(--mol_theme_line);\n\ttext-transform: capitalize;\n\tpadding: var(--mol_gap_text);\n\tmargin: 0;\n}\n\n[mol_card_status] {\n\tbackground: var(--mol_theme_line);\n}\n");
+})($ || ($ = {}));
+//mol/card/-css/card.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_card extends $.$mol_card {
+            rows() {
+                return [
+                    this.Content(),
+                    ...this.status_text() ? [this.Status()] : [],
+                ];
+            }
+        }
+        $$.$mol_card = $mol_card;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//mol/card/card.view.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_expander extends $mol_list {
         rows() {
             return [
@@ -14969,7 +15529,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/expander/expander.view.css", "[mol_expander] {\n\tflex-direction: column;\n}\n\n[mol_expander_label] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_expander_trigger] {\n\tflex: auto;\n\tposition: relative;\n}\n\n[mol_expander_trigger_icon] {\n\tposition: absolute;\n\tmargin-left: -1rem;\n}\n");
+    $mol_style_attach("mol/expander/expander.view.css", "[mol_expander] {\n\tflex-direction: column;\n}\n\n[mol_expander_label] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_expander_trigger] {\n\tflex: auto;\n\tposition: relative;\n}\n");
 })($ || ($ = {}));
 //mol/expander/-css/expander.view.css.ts
 ;
@@ -15591,6 +16151,18 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_icon_plus extends $mol_icon {
+        path() {
+            return "M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z";
+        }
+    }
+    $.$mol_icon_plus = $mol_icon_plus;
+})($ || ($ = {}));
+//mol/icon/plus/-view.tree/plus.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_button_major extends $mol_button_typed {
         attr() {
             return {
@@ -15781,6 +16353,15 @@ var $;
             ];
             return obj;
         }
+        editor_add_preview() {
+            const obj = new this.$.$hyoo_page_side();
+            return obj;
+        }
+        Editor_add_preview() {
+            const obj = new this.$.$hyoo_page_side_snippet();
+            obj.side = () => this.editor_add_preview();
+            return obj;
+        }
         editor_fill_all(next) {
             if (next !== undefined)
                 return next;
@@ -15792,12 +16373,16 @@ var $;
             obj.click = (next) => this.editor_fill_all(next);
             return obj;
         }
-        Editor_add_form() {
-            const obj = new this.$.$mol_list();
-            obj.rows = () => [
+        editor_add_rows() {
+            return [
                 this.Editor_add_bar(),
+                this.Editor_add_preview(),
                 this.Editor_fill_all()
             ];
+        }
+        Editor_add_form() {
+            const obj = new this.$.$mol_list();
+            obj.rows = () => this.editor_add_rows();
             return obj;
         }
         Editor_add() {
@@ -15855,6 +16440,12 @@ var $;
     __decorate([
         $mol_mem
     ], $hyoo_page_side_rights.prototype, "Editor_add_bar", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_rights.prototype, "editor_add_preview", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_rights.prototype, "Editor_add_preview", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_rights.prototype, "editor_fill_all", null);
@@ -16023,7 +16614,16 @@ var $;
     (function ($$) {
         class $hyoo_page_side_rights extends $.$hyoo_page_side_rights {
             editor_list() {
-                return this.editors().map(peer => this.Editor_link(peer));
+                const side = this.side().id();
+                return this.editors()
+                    .filter(peer => peer !== side)
+                    .map(peer => this.Editor_link(peer));
+            }
+            editor_add_rows() {
+                return [
+                    this.Editor_add_bar(),
+                    this.editor_add_id() ? this.Editor_add_preview() : this.Editor_fill_all(),
+                ];
             }
             editor_add_id(next = '') {
                 return (next.trim().match(/^(?:.*=)?([0-9a-z]+_[0-9a-z]+)/)?.[1] ?? '');
@@ -16039,14 +16639,20 @@ var $;
             }
             editor_add_submit() {
                 const peer = this.editor_add_id();
-                this.side().land().level(peer, $hyoo_crowd_peer_level.mod);
+                this.side().land.level(peer, $hyoo_crowd_peer_level.mod);
                 this.details_node()?.land.level(peer, $hyoo_crowd_peer_level.mod);
                 this.editor_add_id('');
+            }
+            editor_add_preview() {
+                return this.peer(this.editor_add_id());
             }
         }
         __decorate([
             $mol_mem
         ], $hyoo_page_side_rights.prototype, "editor_list", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side_rights.prototype, "editor_add_rows", null);
         __decorate([
             $mol_mem
         ], $hyoo_page_side_rights.prototype, "editor_add_id", null);
@@ -16062,16 +16668,12 @@ var $;
         side_main_id() {
             return "iy8wtn_tky6pc";
         }
-        side_land(id) {
-            return this.yard().land(id);
-        }
         yard() {
             const obj = new this.$.$hyoo_sync_client();
             return obj;
         }
         side(id) {
             const obj = new this.$.$hyoo_page_side();
-            obj.land = () => this.side_land(id);
             return obj;
         }
         profile() {
@@ -16094,6 +16696,7 @@ var $;
         pages() {
             return [
                 this.Menu(),
+                this.Side_menu("0_0"),
                 this.View("0_0"),
                 this.Edit("0_0"),
                 this.Info("0_0"),
@@ -16107,10 +16710,10 @@ var $;
         ref_track() {
             return null;
         }
-        add(next) {
+        editing(next) {
             if (next !== undefined)
                 return next;
-            return null;
+            return false;
         }
         search() {
             return this.Menu().filter();
@@ -16118,15 +16721,17 @@ var $;
         Menu() {
             const obj = new this.$.$hyoo_page_menu();
             obj.yard = () => this.yard();
+            obj.side = () => this.profile();
             obj.bookmark = (id) => this.side(id);
-            obj.profile = () => this.profile();
-            obj.add = (next) => this.add(next);
+            obj.editing = (next) => this.editing(next);
             return obj;
         }
-        editing(next) {
-            if (next !== undefined)
-                return next;
-            return false;
+        Side_menu(id) {
+            const obj = new this.$.$hyoo_page_side_menu();
+            obj.side = () => this.side(id);
+            obj.bookmark = (id) => this.side(id);
+            obj.editing = (next) => this.editing(next);
+            return obj;
         }
         info(next) {
             if (next !== undefined)
@@ -16202,13 +16807,13 @@ var $;
     ], $hyoo_page.prototype, "Theme", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page.prototype, "add", null);
+    ], $hyoo_page.prototype, "editing", null);
     __decorate([
         $mol_mem
     ], $hyoo_page.prototype, "Menu", null);
     __decorate([
-        $mol_mem
-    ], $hyoo_page.prototype, "editing", null);
+        $mol_mem_key
+    ], $hyoo_page.prototype, "Side_menu", null);
     __decorate([
         $mol_mem
     ], $hyoo_page.prototype, "info", null);
@@ -16253,12 +16858,6 @@ var $;
     var $$;
     (function ($$) {
         class $hyoo_page extends $.$hyoo_page {
-            add() {
-                const land = this.yard().land_grab();
-                this.$.$mol_dom_context.location.href = '#!=' + land.id();
-                this.profile().bookmarked(land.id(), true);
-                this.editing(true);
-            }
             profile() {
                 return this.side(this.yard().home().id());
             }
@@ -16280,16 +16879,23 @@ var $;
             info_close() {
                 this.info(false);
             }
+            side(id) {
+                return this.yard().world().Fund($hyoo_page_side).Item(id);
+            }
             side_current_id() {
                 return (this.$.$mol_state_arg.value('') || this.side_main_id());
             }
             side_current() {
                 return this.side(this.side_current_id());
             }
+            side_menu_showed(id, next) {
+                return next ?? this.side(this.side(id).book() || id).bookmarks().length > 0;
+            }
             pages() {
                 const id = this.side_current_id();
                 return [
                     this.Menu(),
+                    ...this.side_menu_showed(id) ? [this.Side_menu(this.side_current().book() || id)] : [],
                     this.View(id),
                     ...this.editing() ? [this.Edit(id)] : [],
                     ...this.rights() ? [this.Rights(id)] : [],
@@ -16297,9 +16903,6 @@ var $;
                 ];
             }
         }
-        __decorate([
-            $mol_action
-        ], $hyoo_page.prototype, "add", null);
         __decorate([
             $mol_mem
         ], $hyoo_page.prototype, "profile", null);
@@ -16315,6 +16918,9 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page.prototype, "side_current_id", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page.prototype, "side_menu_showed", null);
         __decorate([
             $mol_mem
         ], $hyoo_page.prototype, "pages", null);
