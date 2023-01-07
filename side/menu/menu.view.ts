@@ -21,8 +21,8 @@ namespace $.$$ {
 			
 		}
 		
-		Add() {
-			return this.editable() ? super.Add() : null as any
+		tools() {
+			return this.editable() ? super.tools() : []
 		}
 		
 		@ $mol_action
