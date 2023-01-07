@@ -29,7 +29,7 @@ namespace $.$$ {
 		add() {
 			
 			const side = this.side()
-			const page = this.yard().world().Fund( $hyoo_page_side ).make()
+			const page = this.side().world()!.Fund( $hyoo_page_side ).make()
 			
 			side.bookmarked( page.id(), true )
 			page.book( this.side().id() )

@@ -4,7 +4,6 @@ $hyoo_page_side_menu $mol_page
 		bookmarks? => bookmarks?
 		title => title
 		editable => editable
-		yard => yard
 	bookmarks_filtered <= bookmarks
 	Logo $hyoo_page_side_avatar
 		side <= side
