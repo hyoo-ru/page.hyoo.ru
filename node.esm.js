@@ -10655,8 +10655,8 @@ var $;
             bookmarks_filtered() {
                 return this.bookmarks().filter($mol_match_text(this.filter(), id => [this.bookmark_title(id)])).reverse();
             }
-            Add() {
-                return this.editable() ? super.Add() : null;
+            tools() {
+                return this.editable() ? super.tools() : [];
             }
             add() {
                 const side = this.side();

@@ -2943,7 +2943,7 @@ declare namespace $.$$ {
     class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
         content(): ($mol_search | $mol_drop)[];
         bookmarks_filtered(): `${string}_${string}`[];
-        Add(): any;
+        tools(): readonly any[];
         add(): void;
         bookmark_row(id: $mol_int62_string): ($mol_button_minor | $hyoo_page_side_snippet)[];
         bookmark_remove(id: $mol_int62_string): void;
