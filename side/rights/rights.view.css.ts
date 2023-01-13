@@ -9,10 +9,6 @@ namespace $ {
 			grow: 0,
 		},
 		
-		Editor_list: {
-			padding: $mol_gap.block,
-		},
-		
 		Editor_add: {
 			Content: {
 				flex: {
