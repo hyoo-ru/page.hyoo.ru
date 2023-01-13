@@ -1095,7 +1095,7 @@ $hyoo_page_side_info $mol_page
 					<= weight \0B
 		<= Section_list $mol_expander
 			title @ \Sections
-			expanded? <=> section_expanded? true
+			expanded? <=> section_expanded? false
 			Content <= Section_list_items $mol_list
 				rows <= section_list /
 					<= Section_link*0 $mol_link
@@ -1105,7 +1105,7 @@ $hyoo_page_side_info $mol_page
 					title @ \No sections
 		<= Ref_list $mol_expander
 			title @ \Referrers
-			expanded? <=> ref_expanded? true
+			expanded? <=> ref_expanded? false
 			Content <= Ref_list_items $mol_list
 				rows <= ref_list /
 					<= Ref_item*0_0 $mol_view
