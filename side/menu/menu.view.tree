@@ -35,6 +35,7 @@ $hyoo_page_side_menu $mol_page
 								side <= bookmark* $hyoo_page_side
 									title => bookmark_title*
 								highlight <= filter
+								Image null
 							<= Bookmark_remove* $mol_button_minor
 								click? <=> bookmark_remove*? null
 								sub /

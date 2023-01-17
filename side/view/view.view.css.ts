@@ -12,6 +12,10 @@ namespace $ {
 			grow: 0,
 		},
 		
+		Menu_toggle: {
+			margin: [ rem(-.5), rem(-.75) ],
+		},
+		
 		Body: {
 			padding: $mol_gap.block,
 			justifyContent: 'space-between',
