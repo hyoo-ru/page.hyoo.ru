@@ -10680,10 +10680,10 @@ var $;
     (function ($$) {
         class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
             content() {
-                const bookmarks = this.bookmarks();
+                const bookmarks = this.bookmarks_filtered();
                 return [
                     ...bookmarks.length > 2 ? [this.Filter()] : [],
-                    ...this.bookmarks_filtered().map(b => this.Bookmark_drop(b.id())),
+                    ...bookmarks.map(b => this.Bookmark_drop(b.id())),
                 ];
             }
             bookmarks_filtered() {
