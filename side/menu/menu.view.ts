@@ -4,10 +4,10 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		content() {
-			const bookmarks = this.bookmarks()
+			const bookmarks = this.bookmarks_filtered()
 			return [
 				... bookmarks.length > 2 ? [ this.Filter() ] : [],
-				... this.bookmarks_filtered().map( b => this.Bookmark_drop( b.id() ) ),
+				... bookmarks.map( b => this.Bookmark_drop( b.id() ) ),
 			]
 		}
 		
