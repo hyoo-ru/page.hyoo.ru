@@ -4084,6 +4084,7 @@ declare namespace $ {
         side(): $$.$hyoo_page_side;
         plugins(): readonly any[];
         auto(): readonly any[];
+        Logo(): $$.$mol_check;
         head(): readonly any[];
         tools(): readonly any[];
         slides_content(): string;

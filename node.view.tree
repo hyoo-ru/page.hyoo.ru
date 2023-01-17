@@ -369,6 +369,7 @@ $hyoo_page_side_menu $mol_page
 								side <= bookmark* $hyoo_page_side
 									title => bookmark_title*
 								highlight <= filter
+								Image null
 							<= Bookmark_remove* $mol_button_minor
 								click? <=> bookmark_remove*? null
 								sub /
@@ -889,13 +890,13 @@ $hyoo_page_side_view $mol_page
 			mod_ctrl true
 	auto /
 		<= slides_send null
+	Logo <= Menu_toggle $mol_check
+		checked? <=> menu_showed? false
+		hint @ \Show Menu
+		sub /
+			<= Avatar $mol_avatar
+				id <= id
 	head /
-		<= Menu_toggle $mol_check
-			checked? <=> menu_showed? false
-			hint @ \Show Menu
-			sub /
-				<= Avatar $mol_avatar
-					id <= id
 		<= Title
 		<= Tools
 		<= Search $mol_search_jumper

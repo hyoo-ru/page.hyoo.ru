@@ -10306,6 +10306,7 @@ var $;
             obj.uri_toggle = () => this.bookmark_uri(id);
             obj.side = () => this.bookmark(id);
             obj.highlight = () => this.filter();
+            obj.Image = () => null;
             return obj;
         }
         bookmark_remove(id, next) {
@@ -14499,9 +14500,11 @@ var $;
                 this.slides_send()
             ];
         }
+        Logo() {
+            return this.Menu_toggle();
+        }
         head() {
             return [
-                this.Menu_toggle(),
                 this.Title(),
                 this.Tools(),
                 this.Search()
@@ -14806,6 +14809,9 @@ var $;
         flex: {
             basis: rem(50),
             grow: 0,
+        },
+        Menu_toggle: {
+            margin: [rem(-.5), rem(-.75)],
         },
         Body: {
             padding: $mol_gap.block,
