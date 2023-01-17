@@ -6788,10 +6788,14 @@ var $;
                 return this.release_node()?.str(next) ?? '';
             }
             released() {
+                const book = this.book();
+                if (book && !book.bookmarked(this.id()))
+                    return false;
                 return this.release_node() && (this.release() === this.details()) || false;
             }
             publish() {
                 this.release(this.details());
+                this.book()?.bookmarked(this.id(), true);
             }
             content() {
                 return this.release() || this.details();
@@ -6800,16 +6804,27 @@ var $;
                 return new $mol_time_moment(this.details_node()?.land.last_stamp());
             }
             book(next) {
-                return $mol_int62_string_ensure(this.sub('book', $hyoo_crowd_reg).str(next));
+                const id = $mol_int62_string_ensure(this.sub('book', $hyoo_crowd_reg).str(next?.id()));
+                return id ? this.world().Fund($hyoo_page_side).Item(id) : null;
             }
             bookmarks(next) {
                 const node = this.sub('bookmarks', $hyoo_crowd_list);
-                return node.list(next);
+                const ids = node.list(next?.map(side => side.id()));
+                const Fund = this.world().Fund($hyoo_page_side);
+                return ids.map(id => Fund.Item(id));
+            }
+            files() {
+                return this.bookmarks().filter(b => b.book() === this);
             }
             bookmarked(id, next) {
-                return this.bookmarks(next?.valueOf && (next
-                    ? [...this.bookmarks(), id]
-                    : this.bookmarks().filter(i => i !== id))).includes(id);
+                const node = this.sub('bookmarks', $hyoo_crowd_list);
+                if (next === undefined)
+                    return node.list().includes(id);
+                if (next)
+                    node.add(id);
+                else
+                    node.drop(id);
+                return next;
             }
             editors() {
                 return this.land.peers();
@@ -6872,6 +6887,15 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page_side.prototype, "changed_moment", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page_side.prototype, "book", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side.prototype, "bookmarks", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side.prototype, "files", null);
         __decorate([
             $mol_mem_key
         ], $hyoo_page_side.prototype, "bookmarked", null);
@@ -10314,11 +10338,17 @@ var $;
         bookmarks(next) {
             return this.side().bookmarks(next);
         }
+        files() {
+            return this.side().files();
+        }
         title() {
             return this.side().title();
         }
         editable() {
             return this.side().editable();
+        }
+        world() {
+            return this.side().world();
         }
         side() {
             const obj = new this.$.$hyoo_page_side();
@@ -10653,11 +10683,11 @@ var $;
                 const bookmarks = this.bookmarks();
                 return [
                     ...bookmarks.length > 2 ? [this.Filter()] : [],
-                    ...this.bookmarks_filtered().map(id => this.Bookmark_drop(id)),
+                    ...this.bookmarks_filtered().map(b => this.Bookmark_drop(b.id())),
                 ];
             }
             bookmarks_filtered() {
-                return this.bookmarks().filter($mol_match_text(this.filter(), id => [this.bookmark_title(id)])).reverse();
+                return this.files().filter($mol_match_text(this.filter(), bookmark => [bookmark.title()])).reverse();
             }
             tools() {
                 return this.editable() ? super.tools() : [];
@@ -10666,7 +10696,7 @@ var $;
                 const side = this.side();
                 const page = this.side().world().Fund($hyoo_page_side).make();
                 side.bookmarked(page.id(), true);
-                page.book(this.side().id());
+                page.book(this.side());
                 page.steal_rights(side);
                 this.$.$mol_dom_context.location.href = '#!=' + page.id();
                 this.editing(true);
@@ -10678,7 +10708,7 @@ var $;
                 ];
             }
             bookmark_remove(id) {
-                this.bookmarks(this.bookmarks().filter(b => b !== id));
+                this.bookmarks(this.bookmarks().filter(b => b.id() !== id));
             }
             bookmark_uri(id) {
                 return `#!=${id}`;
@@ -10688,13 +10718,15 @@ var $;
                 if (!uri)
                     return;
                 const id = $mol_int62_string_ensure(uri.match(/#!=(\w+_\w+)/)?.[1] ?? '');
-                return id;
+                if (!id)
+                    return null;
+                return this.world().Fund($hyoo_page_side).Item(id);
             }
             receive_after(anchor, bookmark) {
-                if (anchor === bookmark)
+                if (anchor === bookmark.id())
                     return;
                 const bookmarks = this.bookmarks().filter(b => b !== bookmark);
-                const index = bookmarks.indexOf(anchor);
+                const index = bookmarks.findIndex(b => b.id() === anchor);
                 bookmarks.splice(index + 1, 0, bookmark);
                 this.bookmarks(bookmarks);
             }
@@ -11109,10 +11141,10 @@ var $;
                     return yard.land_search(this.filter()).map(id => {
                         const land = yard.land(id);
                         id = land.chief.sub('$hyoo_page_side', $hyoo_crowd_reg).str() || id;
-                        return id;
+                        return yard.world().Fund($hyoo_page_side).Item(id);
                     });
                 }
-                return super.bookmarks_filtered();
+                return this.bookmarks().filter($mol_match_text(this.filter(), bookmark => [bookmark.title()])).reverse();
             }
             add() {
                 const land = this.yard().land_grab();
@@ -14594,7 +14626,7 @@ var $;
         }
         head() {
             return [
-                this.Public_toggle(),
+                this.Menu_toggle(),
                 this.Title(),
                 this.Tools(),
                 this.Search()
@@ -14633,7 +14665,7 @@ var $;
         slides_send() {
             return null;
         }
-        public(next) {
+        menu_showed(next) {
             if (next !== undefined)
                 return next;
             return false;
@@ -14643,10 +14675,10 @@ var $;
             obj.id = () => this.id();
             return obj;
         }
-        Public_toggle() {
+        Menu_toggle() {
             const obj = new this.$.$mol_check();
-            obj.checked = (next) => this.public(next);
-            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_side_view_Public_toggle_hint');
+            obj.checked = (next) => this.menu_showed(next);
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_side_view_Menu_toggle_hint');
             obj.sub = () => [
                 this.Avatar()
             ];
@@ -14808,13 +14840,13 @@ var $;
     ], $hyoo_page_side_view.prototype, "Search_start", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_view.prototype, "public", null);
+    ], $hyoo_page_side_view.prototype, "menu_showed", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_view.prototype, "Avatar", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_view.prototype, "Public_toggle", null);
+    ], $hyoo_page_side_view.prototype, "Menu_toggle", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_view.prototype, "search_query", null);
@@ -14936,7 +14968,7 @@ var $;
         class $hyoo_page_side_view extends $.$hyoo_page_side_view {
             head() {
                 return [
-                    this.Public_toggle(),
+                    this.Menu_toggle(),
                     this.Title(),
                     this.Tools(),
                     ...this.search_show() ? [this.Search()] : [],
@@ -14945,12 +14977,8 @@ var $;
             bookmark(next) {
                 return this.profile().bookmarked(this.side().id(), next);
             }
-            book() {
-                const fund = this.side().world().Fund($hyoo_page_side);
-                return fund.Item(this.side().book() || this.side().id());
-            }
             public(next) {
-                return this.book().bookmarked(this.side().id(), next);
+                return this.side().book()?.bookmarked(this.side().id(), next);
             }
             Edit_toggle() {
                 return this.editable() ? super.Edit_toggle() : null;
@@ -14997,9 +15025,6 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page_side_view.prototype, "head", null);
-        __decorate([
-            $mol_mem
-        ], $hyoo_page_side_view.prototype, "book", null);
         __decorate([
             $mol_mem
         ], $hyoo_page_side_view.prototype, "edit_toggle_label", null);
@@ -17012,6 +17037,11 @@ var $;
             obj.editing = (next) => this.editing(next);
             return obj;
         }
+        side_menu_showed(id, next) {
+            if (next !== undefined)
+                return next;
+            return false;
+        }
         info(next) {
             if (next !== undefined)
                 return next;
@@ -17025,6 +17055,7 @@ var $;
             obj.side = () => this.side(id);
             obj.peer = (id) => this.side(id);
             obj.profile = () => this.profile();
+            obj.menu_showed = (next) => this.side_menu_showed(id, next);
             obj.editing = (next) => this.editing(next);
             obj.info = (next) => this.info(next);
             obj.highlight = () => this.search();
@@ -17093,6 +17124,9 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Side_menu", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page.prototype, "side_menu_showed", null);
     __decorate([
         $mol_mem
     ], $hyoo_page.prototype, "info", null);
@@ -17168,13 +17202,13 @@ var $;
                 return this.side(this.side_current_id());
             }
             side_menu_showed(id, next) {
-                return next ?? this.side(this.side(id).book() || id).bookmarks().length > 0;
+                return next ?? ((this.side(id).book() ?? this.side_current()).files().length) > 0;
             }
             pages() {
                 const id = this.side_current_id();
                 return [
                     this.Menu(),
-                    ...this.side_menu_showed(id) ? [this.Side_menu(this.side_current().book() || id)] : [],
+                    ...this.side_menu_showed(id) ? [this.Side_menu(this.side_current().book()?.id() ?? id)] : [],
                     this.View(id),
                     ...this.editing() ? [this.Edit(id)] : [],
                     ...this.rights() ? [this.Rights(id)] : [],

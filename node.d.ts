@@ -1826,8 +1826,9 @@ declare namespace $.$$ {
         publish(): void;
         content(): string;
         changed_moment(next?: $mol_time_moment): $mol_time_moment;
-        book(next?: $mol_int62_string): `${string}_${string}` | null;
-        bookmarks(next?: readonly $mol_int62_string[]): `${string}_${string}`[];
+        book(next?: $hyoo_page_side): $hyoo_page_side | null;
+        bookmarks(next?: readonly $hyoo_page_side[]): $hyoo_page_side[];
+        files(): $hyoo_page_side[];
         bookmarked(id: $mol_int62_string, next?: boolean): boolean;
         editors(): readonly `${string}_${string}`[];
         authors(): `${string}_${string}`[];
@@ -2883,11 +2884,13 @@ declare namespace $.$$ {
 declare namespace $ {
     class $hyoo_page_side_menu extends $mol_page {
         editing(next?: any): boolean;
-        bookmarks(next?: any): `${string}_${string}`[];
+        bookmarks(next?: any): $$.$hyoo_page_side[];
+        files(): $$.$hyoo_page_side[];
         title(): string;
         editable(): boolean;
+        world(): $hyoo_crowd_world | null;
         side(): $$.$hyoo_page_side;
-        bookmarks_filtered(): `${string}_${string}`[];
+        bookmarks_filtered(): $$.$hyoo_page_side[];
         Logo(): $$.$hyoo_page_side_avatar;
         tools(): readonly any[];
         body(): readonly any[];
@@ -2929,15 +2932,15 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
         content(): ($mol_search | $mol_drop)[];
-        bookmarks_filtered(): `${string}_${string}`[];
+        bookmarks_filtered(): $hyoo_page_side[];
         tools(): readonly any[];
         add(): void;
         bookmark_row(id: $mol_int62_string): ($mol_button_minor | $hyoo_page_side_snippet)[];
         bookmark_remove(id: $mol_int62_string): void;
         bookmark_uri(id: $mol_int62_string): string;
-        transfer_adopt(transfer: DataTransfer): `${string}_${string}` | null | undefined;
-        receive_after(anchor: $mol_int62_string, bookmark: $mol_int62_string): void;
-        receive_end(bookmark: $mol_int62_string): void;
+        transfer_adopt(transfer: DataTransfer): $hyoo_page_side | null | undefined;
+        receive_after(anchor: $mol_int62_string, bookmark: $hyoo_page_side): void;
+        receive_end(bookmark: $hyoo_page_side): void;
     }
 }
 
@@ -3070,7 +3073,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_page_menu extends $.$hyoo_page_menu {
-        bookmarks_filtered(): `${string}_${string}`[];
+        bookmarks_filtered(): $hyoo_page_side[];
         add(): void;
     }
 }
@@ -4075,9 +4078,9 @@ declare namespace $ {
         search_start(next?: any): any;
         Search_start(): $$.$mol_hotkey;
         slides_send(): any;
-        public(next?: any): boolean;
+        menu_showed(next?: any): boolean;
         Avatar(): $$.$mol_avatar;
-        Public_toggle(): $$.$mol_check;
+        Menu_toggle(): $$.$mol_check;
         search_query(val?: any): string;
         search_stop(next?: any): any;
         Search(): $$.$mol_search_jumper;
@@ -4114,8 +4117,7 @@ declare namespace $.$$ {
     class $hyoo_page_side_view extends $.$hyoo_page_side_view {
         head(): ($mol_view | $mol_search_jumper)[];
         bookmark(next?: boolean): boolean;
-        book(): $hyoo_page_side;
-        public(next?: boolean): boolean;
+        public(next?: boolean): boolean | undefined;
         Edit_toggle(): any;
         edit_toggle_label(): $mol_speck[];
         search_show(next?: boolean): boolean;
@@ -4627,6 +4629,7 @@ declare namespace $ {
         search(): string;
         Menu(): $$.$hyoo_page_menu;
         Side_menu(id: any): $$.$hyoo_page_side_menu;
+        side_menu_showed(id: any, next?: any): boolean;
         info(next?: any): boolean;
         View_details(id: any): $$.$mol_text;
         View(id: any): $$.$hyoo_page_side_view;
