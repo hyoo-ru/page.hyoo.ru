@@ -10,11 +10,14 @@ namespace $.$$ {
 				return yard.land_search( this.filter() ).map( id => {
 					const land = yard.land( id )
 					id = land.chief.sub( '$hyoo_page_side', $hyoo_crowd_reg ).str() as $mol_int62_string || id
-					return id
+					return yard.world().Fund( $hyoo_page_side ).Item( id )
 				} )
 			}
 			
-			return super.bookmarks_filtered()
+			return this.bookmarks().filter( $mol_match_text(
+				this.filter(),
+				bookmark => [ bookmark.title() ],
+			) ).reverse()
 			
 		}
 		

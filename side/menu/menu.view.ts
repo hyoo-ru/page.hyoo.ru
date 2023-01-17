@@ -7,16 +7,16 @@ namespace $.$$ {
 			const bookmarks = this.bookmarks()
 			return [
 				... bookmarks.length > 2 ? [ this.Filter() ] : [],
-				... this.bookmarks_filtered().map( id => this.Bookmark_drop( id ) ),
+				... this.bookmarks_filtered().map( b => this.Bookmark_drop( b.id() ) ),
 			]
 		}
 		
 		@ $mol_mem
 		bookmarks_filtered() {
 			
-			return this.bookmarks().filter( $mol_match_text(
+			return this.files().filter( $mol_match_text(
 				this.filter(),
-				id => [ this.bookmark_title( id ) ],
+				bookmark => [ bookmark.title() ],
 			) ).reverse()
 			
 		}
@@ -32,7 +32,7 @@ namespace $.$$ {
 			const page = this.side().world()!.Fund( $hyoo_page_side ).make()
 			
 			side.bookmarked( page.id(), true )
-			page.book( this.side().id() )
+			page.book( this.side() )
 			page.steal_rights( side )
 			
 			this.$.$mol_dom_context.location.href = '#!=' + page.id()
@@ -50,7 +50,7 @@ namespace $.$$ {
 		
 		@ $mol_action
 		bookmark_remove( id: $mol_int62_string ) {
-			this.bookmarks( this.bookmarks().filter( b => b !== id ) )
+			this.bookmarks( this.bookmarks().filter( b => b.id() !== id ) )
 		}
 		
 		bookmark_uri( id: $mol_int62_string ) {
@@ -63,24 +63,26 @@ namespace $.$$ {
 			if( !uri ) return
 			
 			const id = $mol_int62_string_ensure( uri.match( /#!=(\w+_\w+)/ )?.[1] ?? '' )
-			return id
+			if( !id ) return null
+			
+			return this.world()!.Fund( $hyoo_page_side ).Item( id )
 			
 		}
 
-		receive_after( anchor: $mol_int62_string, bookmark: $mol_int62_string ) {
+		receive_after( anchor: $mol_int62_string, bookmark: $hyoo_page_side ) {
 
-			if( anchor === bookmark ) return
+			if( anchor === bookmark.id() ) return
 			
 			const bookmarks = this.bookmarks().filter( b => b !== bookmark )
 			
-			const index = bookmarks.indexOf( anchor )
+			const index = bookmarks.findIndex( b => b.id() === anchor )
 			bookmarks.splice( index + 1 , 0 , bookmark )
 			
 			this.bookmarks( bookmarks )
 
 		}
 		
-		receive_end( bookmark: $mol_int62_string ) {
+		receive_end( bookmark: $hyoo_page_side ) {
 			const bookmarks = this.bookmarks().filter( b => b !== bookmark )
 			bookmarks.unshift( bookmark )
 			this.bookmarks( bookmarks )

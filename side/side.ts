@@ -75,11 +75,17 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		released() {
+			
+			const book = this.book()
+			if( book && !book.bookmarked( this.id() ) ) return false
+			
 			return this.release_node() && ( this.release() === this.details() ) || false
+			
 		}
 		@ $mol_action
 		publish() {
 			this.release( this.details() )
+			this.book()?.bookmarked( this.id(), true )
 		}
 		
 		@ $mol_mem
@@ -92,23 +98,35 @@ namespace $.$$ {
 			return new $mol_time_moment( this.details_node()?.land.last_stamp()! )
 		}
 		
-		book( next?: $mol_int62_string ) {
-			return $mol_int62_string_ensure( this.sub( 'book', $hyoo_crowd_reg ).str( next ) )
+		@ $mol_mem_key
+		book( next?: $hyoo_page_side ) {
+			const id = $mol_int62_string_ensure( this.sub( 'book', $hyoo_crowd_reg ).str( next?.id() ) )
+			return id ? this.world()!.Fund( $hyoo_page_side ).Item( id ) : null
 		}
 		
-		bookmarks( next?: readonly $mol_int62_string[] ) {
+		@ $mol_mem
+		bookmarks( next?: readonly $hyoo_page_side[] ) {
 			const node = this.sub( 'bookmarks', $hyoo_crowd_list )
-			return node.list( next ) as $mol_int62_string[]
+			const ids = node.list( next?.map( side => side.id() ) ) as $mol_int62_string[]
+			const Fund = this.world()!.Fund( $hyoo_page_side )
+			return ids.map( id => Fund.Item( id ) )
+		}
+		
+		@ $mol_mem
+		files() {
+			return this.bookmarks().filter( b => b.book() === this )
 		}
 		
 		@ $mol_mem_key
 		bookmarked( id: $mol_int62_string, next?: boolean ) {
-			return this.bookmarks(
-				next?.valueOf && ( next
-					? [ ... this.bookmarks(), id ]
-					: this.bookmarks().filter( i => i !== id )
-				)
-			).includes( id )
+			
+			const node = this.sub( 'bookmarks', $hyoo_crowd_list )
+			if( next === undefined ) return node.list().includes( id )
+			
+			if( next ) node.add( id )
+			else node.drop( id )
+			
+			return next
 		}
 		
 		@ $mol_mem

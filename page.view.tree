@@ -23,6 +23,7 @@ $hyoo_page $mol_book2
 			side <= side*
 			peer* <= side*
 			profile <= profile
+			menu_showed? <=> side_menu_showed*? false
 			editing? <=> editing? false
 			info? <=> info? false
 			highlight <= search

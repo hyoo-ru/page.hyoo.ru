@@ -49,7 +49,7 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		side_menu_showed( id: $mol_int62_string, next?: boolean ) {
-			return next ?? this.side( this.side( id ).book() || id ).bookmarks().length > 0
+			return next ?? ( ( this.side( id ).book() ?? this.side_current() ).files().length ) > 0
 		}
 		
 		@ $mol_mem
@@ -57,7 +57,7 @@ namespace $.$$ {
 			const id = this.side_current_id()
 			return [
 				this.Menu(),
-				... this.side_menu_showed( id ) ? [ this.Side_menu( this.side_current().book() || id ) ] : [],
+				... this.side_menu_showed( id ) ? [ this.Side_menu( this.side_current().book()?.id() ?? id ) ] : [],
 				this.View( id ),
 				... this.editing() ? [ this.Edit( id ) ] : [],
 				... this.rights() ? [ this.Rights( id ) ] : [],
