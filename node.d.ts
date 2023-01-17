@@ -3059,6 +3059,9 @@ declare namespace $.$$ {
 declare namespace $ {
     class $hyoo_page_menu extends $hyoo_page_side_menu {
         title(): string;
+        attr(): {
+            mol_theme: string;
+        };
         foot(): readonly any[];
         Add_icon(): $mol_icon_file_document_box_plus_outline;
         yard(): $hyoo_sync_yard<unknown>;
