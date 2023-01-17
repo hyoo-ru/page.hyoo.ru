@@ -3072,6 +3072,7 @@ declare namespace $.$$ {
 declare namespace $ {
     class $hyoo_page_menu extends $hyoo_page_side_menu {
         title(): string;
+        files(): $$.$hyoo_page_side[];
         attr(): {
             mol_theme: string;
         };

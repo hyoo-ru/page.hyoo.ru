@@ -423,6 +423,7 @@ $mol_lights_toggle $mol_check_icon
 
 $hyoo_page_menu $hyoo_page_side_menu
 	title @ \In Bookmarks
+	files <= bookmarks
 	attr *
 		^
 		mol_theme \$mol_theme_special
