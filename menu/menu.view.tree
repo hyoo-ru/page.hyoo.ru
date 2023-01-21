@@ -6,7 +6,7 @@ $hyoo_page_menu $hyoo_page_side_menu
 		mol_theme \$mol_theme_special
 	foot /
 		<= Online $hyoo_sync_online
-			yard <= yard $hyoo_sync_yard
+			yard <= yard
 		<= Source $mol_link_source
 			uri \https://github.com/hyoo-ru/page.hyoo.ru/
 		<= Lights $mol_lights_toggle

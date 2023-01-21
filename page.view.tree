@@ -16,6 +16,7 @@ $hyoo_page $mol_book2
 			filter => search
 			editing? <=> editing? false
 		<= Side_menu*0_0 $hyoo_page_side_menu
+			yard <= yard
 			side <= side*
 			bookmark* <= side*
 			editing? <=> editing? false

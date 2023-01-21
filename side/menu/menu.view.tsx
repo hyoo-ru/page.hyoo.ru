@@ -1,3 +1,4 @@
+/* @jsx $mol_jsx */
 namespace $.$$ {
 	
 	export class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
@@ -14,7 +15,16 @@ namespace $.$$ {
 		@ $mol_mem
 		bookmarks_filtered() {
 			
-			return this.files().filter( $mol_match_text(
+			if( this.filter() ) {
+				const yard = this.yard()
+				return yard.land_search( this.filter() ).map( id => {
+					const land = yard.land( id )
+					id = land.chief.sub( '$hyoo_page_side', $hyoo_crowd_reg ).str() as $mol_int62_string || id
+					return yard.world().Fund( $hyoo_page_side ).Item( id )
+				} )
+			}
+			
+			return this.bookmarks().filter( $mol_match_text(
 				this.filter(),
 				bookmark => [ bookmark.title() ],
 			) ).reverse()
@@ -44,7 +54,9 @@ namespace $.$$ {
 		bookmark_row( id: $mol_int62_string ) {
 			return [
 				this.Bookmark_snippet( id ),
-				... this.self_editing() ? [ this.Bookmark_remove( id ) ] : [],
+				... this.bookmarks().includes( this.bookmark( id ) )
+					? this.self_editing() ? [ this.Bookmark_remove( id ) ] : []
+					: [ this.Bookmark_add( id ) ],
 			]
 		}
 		
@@ -53,8 +65,23 @@ namespace $.$$ {
 			this.bookmarks( this.bookmarks().filter( b => b.id() !== id ) )
 		}
 		
+		@ $mol_action
+		bookmark_add( id: $mol_int62_string ) {
+			const bookmark = this.bookmark( id )
+			this.bookmarks([ ... this.bookmarks(), bookmark ])
+			bookmark.book( this.side() )
+		}
+		
 		bookmark_uri( id: $mol_int62_string ) {
-			return `#!=${id}`
+			return this.$.$mol_state_arg.make_link({ '': id })
+		}
+		
+		bookmark_html( id: $mol_int62_string ) {
+			return( <a href={ this.bookmark_uri( id ) }>{ this.bookmark_title( id ) }</a> ).outerHTML
+		}
+		
+		bookmark_text( id: $mol_int62_string ) {
+			return `\\\\${ this.bookmark_title( id ) }\\${ this.bookmark_uri( id ) }\\\\`
 		}
 		
 		transfer_adopt( transfer : DataTransfer ) {
