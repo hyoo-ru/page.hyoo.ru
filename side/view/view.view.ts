@@ -5,7 +5,6 @@ namespace $.$$ {
 		@ $mol_mem
 		head() {
 			return [
-				this.Menu_toggle(),
 				this.Title(),
 				this.Tools(),
 				... this.search_show() ? [ this.Search() ] : [],
