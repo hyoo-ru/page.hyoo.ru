@@ -7,7 +7,7 @@ namespace $.$$ {
 		content() {
 			const bookmarks = this.files()
 			return [
-				... bookmarks.length > 2 ? [ this.Filter() ] : [],
+				this.Filter(),
 				... this.bookmarks_filtered().map( b => this.Bookmark_drop( b.id() ) ),
 			]
 		}
