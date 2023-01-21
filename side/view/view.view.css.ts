@@ -4,9 +4,6 @@ namespace $ {
 	
 	$mol_style_define( $hyoo_page_side_view, {
 		
-		margin: {
-			right: 'auto',
-		},
 		flex: {
 			basis: rem(50),
 			grow: 0,

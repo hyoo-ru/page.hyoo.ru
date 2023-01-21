@@ -56,12 +56,13 @@ namespace $.$$ {
 		pages() {
 			const id = this.side_current_id()
 			return [
-				this.Menu(),
+				this.Gap( 'left'),
 				... this.side_menu_showed( id ) ? [ this.Side_menu( this.side_current().book()?.id() ?? id ) ] : [],
 				this.View( id ),
+				... this.info() ? [ this.Info( id ) ] : [],
 				... this.editing() ? [ this.Edit( id ) ] : [],
 				... this.rights() ? [ this.Rights( id ) ] : [],
-				... this.info() ? [ this.Info( id ) ] : [],
+				this.Gap( 'right' ),
 			]
 		}
 		
