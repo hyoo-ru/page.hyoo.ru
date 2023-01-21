@@ -23,7 +23,7 @@ namespace $.$$ {
 				} )
 			}
 			
-			return this.bookmarks().filter( $mol_match_text(
+			return this.files().filter( $mol_match_text(
 				this.filter(),
 				bookmark => [ bookmark.title() ],
 			) ).reverse()
@@ -105,6 +105,7 @@ namespace $.$$ {
 			bookmarks.splice( index + 1 , 0 , bookmark )
 			
 			this.bookmarks( bookmarks )
+			bookmark.book( this.side() )
 
 		}
 		
@@ -112,6 +113,7 @@ namespace $.$$ {
 			const bookmarks = this.bookmarks().filter( b => b !== bookmark )
 			bookmarks.unshift( bookmark )
 			this.bookmarks( bookmarks )
+			bookmark.book( this.side() )
 		}
 		
 	}

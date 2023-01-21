@@ -15,6 +15,25 @@ namespace $.$$ {
 			this.bookmarks([ ... this.bookmarks(), this.bookmark( id ) ])
 		}
 		
+		receive_after( anchor: $mol_int62_string, bookmark: $hyoo_page_side ) {
+
+			if( anchor === bookmark.id() ) return
+			
+			const bookmarks = this.bookmarks().filter( b => b !== bookmark )
+			
+			const index = bookmarks.findIndex( b => b.id() === anchor )
+			bookmarks.splice( index + 1 , 0 , bookmark )
+			
+			this.bookmarks( bookmarks )
+
+		}
+		
+		receive_end( bookmark: $hyoo_page_side ) {
+			const bookmarks = this.bookmarks().filter( b => b !== bookmark )
+			bookmarks.unshift( bookmark )
+			this.bookmarks( bookmarks )
+		}
+		
 	}
 	
 }
