@@ -15194,7 +15194,6 @@ var $;
         class $hyoo_page_side_view extends $.$hyoo_page_side_view {
             head() {
                 return [
-                    this.Menu_toggle(),
                     this.Title(),
                     this.Tools(),
                     ...this.search_show() ? [this.Search()] : [],
