@@ -3103,6 +3103,8 @@ declare namespace $.$$ {
     class $hyoo_page_menu extends $.$hyoo_page_menu {
         add(): void;
         bookmark_add(id: $mol_int62_string): void;
+        receive_after(anchor: $mol_int62_string, bookmark: $hyoo_page_side): void;
+        receive_end(bookmark: $hyoo_page_side): void;
     }
 }
 

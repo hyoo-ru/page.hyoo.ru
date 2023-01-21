@@ -10650,7 +10650,7 @@ var $;
                         return yard.world().Fund($hyoo_page_side).Item(id);
                     });
                 }
-                return this.bookmarks().filter($mol_match_text(this.filter(), bookmark => [bookmark.title()])).reverse();
+                return this.files().filter($mol_match_text(this.filter(), bookmark => [bookmark.title()])).reverse();
             }
             tools() {
                 return this.editable() ? super.tools() : [];
@@ -10705,11 +10705,13 @@ var $;
                 const index = bookmarks.findIndex(b => b.id() === anchor);
                 bookmarks.splice(index + 1, 0, bookmark);
                 this.bookmarks(bookmarks);
+                bookmark.book(this.side());
             }
             receive_end(bookmark) {
                 const bookmarks = this.bookmarks().filter(b => b !== bookmark);
                 bookmarks.unshift(bookmark);
                 this.bookmarks(bookmarks);
+                bookmark.book(this.side());
             }
         }
         __decorate([
@@ -11166,6 +11168,19 @@ var $;
             }
             bookmark_add(id) {
                 this.bookmarks([...this.bookmarks(), this.bookmark(id)]);
+            }
+            receive_after(anchor, bookmark) {
+                if (anchor === bookmark.id())
+                    return;
+                const bookmarks = this.bookmarks().filter(b => b !== bookmark);
+                const index = bookmarks.findIndex(b => b.id() === anchor);
+                bookmarks.splice(index + 1, 0, bookmark);
+                this.bookmarks(bookmarks);
+            }
+            receive_end(bookmark) {
+                const bookmarks = this.bookmarks().filter(b => b !== bookmark);
+                bookmarks.unshift(bookmark);
+                this.bookmarks(bookmarks);
             }
         }
         __decorate([
@@ -12181,11 +12196,8 @@ var $;
                 padding: $mol_gap.text,
             },
             Copy: {
-                position: 'sticky',
                 alignSelf: 'flex-start',
                 justifySelf: 'flex-start',
-                top: 0,
-                left: 0,
                 Icon: {
                     background: {
                         color: $mol_theme.card,
