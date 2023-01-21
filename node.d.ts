@@ -2814,6 +2814,12 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_icon_plus extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
     class $mol_ghost extends $mol_view {
         Sub(): $mol_view;
     }
@@ -2831,6 +2837,44 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_drag extends $mol_ghost {
+        event(): {
+            dragstart: (event?: any) => any;
+            drag: (event?: any) => any;
+            dragend: (event?: any) => any;
+        };
+        attr(): {
+            draggable: boolean;
+            mol_drag_status: string;
+        };
+        transfer(): {
+            "text/plain": string;
+            "text/html": string;
+            "text/uri-list": string;
+        };
+        allow_copy(): boolean;
+        allow_link(): boolean;
+        allow_move(): boolean;
+        image(): Element;
+        start(event?: any): any;
+        drag_start(event?: any): any;
+        move(event?: any): any;
+        drag_move(event?: any): any;
+        end(event?: any): any;
+        drag_end(event?: any): any;
+        status(val?: any): string;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_drag extends $.$mol_drag {
+        status(next?: "ready" | "drag"): "ready" | "drag";
+        drag_start(event: DragEvent): void;
+        drag_end(event: DragEvent): void;
+    }
+}
+
+declare namespace $ {
     class $mol_drop extends $mol_ghost {
         enabled(next?: any): boolean;
         event(): {
@@ -2844,6 +2888,7 @@ declare namespace $ {
         };
         adopt(transfer?: any): {};
         receive(transfer?: any): any;
+        allow(): readonly any[];
         enter(event?: any): any;
         move(event?: any): any;
         leave(event?: any): any;
@@ -2858,6 +2903,7 @@ declare namespace $.$$ {
         protected _target: EventTarget | null;
         enter(event: DragEvent): void;
         move(event: DragEvent): void;
+        decide_action(event: DragEvent): any;
         leave(event: DragEvent): void;
         receive(transfer: unknown): unknown;
         drop(event: DragEvent): void;
@@ -2867,6 +2913,7 @@ declare namespace $.$$ {
 declare namespace $ {
     class $hyoo_page_side_menu extends $mol_page {
         editing(next?: any): boolean;
+        yard(): $hyoo_sync_yard<unknown>;
         bookmarks(next?: any): $$.$hyoo_page_side[];
         files(): $$.$hyoo_page_side[];
         title(): string;
@@ -2887,15 +2934,21 @@ declare namespace $ {
         Filter(): $$.$mol_search;
         transfer_adopt(next?: any): any;
         receive_after(id: any, next?: any): any;
+        bookmark_text(id: any): string;
+        bookmark_html(id: any): string;
         bookmark_uri(id: any): string;
         bookmark_title(id: any): string;
         bookmark(id: any): $$.$hyoo_page_side;
         Bookmark_snippet(id: any): $hyoo_page_side_snippet;
         bookmark_remove(id: any, next?: any): any;
-        Bookmark_reove_icon(id: any): $mol_icon_cross;
+        Bookmark_remove_icon(id: any): $mol_icon_cross;
         Bookmark_remove(id: any): $mol_button_minor;
+        bookmark_add(id: any, next?: any): any;
+        Bookmark_add_icon(id: any): $mol_icon_plus;
+        Bookmark_add(id: any): $mol_button_minor;
         bookmark_row(id: any): readonly any[];
         Bookmark_row(id: any): $mol_view;
+        Bookmark_drag(id: any): $$.$mol_drag;
         Bookmark_drop(id: any): $$.$mol_drop;
         content(): readonly any[];
         Content(): $$.$mol_list;
@@ -2920,7 +2973,10 @@ declare namespace $.$$ {
         add(): void;
         bookmark_row(id: $mol_int62_string): ($mol_button_minor | $hyoo_page_side_snippet)[];
         bookmark_remove(id: $mol_int62_string): void;
+        bookmark_add(id: $mol_int62_string): void;
         bookmark_uri(id: $mol_int62_string): string;
+        bookmark_html(id: $mol_int62_string): string;
+        bookmark_text(id: $mol_int62_string): string;
         transfer_adopt(transfer: DataTransfer): $hyoo_page_side | null | undefined;
         receive_after(anchor: $mol_int62_string, bookmark: $hyoo_page_side): void;
         receive_end(bookmark: $hyoo_page_side): void;
@@ -3048,7 +3104,6 @@ declare namespace $ {
         };
         foot(): readonly any[];
         Add_icon(): $mol_icon_file_document_box_plus_outline;
-        yard(): $hyoo_sync_yard<unknown>;
         Online(): $$.$hyoo_sync_online;
         Source(): $mol_link_source;
         Lights(): $$.$mol_lights_toggle;
@@ -3060,8 +3115,8 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_page_menu extends $.$hyoo_page_menu {
-        bookmarks_filtered(): $hyoo_page_side[];
         add(): void;
+        bookmark_add(id: $mol_int62_string): void;
     }
 }
 
@@ -4484,12 +4539,6 @@ declare namespace $.$$ {
         size(): string;
         chars(): string;
         words(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_plus extends $mol_icon {
-        path(): string;
     }
 }
 

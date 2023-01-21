@@ -318,8 +318,27 @@ $hyoo_page_side_snippet $hyoo_page_side_avatar
 			haystack <= name
 			needle <= highlight \
 
+$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
+
 $mol_ghost $mol_view
 	Sub $mol_view
+
+$mol_drag $mol_ghost
+	event *
+		dragstart?event <=> drag_start?event <=> start?event null
+		drag?event <=> drag_move?event <=> move?event null
+		dragend?event <=> drag_end?event <=> end?event null
+	attr *
+		draggable true
+		mol_drag_status <= status?val \ready
+	transfer *
+		text/plain \
+		text/html \
+		text/uri-list \
+	allow_copy true
+	allow_link true
+	allow_move true
+	image <= dom_node
 
 $mol_drop $mol_ghost
 	enabled? true
@@ -331,9 +350,14 @@ $mol_drop $mol_ghost
 	attr * mol_drop_status <= status?val \ready
 	adopt?transfer *
 	receive?transfer null
+	allow /
+		\link
+		\copy
+		\move
 
 $hyoo_page_side_menu $mol_page
 	editing? false
+	yard $hyoo_sync_yard
 	side $hyoo_page_side
 		bookmarks? => bookmarks?
 		files => files
@@ -362,18 +386,27 @@ $hyoo_page_side_menu $mol_page
 					enabled <= editable
 					adopt? <=> transfer_adopt? null
 					receive? <=> receive_after*? null
-					Sub <= Bookmark_row* $mol_view
-						sub <= bookmark_row* /
-							<= Bookmark_snippet* $hyoo_page_side_snippet
-								uri_toggle <= bookmark_uri* \
-								side <= bookmark* $hyoo_page_side
-									title => bookmark_title*
-								highlight <= filter
-								Image null
-							<= Bookmark_remove* $mol_button_minor
-								click? <=> bookmark_remove*? null
-								sub /
-									<= Bookmark_reove_icon* $mol_icon_cross
+					Sub <= Bookmark_drag* $mol_drag
+						transfer *
+							text/plain <= bookmark_text* \
+							text/html <= bookmark_html* \
+							text/uri-list <= bookmark_uri*
+						Sub <= Bookmark_row* $mol_view
+							sub <= bookmark_row* /
+								<= Bookmark_snippet* $hyoo_page_side_snippet
+									uri_toggle <= bookmark_uri* \
+									side <= bookmark* $hyoo_page_side
+										title => bookmark_title*
+									highlight <= filter
+									Image null
+								<= Bookmark_remove* $mol_button_minor
+									click? <=> bookmark_remove*? null
+									sub /
+										<= Bookmark_remove_icon* $mol_icon_cross
+								<= Bookmark_add* $mol_button_minor
+									click? <=> bookmark_add*? null
+									sub /
+										<= Bookmark_add_icon* $mol_icon_plus
 		<= Drop_end $mol_drop
 			enabled <= editable
 			adopt? <=> transfer_adopt? null
@@ -429,7 +462,7 @@ $hyoo_page_menu $hyoo_page_side_menu
 		mol_theme \$mol_theme_special
 	foot /
 		<= Online $hyoo_sync_online
-			yard <= yard $hyoo_sync_yard
+			yard <= yard
 		<= Source $mol_link_source
 			uri \https://github.com/hyoo-ru/page.hyoo.ru/
 		<= Lights $mol_lights_toggle
@@ -1136,8 +1169,6 @@ $hyoo_page_side_info $mol_page
 				Empty <= Word_list_empty $mol_card
 					title @ \No words
 
-$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
-
 $mol_button_major $mol_button_typed
 	attr *
 		^
@@ -1221,6 +1252,7 @@ $hyoo_page $mol_book2
 			filter => search
 			editing? <=> editing? false
 		<= Side_menu*0_0 $hyoo_page_side_menu
+			yard <= yard
 			side <= side*
 			bookmark* <= side*
 			editing? <=> editing? false
