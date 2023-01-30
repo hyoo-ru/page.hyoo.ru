@@ -12,6 +12,7 @@ $hyoo_page $mol_book2
 		list <= bookmarks_node
 		item_uri* <= side_uri* \
 		add? <=> page_add? null
+		filter => search
 	plugins /
 		<= Theme $mol_theme_auto
 	auto /
