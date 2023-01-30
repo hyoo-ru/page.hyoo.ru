@@ -3,9 +3,9 @@ $hyoo_page_menu $hyoo_meta_menu
 	attr *
 		^
 		mol_theme \$mol_theme_special
-	Logo $hyoo_page_side_snippet
+	Title $hyoo_page_side_snippet
 		side <= profile $hyoo_page_side
-		Name null
+		title <= title
 	foot /
 		<= Online $hyoo_sync_online
 			yard <= yard
