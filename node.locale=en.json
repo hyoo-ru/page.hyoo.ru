@@ -1,4 +1,6 @@
 {
+	"$hyoo_meta_menu_Add_hint": "Add new",
+	"$hyoo_meta_menu_Editing_hint": "Edit list",
 	"$hyoo_page_menu_title": "In Bookmarks",
 	"$hyoo_page_side_avatar_all_name": "All",
 	"$hyoo_page_side_edit_Details_edit_hint": "Details",
@@ -18,8 +20,6 @@
 	"$hyoo_page_side_info_Word_list_title": "Key Words",
 	"$hyoo_page_side_info_Words_title": "Words",
 	"$hyoo_page_side_info_title": "Page Info",
-	"$hyoo_page_side_menu_Add_hint": "New page",
-	"$hyoo_page_side_menu_Self_editing_toggle_hint": "Edit list",
 	"$hyoo_page_side_rights_Editor_add_id_hint": "Id or Profile Link",
 	"$hyoo_page_side_rights_Editor_add_name": "Add new",
 	"$hyoo_page_side_rights_Editor_fill_all_title": "Allow anyone",

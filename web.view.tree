@@ -38,23 +38,6 @@ $mol_page $mol_view
 			dom_name \footer
 			sub <= foot /$mol_view
 
-$mol_link $mol_view
-	uri \
-	dom_name \a
-	attr *
-		^
-		href <= uri_toggle \
-		title <= hint_safe <= hint \
-		target <= target \_self
-		download <= file_name \
-		mol_link_current <= current false
-	sub /$mol_view_content
-		<= title
-	arg *
-	event *
-		^
-		click?event <=> click?event <=> event_click?event null
-
 $mol_svg $mol_view
 	dom_name \svg
 	dom_name_space \http://www.w3.org/2000/svg
@@ -88,19 +71,6 @@ $mol_avatar $mol_icon
 	view_box \0 0 24 24
 	id \
 	path \M 12 12 l 0 0 M 0 0 l 0 0 M 24 24 l 0 0 M 0 24 l 0 0 M 24 0 l 0 0
-
-$hyoo_page_side_avatar $mol_link
-	side $hyoo_page_side
-		id => id
-		title => name
-	hint <= name
-	all_name @ \All
-	arg *
-		\
-			<= id
-	sub /
-		<= Image $mol_avatar
-			id <= id
 
 $mol_icon_pencil $mol_icon path \M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z
 
@@ -157,7 +127,7 @@ $mol_check $mol_button_minor
 
 $mol_check_icon $mol_check
 
-$mol_icon_playlist_plus $mol_icon path \M2,16H10V14H2M18,14V10H16V14H12V16H16V20H18V16H22V14M14,6H2V8H14M14,10H2V12H14V10Z
+$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
 
 $mol_pop $mol_view
 	showed?val false
@@ -308,15 +278,22 @@ $mol_search $mol_pop
 				haystack <= suggest_label* \
 				needle <= query?val \
 
-$hyoo_page_side_snippet $hyoo_page_side_avatar
-	hint \
-	sub /
-		<= Image
-		<= Name $mol_dimmer
-			haystack <= name
-			needle <= highlight \
-
-$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
+$mol_link $mol_view
+	uri \
+	dom_name \a
+	attr *
+		^
+		href <= uri_toggle \
+		title <= hint_safe <= hint \
+		target <= target \_self
+		download <= file_name \
+		mol_link_current <= current false
+	sub /$mol_view_content
+		<= title
+	arg *
+	event *
+		^
+		click?event <=> click?event <=> event_click?event null
 
 $mol_ghost $mol_view
 	Sub $mol_view
@@ -353,73 +330,83 @@ $mol_drop $mol_ghost
 		\copy
 		\move
 
-$hyoo_page_side_menu $mol_page
-	editing? false
+$hyoo_meta_menu $mol_page
+	editable true
+	item_moved* null
 	yard $hyoo_sync_yard
-	side $hyoo_page_side
-		bookmarks? => bookmarks?
-		files => files
-		title => title
-		editable => editable
+	item* $hyoo_meta_model
+		title => item_title*
+	list $hyoo_crowd_list
+		list => ids
 		world => world
-	bookmarks_filtered <= bookmarks
-	Logo $hyoo_page_side_avatar
-		side <= side
+	Logo $mol_avatar
+		id <= logo_id \
 	tools /
-		<= Self_editing_toggle $mol_check_icon
+		<= Editing $mol_check_icon
 			hint @ \Edit list
-			checked? <=> self_editing? false
-			Icon <= Self_editing_icon $mol_icon_pencil_outline
+			checked? <=> editing? false
+			Icon <= Editing_icon $mol_icon_pencil_outline
 		<= Add $mol_button_minor
-			hint @ \New page
+			hint @ \Add new
 			click? <=> add? null
 			sub /
-				<= Add_icon $mol_icon_playlist_plus
+				<= Add_icon $mol_icon_plus
 	body /
-		<= Content $mol_list
-			rows <= content /
-				<= Filter $mol_search
-					query? <=> filter? \
-				<= Bookmark_drop*0_0 $mol_drop
-					enabled <= editable
-					adopt? <=> transfer_adopt? null
-					receive? <=> receive_after*? null
-					Sub <= Bookmark_drag* $mol_drag
-						transfer *
-							text/plain <= bookmark_text* \
-							text/html <= bookmark_html* \
-							text/uri-list <= bookmark_uri*
-						Sub <= Bookmark_row* $mol_view
-							sub <= bookmark_row* /
-								<= Bookmark_snippet* $hyoo_page_side_snippet
-									uri_toggle <= bookmark_uri* \
-									side <= bookmark* $hyoo_page_side
-										title => bookmark_title*
-									highlight <= filter
-									Image null
-								<= Bookmark_remove* $mol_button_minor
-									click? <=> bookmark_remove*? null
-									sub /
-										<= Bookmark_remove_icon* $mol_icon_cross
-								<= Bookmark_add* $mol_button_minor
-									click? <=> bookmark_add*? null
-									sub /
-										<= Bookmark_add_icon* $mol_icon_plus
+		<= Content $mol_list rows /
+			<= Filter $mol_search
+				query? <=> filter? \
+			<= Items $mol_list
+				rows <= items /
+					<= Item*0_0 <= Item_drop* $mol_drop
+						enabled <= editable
+						adopt? <=> transfer_adopt? null
+						receive? <=> receive_after*? null
+						Sub <= Item_drag* $mol_drag
+							transfer *
+								text/plain <= item_text* \
+								text/html <= item_html* \
+								text/uri-list <= item_uri*
+							Sub <= Item_row* $mol_view
+								sub <= item_row* /
+									<= Item_link* $mol_link
+										uri <= item_uri* \
+										sub /
+											<= Item_title* $mol_dimmer
+												haystack <= item_title*
+												needle <= filter
+									<= Item_remove* $mol_button_minor
+										click? <=> item_remove*? null
+										sub /
+											<= Item_remove_icon* $mol_icon_cross
+									<= Item_add* $mol_button_minor
+										click? <=> item_add*? null
+										sub /
+											<= Item_add_icon* $mol_icon_plus
 		<= Drop_end $mol_drop
 			enabled <= editable
 			adopt? <=> transfer_adopt? null
 			receive? <=> receive_end? null
-			Sub <= Content_drop_zone $mol_view sub /
+			Sub <= Drop_zone $mol_view
 
-$mol_icon_file $mol_icon path \M13,9V3.5L18.5,9M6,2C4.89,2 4,2.89 4,4V20C4,21.1 4.9,22 6,22H18C19.1,22 20,21.1 20,20V8L14,2H6Z
+$hyoo_page_side_avatar $mol_link
+	side $hyoo_page_side
+		id => id
+		title => title
+	all_name @ \All
+	arg *
+		\
+			<= id
+	sub /
+		<= Image $mol_avatar
+			id <= id
 
-$mol_icon_file_document $mol_icon path \M13,9H18.5L13,3.5V9M6,2H14L20,8V20C20,21.1 19.1,22 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z
-
-$mol_icon_file_document_box $mol_icon path \M14,17H7V15H14M17,13H7V11H17M17,9H7V7H17M19,3H5C3.89,3 3,3.89 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.89 20.1,3 19,3Z
-
-$mol_icon_file_document_box_plus $mol_icon path \M17,14H19V17H22V19H19V22H17V19H14V17H17V14M12,17V15H7V17H12M17,11H7V13H14.69C13.07,14.07 12,15.91 12,18C12,19.09 12.29,20.12 12.8,21H5C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3H19C20.1,3 21,3.9 21,5V12.8C20.12,12.29 19.09,12 18,12L17,12.08V11M17,9V7H7V9H17Z
-
-$mol_icon_file_document_box_plus_outline $mol_icon path \M17,14H19V17H22V19H19V22H17V19H14V17H17V14M5,3H19C20.11,3 21,3.89 21,5V12.8C20.39,12.45 19.72,12.2 19,12.08V5H5V19H12.08C12.2,19.72 12.45,20.39 12.8,21H5C3.89,21 3,20.11 3,19V5C3,3.89 3.89,3 5,3M7,7H17V9H7V7M7,11H17V12.08C16.15,12.22 15.37,12.54 14.68,13H7V11M7,15H12V17H7V15Z
+$hyoo_page_side_snippet $hyoo_page_side_avatar
+	hint \
+	sub /
+		<= Image
+		<= Name $mol_dimmer
+			haystack <= title
+			needle <= highlight \
 
 $mol_icon_sync $mol_icon path \M12,18C8.69,18 6,15.31 6,12C6,11 6.25,10.03 6.7,9.2L5.24,7.74C4.46,8.97 4,10.43 4,12C4,16.42 7.58,20 12,20V23L16,19L12,15M12,4V1L8,5L12,9V6C15.31,6 18,8.69 18,12C18,13 17.75,13.97 17.3,14.8L18.76,16.26C19.54,15.03 20,13.57 20,12C20,7.58 16.42,4 12,4Z
 
@@ -452,22 +439,28 @@ $mol_lights_toggle $mol_check_icon
 	hint @ \Toggle lights
 	checked?val <=> lights?val false
 
-$hyoo_page_menu $hyoo_page_side_menu
+$hyoo_page_menu $hyoo_meta_menu
 	title @ \In Bookmarks
-	files <= bookmarks
 	attr *
 		^
 		mol_theme \$mol_theme_special
+	Title $hyoo_page_side_snippet
+		side <= profile $hyoo_page_side
+		title <= title
 	foot /
 		<= Online $hyoo_sync_online
 			yard <= yard
 		<= Source $mol_link_source
 			uri \https://github.com/hyoo-ru/page.hyoo.ru/
 		<= Lights $mol_lights_toggle
-	Add_icon $mol_icon_file_document_box_plus_outline
 
 $mol_theme_auto $mol_plugin
 	attr * mol_theme <= theme \
+
+$hyoo_page_side_menu $hyoo_meta_menu
+	Title $hyoo_page_side_snippet
+		side <= side $hyoo_page_side
+			title => title
 
 $mol_bar $mol_view
 
@@ -1250,13 +1243,17 @@ $hyoo_page $mol_book2
 	side_main_id \iy8wtn_tky6pc
 	yard $hyoo_sync_client
 	side* $hyoo_page_side
+		title => side_title*
+		pages_node => pages_node*
 	profile $hyoo_page_side
+		bookmarks_node => bookmarks_node
 	Placeholder <= Menu $hyoo_page_menu
 		yard <= yard
-		side <= profile
-		bookmark* <= side*
+		profile <= profile
+		list <= bookmarks_node
+		item_uri* <= side_uri* \
+		add? <=> page_add? null
 		filter => search
-		editing? <=> editing? false
 	plugins /
 		<= Theme $mol_theme_auto
 	auto /
@@ -1265,13 +1262,15 @@ $hyoo_page $mol_book2
 		<= Side_menu*0_0 $hyoo_page_side_menu
 			yard <= yard
 			side <= side*
-			bookmark* <= side*
-			editing? <=> editing? false
+			list <= pages_node*
+			item_uri* <= side_uri* \
+			add? <=> side_add? null
+			item_moved? <=> side_menu_item_moved? null
 		<= View*0_0 $hyoo_page_side_view
 			side <= side*
 			peer* <= side*
 			profile <= profile
-			menu_showed? <=> side_menu_showed*? false
+			menu_showed? <=> side_menu_showed? false
 			editing? <=> editing? false
 			info? <=> info? false
 			highlight <= search
