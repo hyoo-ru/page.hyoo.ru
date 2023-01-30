@@ -1,8 +1,7 @@
 $hyoo_page_side_avatar $mol_link
 	side $hyoo_page_side
 		id => id
-		title => name
-	hint <= name
+		title => title
 	all_name @ \All
 	arg *
 		\

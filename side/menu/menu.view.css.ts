@@ -9,10 +9,6 @@ namespace $ {
 			grow: 0,
 		},
 		
-		Logo: {
-			margin: [ rem(-0.5), rem(-0.75) ],
-		},
-		
 		Filter: {
 			alignSelf: 'stretch',
 		},

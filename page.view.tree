@@ -2,13 +2,16 @@ $hyoo_page $mol_book2
 	side_main_id \iy8wtn_tky6pc
 	yard $hyoo_sync_client
 	side* $hyoo_page_side
+		title => side_title*
+		pages_node => pages_node*
 	profile $hyoo_page_side
+		bookmarks_node => bookmarks_node
 	Placeholder <= Menu $hyoo_page_menu
 		yard <= yard
-		side <= profile
-		bookmark* <= side*
-		filter => search
-		editing? <=> editing? false
+		profile <= profile
+		list <= bookmarks_node
+		item_uri* <= side_uri* \
+		add? <=> page_add? null
 	plugins /
 		<= Theme $mol_theme_auto
 	auto /
@@ -17,13 +20,15 @@ $hyoo_page $mol_book2
 		<= Side_menu*0_0 $hyoo_page_side_menu
 			yard <= yard
 			side <= side*
-			bookmark* <= side*
-			editing? <=> editing? false
+			list <= pages_node*
+			item_uri* <= side_uri* \
+			add? <=> side_add? null
+			item_moved? <=> side_menu_item_moved? null
 		<= View*0_0 $hyoo_page_side_view
 			side <= side*
 			peer* <= side*
 			profile <= profile
-			menu_showed? <=> side_menu_showed*? false
+			menu_showed? <=> side_menu_showed? false
 			editing? <=> editing? false
 			info? <=> info? false
 			highlight <= search

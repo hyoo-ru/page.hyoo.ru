@@ -1,13 +1,14 @@
-$hyoo_page_menu $hyoo_page_side_menu
+$hyoo_page_menu $hyoo_meta_menu
 	title @ \In Bookmarks
-	files <= bookmarks
 	attr *
 		^
 		mol_theme \$mol_theme_special
+	Logo $hyoo_page_side_snippet
+		side <= profile $hyoo_page_side
+		Name null
 	foot /
 		<= Online $hyoo_sync_online
 			yard <= yard
 		<= Source $mol_link_source
 			uri \https://github.com/hyoo-ru/page.hyoo.ru/
 		<= Lights $mol_lights_toggle
-	Add_icon $mol_icon_file_document_box_plus_outline

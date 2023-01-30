@@ -1,15 +1,6 @@
 namespace $.$$ {
 	
-	export class $hyoo_page_side extends $hyoo_crowd_struct {
-		
-		id() {
-			return this.land.id()
-		}
-		
-		@ $mol_mem
-		editable() {
-			return this.land.allowed_mod()
-		}
+	export class $hyoo_page_side extends $hyoo_meta_model {
 		
 		@ $mol_mem
 		referrers_node() {
@@ -34,19 +25,6 @@ namespace $.$$ {
 			return this.referrers_node()?.sub( uri, $hyoo_crowd_list ).add( this.land.peer().id )
 		}
 		
-		@ $mol_mem
-		title_node() {
-			return this.sub( 'title', $hyoo_crowd_text )
-		}
-		@ $mol_mem
-		title( next?: string ) {
-			return this.title_node().str( next )
-		}
-		@ $mol_mem
-		title_selection( next?: number[] ) {
-			return this.title_node().selection( this.land.peer().id, next )
-		}
-
 		@ $mol_mem
 		details_node() {
 			return this.yoke( 'details', $hyoo_crowd_text )
@@ -105,16 +83,36 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
+		bookmarks_node( next?: readonly $hyoo_page_side[] ) {
+			return this.sub( 'bookmarks', $hyoo_crowd_list )
+		}
+		
+		@ $mol_mem
 		bookmarks( next?: readonly $hyoo_page_side[] ) {
-			const node = this.sub( 'bookmarks', $hyoo_crowd_list )
+			const node = this.bookmarks_node()
 			const ids = node.list( next?.map( side => side.id() ) ) as $mol_int62_string[]
 			const Fund = this.world()!.Fund( $hyoo_page_side )
 			return ids.map( id => Fund.Item( id ) )
 		}
 		
 		@ $mol_mem
-		files() {
-			return this.bookmarks().filter( b => b.book() === this )
+		pages_node() {
+			const pages = this.sub( 'pages', $hyoo_crowd_list )
+			if( this.editable() ) {
+				for( const bookmark of this.bookmarks() ) {
+					if( bookmark.book() !== this ) continue
+					pages.add( bookmark.id() )
+				}
+			}
+			return pages
+		}
+		
+		@ $mol_mem
+		pages( next?: readonly $hyoo_page_side[] ) {
+			const node = this.pages_node()
+			const ids = node.list( next?.map( side => side.id() ) ) as $mol_int62_string[]
+			const Fund = this.world()!.Fund( $hyoo_page_side )
+			return ids.map( id => Fund.Item( id ) )
 		}
 		
 		@ $mol_mem_key
@@ -137,10 +135,6 @@ namespace $.$$ {
 		@ $mol_mem
 		authors() {
 			return [ ... this.details_node()?.land.authors() ?? [] ]
-		}
-		
-		steal_rights( side: $hyoo_page_side ) {
-			this.land.steal_rights( side.land )
 		}
 		
 	}

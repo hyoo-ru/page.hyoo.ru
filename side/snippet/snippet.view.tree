@@ -3,5 +3,5 @@ $hyoo_page_side_snippet $hyoo_page_side_avatar
 	sub /
 		<= Image
 		<= Name $mol_dimmer
-			haystack <= name
+			haystack <= title
 			needle <= highlight \

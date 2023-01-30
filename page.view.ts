@@ -38,6 +38,10 @@ namespace $.$$ {
 			return this.yard().world().Fund( $hyoo_page_side ).Item( id )
 		}
 		
+		side_uri( id: $mol_int62_string ) {
+			return this.$.$mol_state_arg.make_link({ '': id })
+		}
+		
 		@ $mol_mem
 		side_current_id() {
 			return ( this.$.$mol_state_arg.value( '' ) || this.side_main_id() ) as $mol_int62_string
@@ -47,9 +51,13 @@ namespace $.$$ {
 			return this.side( this.side_current_id() )
 		}
 		
-		@ $mol_mem_key
-		side_menu_showed( id: $mol_int62_string, next?: boolean ) {
-			return next ?? ( ( this.side( id ).book() ?? this.side_current() ).files().length ) > 0
+		side_current_book() {
+			return this.side_current().book() ?? this.side_current()
+		}
+		
+		@ $mol_mem
+		side_menu_showed( next?: boolean ) {
+			return next ?? ( this.side_current_book().pages().length ) > 0
 		}
 		
 		@ $mol_mem
@@ -57,13 +65,42 @@ namespace $.$$ {
 			const id = this.side_current_id()
 			return [
 				this.Gap( 'left'),
-				... this.side_menu_showed( id ) ? [ this.Side_menu( this.side_current().book()?.id() ?? id ) ] : [],
+				... this.side_menu_showed() ? [ this.Side_menu( this.side_current_book().id() ) ] : [],
 				this.View( id ),
 				... this.info() ? [ this.Info( id ) ] : [],
 				... this.editing() ? [ this.Edit( id ) ] : [],
 				... this.rights() ? [ this.Rights( id ) ] : [],
 				this.Gap( 'right' ),
 			]
+		}
+		
+		@ $mol_action
+		page_add() {
+			const land = this.yard().land_grab()
+			this.$.$mol_dom_context.location.href = '#!=' + land.id()
+			this.bookmarks_node().add( land.id() )
+			this.editing( true )
+		}
+		
+		@ $mol_action
+		side_add() {
+			
+			const side = this.side_current()
+			const book = side.book() ?? side
+			const page = side.world()!.Fund( $hyoo_page_side ).make()
+			
+			page.steal_rights( book )
+			side.pages_node().add( page.id() )
+			page.book( book )
+			
+			this.$.$mol_dom_context.location.href = '#!=' + page.id()
+			this.editing( true )
+			
+		}
+		
+		@ $mol_action
+		side_menu_item_moved( id: $mol_int62_string ) {
+			this.side( id ).book( this.side_current_book() )
 		}
 		
 	}
