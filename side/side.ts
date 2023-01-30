@@ -33,7 +33,7 @@ namespace $.$$ {
 		details( next?: string ) {
 			const land = this.details_node()?.land
 			if( land?.allowed_mod() ) {
-				land?.chief.sub( '$hyoo_page_side', $hyoo_crowd_reg ).str( this.id() )
+				this.world()!.Fund( $hyoo_meta_model ).Item( land.id() ).whole( this )
 			}
 			return this.details_node()?.text( next ) ?? ''
 		}
