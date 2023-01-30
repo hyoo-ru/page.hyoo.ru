@@ -55,7 +55,7 @@ namespace $.$$ {
 		released() {
 			
 			const book = this.book()
-			if( book && !book.bookmarked( this.id() ) ) return false
+			if( book && !book.pages_node().has( this.id() ) ) return false
 			
 			return this.release_node() && ( this.release() === this.details() ) || false
 			
@@ -63,7 +63,7 @@ namespace $.$$ {
 		@ $mol_action
 		publish() {
 			this.release( this.details() )
-			this.book()?.bookmarked( this.id(), true )
+			this.book()?.pages_node().add( this.id() )
 		}
 		
 		@ $mol_mem
@@ -118,7 +118,7 @@ namespace $.$$ {
 		@ $mol_mem_key
 		bookmarked( id: $mol_int62_string, next?: boolean ) {
 			
-			const node = this.sub( 'bookmarks', $hyoo_crowd_list )
+			const node = this.bookmarks_node()
 			if( next === undefined ) return node.list().includes( id )
 			
 			if( next ) node.add( id )
