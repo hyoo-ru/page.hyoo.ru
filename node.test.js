@@ -6801,13 +6801,13 @@ var $;
             }
             released() {
                 const book = this.book();
-                if (book && !book.bookmarked(this.id()))
+                if (book && !book.pages_node().has(this.id()))
                     return false;
                 return this.release_node() && (this.release() === this.details()) || false;
             }
             publish() {
                 this.release(this.details());
-                this.book()?.bookmarked(this.id(), true);
+                this.book()?.pages_node().add(this.id());
             }
             content() {
                 return this.release() || this.details();
@@ -6846,7 +6846,7 @@ var $;
                 return ids.map(id => Fund.Item(id));
             }
             bookmarked(id, next) {
-                const node = this.sub('bookmarks', $hyoo_crowd_list);
+                const node = this.bookmarks_node();
                 if (next === undefined)
                     return node.list().includes(id);
                 if (next)
