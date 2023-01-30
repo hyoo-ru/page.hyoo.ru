@@ -17523,7 +17523,7 @@ var $;
                 const book = side.book() ?? side;
                 const page = side.world().Fund($hyoo_page_side).make();
                 page.steal_rights(book);
-                side.pages_node().add(page.id());
+                book.pages_node().add(page.id());
                 page.book(book);
                 this.$.$mol_dom_context.location.href = '#!=' + page.id();
                 this.editing(true);
