@@ -1,4 +1,4 @@
 $hyoo_page_side_menu $hyoo_meta_menu
-	Title $hyoo_page_side_snippet
-		side <= side $hyoo_page_side
+	Title $hyoo_meta_link
+		meta <= side $hyoo_page_side
 			title => title

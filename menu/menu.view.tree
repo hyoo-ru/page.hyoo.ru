@@ -3,8 +3,8 @@ $hyoo_page_menu $hyoo_meta_menu
 	attr *
 		^
 		mol_theme \$mol_theme_special
-	Title $hyoo_page_side_snippet
-		side <= profile $hyoo_page_side
+	Title $hyoo_meta_link
+		meta <= profile $hyoo_page_side
 		title <= title
 	foot /
 		<= Online $hyoo_sync_online

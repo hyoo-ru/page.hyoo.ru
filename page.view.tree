@@ -42,7 +42,11 @@ $hyoo_page $mol_book2
 			side <= side*
 			close? <=> info_close*? null
 			Text <= View_details*
-		<= Rights*0_0 $hyoo_page_side_rights
-			side <= side*
+		<= Rights*0_0 $hyoo_meta_rights
+			meta <= side*
 			peer* <= side*
-			close? <=> rights_close*? null
+			tools /
+				<= Rights_close $mol_button_minor
+					click? <=> rights_close? null
+					sub /
+						<= Сlose_icon $mol_icon_cross

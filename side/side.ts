@@ -27,14 +27,20 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		details_node() {
-			return this.yoke( 'details', $hyoo_crowd_text )
+			
+			const details = this.yoke( 'details', $hyoo_crowd_text )
+			if( !details ) return details
+			
+			const land = details.land
+			const meta = this.world()!.Fund( $hyoo_meta_model ).Item( land.id() )
+			
+			if( land.allowed_mod() ) meta.whole( this )
+			if( land.allowed_law() ) meta.steal_rights( this )
+			
+			return details
 		}
 		@ $mol_mem
 		details( next?: string ) {
-			const land = this.details_node()?.land
-			if( land?.allowed_mod() ) {
-				this.world()!.Fund( $hyoo_meta_model ).Item( land.id() ).whole( this )
-			}
 			return this.details_node()?.text( next ) ?? ''
 		}
 		@ $mol_mem
@@ -125,11 +131,6 @@ namespace $.$$ {
 			else node.drop( id )
 			
 			return next
-		}
-		
-		@ $mol_mem
-		editors() {
-			return this.land.peers()
 		}
 		
 		@ $mol_mem
