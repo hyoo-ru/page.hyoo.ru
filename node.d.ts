@@ -1647,6 +1647,7 @@ declare namespace $ {
 declare namespace $ {
     class $hyoo_meta_model extends $hyoo_crowd_struct {
         editable(): boolean;
+        editors(): readonly `${string}_${string}`[];
         title_node(): $hyoo_crowd_text;
         title(next?: string): string;
         title_selection(next?: number[]): number[];
@@ -1823,7 +1824,6 @@ declare namespace $.$$ {
         pages_node(): $hyoo_crowd_list;
         pages(next?: readonly $hyoo_page_side[]): $hyoo_page_side[];
         bookmarked(id: $mol_int62_string, next?: boolean): boolean;
-        editors(): readonly `${string}_${string}`[];
         authors(): `${string}_${string}`[];
     }
 }
@@ -2765,6 +2765,32 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $hyoo_meta_link extends $mol_link {
+        id(): `${string}_${string}`;
+        title(): string;
+        meta(): $hyoo_meta_model;
+        param(): string;
+        all_title(): string;
+        sub(): readonly any[];
+        Avatar(): $$.$mol_avatar;
+        highlight(): string;
+        Title(): $$.$mol_dimmer;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_meta_link extends $.$hyoo_meta_link {
+        title(): string;
+        arg(): {
+            [x: string]: `${string}_${string}`;
+        };
+    }
+}
+
+declare namespace $ {
     class $mol_ghost extends $mol_view {
         Sub(): $mol_view;
     }
@@ -2882,8 +2908,8 @@ declare namespace $ {
         item_text(id: any): string;
         item_html(id: any): string;
         item_uri(id: any): string;
-        Item_title(id: any): $$.$mol_dimmer;
-        Item_link(id: any): $$.$mol_link;
+        param(): string;
+        Item_link(id: any): $$.$hyoo_meta_link;
         item_remove(id: any, next?: any): any;
         Item_remove_icon(id: any): $mol_icon_cross;
         Item_remove(id: any): $mol_button_minor;
@@ -2914,7 +2940,7 @@ declare namespace $.$$ {
         items(): $mol_drop[];
         item(id: $mol_int62_string): $hyoo_meta_model;
         filtered(): (`${string}_${string}` | null)[];
-        item_row(id: $mol_int62_string): ($mol_button_minor | $mol_link)[];
+        item_row(id: $mol_int62_string): ($mol_button_minor | $hyoo_meta_link)[];
         item_remove(id: $mol_int62_string): void;
         item_add(id: $mol_int62_string): void;
         item_html(id: $mol_int62_string): string;
@@ -2923,38 +2949,6 @@ declare namespace $.$$ {
         receive_after(anchor: $mol_int62_string, dropped: $mol_int62_string): void;
         receive_end(dropped: $mol_int62_string): void;
     }
-}
-
-declare namespace $ {
-    class $hyoo_page_side_avatar extends $mol_link {
-        id(): `${string}_${string}`;
-        title(): string;
-        side(): $$.$hyoo_page_side;
-        all_name(): string;
-        arg(): {
-            "": `${string}_${string}`;
-        };
-        sub(): readonly any[];
-        Image(): $$.$mol_avatar;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_page_side_avatar extends $.$hyoo_page_side_avatar {
-        title(): string;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_page_side_snippet extends $hyoo_page_side_avatar {
-        hint(): string;
-        sub(): readonly any[];
-        highlight(): string;
-        Name(): $$.$mol_dimmer;
-    }
-}
-
-declare namespace $ {
 }
 
 declare namespace $ {
@@ -3055,7 +3049,7 @@ declare namespace $ {
         attr(): {
             mol_theme: string;
         };
-        Title(): $hyoo_page_side_snippet;
+        Title(): $$.$hyoo_meta_link;
         foot(): readonly any[];
         profile(): $$.$hyoo_page_side;
         Online(): $$.$hyoo_sync_online;
@@ -3081,7 +3075,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_page_side_menu extends $hyoo_meta_menu {
-        Title(): $hyoo_page_side_snippet;
+        Title(): $$.$hyoo_meta_link;
         title(): string;
         side(): $$.$hyoo_page_side;
     }
@@ -4149,7 +4143,7 @@ declare namespace $ {
         Details(): $$.$mol_text;
         Changed(): $$.$mol_date;
         peer(id: any): $$.$hyoo_page_side;
-        Author_link(id: any): $$.$hyoo_page_side_avatar;
+        Author_link(id: any): $$.$hyoo_meta_link;
         author_list(): readonly any[];
         Author_list(): $mol_view;
         Signature(): $mol_view;
@@ -4170,7 +4164,7 @@ declare namespace $.$$ {
         search_start(event?: KeyboardEvent): void;
         search_stop(event?: KeyboardEvent): void;
         details(): string;
-        author_list(): $hyoo_page_side_avatar[];
+        author_list(): $hyoo_meta_link[];
         slides_content(): string;
         slides_send(): void;
     }
@@ -4529,6 +4523,11 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $hyoo_meta_person extends $hyoo_meta_model {
+    }
+}
+
+declare namespace $ {
     class $mol_button_major extends $mol_button_typed {
         attr(): {
             mol_theme: string;
@@ -4565,18 +4564,13 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $hyoo_page_side_rights extends $mol_page {
-        editors(): readonly `${string}_${string}`[];
-        details_node(): $hyoo_crowd_text | null;
-        side(): $$.$hyoo_page_side;
+    class $hyoo_meta_rights extends $mol_page {
         title(): string;
-        tools(): readonly any[];
+        editors(): readonly `${string}_${string}`[];
+        meta(): $hyoo_meta_model;
         body(): readonly any[];
-        close(next?: any): any;
-        Сlose_icon(): $mol_icon_cross;
-        Сlose(): $mol_button_minor;
-        peer(id: any): $$.$hyoo_page_side;
-        Editor_link(id: any): $hyoo_page_side_snippet;
+        peer(id: any): $hyoo_meta_person;
+        Editor_link(id: any): $$.$hyoo_meta_link;
         editor_list(): readonly any[];
         Editor_list(): $$.$mol_list;
         editor_add_bid(): string;
@@ -4587,8 +4581,8 @@ declare namespace $ {
         Editor_add_icon(): $mol_icon_plus;
         Editor_add_submit(): $mol_button_major;
         Editor_add_bar(): $mol_bar;
-        editor_add_preview(): $$.$hyoo_page_side;
-        Editor_add_preview(): $hyoo_page_side_snippet;
+        editor_add_preview(): $hyoo_meta_model;
+        Editor_add_preview(): $$.$hyoo_meta_link;
         editor_fill_all(next?: any): any;
         Editor_fill_all(): $mol_button_minor;
         editor_add_rows(): readonly any[];
@@ -4641,15 +4635,15 @@ declare namespace $ {
 }
 
 declare namespace $.$$ {
-    class $hyoo_page_side_rights extends $.$hyoo_page_side_rights {
-        editor_list(): $hyoo_page_side_snippet[];
-        editor_add_rows(): ($mol_button_minor | $mol_bar | $hyoo_page_side_snippet)[];
+    class $hyoo_meta_rights extends $.$hyoo_meta_rights {
+        editor_list(): $hyoo_meta_link[];
+        editor_add_rows(): ($mol_button_minor | $hyoo_meta_link | $mol_bar)[];
         editor_add_id(next?: string): `${string}_${string}`;
         editor_add_filled(): boolean;
         editor_add_bid(): string;
         editor_fill_all(): void;
         editor_add_submit(): void;
-        editor_add_preview(): $hyoo_page_side;
+        editor_add_preview(): $hyoo_meta_person;
     }
 }
 
@@ -4685,8 +4679,10 @@ declare namespace $ {
         Edit(id: any): $$.$hyoo_page_side_edit;
         info_close(id: any, next?: any): any;
         Info(id: any): $$.$hyoo_page_side_info;
-        rights_close(id: any, next?: any): any;
-        Rights(id: any): $$.$hyoo_page_side_rights;
+        rights_close(next?: any): any;
+        Сlose_icon(): $mol_icon_cross;
+        Rights_close(): $mol_button_minor;
+        Rights(id: any): $$.$hyoo_meta_rights;
     }
 }
 
@@ -4708,7 +4704,7 @@ declare namespace $.$$ {
         side_current(): $hyoo_page_side;
         side_current_book(): $hyoo_page_side;
         side_menu_showed(next?: boolean): boolean;
-        pages(): ($mol_view | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_page_side_rights | $hyoo_page_side_menu)[];
+        pages(): ($mol_view | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_meta_rights | $hyoo_page_side_menu)[];
         page_add(): void;
         side_add(): void;
         side_menu_item_moved(id: $mol_int62_string): void;

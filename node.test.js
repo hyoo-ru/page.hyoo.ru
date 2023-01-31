@@ -6046,6 +6046,9 @@ var $;
         editable() {
             return this.land.allowed_mod();
         }
+        editors() {
+            return this.land.peers();
+        }
         title_node() {
             return this.sub('title', $hyoo_crowd_text);
         }
@@ -6067,6 +6070,9 @@ var $;
     __decorate([
         $mol_mem
     ], $hyoo_meta_model.prototype, "editable", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_meta_model.prototype, "editors", null);
     __decorate([
         $mol_mem
     ], $hyoo_meta_model.prototype, "title_node", null);
@@ -6781,13 +6787,18 @@ var $;
                 return this.referrers_node()?.sub(uri, $hyoo_crowd_list).add(this.land.peer().id);
             }
             details_node() {
-                return this.yoke('details', $hyoo_crowd_text);
+                const details = this.yoke('details', $hyoo_crowd_text);
+                if (!details)
+                    return details;
+                const land = details.land;
+                const meta = this.world().Fund($hyoo_meta_model).Item(land.id());
+                if (land.allowed_mod())
+                    meta.whole(this);
+                if (land.allowed_law())
+                    meta.steal_rights(this);
+                return details;
             }
             details(next) {
-                const land = this.details_node()?.land;
-                if (land?.allowed_mod()) {
-                    this.world().Fund($hyoo_meta_model).Item(land.id()).whole(this);
-                }
                 return this.details_node()?.text(next) ?? '';
             }
             details_selection(next) {
@@ -6855,9 +6866,6 @@ var $;
                     node.drop(id);
                 return next;
             }
-            editors() {
-                return this.land.peers();
-            }
             authors() {
                 return [...this.details_node()?.land.authors() ?? []];
             }
@@ -6919,9 +6927,6 @@ var $;
         __decorate([
             $mol_mem_key
         ], $hyoo_page_side.prototype, "bookmarked", null);
-        __decorate([
-            $mol_mem
-        ], $hyoo_page_side.prototype, "editors", null);
         __decorate([
             $mol_mem
         ], $hyoo_page_side.prototype, "authors", null);
@@ -9953,6 +9958,99 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $hyoo_meta_link extends $mol_link {
+        id() {
+            return this.meta().id();
+        }
+        title() {
+            return this.meta().title();
+        }
+        meta() {
+            const obj = new this.$.$hyoo_meta_model();
+            return obj;
+        }
+        param() {
+            return "";
+        }
+        all_title() {
+            return this.$.$mol_locale.text('$hyoo_meta_link_all_title');
+        }
+        sub() {
+            return [
+                this.Avatar(),
+                this.Title()
+            ];
+        }
+        Avatar() {
+            const obj = new this.$.$mol_avatar();
+            obj.id = () => this.id();
+            return obj;
+        }
+        highlight() {
+            return "";
+        }
+        Title() {
+            const obj = new this.$.$mol_dimmer();
+            obj.haystack = () => this.title();
+            obj.needle = () => this.highlight();
+            return obj;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $hyoo_meta_link.prototype, "meta", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_meta_link.prototype, "Avatar", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_meta_link.prototype, "Title", null);
+    $.$hyoo_meta_link = $hyoo_meta_link;
+})($ || ($ = {}));
+//hyoo/meta/link/-view.tree/link.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_define($hyoo_meta_link, {
+        Title: {
+            flex: {
+                shrink: 1,
+            },
+        },
+    });
+})($ || ($ = {}));
+//hyoo/meta/link/link.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $hyoo_meta_link extends $.$hyoo_meta_link {
+            title() {
+                return this.id() === '0_0' ? this.all_title() : super.title();
+            }
+            arg() {
+                return {
+                    [this.param()]: this.id(),
+                };
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $hyoo_meta_link.prototype, "title", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_meta_link.prototype, "arg", null);
+        $$.$hyoo_meta_link = $hyoo_meta_link;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//hyoo/meta/link/link.view.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_ghost extends $mol_view {
         Sub() {
             const obj = new this.$.$mol_view();
@@ -10415,18 +10513,14 @@ var $;
         item_uri(id) {
             return "";
         }
-        Item_title(id) {
-            const obj = new this.$.$mol_dimmer();
-            obj.haystack = () => this.item_title(id);
-            obj.needle = () => this.filter();
-            return obj;
+        param() {
+            return "";
         }
         Item_link(id) {
-            const obj = new this.$.$mol_link();
-            obj.uri = () => this.item_uri(id);
-            obj.sub = () => [
-                this.Item_title(id)
-            ];
+            const obj = new this.$.$hyoo_meta_link();
+            obj.meta = () => this.item(id);
+            obj.param = () => this.param();
+            obj.highlight = () => this.filter();
             return obj;
         }
         item_remove(id, next) {
@@ -10574,9 +10668,6 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_meta_menu.prototype, "receive_after", null);
-    __decorate([
-        $mol_mem_key
-    ], $hyoo_meta_menu.prototype, "Item_title", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_meta_menu.prototype, "Item_link", null);
@@ -10785,107 +10876,6 @@ var $;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //hyoo/meta/menu/menu.view.tsx
-;
-"use strict";
-var $;
-(function ($) {
-    class $hyoo_page_side_avatar extends $mol_link {
-        id() {
-            return this.side().id();
-        }
-        title() {
-            return this.side().title();
-        }
-        side() {
-            const obj = new this.$.$hyoo_page_side();
-            return obj;
-        }
-        all_name() {
-            return this.$.$mol_locale.text('$hyoo_page_side_avatar_all_name');
-        }
-        arg() {
-            return {
-                "": this.id()
-            };
-        }
-        sub() {
-            return [
-                this.Image()
-            ];
-        }
-        Image() {
-            const obj = new this.$.$mol_avatar();
-            obj.id = () => this.id();
-            return obj;
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $hyoo_page_side_avatar.prototype, "side", null);
-    __decorate([
-        $mol_mem
-    ], $hyoo_page_side_avatar.prototype, "Image", null);
-    $.$hyoo_page_side_avatar = $hyoo_page_side_avatar;
-})($ || ($ = {}));
-//hyoo/page/side/avatar/-view.tree/avatar.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $hyoo_page_side_avatar extends $.$hyoo_page_side_avatar {
-            title() {
-                return this.id() === '0_0' ? this.all_name() : super.title();
-            }
-        }
-        $$.$hyoo_page_side_avatar = $hyoo_page_side_avatar;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//hyoo/page/side/avatar/avatar.view.ts
-;
-"use strict";
-var $;
-(function ($) {
-    class $hyoo_page_side_snippet extends $hyoo_page_side_avatar {
-        hint() {
-            return "";
-        }
-        sub() {
-            return [
-                this.Image(),
-                this.Name()
-            ];
-        }
-        highlight() {
-            return "";
-        }
-        Name() {
-            const obj = new this.$.$mol_dimmer();
-            obj.haystack = () => this.title();
-            obj.needle = () => this.highlight();
-            return obj;
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $hyoo_page_side_snippet.prototype, "Name", null);
-    $.$hyoo_page_side_snippet = $hyoo_page_side_snippet;
-})($ || ($ = {}));
-//hyoo/page/side/snippet/-view.tree/snippet.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_define($hyoo_page_side_snippet, {
-        Name: {
-            flex: {
-                shrink: 1,
-            },
-        },
-    });
-})($ || ($ = {}));
-//hyoo/page/side/snippet/snippet.view.css.ts
 ;
 "use strict";
 var $;
@@ -11192,8 +11182,8 @@ var $;
             };
         }
         Title() {
-            const obj = new this.$.$hyoo_page_side_snippet();
-            obj.side = () => this.profile();
+            const obj = new this.$.$hyoo_meta_link();
+            obj.meta = () => this.profile();
             obj.title = () => this.title();
             return obj;
         }
@@ -11279,8 +11269,8 @@ var $;
 (function ($) {
     class $hyoo_page_side_menu extends $hyoo_meta_menu {
         Title() {
-            const obj = new this.$.$hyoo_page_side_snippet();
-            obj.side = () => this.side();
+            const obj = new this.$.$hyoo_meta_link();
+            obj.meta = () => this.side();
             return obj;
         }
         title() {
@@ -15064,8 +15054,8 @@ var $;
             return obj;
         }
         Author_link(id) {
-            const obj = new this.$.$hyoo_page_side_avatar();
-            obj.side = () => this.peer(id);
+            const obj = new this.$.$hyoo_meta_link();
+            obj.meta = () => this.peer(id);
             return obj;
         }
         author_list() {
@@ -16714,6 +16704,15 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $hyoo_meta_person extends $hyoo_meta_model {
+    }
+    $.$hyoo_meta_person = $hyoo_meta_person;
+})($ || ($ = {}));
+//hyoo/meta/person/person.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_button_major extends $mol_button_typed {
         attr() {
             return {
@@ -16801,54 +16800,29 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $hyoo_page_side_rights extends $mol_page {
-        editors() {
-            return this.side().editors();
-        }
-        details_node() {
-            return this.side().details_node();
-        }
-        side() {
-            const obj = new this.$.$hyoo_page_side();
-            return obj;
-        }
+    class $hyoo_meta_rights extends $mol_page {
         title() {
-            return this.$.$mol_locale.text('$hyoo_page_side_rights_title');
+            return this.$.$mol_locale.text('$hyoo_meta_rights_title');
         }
-        tools() {
-            return [
-                this.Сlose()
-            ];
+        editors() {
+            return this.meta().editors();
+        }
+        meta() {
+            const obj = new this.$.$hyoo_meta_model();
+            return obj;
         }
         body() {
             return [
                 this.Content()
             ];
         }
-        close(next) {
-            if (next !== undefined)
-                return next;
-            return null;
-        }
-        Сlose_icon() {
-            const obj = new this.$.$mol_icon_cross();
-            return obj;
-        }
-        Сlose() {
-            const obj = new this.$.$mol_button_minor();
-            obj.click = (next) => this.close(next);
-            obj.sub = () => [
-                this.Сlose_icon()
-            ];
-            return obj;
-        }
         peer(id) {
-            const obj = new this.$.$hyoo_page_side();
+            const obj = new this.$.$hyoo_meta_person();
             return obj;
         }
         Editor_link(id) {
-            const obj = new this.$.$hyoo_page_side_snippet();
-            obj.side = () => this.peer(id);
+            const obj = new this.$.$hyoo_meta_link();
+            obj.meta = () => this.peer(id);
             return obj;
         }
         editor_list() {
@@ -16862,7 +16836,7 @@ var $;
             return obj;
         }
         editor_add_bid() {
-            return this.$.$mol_locale.text('$hyoo_page_side_rights_editor_add_bid');
+            return this.$.$mol_locale.text('$hyoo_meta_rights_editor_add_bid');
         }
         editor_add_id(next) {
             if (next !== undefined)
@@ -16871,7 +16845,7 @@ var $;
         }
         Editor_add_id() {
             const obj = new this.$.$mol_string();
-            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_side_rights_Editor_add_id_hint');
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_meta_rights_Editor_add_id_hint');
             obj.value = (next) => this.editor_add_id(next);
             return obj;
         }
@@ -16905,12 +16879,12 @@ var $;
             return obj;
         }
         editor_add_preview() {
-            const obj = new this.$.$hyoo_page_side();
+            const obj = new this.$.$hyoo_meta_model();
             return obj;
         }
         Editor_add_preview() {
-            const obj = new this.$.$hyoo_page_side_snippet();
-            obj.side = () => this.editor_add_preview();
+            const obj = new this.$.$hyoo_meta_link();
+            obj.meta = () => this.editor_add_preview();
             return obj;
         }
         editor_fill_all(next) {
@@ -16920,7 +16894,7 @@ var $;
         }
         Editor_fill_all() {
             const obj = new this.$.$mol_button_minor();
-            obj.title = () => this.$.$mol_locale.text('$hyoo_page_side_rights_Editor_fill_all_title');
+            obj.title = () => this.$.$mol_locale.text('$hyoo_meta_rights_Editor_fill_all_title');
             obj.click = (next) => this.editor_fill_all(next);
             return obj;
         }
@@ -16938,7 +16912,7 @@ var $;
         }
         Editor_add() {
             const obj = new this.$.$mol_form_field();
-            obj.name = () => this.$.$mol_locale.text('$hyoo_page_side_rights_Editor_add_name');
+            obj.name = () => this.$.$mol_locale.text('$hyoo_meta_rights_Editor_add_name');
             obj.bid = () => this.editor_add_bid();
             obj.Content = () => this.Editor_add_form();
             return obj;
@@ -16954,67 +16928,58 @@ var $;
     }
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "side", null);
-    __decorate([
-        $mol_mem
-    ], $hyoo_page_side_rights.prototype, "close", null);
-    __decorate([
-        $mol_mem
-    ], $hyoo_page_side_rights.prototype, "\u0421lose_icon", null);
-    __decorate([
-        $mol_mem
-    ], $hyoo_page_side_rights.prototype, "\u0421lose", null);
+    ], $hyoo_meta_rights.prototype, "meta", null);
     __decorate([
         $mol_mem_key
-    ], $hyoo_page_side_rights.prototype, "peer", null);
+    ], $hyoo_meta_rights.prototype, "peer", null);
     __decorate([
         $mol_mem_key
-    ], $hyoo_page_side_rights.prototype, "Editor_link", null);
+    ], $hyoo_meta_rights.prototype, "Editor_link", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "Editor_list", null);
+    ], $hyoo_meta_rights.prototype, "Editor_list", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "editor_add_id", null);
+    ], $hyoo_meta_rights.prototype, "editor_add_id", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "Editor_add_id", null);
+    ], $hyoo_meta_rights.prototype, "Editor_add_id", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "editor_add_submit", null);
+    ], $hyoo_meta_rights.prototype, "editor_add_submit", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "Editor_add_icon", null);
+    ], $hyoo_meta_rights.prototype, "Editor_add_icon", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "Editor_add_submit", null);
+    ], $hyoo_meta_rights.prototype, "Editor_add_submit", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "Editor_add_bar", null);
+    ], $hyoo_meta_rights.prototype, "Editor_add_bar", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "editor_add_preview", null);
+    ], $hyoo_meta_rights.prototype, "editor_add_preview", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "Editor_add_preview", null);
+    ], $hyoo_meta_rights.prototype, "Editor_add_preview", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "editor_fill_all", null);
+    ], $hyoo_meta_rights.prototype, "editor_fill_all", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "Editor_fill_all", null);
+    ], $hyoo_meta_rights.prototype, "Editor_fill_all", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "Editor_add_form", null);
+    ], $hyoo_meta_rights.prototype, "Editor_add_form", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "Editor_add", null);
+    ], $hyoo_meta_rights.prototype, "Editor_add", null);
     __decorate([
         $mol_mem
-    ], $hyoo_page_side_rights.prototype, "Content", null);
-    $.$hyoo_page_side_rights = $hyoo_page_side_rights;
+    ], $hyoo_meta_rights.prototype, "Content", null);
+    $.$hyoo_meta_rights = $hyoo_meta_rights;
 })($ || ($ = {}));
-//hyoo/page/side/rights/-view.tree/rights.view.tree.ts
+//hyoo/meta/rights/-view.tree/rights.view.tree.ts
 ;
 "use strict";
 var $;
@@ -17146,7 +17111,7 @@ var $;
 var $;
 (function ($) {
     const { rem } = $mol_style_unit;
-    $mol_style_define($hyoo_page_side_rights, {
+    $mol_style_define($hyoo_meta_rights, {
         flex: {
             basis: rem(20),
             grow: 0,
@@ -17160,18 +17125,18 @@ var $;
         },
     });
 })($ || ($ = {}));
-//hyoo/page/side/rights/rights.view.css.ts
+//hyoo/meta/rights/rights.view.css.ts
 ;
 "use strict";
 var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $hyoo_page_side_rights extends $.$hyoo_page_side_rights {
+        class $hyoo_meta_rights extends $.$hyoo_meta_rights {
             editor_list() {
-                const side = this.side().id();
+                const meta = this.meta().id();
                 return this.editors()
-                    .filter(peer => peer !== side)
+                    .filter(peer => peer !== meta)
                     .map(peer => this.Editor_link(peer));
             }
             editor_add_rows() {
@@ -17194,8 +17159,7 @@ var $;
             }
             editor_add_submit() {
                 const peer = this.editor_add_id();
-                this.side().land.level(peer, $hyoo_crowd_peer_level.mod);
-                this.details_node()?.land.level(peer, $hyoo_crowd_peer_level.mod);
+                this.meta().land.level(peer, $hyoo_crowd_peer_level.mod);
                 this.editor_add_id('');
             }
             editor_add_preview() {
@@ -17204,17 +17168,17 @@ var $;
         }
         __decorate([
             $mol_mem
-        ], $hyoo_page_side_rights.prototype, "editor_list", null);
+        ], $hyoo_meta_rights.prototype, "editor_list", null);
         __decorate([
             $mol_mem
-        ], $hyoo_page_side_rights.prototype, "editor_add_rows", null);
+        ], $hyoo_meta_rights.prototype, "editor_add_rows", null);
         __decorate([
             $mol_mem
-        ], $hyoo_page_side_rights.prototype, "editor_add_id", null);
-        $$.$hyoo_page_side_rights = $hyoo_page_side_rights;
+        ], $hyoo_meta_rights.prototype, "editor_add_id", null);
+        $$.$hyoo_meta_rights = $hyoo_meta_rights;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
-//hyoo/page/side/rights/rights.view.ts
+//hyoo/meta/rights/rights.view.ts
 ;
 "use strict";
 var $;
@@ -17371,16 +17335,30 @@ var $;
             obj.Text = () => this.View_details(id);
             return obj;
         }
-        rights_close(id, next) {
+        rights_close(next) {
             if (next !== undefined)
                 return next;
             return null;
         }
+        Сlose_icon() {
+            const obj = new this.$.$mol_icon_cross();
+            return obj;
+        }
+        Rights_close() {
+            const obj = new this.$.$mol_button_minor();
+            obj.click = (next) => this.rights_close(next);
+            obj.sub = () => [
+                this.Сlose_icon()
+            ];
+            return obj;
+        }
         Rights(id) {
-            const obj = new this.$.$hyoo_page_side_rights();
-            obj.side = () => this.side(id);
+            const obj = new this.$.$hyoo_meta_rights();
+            obj.meta = () => this.side(id);
             obj.peer = (id) => this.side(id);
-            obj.close = (next) => this.rights_close(id, next);
+            obj.tools = () => [
+                this.Rights_close()
+            ];
             return obj;
         }
     }
@@ -17439,8 +17417,14 @@ var $;
         $mol_mem_key
     ], $hyoo_page.prototype, "Info", null);
     __decorate([
-        $mol_mem_key
+        $mol_mem
     ], $hyoo_page.prototype, "rights_close", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page.prototype, "\u0421lose_icon", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page.prototype, "Rights_close", null);
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "Rights", null);

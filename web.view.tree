@@ -295,6 +295,19 @@ $mol_link $mol_view
 		^
 		click?event <=> click?event <=> event_click?event null
 
+$hyoo_meta_link $mol_link
+	meta $hyoo_meta_model
+		id => id
+		title => title
+	param \
+	all_title @ \All
+	sub /
+		<= Avatar $mol_avatar
+			id <= id
+		<= Title $mol_dimmer
+			haystack <= title
+			needle <= highlight \
+
 $mol_ghost $mol_view
 	Sub $mol_view
 
@@ -365,15 +378,13 @@ $hyoo_meta_menu $mol_page
 							transfer *
 								text/plain <= item_text* \
 								text/html <= item_html* \
-								text/uri-list <= item_uri*
+								text/uri-list <= item_uri* \
 							Sub <= Item_row* $mol_view
 								sub <= item_row* /
-									<= Item_link* $mol_link
-										uri <= item_uri* \
-										sub /
-											<= Item_title* $mol_dimmer
-												haystack <= item_title*
-												needle <= filter
+									<= Item_link* $hyoo_meta_link
+										meta <= item*
+										param <= param \
+										highlight <= filter
 									<= Item_remove* $mol_button_minor
 										click? <=> item_remove*? null
 										sub /
@@ -387,26 +398,6 @@ $hyoo_meta_menu $mol_page
 			adopt? <=> transfer_adopt? null
 			receive? <=> receive_end? null
 			Sub <= Drop_zone $mol_view
-
-$hyoo_page_side_avatar $mol_link
-	side $hyoo_page_side
-		id => id
-		title => title
-	all_name @ \All
-	arg *
-		\
-			<= id
-	sub /
-		<= Image $mol_avatar
-			id <= id
-
-$hyoo_page_side_snippet $hyoo_page_side_avatar
-	hint \
-	sub /
-		<= Image
-		<= Name $mol_dimmer
-			haystack <= title
-			needle <= highlight \
 
 $mol_icon_sync $mol_icon path \M12,18C8.69,18 6,15.31 6,12C6,11 6.25,10.03 6.7,9.2L5.24,7.74C4.46,8.97 4,10.43 4,12C4,16.42 7.58,20 12,20V23L16,19L12,15M12,4V1L8,5L12,9V6C15.31,6 18,8.69 18,12C18,13 17.75,13.97 17.3,14.8L18.76,16.26C19.54,15.03 20,13.57 20,12C20,7.58 16.42,4 12,4Z
 
@@ -444,8 +435,8 @@ $hyoo_page_menu $hyoo_meta_menu
 	attr *
 		^
 		mol_theme \$mol_theme_special
-	Title $hyoo_page_side_snippet
-		side <= profile $hyoo_page_side
+	Title $hyoo_meta_link
+		meta <= profile $hyoo_page_side
 		title <= title
 	foot /
 		<= Online $hyoo_sync_online
@@ -458,8 +449,8 @@ $mol_theme_auto $mol_plugin
 	attr * mol_theme <= theme \
 
 $hyoo_page_side_menu $hyoo_meta_menu
-	Title $hyoo_page_side_snippet
-		side <= side $hyoo_page_side
+	Title $hyoo_meta_link
+		meta <= side $hyoo_page_side
 			title => title
 
 $mol_bar $mol_view
@@ -978,8 +969,8 @@ $hyoo_page_side_view $mol_page
 					value_moment <= changed_moment
 				<= Author_list $mol_view
 					sub <= author_list /
-						<= Author_link*0_0 $hyoo_page_side_avatar
-							side <= peer* $hyoo_page_side
+						<= Author_link*0_0 $hyoo_meta_link
+							meta <= peer* $hyoo_page_side
 
 
 $mol_icon_publish $mol_icon path \M5,4V6H19V4H5M5,14H9V20H15V14H19L12,7L5,14Z
@@ -1187,23 +1178,17 @@ $mol_form_field $mol_labeler
 			sub / <= bid \
 	Content <= control null
 
-$hyoo_page_side_rights $mol_page
-	side $hyoo_page_side
+$hyoo_meta_rights $mol_page
+	title @ \Rights
+	meta $hyoo_meta_model
 		editors => editors
-		details_node => details_node
-	title @ \Editors List
-	tools /
-		<= Сlose $mol_button_minor
-			click? <=> close? null
-			sub /
-				<= Сlose_icon $mol_icon_cross
 	body /
 		<= Content $mol_list
 			rows /
 				<= Editor_list $mol_list
 					rows <= editor_list /
-						<= Editor_link*0_0 $hyoo_page_side_snippet
-							side <= peer* $hyoo_page_side
+						<= Editor_link*0_0 $hyoo_meta_link
+							meta <= peer* $hyoo_meta_person
 				<= Editor_add $mol_form_field
 					name @ \Add new
 					bid <= editor_add_bid @ \Irrevocable!
@@ -1218,8 +1203,8 @@ $hyoo_page_side_rights $mol_page
 									click? <=> editor_add_submit? null
 									sub /
 										<= Editor_add_icon $mol_icon_plus
-							<= Editor_add_preview $hyoo_page_side_snippet
-								side <= editor_add_preview $hyoo_page_side
+							<= Editor_add_preview $hyoo_meta_link
+								meta <= editor_add_preview $hyoo_meta_model
 							<= Editor_fill_all $mol_button_minor
 								title @ \Allow anyone
 								click? <=> editor_fill_all? null
@@ -1283,7 +1268,11 @@ $hyoo_page $mol_book2
 			side <= side*
 			close? <=> info_close*? null
 			Text <= View_details*
-		<= Rights*0_0 $hyoo_page_side_rights
-			side <= side*
+		<= Rights*0_0 $hyoo_meta_rights
+			meta <= side*
 			peer* <= side*
-			close? <=> rights_close*? null
+			tools /
+				<= Rights_close $mol_button_minor
+					click? <=> rights_close? null
+					sub /
+						<= Сlose_icon $mol_icon_cross
