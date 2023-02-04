@@ -23,7 +23,7 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		section_title( index: number ) {
-			const prefix = ''.padEnd( 2 * this.section_level( index ), '• ' )
+			const prefix = ''.padEnd( 2 * this.section_level( index ), '— ' )
 			return prefix + this.text_header_title( index )
 		}
 		
