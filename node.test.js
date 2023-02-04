@@ -16742,7 +16742,7 @@ var $;
                 return this.section_indexes().map(index => this.Section_link(index));
             }
             section_title(index) {
-                const prefix = ''.padEnd(2 * this.section_level(index), '• ');
+                const prefix = ''.padEnd(2 * this.section_level(index), '— ');
                 return prefix + this.text_header_title(index);
             }
             ref_list() {
