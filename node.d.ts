@@ -1790,12 +1790,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_media extends $mol_object2 {
-        static match(query: string, next?: boolean): boolean;
-    }
-}
-
-declare namespace $ {
     function $mol_lights(this: $, next?: boolean): boolean;
 }
 
@@ -4706,6 +4700,7 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_page extends $.$hyoo_page {
         profile(): $hyoo_page_side;
+        title(): string;
         aura_showing(next?: boolean): boolean;
         aura_image(): string;
         editing(next?: boolean): boolean;
