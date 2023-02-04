@@ -772,82 +772,6 @@ declare namespace $ {
     function $mol_style_define<Component extends $mol_view, Config extends $mol_style_guard<Component, Config>>(Component: new () => Component, config: Config): HTMLStyleElement | null;
 }
 
-declare namespace $ {
-    class $mol_scroll extends $mol_view {
-        scroll_top(val?: any): number;
-        scroll_left(val?: any): number;
-        field(): {
-            tabIndex: number;
-        };
-        event(): {
-            scroll: (event?: any) => any;
-        };
-        tabindex(): number;
-        event_scroll(event?: any): any;
-    }
-}
-
-declare namespace $ {
-    class $mol_dom_listener extends $mol_object {
-        _node: any;
-        _event: string;
-        _handler: (event: any) => any;
-        _config: boolean | {
-            passive: boolean;
-        };
-        constructor(_node: any, _event: string, _handler: (event: any) => any, _config?: boolean | {
-            passive: boolean;
-        });
-        destructor(): void;
-    }
-}
-
-declare namespace $ {
-    class $mol_print extends $mol_object {
-        static before(): $mol_dom_listener;
-        static after(): $mol_dom_listener;
-        static active(next?: boolean): boolean;
-    }
-}
-
-declare namespace $.$$ {
-}
-
-declare namespace $.$$ {
-    class $mol_scroll extends $.$mol_scroll {
-        scroll_top(next?: number, cache?: 'cache'): number;
-        scroll_left(next?: number, cache?: 'cache'): number;
-        event_scroll(next?: Event): void;
-        minimal_height(): number;
-        minimal_width(): number;
-    }
-}
-
-declare namespace $ {
-    class $mol_book2 extends $mol_scroll {
-        sub(): readonly $mol_view[];
-        minimal_width(): number;
-        Placeholder(): $mol_view;
-        Gap(id: any): $mol_view;
-        pages(): readonly $mol_view[];
-    }
-}
-
-declare namespace $ {
-    let $mol_mem_cached: typeof $mol_wire_probe;
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_book2 extends $.$mol_book2 {
-        title(): string;
-        sub(): readonly $mol_view[];
-        bring(): void;
-    }
-}
-
 declare let $hyoo_sync_revision: string;
 
 declare namespace $ {
@@ -1796,6 +1720,119 @@ declare namespace $.$$ {
         pages(next?: readonly $hyoo_page_side[]): $hyoo_page_side[];
         bookmarked(id: $mol_int62_string, next?: boolean): boolean;
         authors(): `${string}_${string}`[];
+        aura(next?: string): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_theme_auto extends $mol_plugin {
+        attr(): {
+            mol_theme: string;
+        };
+        theme(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_state_arg extends $mol_object {
+        prefix: string;
+        static href(next?: string): string;
+        static href_normal(): string;
+        static href_absolute(): string;
+        static dict(next?: {
+            [key: string]: string | null;
+        }): {
+            [key: string]: string;
+        };
+        static dict_cut(except: string[]): {
+            [key: string]: string;
+        };
+        static value(key: string, next?: string | null): string | null;
+        static link(next: {
+            [key: string]: string;
+        }): string;
+        static prolog: string;
+        static separator: string;
+        static make_link(next: {
+            [key: string]: string | null;
+        }): string;
+        static go(next: {
+            [key: string]: string | null;
+        }): void;
+        static encode(str: string): string;
+        constructor(prefix?: string);
+        value(key: string, next?: string): string | null;
+        sub(postfix: string): $mol_state_arg;
+        link(next: {
+            [key: string]: string;
+        }): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_media extends $mol_object2 {
+        static match(query: string, next?: boolean): boolean;
+    }
+}
+
+declare namespace $ {
+    function $mol_lights(this: $, next?: boolean): boolean;
+}
+
+declare namespace $.$$ {
+    class $mol_theme_auto extends $.$mol_theme_auto {
+        theme(): "$mol_theme_light" | "$mol_theme_dark";
+    }
+}
+
+declare namespace $ {
+    class $mol_scroll extends $mol_view {
+        scroll_top(val?: any): number;
+        scroll_left(val?: any): number;
+        field(): {
+            tabIndex: number;
+        };
+        event(): {
+            scroll: (event?: any) => any;
+        };
+        tabindex(): number;
+        event_scroll(event?: any): any;
+    }
+}
+
+declare namespace $ {
+    class $mol_dom_listener extends $mol_object {
+        _node: any;
+        _event: string;
+        _handler: (event: any) => any;
+        _config: boolean | {
+            passive: boolean;
+        };
+        constructor(_node: any, _event: string, _handler: (event: any) => any, _config?: boolean | {
+            passive: boolean;
+        });
+        destructor(): void;
+    }
+}
+
+declare namespace $ {
+    class $mol_print extends $mol_object {
+        static before(): $mol_dom_listener;
+        static after(): $mol_dom_listener;
+        static active(next?: boolean): boolean;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $.$$ {
+    class $mol_scroll extends $.$mol_scroll {
+        scroll_top(next?: number, cache?: 'cache'): number;
+        scroll_left(next?: number, cache?: 'cache'): number;
+        event_scroll(next?: Event): void;
+        minimal_height(): number;
+        minimal_width(): number;
     }
 }
 
@@ -2572,6 +2609,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    let $mol_mem_cached: typeof $mol_wire_probe;
+}
+
+declare namespace $ {
 }
 
 declare namespace $.$$ {
@@ -2720,42 +2761,6 @@ declare namespace $ {
         current(): boolean;
         event_click(event?: any): any;
         click(event?: any): any;
-    }
-}
-
-declare namespace $ {
-    class $mol_state_arg extends $mol_object {
-        prefix: string;
-        static href(next?: string): string;
-        static href_normal(): string;
-        static href_absolute(): string;
-        static dict(next?: {
-            [key: string]: string | null;
-        }): {
-            [key: string]: string;
-        };
-        static dict_cut(except: string[]): {
-            [key: string]: string;
-        };
-        static value(key: string, next?: string | null): string | null;
-        static link(next: {
-            [key: string]: string;
-        }): string;
-        static prolog: string;
-        static separator: string;
-        static make_link(next: {
-            [key: string]: string | null;
-        }): string;
-        static go(next: {
-            [key: string]: string | null;
-        }): void;
-        static encode(str: string): string;
-        constructor(prefix?: string);
-        value(key: string, next?: string): string | null;
-        sub(postfix: string): $mol_state_arg;
-        link(next: {
-            [key: string]: string;
-        }): string;
     }
 }
 
@@ -3025,13 +3030,9 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_media extends $mol_object2 {
-        static match(query: string, next?: boolean): boolean;
+    class $mol_icon_image extends $mol_icon {
+        path(): string;
     }
-}
-
-declare namespace $ {
-    function $mol_lights(this: $, next?: boolean): boolean;
 }
 
 declare namespace $ {
@@ -3067,22 +3068,10 @@ declare namespace $ {
         profile(): $$.$hyoo_page_side;
         Online(): $$.$hyoo_sync_online;
         Source(): $mol_link_source;
+        Aura_icon(): $mol_icon_image;
+        aura_showing(next?: any): boolean;
+        Aura_showing(): $mol_check_icon;
         Lights(): $$.$mol_lights_toggle;
-    }
-}
-
-declare namespace $ {
-    class $mol_theme_auto extends $mol_plugin {
-        attr(): {
-            mol_theme: string;
-        };
-        theme(): string;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_theme_auto extends $.$mol_theme_auto {
-        theme(): "$mol_theme_light" | "$mol_theme_dark";
     }
 }
 
@@ -3365,13 +3354,7 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_icon_clipboard_arrow_up extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_clipboard_arrow_up_outline extends $mol_icon {
+    class $mol_icon_clipboard_outline extends $mol_icon {
         path(): string;
     }
 }
@@ -3380,7 +3363,7 @@ declare namespace $ {
     class $mol_button_copy extends $mol_button_minor {
         text(): string;
         sub(): readonly any[];
-        Icon(): $mol_icon_clipboard_arrow_up_outline;
+        Icon(): $mol_icon_clipboard_outline;
     }
 }
 
@@ -4281,10 +4264,45 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_labeler extends $mol_list {
+        rows(): readonly any[];
+        label(): readonly $mol_view_content[];
+        Label(): $mol_view;
+        content(): readonly any[];
+        Content(): $mol_view;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_form_field extends $mol_labeler {
+        bids(): readonly string[];
+        label(): readonly any[];
+        Content(): any;
+        name(): string;
+        bid(): string;
+        Bid(): $mol_view;
+        control(): any;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_form_field extends $.$mol_form_field {
+        bid(): string;
+    }
+}
+
+declare namespace $ {
     class $hyoo_page_side_edit extends $mol_page {
         title(next?: any): string;
         details(next?: any): string;
         details_selection(next?: any): number[];
+        aura(next?: any): string;
         editable(): boolean;
         released(): boolean;
         side(): $$.$hyoo_page_side;
@@ -4305,6 +4323,47 @@ declare namespace $ {
         Close_icon(): $mol_icon_cross;
         Close(): $mol_button_minor;
         Details_edit(): $$.$mol_textarea;
+        Aura(): $$.$mol_string;
+        Aura_field(): $$.$mol_form_field;
+    }
+}
+
+declare namespace $ {
+    class $mol_row extends $mol_view {
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_form extends $mol_list {
+        submit_allowed(): boolean;
+        submit_blocked(): boolean;
+        event(): {
+            keydown: (event?: any) => any;
+        };
+        submit(event?: any): any;
+        rows(): readonly any[];
+        keydown(event?: any): any;
+        form_fields(): readonly $mol_form_field[];
+        body(): readonly $mol_form_field[];
+        Body(): $$.$mol_list;
+        buttons(): readonly $mol_view[];
+        foot(): readonly $mol_view[];
+        Foot(): $mol_row;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_form extends $.$mol_form {
+        form_fields(): readonly $mol_form_field[];
+        submit_allowed(): boolean;
+        submit_blocked(): boolean;
+        keydown(next: KeyboardEvent): void;
     }
 }
 
@@ -4317,19 +4376,6 @@ declare namespace $.$$ {
         download_md_name(): string;
         download_md_blob(): Blob;
     }
-}
-
-declare namespace $ {
-    class $mol_labeler extends $mol_list {
-        rows(): readonly any[];
-        label(): readonly $mol_view_content[];
-        Label(): $mol_view;
-        content(): readonly any[];
-        Content(): $mol_view;
-    }
-}
-
-declare namespace $ {
 }
 
 declare namespace $ {
@@ -4515,27 +4561,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_form_field extends $mol_labeler {
-        bids(): readonly string[];
-        label(): readonly any[];
-        Content(): any;
-        name(): string;
-        bid(): string;
-        Bid(): $mol_view;
-        control(): any;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_form_field extends $.$mol_form_field {
-        bid(): string;
-    }
-}
-
-declare namespace $ {
     class $hyoo_meta_rights extends $mol_page {
         title(): string;
         editors(): readonly `${string}_${string}`[];
@@ -4565,45 +4590,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_row extends $mol_view {
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_form extends $mol_list {
-        submit_allowed(): boolean;
-        submit_blocked(): boolean;
-        event(): {
-            keydown: (event?: any) => any;
-        };
-        submit(event?: any): any;
-        rows(): readonly any[];
-        keydown(event?: any): any;
-        form_fields(): readonly $mol_form_field[];
-        body(): readonly $mol_form_field[];
-        Body(): $$.$mol_list;
-        buttons(): readonly $mol_view[];
-        foot(): readonly $mol_view[];
-        Foot(): $mol_row;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_form extends $.$mol_form {
-        form_fields(): readonly $mol_form_field[];
-        submit_allowed(): boolean;
-        submit_blocked(): boolean;
-        keydown(next: KeyboardEvent): void;
-    }
-}
-
-declare namespace $ {
 }
 
 declare namespace $.$$ {
@@ -4620,7 +4606,28 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $hyoo_page extends $mol_book2 {
+    class $mol_book2 extends $mol_scroll {
+        sub(): readonly $mol_view[];
+        minimal_width(): number;
+        Placeholder(): $mol_view;
+        Gap(id: any): $mol_view;
+        pages(): readonly $mol_view[];
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_book2 extends $.$mol_book2 {
+        title(): string;
+        sub(): readonly $mol_view[];
+        bring(): void;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_page extends $mol_view {
         side_main_id(): string;
         yard(): $hyoo_sync_client;
         side_title(id: any): string;
@@ -4628,16 +4635,20 @@ declare namespace $ {
         side(id: any): $$.$hyoo_page_side;
         bookmarks_node(): $hyoo_crowd_list;
         profile(): $$.$hyoo_page_side;
-        Placeholder(): $hyoo_page_menu;
+        style(): {
+            backgroundImage: string;
+        };
         plugins(): readonly any[];
         auto(): readonly any[];
-        pages(): readonly any[];
-        side_uri(id: any): string;
-        page_add(next?: any): any;
-        search(): string;
-        Menu(): $hyoo_page_menu;
+        sub(): readonly any[];
+        aura_image(): string;
         Theme(): $$.$mol_theme_auto;
         ref_track(): any;
+        side_uri(id: any): string;
+        page_add(next?: any): any;
+        aura_showing(next?: any): boolean;
+        search(): string;
+        Menu(): $hyoo_page_menu;
         side_add(next?: any): any;
         side_menu_item_moved(next?: any): any;
         Side_menu(id: any): $hyoo_page_side_menu;
@@ -4655,6 +4666,9 @@ declare namespace $ {
         Сlose_icon(): $mol_icon_cross;
         Rights_close(): $mol_button_minor;
         Rights(id: any): $$.$hyoo_meta_rights;
+        pages(): readonly any[];
+        Gap(id: any): $mol_view;
+        Book(): $$.$mol_book2;
     }
 }
 
@@ -4664,6 +4678,8 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_page extends $.$hyoo_page {
         profile(): $hyoo_page_side;
+        aura_showing(next?: boolean): boolean;
+        aura_image(): string;
         editing(next?: boolean): boolean;
         rights(next?: boolean): boolean;
         info(next?: boolean): boolean;

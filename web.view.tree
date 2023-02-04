@@ -1,3 +1,6 @@
+$mol_theme_auto $mol_plugin
+	attr * mol_theme <= theme \
+
 $mol_scroll $mol_view
 	scroll_top?val 0
 	scroll_left?val 0
@@ -7,12 +10,6 @@ $mol_scroll $mol_view
 	event *
 		^
 		scroll?event <=> event_scroll?event null
-
-$mol_book2 $mol_scroll
-	sub <= pages /$mol_view
-	minimal_width 0
-	Placeholder $mol_view
-	Gap* $mol_view title \
 
 $mol_page $mol_view
 	dom_name \article
@@ -423,6 +420,8 @@ $mol_link_source $mol_link
 	sub /
 		<= Icon $mol_icon_github_circle
 
+$mol_icon_image $mol_icon path \M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19Z
+
 $mol_icon_brightness_6 $mol_icon path \M12,18V6C15.31,6 18,8.69 18,12C18,15.31 15.31,18 12,18M20,15.31L23.31,12L20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31Z
 
 $mol_lights_toggle $mol_check_icon
@@ -443,10 +442,11 @@ $hyoo_page_menu $hyoo_meta_menu
 			yard <= yard
 		<= Source $mol_link_source
 			uri \https://github.com/hyoo-ru/page.hyoo.ru/
+		<= Aura_showing $mol_check_icon
+			hint @ \Backgrounds Showing
+			Icon <= Aura_icon $mol_icon_image
+			checked? <=> aura_showing? true
 		<= Lights $mol_lights_toggle
-
-$mol_theme_auto $mol_plugin
-	attr * mol_theme <= theme \
 
 $hyoo_page_side_menu $hyoo_meta_menu
 	Title $hyoo_meta_link
@@ -535,14 +535,12 @@ $mol_stack $mol_view
 
 $mol_icon_clipboard $mol_icon path \M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M12,3C12.55,3 13,3.45 13,4C13,4.55 12.55,5 12,5C11.45,5 11,4.55 11,4C11,3.45 11.45,3 12,3
 
-$mol_icon_clipboard_arrow_up $mol_icon path \M19,3C20.1,3 21,3.9 21,5V19C21,20.1 20.1,21 19,21H5C3.9,21 3,20.1 3,19V5C3,3.9 3.9,3 5,3H9.18C9.6,1.84 10.7,1 12,1C13.3,1 14.4,1.84 14.82,3H19M12,8L7,13H10V17H14V13H17L12,8M12,3C11.45,3 11,3.45 11,4C11,4.55 11.45,5 12,5C12.55,5 13,4.55 13,4C13,3.45 12.55,3 12,3Z
-
-$mol_icon_clipboard_arrow_up_outline $mol_icon path \M12,8L17,13H14V17H10V13H7L12,8M19,3C20.1,3 21,3.9 21,5V19C21,20.1 20.1,21 19,21H5C3.9,21 3,20.1 3,19V5C3,3.9 3.9,3 5,3H9.18C9.6,1.84 10.7,1 12,1C13.3,1 14.4,1.84 14.82,3H19M12,3C11.45,3 11,3.45 11,4C11,4.55 11.45,5 12,5C12.55,5 13,4.55 13,4C13,3.45 12.55,3 12,3M7,7V5H5V19H19V5H17V7H7Z
+$mol_icon_clipboard_outline $mol_icon path \M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M12,3C12.55,3 13,3.45 13,4C13,4.55 12.55,5 12,5C11.45,5 11,4.55 11,4C11,3.45 11.45,3 12,3M7,7H17V5H19V19H5V5H7V7Z
 
 $mol_button_copy $mol_button_minor
 	text \
 	sub /
-		<= Icon $mol_icon_clipboard_arrow_up_outline
+		<= Icon $mol_icon_clipboard_outline
 
 
 $mol_text_code $mol_stack
@@ -925,7 +923,7 @@ $hyoo_page_side_view $mol_page
 		<= slides_send null
 	Logo <= Menu_toggle $mol_check
 		checked? <=> menu_showed? false
-		hint @ \Show Menu
+		hint @ \Menu Showing
 		sub /
 			<= Avatar $mol_avatar
 				id <= id
@@ -1018,11 +1016,30 @@ $mol_textarea_edit $mol_string
 		^
 		scrollTop 0
 
+$mol_labeler $mol_list
+	rows /
+		<= Label $mol_view
+			minimal_height 32
+			sub <= label /$mol_view_content
+				<= title
+		<= Content $mol_view
+			minimal_height 24
+			sub <= content /
+
+$mol_form_field $mol_labeler
+	bids /string
+	label /
+		<= name \
+		<= Bid $mol_view
+			sub / <= bid \
+	Content <= control null
+
 $hyoo_page_side_edit $mol_page
 	side $hyoo_page_side
 		title? => title?
 		details? => details?
 		details_selection? => details_selection?
+		aura? => aura?
 		editable => editable
 		released => released
 	Title $mol_string
@@ -1054,16 +1071,27 @@ $hyoo_page_side_edit $mol_page
 			value? <=> details?
 			selection? <=> details_selection?
 			enabled <= editable
+		<= Aura_field $mol_form_field
+			name @ \Page Background
+			control <= Aura $mol_string
+				hint @ \hyper link
+				value? <=> aura?
+				enabled <= editable
 
-$mol_labeler $mol_list
+$mol_row $mol_view
+
+$mol_form $mol_list
+	submit_allowed true
+	submit_blocked false
+	event *
+		^
+		keydown?event <=> keydown?event null
+	submit?event null
 	rows /
-		<= Label $mol_view
-			minimal_height 32
-			sub <= label /$mol_view_content
-				<= title
-		<= Content $mol_view
-			minimal_height 24
-			sub <= content /
+		<= Body $mol_list
+			sub <= body <= form_fields /$mol_form_field
+		<= Foot $mol_row
+			sub <= foot <= buttons /$mol_view
 
 $mol_card $mol_list
 	attr *
@@ -1170,14 +1198,6 @@ $mol_button_major $mol_button_typed
 		^
 		mol_theme \$mol_theme_accent
 
-$mol_form_field $mol_labeler
-	bids /string
-	label /
-		<= name \
-		<= Bid $mol_view
-			sub / <= bid \
-	Content <= control null
-
 $hyoo_meta_rights $mol_page
 	title @ \Rights
 	meta $hyoo_meta_model
@@ -1209,22 +1229,13 @@ $hyoo_meta_rights $mol_page
 								title @ \Allow anyone
 								click? <=> editor_fill_all? null
 
-$mol_row $mol_view
+$mol_book2 $mol_scroll
+	sub <= pages /$mol_view
+	minimal_width 0
+	Placeholder $mol_view
+	Gap* $mol_view title \
 
-$mol_form $mol_list
-	submit_allowed true
-	submit_blocked false
-	event *
-		^
-		keydown?event <=> keydown?event null
-	submit?event null
-	rows /
-		<= Body $mol_list
-			sub <= body <= form_fields /$mol_form_field
-		<= Foot $mol_row
-			sub <= foot <= buttons /$mol_view
-
-$hyoo_page $mol_book2
+$hyoo_page $mol_view
 	side_main_id \iy8wtn_tky6pc
 	yard $hyoo_sync_client
 	side* $hyoo_page_side
@@ -1232,47 +1243,54 @@ $hyoo_page $mol_book2
 		pages_node => pages_node*
 	profile $hyoo_page_side
 		bookmarks_node => bookmarks_node
-	Placeholder <= Menu $hyoo_page_menu
-		yard <= yard
-		profile <= profile
-		list <= bookmarks_node
-		item_uri* <= side_uri* \
-		add? <=> page_add? null
-		filter => search
+	style *
+		^
+		backgroundImage <= aura_image \
 	plugins /
 		<= Theme $mol_theme_auto
 	auto /
 		<= ref_track null
-	pages /
-		<= Side_menu*0_0 $hyoo_page_side_menu
-			yard <= yard
-			side <= side*
-			list <= pages_node*
-			item_uri* <= side_uri* \
-			add? <=> side_add? null
-			item_moved? <=> side_menu_item_moved? null
-		<= View*0_0 $hyoo_page_side_view
-			side <= side*
-			peer* <= side*
-			profile <= profile
-			menu_showed? <=> side_menu_showed? false
-			editing? <=> editing? false
-			info? <=> info? false
-			highlight <= search
-			Details => View_details*
-		<= Edit*0_0 $hyoo_page_side_edit
-			side <= side*
-			rights? <=> rights? false
-			close? <=> edit_close*? null
-		<= Info*0_0 $hyoo_page_side_info
-			side <= side*
-			close? <=> info_close*? null
-			Text <= View_details*
-		<= Rights*0_0 $hyoo_meta_rights
-			meta <= side*
-			peer* <= side*
-			tools /
-				<= Rights_close $mol_button_minor
-					click? <=> rights_close? null
-					sub /
-						<= Сlose_icon $mol_icon_cross
+	sub /
+		<= Book $mol_book2
+			Placeholder <= Menu $hyoo_page_menu
+				yard <= yard
+				profile <= profile
+				list <= bookmarks_node
+				item_uri* <= side_uri* \
+				add? <=> page_add? null
+				aura_showing? <=> aura_showing? true
+				filter => search
+			Gap* => Gap*
+			pages <= pages /
+				<= Side_menu*0_0 $hyoo_page_side_menu
+					yard <= yard
+					side <= side*
+					list <= pages_node*
+					item_uri* <= side_uri* \
+					add? <=> side_add? null
+					item_moved? <=> side_menu_item_moved? null
+				<= View*0_0 $hyoo_page_side_view
+					side <= side*
+					peer* <= side*
+					profile <= profile
+					menu_showed? <=> side_menu_showed? false
+					editing? <=> editing? false
+					info? <=> info? false
+					highlight <= search
+					Details => View_details*
+				<= Edit*0_0 $hyoo_page_side_edit
+					side <= side*
+					rights? <=> rights? false
+					close? <=> edit_close*? null
+				<= Info*0_0 $hyoo_page_side_info
+					side <= side*
+					close? <=> info_close*? null
+					Text <= View_details*
+				<= Rights*0_0 $hyoo_meta_rights
+					meta <= side*
+					peer* <= side*
+					tools /
+						<= Rights_close $mol_button_minor
+							click? <=> rights_close? null
+							sub /
+								<= Сlose_icon $mol_icon_cross
