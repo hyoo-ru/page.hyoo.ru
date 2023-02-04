@@ -6,6 +6,28 @@ namespace $.$$ {
 		profile() {
 			return this.side( this.yard().home().id() )
 		}
+
+		@ $mol_mem
+		aura_showing( next?: boolean ) {
+			const book = this.side_current_book()
+			const key = `aura_showing:${ book.id() }`
+			return this.$.$mol_state_local.value( key, next?.toString() ) !== 'false'
+		}
+		
+		@ $mol_mem
+		aura_image() {
+			
+			if( !this.aura_showing() ) return ''
+			
+			const side = this.side_current()
+			const book = this.side_current_book()
+			const aura = side.aura() || book.aura()
+			if( !aura ) return ''
+			
+			const shade = 'hsla( 0deg, 0%, calc( 50% + var(--mol_theme_luma) * 50% ), .666 )'
+			return `linear-gradient( ${shade}, ${shade} ), url("${ aura }")`
+			
+		}
 		
 		@ $mol_mem
 		editing( next?: boolean ) {

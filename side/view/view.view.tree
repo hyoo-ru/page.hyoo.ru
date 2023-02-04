@@ -19,7 +19,7 @@ $hyoo_page_side_view $mol_page
 		<= slides_send null
 	Logo <= Menu_toggle $mol_check
 		checked? <=> menu_showed? false
-		hint @ \Show Menu
+		hint @ \Menu Showing
 		sub /
 			<= Avatar $mol_avatar
 				id <= id

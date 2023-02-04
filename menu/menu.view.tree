@@ -11,4 +11,8 @@ $hyoo_page_menu $hyoo_meta_menu
 			yard <= yard
 		<= Source $mol_link_source
 			uri \https://github.com/hyoo-ru/page.hyoo.ru/
+		<= Aura_showing $mol_check_icon
+			hint @ \Backgrounds Showing
+			Icon <= Aura_icon $mol_icon_image
+			checked? <=> aura_showing? true
 		<= Lights $mol_lights_toggle

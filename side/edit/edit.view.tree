@@ -3,6 +3,7 @@ $hyoo_page_side_edit $mol_page
 		title? => title?
 		details? => details?
 		details_selection? => details_selection?
+		aura? => aura?
 		editable => editable
 		released => released
 	Title $mol_string
@@ -34,3 +35,9 @@ $hyoo_page_side_edit $mol_page
 			value? <=> details?
 			selection? <=> details_selection?
 			enabled <= editable
+		<= Aura_field $mol_form_field
+			name @ \Page Background
+			control <= Aura $mol_string
+				hint @ \hyper link
+				value? <=> aura?
+				enabled <= editable

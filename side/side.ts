@@ -138,6 +138,11 @@ namespace $.$$ {
 			return [ ... this.details_node()?.land.authors() ?? [] ]
 		}
 		
+		@ $mol_mem
+		aura( next?: string ): string {
+			return this.sub( 'aura', $hyoo_crowd_reg ).str( next )
+		}
+		
 	}
 
 }
