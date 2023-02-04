@@ -6,6 +6,12 @@ namespace $.$$ {
 		profile() {
 			return this.side( this.yard().home().id() )
 		}
+		
+		title() {
+			const side = this.side_current()
+			const book = this.side_current_book()
+			return book === side ? side.title() : `${ side.title() } | ${ book.title() }`
+		}
 
 		@ $mol_mem
 		aura_showing( next?: boolean ) {
