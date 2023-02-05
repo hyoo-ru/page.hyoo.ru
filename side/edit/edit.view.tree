@@ -12,6 +12,11 @@ $hyoo_page_side_edit $mol_page
 		value? <=> title?
 		enabled <= editable
 	tools /
+		<= Syntax $mol_link_iconed
+			hint @ \MarkedText Syntax
+			uri \https://marked.hyoo.ru/
+			icon \https://marked.hyoo.ru/hyoo/marked/logo/logo.svg
+			title \
 		<= Publish $mol_button_minor
 			click? <=> publish? null
 			disabled <= released
