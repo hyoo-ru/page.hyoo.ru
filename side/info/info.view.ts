@@ -60,7 +60,10 @@ namespace $.$$ {
 		word_stat() {
 			
 			const stat = new Map< string, number >()
-			const text = this.details().toLowerCase().replace( /\]\(.*?\)/g, '' )
+			const text = this.details().toLowerCase()
+				.replace( /\]\(.*?\)/g, '' )
+				.replace( /""(?:(.*?)\\)?.*?""/g, '$1' )
+				.replace( /\\\\(?:(.*?)\\)?.*?\\\\/g, '$1' )
 			
 			for( const match of text.matchAll( /\p{Letter}{2,}(?=((?:\P{Letter}\p{Letter}{2,})*))/ug ) ?? [] ) {
 				const parts = match.join( '' ).match( /\P{Letter}?\p{Letter}{2,}/gu ) ?? []
