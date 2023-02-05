@@ -15764,6 +15764,7 @@ var $;
         }
         tools() {
             return [
+                this.Syntax(),
                 this.Publish(),
                 this.Download_md(),
                 this.Rights_toggle(),
@@ -15775,6 +15776,14 @@ var $;
                 this.Details_edit(),
                 this.Aura_field()
             ];
+        }
+        Syntax() {
+            const obj = new this.$.$mol_link_iconed();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_page_side_edit_Syntax_hint');
+            obj.uri = () => "https://marked.hyoo.ru/";
+            obj.icon = () => "https://marked.hyoo.ru/hyoo/marked/logo/logo.svg";
+            obj.title = () => "";
+            return obj;
         }
         publish(next) {
             if (next !== undefined)
@@ -15870,6 +15879,9 @@ var $;
     __decorate([
         $mol_mem
     ], $hyoo_page_side_edit.prototype, "Title", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_edit.prototype, "Syntax", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_edit.prototype, "publish", null);

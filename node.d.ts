@@ -4332,6 +4332,7 @@ declare namespace $ {
         Title(): $$.$mol_string;
         tools(): readonly any[];
         body(): readonly any[];
+        Syntax(): $$.$mol_link_iconed;
         publish(next?: any): any;
         Publish_icon(): $mol_icon_publish;
         Publish(): $mol_button_minor;
