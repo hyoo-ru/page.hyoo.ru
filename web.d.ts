@@ -4134,7 +4134,6 @@ declare namespace $ {
         Bookmark_icon(): $mol_icon_bookmark_outline;
         Bookmark_toggle(): $mol_check_icon;
         details(): string;
-        Details_empty(): $$.$mol_text;
         Details(): $$.$mol_text;
         Changed(): $$.$mol_date;
         peer(id: any): $$.$hyoo_page_side;
