@@ -34,7 +34,7 @@ $node[ "../mam.ts" ] = $node[ "../mam.ts" ] = module.exports }.call( {} , {} )
 "use strict";
 var $;
 (function ($) {
-    function $mol_offline(uri = 'web.js') { }
+    function $mol_offline() { }
     $.$mol_offline = $mol_offline;
 })($ || ($ = {}));
 //mol/offline/offline.node.ts
@@ -2932,7 +2932,7 @@ var $;
 //mol/style/define/define.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "27f600d";
+let $hyoo_sync_revision = "b5b9292";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";

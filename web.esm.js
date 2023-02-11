@@ -37,13 +37,14 @@ var $;
     const blacklist = new Set([
         '//cse.google.com/adsense/search/async-ads.js'
     ]);
-    function $mol_offline(uri = 'web.js') {
+    function $mol_offline() {
         if (typeof window === 'undefined') {
             self.addEventListener('install', (event) => {
                 self['skipWaiting']();
             });
             self.addEventListener('activate', (event) => {
                 caches.delete('v1');
+                caches.delete('$mol_offline');
                 self['clients'].claim();
                 console.info('$mol_offline activated');
             });
@@ -54,16 +55,15 @@ var $;
                         statusText: 'Blocked'
                     }));
                 }
-                const fresh = fetch(event.request)
-                    .then(async (response) => {
-                    if (event.request.method !== 'GET')
-                        return response;
-                    const cache = await caches.open('v1');
-                    cache.put(event.request, response.clone());
-                    return response;
+                if (event.request.method !== 'GET') {
+                    event.respondWith(fetch(event.request));
+                }
+                const fresh = fetch(event.request).then(response => {
+                    event.waitUntil(caches.open('$mol_offline').then(cache => cache.put(event.request, response)));
+                    return response.clone();
                 });
-                event.respondWith(caches.match(event.request)
-                    .then(response => response || fresh));
+                event.waitUntil(fresh);
+                event.respondWith(caches.match(event.request).then(response => response || fresh));
             });
             self.addEventListener('beforeinstallprompt', (event) => {
                 console.log(event);
@@ -77,7 +77,7 @@ var $;
             console.warn('Service Worker is not supported.');
         }
         else {
-            navigator.serviceWorker.register(uri);
+            navigator.serviceWorker.register('web.js');
         }
     }
     $.$mol_offline = $mol_offline;
@@ -2506,7 +2506,7 @@ var $;
 //mol/style/define/define.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "27f600d";
+let $hyoo_sync_revision = "b5b9292";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
