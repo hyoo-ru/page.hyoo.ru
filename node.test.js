@@ -13255,7 +13255,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/embed/youtube/youtube.view.css", "[mol_embed_youtube] {\n\tpadding: 0;\n}\n\n[mol_embed_youtube_image]:not(:hover):not(:focus) {\n\topacity: .75;\n}\n");
+    $mol_style_attach("mol/embed/youtube/youtube.view.css", "[mol_embed_youtube] {\n\tpadding: 0;\n\tmax-width: 100%;\n}\n\n[mol_embed_youtube_image]:not(:hover):not(:focus) {\n\topacity: .75;\n}\n");
 })($ || ($ = {}));
 //mol/embed/youtube/-css/youtube.view.css.ts
 ;
@@ -16865,15 +16865,20 @@ var $;
                     const parts = match.join('').match(/\P{Letter}?\p{Letter}{2,}/gu) ?? [];
                     for (let i = 1; i <= parts.length; ++i) {
                         const word = parts.slice(0, i).join('');
+                        if (word.length < 3)
+                            continue;
                         stat.set(word, (stat.get(word) ?? 0) + 1);
                     }
                 }
                 return stat;
             }
             word_list_items() {
-                const stat = [...this.word_stat()].filter(([word, stat]) => stat > 2);
-                stat.sort((left, right) => right[0].length - left[0].length || right[1] - left[1]);
-                return stat.map(([word]) => this.Word_item(word));
+                const raw = [...this.word_stat()];
+                const max = raw.reduce((max, [word, stat]) => Math.max(max, stat), 1);
+                const min = Math.max(3, max ** .5);
+                const filtered = raw.filter(([word, stat]) => stat >= min);
+                filtered.sort((left, right) => right[0].length ** 1.6 - left[0].length ** 1.6 + right[1] - left[1]);
+                return filtered.map(([word]) => this.Word_item(word));
             }
             word_item_text(word) {
                 return word;
