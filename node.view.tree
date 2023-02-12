@@ -987,6 +987,8 @@ $mol_text_list_item $mol_paragraph
 		^
 		mol_text_list_item_index <= index 0
 
+$mol_string_button $mol_string
+
 $mol_icon_publish $mol_icon path \M5,4V6H19V4H5M5,14H9V20H15V14H19L12,7L5,14Z
 
 $mol_icon_download $mol_icon path \M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z
@@ -1058,7 +1060,7 @@ $hyoo_page_side_edit $mol_page
 		aura? => aura?
 		editable => editable
 		released => released
-	Title $mol_string
+	Title $mol_string_button
 		hint @ \Title
 		bring => bring
 		value? <=> title?
@@ -1094,7 +1096,7 @@ $hyoo_page_side_edit $mol_page
 			enabled <= editable
 		<= Aura_field $mol_form_field
 			name @ \Page Background
-			control <= Aura $mol_string
+			control <= Aura $mol_string_button
 				hint @ \hyper link
 				value? <=> aura?
 				enabled <= editable

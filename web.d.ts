@@ -4185,6 +4185,14 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_string_button extends $mol_string {
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
     class $mol_icon_publish extends $mol_icon {
         path(): string;
     }
@@ -4325,7 +4333,7 @@ declare namespace $ {
         released(): boolean;
         side(): $$.$hyoo_page_side;
         bring(): void;
-        Title(): $$.$mol_string;
+        Title(): $mol_string_button;
         tools(): readonly any[];
         body(): readonly any[];
         Syntax(): $$.$mol_link_iconed;
@@ -4342,7 +4350,7 @@ declare namespace $ {
         Close_icon(): $mol_icon_cross;
         Close(): $mol_button_minor;
         Details_edit(): $$.$mol_textarea;
-        Aura(): $$.$mol_string;
+        Aura(): $mol_string_button;
         Aura_field(): $$.$mol_form_field;
     }
 }

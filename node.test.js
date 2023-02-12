@@ -15303,6 +15303,22 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_string_button extends $mol_string {
+    }
+    $.$mol_string_button = $mol_string_button;
+})($ || ($ = {}));
+//mol/string/button/-view.tree/button.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/string/button/button.view.css", "[mol_string_button]:not(:placeholder-shown):not(:focus):not(:hover):not(:disabled) {\n\tcolor: var(--mol_theme_control);\n\tbackground: transparent;\n\tbox-shadow: none;\n}\n");
+})($ || ($ = {}));
+//mol/string/button/-css/button.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_icon_publish extends $mol_icon {
         path() {
             return "M5,4V6H19V4H5M5,14H9V20H15V14H19L12,7L5,14Z";
@@ -15838,7 +15854,7 @@ var $;
             return this.Title().bring();
         }
         Title() {
-            const obj = new this.$.$mol_string();
+            const obj = new this.$.$mol_string_button();
             obj.hint = () => this.$.$mol_locale.text('$hyoo_page_side_edit_Title_hint');
             obj.value = (next) => this.title(next);
             obj.enabled = () => this.editable();
@@ -15942,7 +15958,7 @@ var $;
             return obj;
         }
         Aura() {
-            const obj = new this.$.$mol_string();
+            const obj = new this.$.$mol_string_button();
             obj.hint = () => this.$.$mol_locale.text('$hyoo_page_side_edit_Aura_hint');
             obj.value = (next) => this.aura(next);
             obj.enabled = () => this.editable();
