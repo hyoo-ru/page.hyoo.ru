@@ -69,6 +69,7 @@ namespace $.$$ {
 				const parts = match.join( '' ).match( /\P{Letter}?\p{Letter}{2,}/gu ) ?? []
 				for( let i = 1; i <= parts.length; ++i ) {
 					const word = parts.slice( 0, i ).join('')
+					if( word.length < 3 ) continue
 					stat.set( word, ( stat.get( word ) ?? 0 ) + 1 )
 				}
 			}
@@ -79,10 +80,13 @@ namespace $.$$ {
 		@ $mol_mem
 		word_list_items() {
 			
-			const stat = [ ... this.word_stat() ].filter( ([ word, stat ])=> stat > 2 )
-			stat.sort( ( left, right )=> right[0].length - left[0].length || right[1] - left[1] )
+			const raw = [ ... this.word_stat() ]
+			const max = raw.reduce( ( max, [ word, stat ] )=> Math.max( max, stat ), 1 )
+			const min = Math.max( 3, max ** .5 )
+			const filtered = raw.filter( ([ word, stat ])=> stat >= min )
+			filtered.sort( ( left, right )=> right[0].length ** 1.6 - left[0].length ** 1.6 + right[1] - left[1] )
 			
-			return stat.map( ([ word ])=> this.Word_item( word ) )
+			return filtered.map( ([ word ])=> this.Word_item( word ) )
 		}
 		
 		word_item_text( word: string ) {
