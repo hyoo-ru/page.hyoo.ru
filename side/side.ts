@@ -104,12 +104,12 @@ namespace $.$$ {
 		@ $mol_mem
 		pages_node() {
 			const pages = this.sub( 'pages', $hyoo_crowd_list )
-			if( this.editable() ) {
-				for( const bookmark of this.bookmarks() ) {
-					if( bookmark.book() !== this ) continue
-					pages.add( bookmark.id() )
-				}
-			}
+			// if( this.editable() ) {
+			// 	for( const bookmark of this.bookmarks() ) {
+			// 		if( bookmark.book() !== this ) continue
+			// 		pages.add( bookmark.id() )
+			// 	}
+			// }
 			return pages
 		}
 		
