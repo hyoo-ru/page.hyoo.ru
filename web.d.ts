@@ -3054,12 +3054,13 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_page_menu extends $hyoo_meta_menu {
-        title(): string;
+        title_default(): string;
         attr(): {
             mol_theme: string;
         };
         Title(): $$.$hyoo_meta_link;
         foot(): readonly any[];
+        title(): string;
         profile(): $$.$hyoo_page_side;
         Online(): $$.$hyoo_sync_online;
         Source(): $mol_link_source;
@@ -3067,6 +3068,12 @@ declare namespace $ {
         aura_showing(next?: any): boolean;
         Aura_showing(): $mol_check_icon;
         Lights(): $$.$mol_lights_toggle;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_page_menu extends $.$hyoo_page_menu {
+        title(): string;
     }
 }
 
@@ -4675,7 +4682,7 @@ declare namespace $ {
         page_add(next?: any): any;
         aura_showing(next?: any): boolean;
         search(): string;
-        Menu(): $hyoo_page_menu;
+        Menu(): $$.$hyoo_page_menu;
         side_add(next?: any): any;
         side_menu_item_moved(next?: any): any;
         Side_menu(id: any): $hyoo_page_side_menu;

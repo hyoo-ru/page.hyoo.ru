@@ -11139,8 +11139,8 @@ var $;
 var $;
 (function ($) {
     class $hyoo_page_menu extends $hyoo_meta_menu {
-        title() {
-            return this.$.$mol_locale.text('$hyoo_page_menu_title');
+        title_default() {
+            return this.$.$mol_locale.text('$hyoo_page_menu_title_default');
         }
         attr() {
             return {
@@ -11161,6 +11161,9 @@ var $;
                 this.Aura_showing(),
                 this.Lights()
             ];
+        }
+        title() {
+            return this.profile().title();
         }
         profile() {
             const obj = new this.$.$hyoo_page_side();
@@ -11224,6 +11227,21 @@ var $;
     $.$hyoo_page_menu = $hyoo_page_menu;
 })($ || ($ = {}));
 //hyoo/page/menu/-view.tree/menu.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $hyoo_page_menu extends $.$hyoo_page_menu {
+            title() {
+                return super.title() || this.title_default();
+            }
+        }
+        $$.$hyoo_page_menu = $hyoo_page_menu;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//hyoo/page/menu/menu.view.ts
 ;
 "use strict";
 var $;
