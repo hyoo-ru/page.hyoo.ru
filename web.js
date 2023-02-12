@@ -6358,13 +6358,6 @@ var $;
             }
             pages_node() {
                 const pages = this.sub('pages', $hyoo_crowd_list);
-                if (this.editable()) {
-                    for (const bookmark of this.bookmarks()) {
-                        if (bookmark.book() !== this)
-                            continue;
-                        pages.add(bookmark.id());
-                    }
-                }
                 return pages;
             }
             pages(next) {
@@ -17462,10 +17455,10 @@ var $;
                 const side = this.side_current();
                 const book = side.book() ?? side;
                 const page = side.world().Fund($hyoo_page_side).make();
-                page.steal_rights(book);
-                book.pages_node().add(page.id());
-                page.book(book);
                 this.$.$mol_dom_context.location.href = '#!=' + page.id();
+                page.steal_rights(book);
+                page.book(book);
+                this.bookmarks_node().add(page.id());
                 this.editing(true);
             }
             side_menu_item_moved(id) {
