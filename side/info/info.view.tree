@@ -62,7 +62,7 @@ $hyoo_page_side_info $mol_page
 					title @ \No backlinks
 		<= Word_list $mol_expander
 			title @ \Key Words
-			Content <= Word_list_items $mol_row
+			content / <= Word_list_items $mol_row
 				sub <= word_list_items /
 					<= Word_item*0_0 $mol_view
 						sub /
