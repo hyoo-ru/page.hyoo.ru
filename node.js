@@ -7513,7 +7513,7 @@ var $;
         attr() {
             return {
                 ...super.attr(),
-                mol_theme: "$mol_theme_accent"
+                mol_theme: this.theme()
             };
         }
         style() {
@@ -7526,6 +7526,9 @@ var $;
             return [
                 this.value()
             ];
+        }
+        theme() {
+            return "$mol_theme_accent";
         }
         value() {
             return null;
@@ -16705,10 +16708,9 @@ var $;
             return 0;
         }
         Word_item_stat(id) {
-            const obj = new this.$.$mol_view();
-            obj.sub = () => [
-                this.word_item_stat(id)
-            ];
+            const obj = new this.$.$mol_speck();
+            obj.value = () => this.word_item_stat(id);
+            obj.theme = () => "$mol_theme_special";
             return obj;
         }
         Word_item(id) {
@@ -16724,21 +16726,17 @@ var $;
                 this.Word_item("0_0")
             ];
         }
-        Word_list_empty() {
-            const obj = new this.$.$mol_card();
-            obj.title = () => this.$.$mol_locale.text('$hyoo_page_side_info_Word_list_empty_title');
-            return obj;
-        }
         Word_list_items() {
-            const obj = new this.$.$mol_list();
-            obj.rows = () => this.word_list_items();
-            obj.Empty = () => this.Word_list_empty();
+            const obj = new this.$.$mol_row();
+            obj.sub = () => this.word_list_items();
             return obj;
         }
         Word_list() {
             const obj = new this.$.$mol_expander();
             obj.title = () => this.$.$mol_locale.text('$hyoo_page_side_info_Word_list_title');
-            obj.Content = () => this.Word_list_items();
+            obj.content = () => [
+                this.Word_list_items()
+            ];
             return obj;
         }
     }
@@ -16820,9 +16818,6 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_page_side_info.prototype, "Word_item", null);
-    __decorate([
-        $mol_mem
-    ], $hyoo_page_side_info.prototype, "Word_list_empty", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_info.prototype, "Word_list_items", null);
@@ -16928,14 +16923,10 @@ var $;
             padding: $mol_gap.text,
         },
         Word_item_text: {
-            padding: $mol_gap.text,
             flex: {
                 grow: 1,
                 shrink: 1,
             },
-        },
-        Word_item_stat: {
-            padding: $mol_gap.text,
         },
     });
 })($ || ($ = {}));

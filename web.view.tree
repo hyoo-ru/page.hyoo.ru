@@ -76,7 +76,7 @@ $mol_icon_pencil_outline $mol_icon path \M14.06,9L15,9.94L5.92,19H5V18.08L14.06,
 $mol_speck $mol_view
 	attr *
 		^
-		mol_theme \$mol_theme_accent
+		mol_theme <= theme \$mol_theme_accent
 	style *
 		^
 		minHeight \1em
@@ -1244,15 +1244,16 @@ $hyoo_page_side_info $mol_page
 					title @ \No backlinks
 		<= Word_list $mol_expander
 			title @ \Key Words
-			Content <= Word_list_items $mol_list
-				rows <= word_list_items /
+			content / <= Word_list_items $mol_row
+				sub <= word_list_items /
 					<= Word_item*0_0 $mol_view
 						sub /
 							<= Word_item_text* $mol_view
 								sub / <= word_item_text* \
-							<= Word_item_stat* $mol_view
-								sub / <= word_item_stat* 0
-				Empty <= Word_list_empty $mol_card
+							<= Word_item_stat* $mol_speck
+								value <= word_item_stat* 0
+								theme \$mol_theme_special
+				- Empty <= Word_list_empty $mol_card
 					title @ \No words
 
 $mol_button_major $mol_button_typed

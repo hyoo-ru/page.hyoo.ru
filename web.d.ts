@@ -1972,6 +1972,7 @@ declare namespace $ {
             minHeight: string;
         };
         sub(): readonly any[];
+        theme(): string;
         value(): any;
     }
 }
@@ -4553,11 +4554,10 @@ declare namespace $ {
         word_item_text(id: any): string;
         Word_item_text(id: any): $mol_view;
         word_item_stat(id: any): number;
-        Word_item_stat(id: any): $mol_view;
+        Word_item_stat(id: any): $mol_speck;
         Word_item(id: any): $mol_view;
         word_list_items(): readonly any[];
-        Word_list_empty(): $$.$mol_card;
-        Word_list_items(): $$.$mol_list;
+        Word_list_items(): $mol_row;
         Word_list(): $$.$mol_expander;
     }
 }
