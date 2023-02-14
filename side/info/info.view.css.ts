@@ -28,15 +28,10 @@ namespace $ {
 		},
 		
 		Word_item_text: {
-			padding: $mol_gap.text,
 			flex: {
 				grow: 1,
 				shrink: 1,
 			},
-		},
-		
-		Word_item_stat: {
-			padding: $mol_gap.text,
 		},
 		
 	} )
