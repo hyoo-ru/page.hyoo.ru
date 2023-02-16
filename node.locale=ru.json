@@ -19,6 +19,7 @@
 	"$hyoo_page_side_edit_Rights_toggle_hint": "Права доступа",
 	"$hyoo_page_side_edit_Syntax_hint": "Синтаксис MarkedText",
 	"$hyoo_page_side_edit_Title_hint": "Заголовок",
+	"$hyoo_page_side_edit_export_sign": "\\\\Актуальный оригинал\\{link}\\\\",
 	"$hyoo_page_side_info_Chars_title": "Знаков",
 	"$hyoo_page_side_info_Ref_list_empty_title": "Нет обратных ссылок",
 	"$hyoo_page_side_info_Ref_list_title": "Упоминания",

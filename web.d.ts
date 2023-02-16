@@ -4397,6 +4397,7 @@ declare namespace $ {
         side(): $$.$hyoo_page_side;
         bring(): void;
         Title(): $mol_string_button;
+        export_sign(): string;
         tools(): readonly any[];
         body(): readonly any[];
         Syntax(): $$.$mol_link_iconed;
@@ -4637,6 +4638,8 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_page_side_edit extends $.$hyoo_page_side_edit {
         publish(): void;
+        permalink(): string;
+        export_sign(): string;
         download_name(): string;
         download_blob(): Blob;
         copy_html(): string;

@@ -16005,6 +16005,9 @@ var $;
             obj.enabled = () => this.editable();
             return obj;
         }
+        export_sign() {
+            return this.$.$mol_locale.text('$hyoo_page_side_edit_export_sign');
+        }
         tools() {
             return [
                 this.Syntax(),
@@ -16691,14 +16694,20 @@ var $;
             publish() {
                 this.side().publish();
             }
+            permalink() {
+                return this.$.$mol_state_arg.make_link({ '': this.side().id() });
+            }
+            export_sign() {
+                return super.export_sign().replace('{link}', this.permalink());
+            }
             download_name() {
                 return super.download_name().replace('{filename}', this.title());
             }
             download_blob() {
-                return new $mol_dom_context.Blob([this.details()], { type: 'text/markdown' });
+                return new $mol_dom_context.Blob([`${this.permalink()}\n\n${this.details()}`], { type: 'text/markdown' });
             }
             copy_html() {
-                return this.$.$hyoo_marked_to_html(`= ${this.title()}\n${this.details()}`);
+                return this.$.$hyoo_marked_to_html(`= ${this.title()}\n\n${this.details()}\n\n${this.export_sign()}`);
             }
             copy_md() {
                 return this.details()
@@ -16706,6 +16715,9 @@ var $;
                     .replaceAll(/^(" )+/gm, (prefix) => prefix.replaceAll('" ', '> '));
             }
         }
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side_edit.prototype, "permalink", null);
         $$.$hyoo_page_side_edit = $hyoo_page_side_edit;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

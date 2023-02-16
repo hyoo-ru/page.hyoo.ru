@@ -1110,6 +1110,7 @@ $hyoo_page_side_edit $mol_page
 		bring => bring
 		value? <=> title?
 		enabled <= editable
+	export_sign @ \\\Current Original\{link}\\
 	tools /
 		<= Syntax $mol_link_iconed
 			hint @ \MarkedText Syntax
