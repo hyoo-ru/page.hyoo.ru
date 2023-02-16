@@ -12,6 +12,10 @@ $hyoo_page_menu $hyoo_meta_menu
 			yard <= yard
 		<= Source $mol_link_source
 			uri \https://github.com/hyoo-ru/page.hyoo.ru/
+		<= About $mol_link_iconed
+			hint @ \About $hyoo_page
+			title \
+			uri \http://page.hyoo.ru/
 		<= Aura_showing $mol_check_icon
 			hint @ \Backgrounds Showing
 			Icon <= Aura_icon $mol_icon_image
