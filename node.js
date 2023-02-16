@@ -16137,7 +16137,7 @@ var $;
         Aura_field() {
             const obj = new this.$.$mol_form_field();
             obj.name = () => this.$.$mol_locale.text('$hyoo_page_side_edit_Aura_field_name');
-            obj.control = () => this.Aura();
+            obj.Content = () => this.Aura();
             return obj;
         }
     }

@@ -1149,7 +1149,7 @@ $hyoo_page_side_edit $mol_page
 			enabled <= editable
 		<= Aura_field $mol_form_field
 			name @ \Page Background
-			control <= Aura $mol_string_button
+			Content <= Aura $mol_string_button
 				hint @ \hyper link
 				value? <=> aura?
 				enabled <= editable
