@@ -1197,8 +1197,8 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_wire_race<Tasks extends (() => any)[]>(...tasks: Tasks): {
-        [index in keyof Tasks]: ReturnType<Tasks[index]>;
+    function $mol_wire_race<Tasks extends ((...args: any) => any)[]>(...tasks: Tasks): {
+        [index in keyof Tasks]: index extends number ? ReturnType<Tasks[index]> : Tasks[index];
     };
 }
 
@@ -3026,6 +3026,51 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_image extends $mol_view {
+        dom_name(): string;
+        field(): {
+            src: string;
+            alt: string;
+            loading: string;
+            decoding: string;
+            crossOrigin: any;
+        };
+        minimal_width(): number;
+        minimal_height(): number;
+        uri(): string;
+        loading(): string;
+        decoding(): string;
+        cors(): any;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_link_iconed extends $mol_link {
+        sub(): readonly any[];
+        content(): readonly any[];
+        host(): string;
+        icon(): string;
+        Icon(): $mol_image;
+        title(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_link_iconed extends $.$mol_link_iconed {
+        icon(): string;
+        host(): string;
+        title(): string;
+        sub(): readonly any[];
+    }
+}
+
+declare namespace $ {
     class $mol_icon_image extends $mol_icon {
         path(): string;
     }
@@ -3065,6 +3110,7 @@ declare namespace $ {
         profile(): $$.$hyoo_page_side;
         Online(): $$.$hyoo_sync_online;
         Source(): $mol_link_source;
+        About(): $$.$mol_link_iconed;
         Aura_icon(): $mol_icon_image;
         aura_showing(next?: any): boolean;
         Aura_showing(): $mol_check_icon;
@@ -3587,51 +3633,6 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_image extends $mol_view {
-        dom_name(): string;
-        field(): {
-            src: string;
-            alt: string;
-            loading: string;
-            decoding: string;
-            crossOrigin: any;
-        };
-        minimal_width(): number;
-        minimal_height(): number;
-        uri(): string;
-        loading(): string;
-        decoding(): string;
-        cors(): any;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_link_iconed extends $mol_link {
-        sub(): readonly any[];
-        content(): readonly any[];
-        host(): string;
-        icon(): string;
-        Icon(): $mol_image;
-        title(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_link_iconed extends $.$mol_link_iconed {
-        icon(): string;
-        host(): string;
-        title(): string;
-        sub(): readonly any[];
-    }
-}
-
-declare namespace $ {
     class $mol_embed_native extends $mol_scroll {
         uri(val?: any): string;
         dom_name(): string;
@@ -3894,7 +3895,7 @@ declare namespace $.$$ {
             'code-punctuation': RegExp;
         }>;
         block_text(index: number): string;
-        block_content(index: number): ($mol_dimmer | $mol_text_code_row | $mol_link_iconed | $mol_embed_any | $mol_text_span)[];
+        block_content(index: number): ($mol_dimmer | $mol_link_iconed | $mol_text_code_row | $mol_embed_any | $mol_text_span)[];
         line_tokens(path: readonly number[]): readonly {
             name: string;
             found: string;
@@ -3907,7 +3908,7 @@ declare namespace $.$$ {
         };
         line_type(path: readonly number[]): string;
         line_text(path: readonly number[]): string;
-        line_content(path: readonly number[]): ($mol_dimmer | $mol_text_code_row | $mol_link_iconed | $mol_embed_any | $mol_text_span)[];
+        line_content(path: readonly number[]): ($mol_dimmer | $mol_link_iconed | $mol_text_code_row | $mol_embed_any | $mol_text_span)[];
         link_uri(path: readonly number[]): string;
         link_host(path: readonly number[]): string;
         auto_scroll(): void;
