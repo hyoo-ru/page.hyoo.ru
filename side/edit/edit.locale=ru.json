@@ -4,6 +4,7 @@
 	"$hyoo_page_side_edit_Details_edit_hint": "Подробности",
 	"$hyoo_page_side_edit_Rights_toggle_hint": "Права доступа",
 	"$hyoo_page_side_edit_Export_hint": "Экспорт статьи",
+	"$hyoo_page_side_edit_export_sign": "\\\\Актуальный оригинал\\{link}\\\\",
 	"$hyoo_page_side_edit_Download_title": "Скачать как MT файл",
 	"$hyoo_page_side_edit_Copy_html_title": "Скопировать как HTML",
 	"$hyoo_page_side_edit_Aura_field_name": "Фон страницы",
