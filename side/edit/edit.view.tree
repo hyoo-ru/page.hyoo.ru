@@ -23,10 +23,18 @@ $hyoo_page_side_edit $mol_page
 			hint @ \Publish
 			sub /
 				<= Publish_icon $mol_icon_publish
-		<= Download_md $mol_button_download
+		<= Export $mol_pick
 			hint @ \Download markdown
-			file_name <= download_md_name \{filename}.md
-			blob <= download_md_blob Blob
+			trigger_content /
+				<= Export_icon $mol_icon_export_variant
+			bubble_content /
+				<= Download $mol_button_download
+					title @ \Download as MT File
+					file_name <= download_name \{filename}.mt
+					blob <= download_blob $mol_blob
+				<= Copy_html $mol_button_copy
+					title @ \Copy as HTML
+					text <= copy_html \
 		<= Rights_toggle $mol_check_icon
 			hint @ \Access Rights
 			checked? <=> rights? false
