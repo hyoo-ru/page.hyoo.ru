@@ -543,6 +543,7 @@ $mol_button_copy $mol_button_minor
 	text \
 	sub /
 		<= Icon $mol_icon_clipboard_outline
+		<= title \
 
 
 $mol_text_code $mol_stack
@@ -992,6 +993,10 @@ $mol_string_button $mol_string
 
 $mol_icon_publish $mol_icon path \M5,4V6H19V4H5M5,14H9V20H15V14H19L12,7L5,14Z
 
+$mol_icon_export $mol_icon path \M23,12L19,8V11H10V13H19V16M1,18V6C1,4.89 1.9,4 3,4H15C16.1,4 17,4.9 17,6V9H15V6H3V18H15V15H17V18C17,19.1 16.1,20 15,20H3C1.9,20 1,19.1 1,18Z
+
+$mol_icon_export_variant $mol_icon path \M12,1L8,5H11V14H13V5H16M18,23H6C4.89,23 4,22.1 4,21V9C4,7.9 4.9,7 6,7H9V9H6V21H18V9H15V7H18C19.1,7 20,7.9 20,9V21C20,22.1 19.1,23 18,23Z
+
 $mol_icon_download $mol_icon path \M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z
 
 $mol_button_download $mol_button_minor
@@ -1000,6 +1005,7 @@ $mol_button_download $mol_button_minor
 	file_name \blob.bin
 	sub /
 		<= Icon $mol_icon_download
+		<= title \
 
 $mol_icon_shield $mol_icon path \M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1Z
 
@@ -1116,10 +1122,18 @@ $hyoo_page_side_edit $mol_page
 			hint @ \Publish
 			sub /
 				<= Publish_icon $mol_icon_publish
-		<= Download_md $mol_button_download
+		<= Export $mol_pick
 			hint @ \Download markdown
-			file_name <= download_md_name \{filename}.md
-			blob <= download_md_blob Blob
+			trigger_content /
+				<= Export_icon $mol_icon_export_variant
+			bubble_content /
+				<= Download $mol_button_download
+					title @ \Download as MT File
+					file_name <= download_name \{filename}.mt
+					blob <= download_blob $mol_blob
+				<= Copy_html $mol_button_copy
+					title @ \Copy as HTML
+					text <= copy_html \
 		<= Rights_toggle $mol_check_icon
 			hint @ \Access Rights
 			checked? <=> rights? false

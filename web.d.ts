@@ -3367,6 +3367,7 @@ declare namespace $ {
         text(): string;
         sub(): readonly any[];
         Icon(): $mol_icon_clipboard_outline;
+        title(): string;
     }
 }
 
@@ -4207,6 +4208,18 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_icon_export extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_export_variant extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
     class $mol_icon_download extends $mol_icon {
         path(): string;
     }
@@ -4219,6 +4232,7 @@ declare namespace $ {
         file_name(): string;
         sub(): readonly any[];
         Icon(): $mol_icon_download;
+        title(): string;
     }
 }
 
@@ -4389,9 +4403,13 @@ declare namespace $ {
         publish(next?: any): any;
         Publish_icon(): $mol_icon_publish;
         Publish(): $mol_button_minor;
-        download_md_name(): string;
-        download_md_blob(): Blob;
-        Download_md(): $$.$mol_button_download;
+        Export_icon(): $mol_icon_export_variant;
+        download_name(): string;
+        download_blob(): Blob;
+        Download(): $$.$mol_button_download;
+        copy_html(): string;
+        Copy_html(): $$.$mol_button_copy;
+        Export(): $$.$mol_pick;
         rights(next?: any): boolean;
         Rights_icon(): $mol_icon_shield_account;
         Rights_toggle(): $mol_check_icon;
@@ -4402,6 +4420,176 @@ declare namespace $ {
         Aura(): $mol_string_button;
         Aura_field(): $$.$mol_form_field;
     }
+}
+
+declare namespace $ {
+    let $hyoo_marked_cut: $mol_regexp<{
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+    }>;
+}
+
+declare namespace $ {
+    let $hyoo_marked_line_content: $mol_regexp<{}>;
+    let $hyoo_marked_line: $mol_regexp<{
+        [x: string]: string;
+        readonly inline: string;
+        readonly code: string;
+        readonly embed: string;
+        readonly strong: string;
+        readonly emphasis: string;
+        readonly insertion: string;
+        readonly deletion: string;
+        readonly link: string;
+        readonly uri: string;
+        content: string;
+        readonly marker: string;
+    }>;
+}
+
+declare namespace $ {
+    let $hyoo_marked_header: $mol_regexp<{
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+}
+
+declare namespace $ {
+    let $hyoo_marked_list_line: $mol_regexp<{
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly indent: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+    let $hyoo_marked_list_item: $mol_regexp<{
+        [x: string]: string;
+        readonly kids: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly indent: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+    let $hyoo_marked_list: $mol_regexp<{
+        [key: string]: string;
+    } & {
+        [x: string]: string;
+        readonly kids: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly indent: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+}
+
+declare namespace $ {
+    let $hyoo_marked_quote_line: $mol_regexp<{
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+    let $hyoo_marked_quote: $mol_regexp<{
+        [key: string]: string;
+    } & {
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+}
+
+declare namespace $ {
+    let $hyoo_marked_table_line: $mol_regexp<{
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly indent: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+    let $hyoo_marked_table_row: $mol_regexp<{
+        [x: string]: string;
+        readonly content: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly indent: string;
+        readonly marker: string;
+    }>;
+    let $hyoo_marked_table: $mol_regexp<{
+        [key: string]: string;
+    } & {
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly indent: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+}
+
+declare namespace $ {
+    let $hyoo_marked_script_line: $mol_regexp<{
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+    let $hyoo_marked_script: $mol_regexp<{
+        [key: string]: string;
+    } & {
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+}
+
+declare namespace $ {
+    let $hyoo_marked_paragraph: $mol_regexp<{
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly content: string;
+    }>;
+}
+
+declare namespace $ {
+    let $hyoo_marked_flow: $mol_regexp<{
+        [x: string]: string;
+        readonly header: string;
+        readonly table: string;
+        readonly list: string;
+        readonly cut: string;
+        readonly quote: string;
+        readonly paragraph: string;
+        readonly script: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly marker: string;
+        readonly content: string;
+        readonly indent: string;
+        readonly kids: string;
+    }>;
+}
+
+declare namespace $ {
+    function $hyoo_marked_to_dom(this: $, marked: string): $mol_jsx.JSX.Element;
+}
+
+declare namespace $ {
+    function $hyoo_marked_to_html(this: $, marked: string): string;
 }
 
 declare namespace $ {
@@ -4449,8 +4637,10 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_page_side_edit extends $.$hyoo_page_side_edit {
         publish(): void;
-        download_md_name(): string;
-        download_md_blob(): Blob;
+        download_name(): string;
+        download_blob(): Blob;
+        copy_html(): string;
+        copy_md(): string;
     }
 }
 
