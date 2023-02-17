@@ -10915,6 +10915,9 @@ var $;
                     ...this.search_show() ? [this.Search()] : [],
                 ];
             }
+            editable() {
+                return this.list().land.allowed_mod();
+            }
             tools() {
                 return this.editable() ? super.tools() : [this.Search_toggle()];
             }

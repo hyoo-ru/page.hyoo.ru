@@ -2956,6 +2956,7 @@ declare namespace $.$$ {
     class $hyoo_meta_menu extends $.$hyoo_meta_menu {
         logo_id(): `${string}_${string}`;
         head(): ($mol_view | $mol_search)[];
+        editable(): boolean;
         tools(): readonly any[];
         search_show(next?: boolean): boolean;
         items(): $mol_list[];
