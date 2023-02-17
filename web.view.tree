@@ -350,6 +350,9 @@ $hyoo_meta_menu $mol_page
 	list $hyoo_crowd_list
 		list => ids
 		world => world
+	item_list* $hyoo_crowd_list
+	drop_allow /
+		\move
 	Logo $mol_avatar
 		id <= logo_id \
 	tools /
@@ -368,34 +371,41 @@ $hyoo_meta_menu $mol_page
 				query? <=> filter? \
 			<= Items $mol_list
 				rows <= items /
-					<= Item*0_0 <= Item_drop* $mol_drop
-						enabled <= editable
-						adopt? <=> transfer_adopt? null
-						receive? <=> receive_after*? null
-						Sub <= Item_drag* $mol_drag
-							transfer *
-								text/plain <= item_text* \
-								text/html <= item_html* \
-								text/uri-list <= item_uri* \
-							Sub <= Item_row* $mol_view
-								sub <= item_row* /
-									<= Item_link* $hyoo_meta_link
-										meta <= item*
-										param <= param \
-										highlight <= filter
-									<= Item_remove* $mol_button_minor
-										click? <=> item_remove*? null
-										sub /
-											<= Item_remove_icon* $mol_icon_cross
-									<= Item_add* $mol_button_minor
-										click? <=> item_add*? null
-										sub /
-											<= Item_add_icon* $mol_icon_plus
+					<= Item*0_0 $mol_list
+						rows /
+							<= Item_drop* $mol_drop
+								enabled <= editable
+								adopt? <=> transfer_adopt? null
+								receive? <=> receive_after*? null
+								allow <= drop_allow
+								Sub <= Item_drag* $mol_drag
+									end? <=> item_drag_end*? null
+									transfer *
+										text/plain <= item_text* \
+										text/html <= item_html* \
+										text/uri-list <= item_uri* \
+									Sub <= Item_row* $mol_view
+										sub <= item_row* /
+											<= Item_link* $hyoo_meta_link
+												meta <= item*
+												param <= param \
+												highlight <= filter
+											<= Item_remove* $mol_button_minor
+												click? <=> item_remove*? null
+												sub /
+													<= Item_remove_icon* $mol_icon_cross
+											<= Item_add* $mol_button_minor
+												click? <=> item_add*? null
+												sub /
+													<= Item_add_icon* $mol_icon_plus
+							<= Item_items* $mol_list
+								rows <= item_items* /
 		<= Drop_end $mol_drop
 			enabled <= editable
 			adopt? <=> transfer_adopt? null
 			receive? <=> receive_end? null
 			Sub <= Drop_zone $mol_view
+			allow <= drop_allow
 
 $mol_icon_sync $mol_icon path \M12,18C8.69,18 6,15.31 6,12C6,11 6.25,10.03 6.7,9.2L5.24,7.74C4.46,8.97 4,10.43 4,12C4,16.42 7.58,20 12,20V23L16,19L12,15M12,4V1L8,5L12,9V6C15.31,6 18,8.69 18,12C18,13 17.75,13.97 17.3,14.8L18.76,16.26C19.54,15.03 20,13.57 20,12C20,7.58 16.42,4 12,4Z
 
@@ -457,7 +467,7 @@ $hyoo_page_menu $hyoo_meta_menu
 		^
 		mol_theme \$mol_theme_special
 	Title $hyoo_meta_link
-		meta <= profile $hyoo_page_side
+		meta <= side $hyoo_page_side
 			title => title
 		title <= title
 	foot /
@@ -1336,7 +1346,7 @@ $hyoo_page $mol_view
 		<= Book $mol_book2
 			Placeholder <= Menu $hyoo_page_menu
 				yard <= yard
-				profile <= profile
+				side <= profile
 				list <= bookmarks_node
 				item_uri* <= side_uri* \
 				add? <=> page_add? null
@@ -1349,8 +1359,7 @@ $hyoo_page $mol_view
 					side <= side*
 					list <= pages_node*
 					item_uri* <= side_uri* \
-					add? <=> side_add? null
-					item_moved? <=> side_menu_item_moved? null
+					add? <=> side_add*? null
 				<= View*0_0 $hyoo_page_side_view
 					side <= side*
 					peer* <= side*

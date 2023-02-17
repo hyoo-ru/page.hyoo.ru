@@ -1715,7 +1715,7 @@ declare namespace $.$$ {
         publish(): void;
         content(): string;
         changed_moment(next?: $mol_time_moment): $mol_time_moment;
-        book(next?: $hyoo_page_side): $hyoo_page_side | null;
+        book(next?: $hyoo_page_side | null): $hyoo_page_side | null;
         bookmarks_node(next?: readonly $hyoo_page_side[]): $hyoo_crowd_list;
         bookmarks(next?: readonly $hyoo_page_side[]): $hyoo_page_side[];
         pages_node(): $hyoo_crowd_list;
@@ -1723,6 +1723,7 @@ declare namespace $.$$ {
         bookmarked(id: $mol_int62_string, next?: boolean): boolean;
         authors(): `${string}_${string}`[];
         aura(next?: string): string;
+        aura_effective(): string;
     }
 }
 
@@ -2907,6 +2908,8 @@ declare namespace $ {
         ids(): readonly unknown[];
         world(): $hyoo_crowd_world | null;
         list(): $hyoo_crowd_list;
+        item_list(id: any): $hyoo_crowd_list;
+        drop_allow(): readonly any[];
         Logo(): $$.$mol_avatar;
         tools(): readonly any[];
         body(): readonly any[];
@@ -2921,6 +2924,7 @@ declare namespace $ {
         Filter(): $$.$mol_search;
         transfer_adopt(next?: any): any;
         receive_after(id: any, next?: any): any;
+        item_drag_end(id: any, next?: any): any;
         item_text(id: any): string;
         item_html(id: any): string;
         item_uri(id: any): string;
@@ -2936,7 +2940,9 @@ declare namespace $ {
         Item_row(id: any): $mol_view;
         Item_drag(id: any): $$.$mol_drag;
         Item_drop(id: any): $$.$mol_drop;
-        Item(id: any): $$.$mol_drop;
+        item_items(id: any): readonly any[];
+        Item_items(id: any): $$.$mol_list;
+        Item(id: any): $$.$mol_list;
         items(): readonly any[];
         Items(): $$.$mol_list;
         Content(): $$.$mol_list;
@@ -2953,10 +2959,11 @@ declare namespace $.$$ {
     class $hyoo_meta_menu extends $.$hyoo_meta_menu {
         logo_id(): `${string}_${string}`;
         tools(): readonly any[];
-        items(): $mol_drop[];
+        items(): $mol_list[];
         item(id: $mol_int62_string): $hyoo_meta_model;
         filtered(): (`${string}_${string}` | null)[];
         item_row(id: $mol_int62_string): ($mol_button_minor | $hyoo_meta_link)[];
+        item_items(id: $mol_int62_string): $mol_list[];
         item_remove(id: $mol_int62_string): void;
         item_add(id: $mol_int62_string): void;
         item_html(id: $mol_int62_string): string;
@@ -3109,7 +3116,7 @@ declare namespace $ {
         Title(): $$.$hyoo_meta_link;
         foot(): readonly any[];
         title(): string;
-        profile(): $$.$hyoo_page_side;
+        side(): $$.$hyoo_page_side;
         Online(): $$.$hyoo_sync_online;
         Source(): $mol_link_source;
         About(): $$.$mol_link_iconed;
@@ -3123,6 +3130,7 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_page_menu extends $.$hyoo_page_menu {
         title(): string;
+        item_moved(id: $mol_int62_string): void;
     }
 }
 
@@ -3131,6 +3139,12 @@ declare namespace $ {
         Title(): $$.$hyoo_meta_link;
         title(): string;
         side(): $$.$hyoo_page_side;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
+        item_moved(id: $mol_int62_string): void;
     }
 }
 
@@ -4920,9 +4934,8 @@ declare namespace $ {
         aura_showing(next?: any): boolean;
         search(): string;
         Menu(): $$.$hyoo_page_menu;
-        side_add(next?: any): any;
-        side_menu_item_moved(next?: any): any;
-        Side_menu(id: any): $hyoo_page_side_menu;
+        side_add(id: any, next?: any): any;
+        Side_menu(id: any): $$.$hyoo_page_side_menu;
         side_menu_showed(next?: any): boolean;
         editing(next?: any): boolean;
         info(next?: any): boolean;
@@ -4963,11 +4976,11 @@ declare namespace $.$$ {
         side_current_id(): `${string}_${string}`;
         side_current(): $hyoo_page_side;
         side_current_book(): $hyoo_page_side;
+        side_books(): $hyoo_page_side[];
         side_menu_showed(next?: boolean): boolean;
-        pages(): ($mol_view | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_meta_rights | $hyoo_page_side_menu)[];
+        pages(): ($mol_view | $hyoo_page_side_menu | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_meta_rights)[];
         page_add(): void;
-        side_add(): void;
-        side_menu_item_moved(id: $mol_int62_string): void;
+        side_add(id: $mol_int62_string): void;
     }
 }
 
