@@ -69,9 +69,28 @@ $mol_avatar $mol_icon
 	id \
 	path \M 12 12 l 0 0 M 0 0 l 0 0 M 24 24 l 0 0 M 0 24 l 0 0 M 24 0 l 0 0
 
-$mol_icon_pencil $mol_icon path \M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z
+$mol_pop $mol_view
+	showed?val false
+	align_vert \
+	align_hor \
+	sub /
+		<= Anchor null
+	sub_visible /
+		<= Anchor
+		<= Bubble $mol_pop_bubble
+			align <= align \bottom_center
+			content <= bubble_content /$mol_view_content
+			height_max <= height_max 9999
 
-$mol_icon_pencil_outline $mol_icon path \M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z
+$mol_pop_bubble $mol_scroll
+	sub <= content /$mol_view_content
+	style *
+		^
+		maxHeight <= height_max 9999
+	attr *
+		^
+		mol_pop_align <= align \
+		tabindex 0
 
 $mol_speck $mol_view
 	attr *
@@ -108,46 +127,6 @@ $mol_button_typed $mol_button
 	minimal_width 40
 
 $mol_button_minor $mol_button_typed
-
-$mol_check $mol_button_minor
-	attr *
-		^
-		mol_check_checked <= checked?val false
-		aria-checked <= checked?val false
-		role \checkbox
-	sub /$mol_view_content
-		<= Icon null
-		<= label /
-			<= Title $mol_view
-				sub /
-					<= title \
-
-$mol_check_icon $mol_check
-
-$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
-
-$mol_pop $mol_view
-	showed?val false
-	align_vert \
-	align_hor \
-	sub /
-		<= Anchor null
-	sub_visible /
-		<= Anchor
-		<= Bubble $mol_pop_bubble
-			align <= align \bottom_center
-			content <= bubble_content /$mol_view_content
-			height_max <= height_max 9999
-
-$mol_pop_bubble $mol_scroll
-	sub <= content /$mol_view_content
-	style *
-		^
-		maxHeight <= height_max 9999
-	attr *
-		^
-		mol_pop_align <= align \
-		tabindex 0
 
 $mol_hotkey $mol_plugin
 	event *
@@ -276,6 +255,29 @@ $mol_search $mol_pop
 				haystack <= suggest_label* \
 				needle <= query?val \
 
+$mol_icon_magnify $mol_icon path \M9.5,3C13.09,3 16,5.91 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16C5.91,16 3,13.09 3,9.5C3,5.91 5.91,3 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z
+
+$mol_check $mol_button_minor
+	attr *
+		^
+		mol_check_checked <= checked?val false
+		aria-checked <= checked?val false
+		role \checkbox
+	sub /$mol_view_content
+		<= Icon null
+		<= label /
+			<= Title $mol_view
+				sub /
+					<= title \
+
+$mol_check_icon $mol_check
+
+$mol_icon_pencil $mol_icon path \M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z
+
+$mol_icon_pencil_outline $mol_icon path \M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z
+
+$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
+
 $mol_link $mol_view
 	uri \
 	dom_name \a
@@ -355,7 +357,16 @@ $hyoo_meta_menu $mol_page
 		\move
 	Logo $mol_avatar
 		id <= logo_id \
+	head /
+		<= Title
+		<= Tools
+		<= Search $mol_search
+			query? <=> search? \
 	tools /
+		<= Search_toggle $mol_check_icon
+			hint @ \Fulltext search
+			checked? <=> search_show? false
+			Icon <= Search_icon $mol_icon_magnify
 		<= Editing $mol_check_icon
 			hint @ \Edit list
 			checked? <=> editing? false
@@ -367,8 +378,6 @@ $hyoo_meta_menu $mol_page
 				<= Add_icon $mol_icon_plus
 	body /
 		<= Content $mol_list rows /
-			<= Filter $mol_search
-				query? <=> filter? \
 			<= Items $mol_list
 				rows <= items /
 					<= Item*0_0 $mol_list
@@ -389,7 +398,7 @@ $hyoo_meta_menu $mol_page
 											<= Item_link* $hyoo_meta_link
 												meta <= item*
 												param <= param \
-												highlight <= filter
+												highlight <= search
 											<= Item_remove* $mol_button_minor
 												click? <=> item_remove*? null
 												sub /
@@ -525,8 +534,6 @@ $mol_search_jumper $mol_search
 			key *
 				enter?event <=> forward?event
 				escape?val <=> escape?val null
-
-$mol_icon_magnify $mol_icon path \M9.5,3C13.09,3 16,5.91 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16C5.91,16 3,13.09 3,9.5C3,5.91 5.91,3 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z
 
 $mol_icon_information $mol_icon path \M13,9H11V7H13M13,17H11V11H13M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z
 
@@ -1351,7 +1358,7 @@ $hyoo_page $mol_view
 				item_uri* <= side_uri* \
 				add? <=> page_add? null
 				aura_showing? <=> aura_showing? true
-				filter => search
+				search => search
 			Gap* => Gap*
 			pages <= pages /
 				<= Side_menu*0_0 $hyoo_page_side_menu
