@@ -83,8 +83,10 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem_key
-		book( next?: $hyoo_page_side ) {
-			const id = $mol_int62_string_ensure( this.sub( 'book', $hyoo_crowd_reg ).str( next?.id() ) )
+		book( next?: $hyoo_page_side | null ) {
+			const book_node = this.sub( 'book', $hyoo_crowd_reg )
+			const id = $mol_int62_string_ensure( book_node.str( next?.id() ?? ( next === null ? '' : undefined ) ) )
+			if( id === this.id() ) return null
 			return id ? this.world()!.Fund( $hyoo_page_side ).Item( id ) : null
 		}
 		
@@ -141,6 +143,11 @@ namespace $.$$ {
 		@ $mol_mem
 		aura( next?: string ): string {
 			return this.sub( 'aura', $hyoo_crowd_reg ).str( next )
+		}
+		
+		@ $mol_mem
+		aura_effective(): string {
+			return this.aura() || ( this.book()?.aura_effective() ?? '' )
 		}
 		
 	}

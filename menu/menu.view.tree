@@ -4,7 +4,7 @@ $hyoo_page_menu $hyoo_meta_menu
 		^
 		mol_theme \$mol_theme_special
 	Title $hyoo_meta_link
-		meta <= profile $hyoo_page_side
+		meta <= side $hyoo_page_side
 			title => title
 		title <= title
 	foot /

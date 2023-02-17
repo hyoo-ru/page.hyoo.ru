@@ -26,8 +26,7 @@ namespace $.$$ {
 			if( !this.aura_showing() ) return ''
 			
 			const side = this.side_current()
-			const book = this.side_current_book()
-			const aura = side.aura() || book.aura()
+			const aura = side.aura_effective()
 			if( !aura ) return ''
 			
 			const shade = 'hsla( 0deg, 0%, calc( 50% + var(--mol_theme_luma) * 50% ), .666 )'
@@ -84,16 +83,27 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
+		side_books() {
+			const books = []
+			let cur = this.side_current() as $hyoo_page_side | null
+			while( cur ) {
+				if( cur.pages().length || this.side_menu_showed() ) books.push( cur )
+				cur = cur.book()
+			}
+			return books.reverse()
+		}
+		
+		@ $mol_mem
 		side_menu_showed( next?: boolean ) {
-			return next ?? ( this.side_current_book().pages().length ) > 0
+			return next ?? this.side_current().pages().length > 0
 		}
 		
 		@ $mol_mem
 		pages() {
 			const id = this.side_current_id()
 			return [
-				this.Gap( 'left'),
-				... this.side_menu_showed() ? [ this.Side_menu( this.side_current_book().id() ) ] : [],
+				this.Gap( 'left' ),
+				... this.side_books().map( book => this.Side_menu( book.id() ) ),
 				this.View( id ),
 				... this.info() ? [ this.Info( id ) ] : [],
 				... this.editing() ? [ this.Edit( id ) ] : [],
@@ -111,12 +121,11 @@ namespace $.$$ {
 		}
 		
 		@ $mol_action
-		side_add() {
+		side_add( id: $mol_int62_string ) {
 			
-			const side = this.side_current()
-			const book = side.book() ?? side
+			const book = this.side( id )
 			
-			const page = side.world()!.Fund( $hyoo_page_side ).make()
+			const page = book.world()!.Fund( $hyoo_page_side ).make()
 			this.$.$mol_dom_context.location.href = '#!=' + page.id()
 			
 			page.steal_rights( book )
@@ -125,11 +134,6 @@ namespace $.$$ {
 			this.bookmarks_node().add( page.id() )
 			this.editing( true )
 			
-		}
-		
-		@ $mol_action
-		side_menu_item_moved( id: $mol_int62_string ) {
-			this.side( id ).book( this.side_current_book() )
 		}
 		
 	}

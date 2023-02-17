@@ -17,7 +17,7 @@ $hyoo_page $mol_view
 		<= Book $mol_book2
 			Placeholder <= Menu $hyoo_page_menu
 				yard <= yard
-				profile <= profile
+				side <= profile
 				list <= bookmarks_node
 				item_uri* <= side_uri* \
 				add? <=> page_add? null
@@ -30,8 +30,7 @@ $hyoo_page $mol_view
 					side <= side*
 					list <= pages_node*
 					item_uri* <= side_uri* \
-					add? <=> side_add? null
-					item_moved? <=> side_menu_item_moved? null
+					add? <=> side_add*? null
 				<= View*0_0 $hyoo_page_side_view
 					side <= side*
 					peer* <= side*
