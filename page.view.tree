@@ -22,7 +22,7 @@ $hyoo_page $mol_view
 				item_uri* <= side_uri* \
 				add? <=> page_add? null
 				aura_showing? <=> aura_showing? true
-				filter => search
+				search => search
 			Gap* => Gap*
 			pages <= pages /
 				<= Side_menu*0_0 $hyoo_page_side_menu
