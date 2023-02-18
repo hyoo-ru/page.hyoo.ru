@@ -103,7 +103,7 @@ namespace $.$$ {
 			const id = this.side_current_id()
 			return [
 				this.Gap( 'left' ),
-				... this.side_books().map( book => this.Side_menu( book.id() ) ),
+				... this.side_books().slice( 0, 1 ).map( book => this.Side_menu( book.id() ) ),
 				this.View( id ),
 				... this.info() ? [ this.Info( id ) ] : [],
 				... this.editing() ? [ this.Edit( id ) ] : [],
