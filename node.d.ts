@@ -2776,6 +2776,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_meta_link extends $mol_link {
+        minimal_height(): number;
         id(): `${string}_${string}`;
         title(): string;
         meta(): $hyoo_meta_model;
@@ -2892,9 +2893,87 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_icon_pin extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_pin_outline extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_meta_menu_items extends $mol_list {
+        id(): string;
+        editing(): boolean;
+        drop_allow(): readonly any[];
+        ids(): readonly unknown[];
+        list(): $hyoo_crowd_list;
+        item_title(id: any): string;
+        item(id: any): $hyoo_meta_model;
+        item_list(id: any): $hyoo_crowd_list;
+        item_moved(id: any, next?: any): any;
+        rows(): readonly any[];
+        editable(): boolean;
+        transfer_adopt(next?: any): any;
+        receive_after(id: any, next?: any): any;
+        item_drag_end(id: any, next?: any): any;
+        item_text(id: any): string;
+        item_html(id: any): string;
+        item_uri(id: any): string;
+        param(): string;
+        highlight(): string;
+        Item_link(id: any): $$.$hyoo_meta_link;
+        Item_drag(id: any): $$.$mol_drag;
+        Item_drop_after(id: any): $$.$mol_drop;
+        item_remove(id: any, next?: any): any;
+        Item_remove_icon(id: any): $mol_icon_cross;
+        Item_remove(id: any): $mol_button_minor;
+        item_pin(id: any, next?: any): any;
+        Item_pin_icon(id: any): $mol_icon_pin_outline;
+        Item_pin(id: any): $mol_button_minor;
+        receive_inside(id: any, next?: any): any;
+        item_add(id: any, next?: any): any;
+        Item_add_icon(id: any): $mol_icon_plus;
+        Item_add(id: any): $mol_button_minor;
+        Item_drop_inside(id: any): $$.$mol_drop;
+        item_row(id: any): readonly any[];
+        Item_row(id: any): $mol_view;
+        Item_items(id: any): $$.$hyoo_meta_menu_items;
+        Item(id: any): $$.$mol_list;
+        items(): readonly any[];
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_meta_menu_items extends $.$hyoo_meta_menu_items {
+        id(): `${string}_${string}`;
+        editable(): boolean;
+        item_editable(id: $mol_int62_string): boolean;
+        ids(): readonly `${string}_${string}`[];
+        items(): $mol_list[];
+        item(id: $mol_int62_string): $hyoo_meta_model;
+        item_row(id: $mol_int62_string): ($mol_button_minor | $mol_drop)[];
+        item_remove(id: $mol_int62_string): void;
+        item_pin(id: $mol_int62_string): void;
+        add(): any;
+        item_html(id: $mol_int62_string): string;
+        item_text(id: $mol_int62_string): string;
+        transfer_adopt(transfer: DataTransfer): `${string}_${string}` | null | undefined;
+        receive_after(anchor: $mol_int62_string, dropped: $mol_int62_string): void;
+        receive_inside(anchor: $mol_int62_string, dropped: $mol_int62_string): void;
+    }
+}
+
+declare namespace $ {
     class $hyoo_meta_menu extends $mol_page {
         editable(): boolean;
-        item_moved(id: any): any;
+        item_moved(id: any, next?: any): any;
         yard(): $hyoo_sync_yard<unknown>;
         item_title(id: any): string;
         item(id: any): $hyoo_meta_model;
@@ -2907,7 +2986,7 @@ declare namespace $ {
         head(): readonly any[];
         tools(): readonly any[];
         body(): readonly any[];
-        logo_id(): string;
+        id(): string;
         search(next?: any): string;
         Search(): $$.$mol_search;
         search_show(next?: any): boolean;
@@ -2919,30 +2998,12 @@ declare namespace $ {
         add(next?: any): any;
         Add_icon(): $mol_icon_plus;
         Add(): $mol_button_minor;
-        transfer_adopt(next?: any): any;
-        receive_after(id: any, next?: any): any;
-        item_drag_end(id: any, next?: any): any;
-        item_text(id: any): string;
-        item_html(id: any): string;
+        found(): readonly `${string}_${string}`[];
         item_uri(id: any): string;
-        param(): string;
-        Item_link(id: any): $$.$hyoo_meta_link;
-        item_remove(id: any, next?: any): any;
-        Item_remove_icon(id: any): $mol_icon_cross;
-        Item_remove(id: any): $mol_button_minor;
         item_add(id: any, next?: any): any;
-        Item_add_icon(id: any): $mol_icon_plus;
-        Item_add(id: any): $mol_button_minor;
-        item_row(id: any): readonly any[];
-        Item_row(id: any): $mol_view;
-        Item_drag(id: any): $$.$mol_drag;
-        Item_drop(id: any): $$.$mol_drop;
-        item_items(id: any): readonly any[];
-        Item_items(id: any): $$.$mol_list;
-        Item(id: any): $$.$mol_list;
-        items(): readonly any[];
-        Items(): $$.$mol_list;
-        Content(): $$.$mol_list;
+        Found(): $$.$hyoo_meta_menu_items;
+        Content(): $$.$hyoo_meta_menu_items;
+        transfer_adopt(next?: any): any;
         receive_end(next?: any): any;
         Drop_zone(): $mol_view;
         Drop_end(): $$.$mol_drop;
@@ -2954,22 +3015,17 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_meta_menu extends $.$hyoo_meta_menu {
-        logo_id(): `${string}_${string}`;
+        id(): `${string}_${string}`;
         head(): ($mol_view | $mol_search)[];
         editable(): boolean;
+        item_editable(id: $mol_int62_string): boolean;
         tools(): readonly any[];
+        body(): ($mol_drop | $hyoo_meta_menu_items)[];
         search_show(next?: boolean): boolean;
-        items(): $mol_list[];
         item(id: $mol_int62_string): $hyoo_meta_model;
-        filtered(): (`${string}_${string}` | null)[];
-        item_row(id: $mol_int62_string): ($mol_button_minor | $hyoo_meta_link)[];
-        item_items(id: $mol_int62_string): $mol_list[];
-        item_remove(id: $mol_int62_string): void;
-        item_add(id: $mol_int62_string): void;
-        item_html(id: $mol_int62_string): string;
-        item_text(id: $mol_int62_string): string;
+        found(): `${string}_${string}`[];
+        add(): any;
         transfer_adopt(transfer: DataTransfer): `${string}_${string}` | null | undefined;
-        receive_after(anchor: $mol_int62_string, dropped: $mol_int62_string): void;
         receive_end(dropped: $mol_int62_string): void;
     }
 }
@@ -3144,7 +3200,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
-        item_moved(id: $mol_int62_string): void;
+        item_moved(what: $mol_int62_string, where: $mol_int62_string | null): void;
     }
 }
 
@@ -4966,10 +5022,10 @@ declare namespace $ {
         ref_track(): any;
         side_uri(id: any): string;
         page_add(next?: any): any;
+        side_add(id: any, next?: any): any;
         aura_showing(next?: any): boolean;
         search(): string;
         Menu(): $$.$hyoo_page_menu;
-        side_add(id: any, next?: any): any;
         Side_menu(id: any): $$.$hyoo_page_side_menu;
         side_menu_showed(next?: any): boolean;
         editing(next?: any): boolean;

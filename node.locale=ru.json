@@ -2,6 +2,7 @@
 	"$hyoo_meta_link_all_title": "Все",
 	"$hyoo_meta_menu_Add_hint": "Создать ещё",
 	"$hyoo_meta_menu_Editing_hint": "Редактировать список",
+	"$hyoo_meta_menu_Search_toggle_hint": "Полнотекстовый поиск",
 	"$hyoo_meta_rights_Editor_add_id_hint": "Id или Ссылка на профиль",
 	"$hyoo_meta_rights_Editor_add_name": "Добавить редактора",
 	"$hyoo_meta_rights_Editor_fill_all_title": "Разрешить кому угодно",
