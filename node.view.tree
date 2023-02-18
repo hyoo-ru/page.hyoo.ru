@@ -451,7 +451,7 @@ $hyoo_meta_menu $mol_page
 			highlight <= search
 			item_uri* <= item_uri* \
 			item_moved*? <=> item_moved*?
-			item_list* <= item_list*
+			- item_list* <= item_list*
 			item_add*? <=> item_add*? null
 		<= Content $hyoo_meta_menu_items
 			editing <= editing

@@ -11082,7 +11082,6 @@ var $;
             obj.highlight = () => this.search();
             obj.item_uri = (id) => this.item_uri(id);
             obj.item_moved = (id, next) => this.item_moved(id, next);
-            obj.item_list = (id) => this.item_list(id);
             obj.item_add = (id, next) => this.item_add(id, next);
             return obj;
         }
