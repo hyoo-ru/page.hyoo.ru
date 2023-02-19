@@ -10806,7 +10806,7 @@ var $;
         },
         Item_items: {
             padding: {
-                left: rem(1.25),
+                left: rem(.75),
             },
         },
     });
