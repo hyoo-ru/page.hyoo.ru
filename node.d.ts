@@ -3186,7 +3186,6 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_page_menu extends $.$hyoo_page_menu {
         title(): string;
-        item_moved(id: $mol_int62_string): void;
     }
 }
 

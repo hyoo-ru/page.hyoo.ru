@@ -1828,15 +1828,15 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    const cacthed = new WeakMap();
+    const catched = new WeakMap();
     function $mol_fail_catch(error) {
         if (typeof error !== 'object')
             return false;
         if (error instanceof Promise)
             $mol_fail_hidden(error);
-        if (cacthed.get(error))
+        if (catched.get(error))
             return false;
-        cacthed.set(error, true);
+        catched.set(error, true);
         return true;
     }
     $.$mol_fail_catch = $mol_fail_catch;
@@ -11818,15 +11818,7 @@ var $;
             title() {
                 return super.title() || this.title_default();
             }
-            item_moved(id) {
-                const page = this.item(id).as($hyoo_page_side);
-                page.book()?.pages_node().drop(id);
-                page.book(null);
-            }
         }
-        __decorate([
-            $mol_action
-        ], $hyoo_page_menu.prototype, "item_moved", null);
         $$.$hyoo_page_menu = $hyoo_page_menu;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
