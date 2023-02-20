@@ -4947,8 +4947,9 @@ declare namespace $ {
         Editor_list(): $$.$mol_list;
         editor_add_bid(): string;
         editor_add_id(next?: any): string;
+        editable(): boolean;
         Editor_add_id(): $$.$mol_string;
-        editor_add_filled(): boolean;
+        editor_add_allowed(): boolean;
         editor_add_submit(next?: any): any;
         Editor_add_icon(): $mol_icon_plus;
         Editor_add_submit(): $mol_button_major;
@@ -4960,6 +4961,7 @@ declare namespace $ {
         editor_add_rows(): readonly any[];
         Editor_add_form(): $$.$mol_list;
         Editor_add(): $$.$mol_form_field;
+        blocks(): readonly any[];
         Content(): $$.$mol_list;
     }
 }
@@ -4969,10 +4971,12 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_meta_rights extends $.$hyoo_meta_rights {
+        editable(): boolean;
+        blocks(): ($mol_list | $mol_form_field)[];
         editor_list(): $hyoo_meta_link[];
         editor_add_rows(): ($mol_button_minor | $hyoo_meta_link | $mol_bar)[];
         editor_add_id(next?: string): `${string}_${string}`;
-        editor_add_filled(): boolean;
+        editor_add_allowed(): boolean;
         editor_add_bid(): string;
         editor_fill_all(): void;
         editor_add_submit(): void;

@@ -17992,13 +17992,17 @@ var $;
                 return next;
             return "";
         }
+        editable() {
+            return false;
+        }
         Editor_add_id() {
             const obj = new this.$.$mol_string();
             obj.hint = () => this.$.$mol_locale.text('$hyoo_meta_rights_Editor_add_id_hint');
             obj.value = (next) => this.editor_add_id(next);
+            obj.enabled = () => this.editable();
             return obj;
         }
-        editor_add_filled() {
+        editor_add_allowed() {
             return false;
         }
         editor_add_submit(next) {
@@ -18012,7 +18016,7 @@ var $;
         }
         Editor_add_submit() {
             const obj = new this.$.$mol_button_major();
-            obj.enabled = () => this.editor_add_filled();
+            obj.enabled = () => this.editor_add_allowed();
             obj.click = (next) => this.editor_add_submit(next);
             obj.sub = () => [
                 this.Editor_add_icon()
@@ -18066,12 +18070,15 @@ var $;
             obj.Content = () => this.Editor_add_form();
             return obj;
         }
-        Content() {
-            const obj = new this.$.$mol_list();
-            obj.rows = () => [
+        blocks() {
+            return [
                 this.Editor_list(),
                 this.Editor_add()
             ];
+        }
+        Content() {
+            const obj = new this.$.$mol_list();
+            obj.rows = () => this.blocks();
             return obj;
         }
     }
@@ -18156,6 +18163,15 @@ var $;
     var $$;
     (function ($$) {
         class $hyoo_meta_rights extends $.$hyoo_meta_rights {
+            editable() {
+                return this.meta().land.allowed_law();
+            }
+            blocks() {
+                return [
+                    this.Editor_list(),
+                    ...this.editable() ? [this.Editor_add()] : [],
+                ];
+            }
             editor_list() {
                 const meta = this.meta().id();
                 return this.editors()
@@ -18171,11 +18187,13 @@ var $;
             editor_add_id(next = '') {
                 return (next.trim().match(/^(?:.*=)?([0-9a-z]+_[0-9a-z]+)/)?.[1] ?? '');
             }
-            editor_add_filled() {
+            editor_add_allowed() {
+                if (!this.editable())
+                    return false;
                 return Boolean(this.editor_add_id());
             }
             editor_add_bid() {
-                return this.editor_add_filled() ? super.editor_add_bid() : '';
+                return Boolean(this.editor_add_id()) ? super.editor_add_bid() : '';
             }
             editor_fill_all() {
                 this.editor_add_id('0_0');
@@ -18189,6 +18207,9 @@ var $;
                 return this.peer(this.editor_add_id());
             }
         }
+        __decorate([
+            $mol_mem
+        ], $hyoo_meta_rights.prototype, "blocks", null);
         __decorate([
             $mol_mem
         ], $hyoo_meta_rights.prototype, "editor_list", null);
