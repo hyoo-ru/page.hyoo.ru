@@ -10084,10 +10084,10 @@ var $;
             title() {
                 return this.id() === '0_0' ? this.all_title() : super.title();
             }
-            arg() {
-                return {
+            uri() {
+                return this.$.$mol_state_arg.make_link({
                     [this.param()]: this.id(),
-                };
+                });
             }
         }
         __decorate([
@@ -10095,7 +10095,7 @@ var $;
         ], $hyoo_meta_link.prototype, "title", null);
         __decorate([
             $mol_mem
-        ], $hyoo_meta_link.prototype, "arg", null);
+        ], $hyoo_meta_link.prototype, "uri", null);
         $$.$hyoo_meta_link = $hyoo_meta_link;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

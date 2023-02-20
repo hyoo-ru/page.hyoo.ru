@@ -2808,9 +2808,7 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_meta_link extends $.$hyoo_meta_link {
         title(): string;
-        arg(): {
-            [x: string]: `${string}_${string}`;
-        };
+        uri(): string;
     }
 }
 
