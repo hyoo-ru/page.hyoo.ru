@@ -1891,8 +1891,9 @@ var $;
             return fiber;
         }
         static watching = new Set();
+        static watcher = null;
         static watch() {
-            new $mol_after_frame($mol_wire_atom.watch);
+            $mol_wire_atom.watcher = new $mol_after_frame($mol_wire_atom.watch);
             for (const atom of $mol_wire_atom.watching) {
                 if (atom.cursor === $mol_wire_cursor.final) {
                     $mol_wire_atom.watching.delete(atom);
@@ -1904,6 +1905,9 @@ var $;
             }
         }
         watch() {
+            if (!$mol_wire_atom.watcher) {
+                $mol_wire_atom.watcher = new $mol_after_frame($mol_wire_atom.watch);
+            }
             $mol_wire_atom.watching.add(this);
         }
         resync(args) {
@@ -1980,7 +1984,6 @@ var $;
         $mol_wire_method
     ], $mol_wire_atom.prototype, "once", null);
     $.$mol_wire_atom = $mol_wire_atom;
-    $mol_wire_atom.watch();
 })($ || ($ = {}));
 //mol/wire/atom/atom.ts
 ;
@@ -17265,6 +17268,9 @@ var $;
                 return val;
             return false;
         }
+        expandable() {
+            return true;
+        }
         label() {
             return [
                 this.title()
@@ -17273,6 +17279,7 @@ var $;
         Trigger() {
             const obj = new this.$.$mol_check_expand();
             obj.checked = (val) => this.expanded(val);
+            obj.expandable = () => this.expandable();
             obj.label = () => this.label();
             return obj;
         }
@@ -17331,7 +17338,13 @@ var $;
                     ...this.expanded() ? [this.Content()] : []
                 ];
             }
+            expandable() {
+                return this.content().length > 0;
+            }
         }
+        __decorate([
+            $mol_mem
+        ], $mol_expander.prototype, "rows", null);
         $$.$mol_expander = $mol_expander;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
