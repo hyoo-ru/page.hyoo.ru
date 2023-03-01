@@ -187,6 +187,7 @@ $mol_string $mol_view
 		input?event <=> event_change?event null
 	plugins /
 		<= Submit $mol_hotkey
+			mod_ctrl <= submit_with_ctrl false
 			key * enter?event <=> submit?event null
 
 $mol_icon_cross $mol_icon path \M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z
@@ -1101,6 +1102,8 @@ $mol_textarea $mol_stack
 			length_max <= length_max +Infinity
 			selection?val <=> selection?val /number
 			bring => bring
+			submit? <=> submit? null
+			submit_with_ctrl true
 		<= View $mol_text_code
 			text <= value
 			render_visible_only false
