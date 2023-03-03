@@ -282,6 +282,17 @@ $mol_icon_pencil_outline $mol_icon path \M14.06,9L15,9.94L5.92,19H5V18.08L14.06,
 
 $mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
 
+$mol_icon_chevron $mol_icon path \M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z
+
+$mol_check_expand $mol_check
+	Icon $mol_icon_chevron
+	level 0
+	style *
+		^
+		paddingLeft <= level_style \0px
+	checked?val <=> expanded?val false
+	enabled <= expandable false
+
 $mol_link $mol_view
 	uri \
 	dom_name \a
@@ -366,9 +377,12 @@ $hyoo_meta_menu_items $mol_list
 	item_moved*? null
 	rows <= items /
 		<= Item*0_0 $mol_list
-			rows /
+			rows <= item_content* /
 				<= Item_row* $mol_view
 					sub <= item_row* /
+						<= Item_expand* $mol_check_expand
+							expandable <= item_expandable* false
+							expanded? <=> item_expanded*? true
 						<= Item_drop_after* $mol_drop
 							enabled <= editable false
 							adopt? <=> transfer_adopt? null
@@ -560,8 +574,6 @@ $hyoo_page_side_menu $hyoo_meta_menu
 
 $mol_bar $mol_view
 
-$mol_icon_chevron $mol_icon path \M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z
-
 $mol_icon_chevron_left $mol_icon path \M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z
 
 $mol_icon_chevron_right $mol_icon path \M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z
@@ -602,6 +614,8 @@ $mol_icon_bookmark $mol_icon path \M17,3H7C5.9,3 5,3.9 5,5V21L12,18L19,21V5C19,3
 
 $mol_icon_bookmark_outline $mol_icon path \M17,18L12,15.82L7,18V5H17M17,3H7C5.9,3 5,3.9 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z
 
+$mol_stack $mol_view
+
 $mol_text_code_token $mol_dimmer
 	attr *
 		^
@@ -633,8 +647,6 @@ $mol_text_code_row $mol_paragraph
 		needle <= highlight \
 		uri <= token_uri* \
 	find_pos* null
-
-$mol_stack $mol_view
 
 $mol_icon_clipboard $mol_icon path \M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M12,3C12.55,3 13,3.45 13,4C13,4.55 12.55,5 12,5C11.45,5 11,4.55 11,4C11,3.45 11.45,3 12,3
 
@@ -674,15 +686,6 @@ $mol_float $mol_view
 	style *
 		^
 		minHeight \auto
-
-$mol_check_expand $mol_check
-	Icon $mol_icon_chevron
-	level 0
-	style *
-		^
-		paddingLeft <= level_style \0px
-	checked?val <=> expanded?val false
-	enabled <= expandable false
 
 $mol_grid $mol_view
 	row_height 32
@@ -986,6 +989,20 @@ $mol_date_calendar $mol_calendar
 			event_click?event <=> day_click*?event null
 			minimal_height 24
 
+$mol_text_list $mol_text
+	auto_scroll null
+	attr *
+		^
+		mol_text_list_type <= type \
+	Paragraph* $mol_text_list_item
+		index <= item_index*
+		sub <= block_content*
+
+$mol_text_list_item $mol_paragraph
+	attr *
+		^
+		mol_text_list_item_index <= index 0
+
 $hyoo_page_side_view $mol_page
 	profile $hyoo_page_side
 	book $hyoo_page_side
@@ -1054,20 +1071,6 @@ $hyoo_page_side_view $mol_page
 						<= Author_link*0_0 $hyoo_meta_link
 							meta <= peer* $hyoo_page_side
 
-
-$mol_text_list $mol_text
-	auto_scroll null
-	attr *
-		^
-		mol_text_list_type <= type \
-	Paragraph* $mol_text_list_item
-		index <= item_index*
-		sub <= block_content*
-
-$mol_text_list_item $mol_paragraph
-	attr *
-		^
-		mol_text_list_item_index <= index 0
 
 $mol_string_button $mol_string
 
@@ -1180,6 +1183,21 @@ $mol_form_field $mol_labeler
 			sub / <= bid \
 	content / <= control null
 
+$mol_row $mol_view
+
+$mol_form $mol_list
+	submit_allowed true
+	submit_blocked false
+	event *
+		^
+		keydown?event <=> keydown?event null
+	submit?event null
+	rows /
+		<= Body $mol_list
+			sub <= body <= form_fields /$mol_form_field
+		<= Foot $mol_row
+			sub <= foot <= buttons /$mol_view
+
 $hyoo_page_side_edit $mol_page
 	side $hyoo_page_side
 		title? => title?
@@ -1237,21 +1255,6 @@ $hyoo_page_side_edit $mol_page
 				hint @ \hyper link
 				value? <=> aura?
 				enabled <= editable
-
-$mol_row $mol_view
-
-$mol_form $mol_list
-	submit_allowed true
-	submit_blocked false
-	event *
-		^
-		keydown?event <=> keydown?event null
-	submit?event null
-	rows /
-		<= Body $mol_list
-			sub <= body <= form_fields /$mol_form_field
-		<= Foot $mol_row
-			sub <= foot <= buttons /$mol_view
 
 $mol_card $mol_list
 	attr *
