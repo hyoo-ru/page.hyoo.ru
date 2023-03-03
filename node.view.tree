@@ -386,10 +386,12 @@ $hyoo_meta_menu_items $mol_list
 									highlight <= highlight \
 									Avatar null
 						<= Item_remove* $mol_button_minor
+							hint @ \Remove
 							click? <=> item_remove*? null
 							sub /
 								<= Item_remove_icon* $mol_icon_cross
 						<= Item_pin* $mol_button_minor
+							hint @ \Pin here
 							click? <=> item_pin*? null
 							sub /
 								<= Item_pin_icon* $mol_icon_pin_outline
@@ -399,6 +401,7 @@ $hyoo_meta_menu_items $mol_list
 							receive? <=> receive_inside*? null
 							allow <= drop_allow
 							Sub <= Item_add* $mol_button_minor
+								hint @ \Add page inside
 								click? <=> item_add*? null
 								sub /
 									<= Item_add_icon* $mol_icon_plus

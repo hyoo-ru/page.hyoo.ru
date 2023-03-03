@@ -10485,6 +10485,7 @@ var $;
         }
         Item_remove(id) {
             const obj = new this.$.$mol_button_minor();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_meta_menu_items_Item_remove_hint');
             obj.click = (next) => this.item_remove(id, next);
             obj.sub = () => [
                 this.Item_remove_icon(id)
@@ -10502,6 +10503,7 @@ var $;
         }
         Item_pin(id) {
             const obj = new this.$.$mol_button_minor();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_meta_menu_items_Item_pin_hint');
             obj.click = (next) => this.item_pin(id, next);
             obj.sub = () => [
                 this.Item_pin_icon(id)
@@ -10524,6 +10526,7 @@ var $;
         }
         Item_add(id) {
             const obj = new this.$.$mol_button_minor();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_meta_menu_items_Item_add_hint');
             obj.click = (next) => this.item_add(id, next);
             obj.sub = () => [
                 this.Item_add_icon(id)
@@ -10677,6 +10680,12 @@ var $;
                 },
             },
         },
+        Item_add: {
+            opacity: 0.5,
+            ':hover': {
+                opacity: 1,
+            },
+        },
         Item_drop_inside: {
             '@': {
                 'mol_drop_status': {
@@ -10691,6 +10700,7 @@ var $;
                                     color: $mol_theme.focus,
                                 }]
                         },
+                        opacity: 1,
                     },
                 },
             },
