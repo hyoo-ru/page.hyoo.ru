@@ -5075,6 +5075,7 @@ declare namespace $.$$ {
         pages(): ($mol_view | $hyoo_page_side_menu | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_meta_rights)[];
         page_add(): void;
         side_add(id: $mol_int62_string): void;
+        ref_track(): void;
     }
 }
 
