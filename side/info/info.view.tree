@@ -40,13 +40,10 @@ $hyoo_page_side_info $mol_page
 		<= Section_list $mol_expander
 			title @ \Sections
 			expanded? <=> section_expanded? false
-			Content <= Section_list_items $mol_list
-				rows <= section_list /
-					<= Section_link*0 $mol_link
-						arg <= section_arg*
-						title <= section_title* \
-				Empty <= Section_list_empty $mol_card
-					title @ \No sections
+			content <= section_list /
+				<= Section_link*0 $mol_link
+					arg <= section_arg*
+					title <= section_title* \
 		<= Ref_list $mol_expander
 			title @ \Referrers
 			expanded? <=> ref_expanded? false

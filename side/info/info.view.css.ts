@@ -9,6 +9,14 @@ namespace $ {
 			grow: 0,
 		},
 		
+		Section_list: {
+			Content: {
+				padding: {
+					left: rem(1.25),
+				},
+			},
+		},
+		
 		Stat: {
 			justifyContent: 'space-between',
 			flex: {
