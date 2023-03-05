@@ -271,6 +271,7 @@
     "$mol_date",
     "$mol_pick",
     "$mol_icon_calendar",
+    "$mol_icon_calendar_today",
     "$mol_format",
     "$mol_calendar",
     "$mol_hor",

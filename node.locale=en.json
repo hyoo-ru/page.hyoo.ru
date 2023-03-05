@@ -41,6 +41,8 @@
 	"$hyoo_page_side_view_Info_toggle_hint": "Info page",
 	"$hyoo_page_side_view_Menu_toggle_hint": "Menu Showing",
 	"$hyoo_page_side_view_Search_toggle_hint": "Find on page",
+	"$mol_date_Clear_hint": "Clear",
+	"$mol_date_Today_hint": "Today",
 	"$mol_date_next_hint": "Next month",
 	"$mol_date_prev_hint": "Previous month",
 	"$mol_lights_toggle_hint": "Toggle lights",
