@@ -139,8 +139,16 @@ namespace $.$$ {
 		@ $mol_mem
 		@ $mol_action
 		ref_track() {
+			
 			const ref = this.$.$mol_dom_context.document.referrer
-			if( ref ) this.side_current().referrers_track( ref )
+			if( !ref ) return
+			
+			const key = `${this}.ref_track`
+			if( this.$.$mol_state_session.value( key ) ) return
+			
+			this.side_current().referrers_track( ref )
+			this.$.$mol_state_session.value( key, true )
+			
 		}
 		
 	}
