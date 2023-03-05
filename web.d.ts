@@ -4776,29 +4776,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_card extends $mol_list {
-        attr(): {
-            mol_card_status_type: string;
-        };
-        rows(): readonly $mol_view[];
-        status(): string;
-        content(): readonly $mol_view_content[];
-        Content(): $mol_view;
-        status_text(): string;
-        Status(): $mol_view;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_card extends $.$mol_card {
-        rows(): $mol_view[];
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
     class $hyoo_page_side_info extends $mol_page {
         text_tokens(): readonly {
             name: string;
@@ -4845,8 +4822,6 @@ declare namespace $ {
         Ref_item_stat(id: any): $mol_view;
         Ref_item(id: any): $mol_view;
         ref_list(): readonly any[];
-        Ref_list_empty(): $$.$mol_card;
-        Ref_list_items(): $$.$mol_list;
         Ref_list(): $$.$mol_expander;
         word_item_text(id: any): string;
         Word_item_text(id: any): $mol_view;

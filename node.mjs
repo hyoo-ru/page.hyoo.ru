@@ -17487,82 +17487,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_card extends $mol_list {
-        attr() {
-            return {
-                ...super.attr(),
-                mol_card_status_type: this.status()
-            };
-        }
-        rows() {
-            return [
-                this.Content(),
-                this.Status()
-            ];
-        }
-        status() {
-            return "";
-        }
-        content() {
-            return [
-                this.title()
-            ];
-        }
-        Content() {
-            const obj = new this.$.$mol_view();
-            obj.sub = () => this.content();
-            return obj;
-        }
-        status_text() {
-            return this.status();
-        }
-        Status() {
-            const obj = new this.$.$mol_view();
-            obj.minimal_height = () => 30;
-            obj.sub = () => [
-                this.status_text()
-            ];
-            return obj;
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $mol_card.prototype, "Content", null);
-    __decorate([
-        $mol_mem
-    ], $mol_card.prototype, "Status", null);
-    $.$mol_card = $mol_card;
-})($ || ($ = {}));
-//mol/card/-view.tree/card.view.tree.ts
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_card extends $.$mol_card {
-            rows() {
-                return [
-                    this.Content(),
-                    ...this.status_text() ? [this.Status()] : [],
-                ];
-            }
-        }
-        $$.$mol_card = $mol_card;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//mol/card/card.view.ts
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/card/card.view.css", "[mol_card] {\n\tbackground: var(--mol_theme_card);\n\tcolor: var(--mol_theme_text);\n\tborder-radius: var(--mol_gap_round);\n\tdisplay: flex;\n\tflex: 0 1 auto;\n\tflex-direction: column;\n\tposition: relative;\n\toverflow: hidden;\n}\n\n[mol_card_content] {\n\tflex: 1 1 auto;\n\tborder-radius: var(--mol_gap_round);\n\tmargin: 0;\n\tpadding: var(--mol_gap_block);\n}\n\n[mol_card_status] {\n\tbackground: var(--mol_theme_line);\n\ttext-transform: capitalize;\n\tpadding: var(--mol_gap_text);\n\tmargin: 0;\n}\n\n[mol_card_status] {\n\tbackground: var(--mol_theme_line);\n}\n");
-})($ || ($ = {}));
-//mol/card/-css/card.view.css.ts
-;
-"use strict";
-var $;
-(function ($) {
     class $hyoo_page_side_info extends $mol_page {
         text_tokens() {
             return this.Text().flow_tokens();
@@ -17756,22 +17680,11 @@ var $;
                 this.Ref_item("0_0")
             ];
         }
-        Ref_list_empty() {
-            const obj = new this.$.$mol_card();
-            obj.title = () => this.$.$mol_locale.text('$hyoo_page_side_info_Ref_list_empty_title');
-            return obj;
-        }
-        Ref_list_items() {
-            const obj = new this.$.$mol_list();
-            obj.rows = () => this.ref_list();
-            obj.Empty = () => this.Ref_list_empty();
-            return obj;
-        }
         Ref_list() {
             const obj = new this.$.$mol_expander();
             obj.title = () => this.$.$mol_locale.text('$hyoo_page_side_info_Ref_list_title');
             obj.expanded = (next) => this.ref_expanded(next);
-            obj.Content = () => this.Ref_list_items();
+            obj.content = () => this.ref_list();
             return obj;
         }
         word_item_text(id) {
@@ -17874,12 +17787,6 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_page_side_info.prototype, "Ref_item", null);
-    __decorate([
-        $mol_mem
-    ], $hyoo_page_side_info.prototype, "Ref_list_empty", null);
-    __decorate([
-        $mol_mem
-    ], $hyoo_page_side_info.prototype, "Ref_list_items", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_info.prototype, "Ref_list", null);
