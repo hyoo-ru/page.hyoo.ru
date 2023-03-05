@@ -47,16 +47,13 @@ $hyoo_page_side_info $mol_page
 		<= Ref_list $mol_expander
 			title @ \Referrers
 			expanded? <=> ref_expanded? false
-			Content <= Ref_list_items $mol_list
-				rows <= ref_list /
-					<= Ref_item*0_0 $mol_view
-						sub /
-							<= Ref_item_link* $mol_link_iconed
-								uri <= ref_uri* \
-							<= Ref_item_stat* $mol_view
-								sub / <= ref_stat* 0
-				Empty <= Ref_list_empty $mol_card
-					title @ \No backlinks
+			content <= ref_list /
+				<= Ref_item*0_0 $mol_view
+					sub /
+						<= Ref_item_link* $mol_link_iconed
+							uri <= ref_uri* \
+						<= Ref_item_stat* $mol_view
+							sub / <= ref_stat* 0
 		<= Word_list $mol_expander
 			title @ \Key Words
 			content / <= Word_list_items $mol_row
