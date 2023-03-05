@@ -1270,19 +1270,6 @@ $hyoo_page_side_edit $mol_page
 				value? <=> aura?
 				enabled <= editable
 
-$mol_card $mol_list
-	attr *
-		^
-		mol_card_status_type <= status \
-	rows /$mol_view
-		<= Content $mol_view
-			sub <= content /$mol_view_content
-				<= title
-		<= Status $mol_view
-			minimal_height 30
-			sub /
-				<= status_text <= status \
-
 $mol_expander $mol_list
 	rows /
 		<= Label $mol_view
@@ -1295,6 +1282,19 @@ $mol_expander $mol_list
 				<= Tools null
 		<= Content $mol_list
 			rows <= content /
+
+$mol_card $mol_list
+	attr *
+		^
+		mol_card_status_type <= status \
+	rows /$mol_view
+		<= Content $mol_view
+			sub <= content /$mol_view_content
+				<= title
+		<= Status $mol_view
+			minimal_height 30
+			sub /
+				<= status_text <= status \
 
 $hyoo_page_side_info $mol_page
 	Text $mol_text
@@ -1338,13 +1338,10 @@ $hyoo_page_side_info $mol_page
 		<= Section_list $mol_expander
 			title @ \Sections
 			expanded? <=> section_expanded? false
-			Content <= Section_list_items $mol_list
-				rows <= section_list /
-					<= Section_link*0 $mol_link
-						arg <= section_arg*
-						title <= section_title* \
-				Empty <= Section_list_empty $mol_card
-					title @ \No sections
+			content <= section_list /
+				<= Section_link*0 $mol_link
+					arg <= section_arg*
+					title <= section_title* \
 		<= Ref_list $mol_expander
 			title @ \Referrers
 			expanded? <=> ref_expanded? false

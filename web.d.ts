@@ -4752,29 +4752,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_card extends $mol_list {
-        attr(): {
-            mol_card_status_type: string;
-        };
-        rows(): readonly $mol_view[];
-        status(): string;
-        content(): readonly $mol_view_content[];
-        Content(): $mol_view;
-        status_text(): string;
-        Status(): $mol_view;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_card extends $.$mol_card {
-        rows(): $mol_view[];
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
     class $mol_expander extends $mol_list {
         rows(): readonly any[];
         expanded(val?: any): boolean;
@@ -4792,6 +4769,29 @@ declare namespace $.$$ {
     class $mol_expander extends $.$mol_expander {
         rows(): $mol_view[];
         expandable(): boolean;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_card extends $mol_list {
+        attr(): {
+            mol_card_status_type: string;
+        };
+        rows(): readonly $mol_view[];
+        status(): string;
+        content(): readonly $mol_view_content[];
+        Content(): $mol_view;
+        status_text(): string;
+        Status(): $mol_view;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_card extends $.$mol_card {
+        rows(): $mol_view[];
     }
 }
 
@@ -4837,8 +4837,6 @@ declare namespace $ {
         section_title(id: any): string;
         Section_link(id: any): $$.$mol_link;
         section_list(): readonly any[];
-        Section_list_empty(): $$.$mol_card;
-        Section_list_items(): $$.$mol_list;
         Section_list(): $$.$mol_expander;
         ref_expanded(next?: any): boolean;
         ref_uri(id: any): string;
