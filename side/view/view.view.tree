@@ -1,5 +1,6 @@
 $hyoo_page_side_view $mol_page
 	profile $hyoo_page_side
+	peer* $hyoo_page_side
 	book $hyoo_page_side
 	highlight \
 	side $hyoo_page_side
@@ -64,5 +65,5 @@ $hyoo_page_side_view $mol_page
 				- <= Author_list $mol_view
 					sub <= author_list /
 						<= Author_link*0_0 $hyoo_meta_link
-							meta <= peer* $hyoo_page_side
+							meta <= peer*
 
