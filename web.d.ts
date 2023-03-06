@@ -1264,6 +1264,33 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    function $mol_promise<Result = void>(): Promise<Result> & {
+        done: (res: Result | PromiseLike<Result>) => void;
+        fail: (error?: any) => void;
+    };
+}
+
+declare namespace $ {
+    class $mol_after_timeout extends $mol_object2 {
+        delay: number;
+        task: () => void;
+        id: any;
+        constructor(delay: number, task: () => void);
+        destructor(): void;
+    }
+}
+
+declare namespace $ {
+    function $mol_wait_timeout_async(this: $, timeout: number): Promise<void> & {
+        done: (res: void | PromiseLike<void>) => void;
+        fail: (error?: any) => void;
+    } & {
+        destructor: () => void;
+    };
+    function $mol_wait_timeout(this: $, timeout: number): void;
+}
+
+declare namespace $ {
     function $mol_wire_race<Tasks extends ((...args: any) => any)[]>(...tasks: Tasks): {
         [index in keyof Tasks]: index extends number ? ReturnType<Tasks[index]> : Tasks[index];
     };
@@ -1779,7 +1806,7 @@ declare namespace $.$$ {
         released(): boolean;
         publish(): void;
         content(): string;
-        changed_moment(next?: $mol_time_moment): $mol_time_moment;
+        changed_moment(): $mol_time_moment;
         book(next?: $hyoo_page_side | null): $hyoo_page_side | null;
         bookmarks_node(next?: readonly $hyoo_page_side[]): $hyoo_crowd_list;
         bookmarks(next?: readonly $hyoo_page_side[]): $hyoo_page_side[];
@@ -1880,16 +1907,6 @@ declare namespace $ {
         font_size(): number;
         font_family(): string;
         style_size(): {};
-    }
-}
-
-declare namespace $ {
-    class $mol_after_timeout extends $mol_object2 {
-        delay: number;
-        task: () => void;
-        id: any;
-        constructor(delay: number, task: () => void);
-        destructor(): void;
     }
 }
 
@@ -3754,23 +3771,6 @@ declare namespace $ {
     }
 }
 
-declare namespace $ {
-    function $mol_promise<Result = void>(): Promise<Result> & {
-        done: (res: Result | PromiseLike<Result>) => void;
-        fail: (error?: any) => void;
-    };
-}
-
-declare namespace $ {
-    function $mol_wait_timeout_async(this: $, timeout: number): Promise<void> & {
-        done: (res: void | PromiseLike<void>) => void;
-        fail: (error?: any) => void;
-    } & {
-        destructor: () => void;
-    };
-    function $mol_wait_timeout(this: $, timeout: number): void;
-}
-
 declare namespace $.$$ {
     class $mol_embed_native extends $.$mol_embed_native {
         window(): Window;
@@ -4244,6 +4244,7 @@ declare namespace $ {
 declare namespace $ {
     class $hyoo_page_side_view extends $mol_page {
         profile(): $$.$hyoo_page_side;
+        peer(id: any): $$.$hyoo_page_side;
         book(): $$.$hyoo_page_side;
         highlight(): string;
         id(): `${string}_${string}`;
@@ -4288,10 +4289,6 @@ declare namespace $ {
         details(): string;
         Details(): $$.$mol_text;
         Changed(): $$.$mol_date;
-        peer(id: any): $$.$hyoo_page_side;
-        Author_link(id: any): $$.$hyoo_meta_link;
-        author_list(): readonly any[];
-        Author_list(): $mol_view;
         Signature(): $mol_view;
     }
 }
@@ -4307,7 +4304,6 @@ declare namespace $.$$ {
         search_start(event?: KeyboardEvent): void;
         search_stop(event?: KeyboardEvent): void;
         details(): string;
-        author_list(): $hyoo_meta_link[];
         slides_content(): string;
         slides_send(): void;
     }

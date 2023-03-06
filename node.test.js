@@ -2771,7 +2771,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/view/view/view.css", "[mol_view] {\n\ttransition-property: height, width, min-height, min-width, max-width, max-height, transform;\n\ttransition-duration: .2s;\n\ttransition-timing-function: ease-out;\n\t-webkit-appearance: none;\n\tbox-sizing: border-box;\n\tdisplay: flex;\n\tflex-shrink: 0;\n\tcontain: style;\n\tscrollbar-color: var(--mol_theme_line) transparent;\n\tscrollbar-width: thin;\n}\t\n\n[mol_view]::selection {\n\tbackground: var(--mol_theme_line);\n}\t\n\n[mol_view]::-webkit-scrollbar {\n\twidth: .25rem;\n\theight: .25rem;\n}\n\n[mol_view]::-webkit-scrollbar-corner {\n\tbackground-color: var(--mol_theme_line);\n}\n\n[mol_view]::-webkit-scrollbar-track {\n\tbackground-color: transparent;\n}\n\n[mol_view]::-webkit-scrollbar-thumb {\n\tbackground-color: var(--mol_theme_line);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_view] > * {\n\tword-break: inherit;\n}\n\n[mol_view_root] {\n\tmargin: 0;\n\tpadding: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbox-sizing: border-box;\n\tfont-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n\tfont-size: 1rem;\n\tline-height: 1.5rem;\n\tbackground: var(--mol_theme_back);\n\tcolor: var(--mol_theme_text);\n\tcontain: unset; /** Fixes bg ignoring when applied to body on Chrome */\n\ttab-size: 4;\n}\n\n[mol_view][mol_view_error]:not([mol_view_error=\"Promise\"]) {\n\tbackground-image: repeating-linear-gradient(\n\t\t-45deg,\n\t\t#f92323,\n\t\t#f92323 .5rem,\n\t\t#ff3d3d .5rem,\n\t\t#ff3d3d 1.5rem\n\t);\n\tcolor: black;\n\talign-items: center;\n    justify-content: center;\n}\n\n@keyframes mol_view_wait_move {\n\tfrom {\n\t\tbackground-position: 0 0;\n\t}\n\tto {\n\t\tbackground-position: 200vmax 0;\n\t}\n}\n\n@keyframes mol_view_wait_show {\n\tto {\n\t\tbackground-image: repeating-linear-gradient(\n\t\t\t45deg,\n\t\t\thsla( 0 , 0% , 50% , .5 ) 0% ,\n\t\t\thsla( 0 , 0% , 50% , 0 ) 5% ,\n\t\t\thsla( 0 , 0% , 50% , 0 ) 45% ,\n\t\t\thsla( 0 , 0% , 50% , .5 ) 50% ,\n\t\t\thsla( 0 , 0% , 50% , 0 ) 55% ,\n\t\t\thsla( 0 , 0% , 50% , 0 ) 95% ,\n\t\t\thsla( 0 , 0% , 50% , .5 ) 100%\n\t\t);\n\t\tbackground-size: 200vmax 200vmax;\n\t}\n}\n\n[mol_view][mol_view_error=\"Promise\"] {\n\tanimation: mol_view_wait_show .5s .5s linear forwards , mol_view_wait_move 1s linear infinite;\n\topacity: .75;\n}\n");
+    $mol_style_attach("mol/view/view/view.css", "[mol_view] {\n\ttransition-property: height, width, min-height, min-width, max-width, max-height, transform;\n\ttransition-duration: .2s;\n\ttransition-timing-function: ease-out;\n\t-webkit-appearance: none;\n\tbox-sizing: border-box;\n\tdisplay: flex;\n\tflex-shrink: 0;\n\tcontain: style;\n\tscrollbar-color: var(--mol_theme_line) transparent;\n\tscrollbar-width: thin;\n}\t\n\n[mol_view]::selection {\n\tbackground: var(--mol_theme_line);\n}\t\n\n[mol_view]::-webkit-scrollbar {\n\twidth: .25rem;\n\theight: .25rem;\n}\n\n[mol_view]::-webkit-scrollbar-corner {\n\tbackground-color: var(--mol_theme_line);\n}\n\n[mol_view]::-webkit-scrollbar-track {\n\tbackground-color: transparent;\n}\n\n[mol_view]::-webkit-scrollbar-thumb {\n\tbackground-color: var(--mol_theme_line);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_view] > * {\n\tword-break: inherit;\n}\n\n[mol_view_root] {\n\tmargin: 0;\n\tpadding: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbox-sizing: border-box;\n\tfont-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n\tfont-size: 1rem;\n\tline-height: 1.5rem;\n\tbackground: var(--mol_theme_back);\n\tcolor: var(--mol_theme_text);\n\tcontain: unset; /** Fixes bg ignoring when applied to body on Chrome */\n\ttab-size: 4;\n}\n\n[mol_view][mol_view_error]:not([mol_view_error=\"Promise\"]) {\n\tbackground-image: repeating-linear-gradient(\n\t\t-45deg,\n\t\t#f92323,\n\t\t#f92323 .5rem,\n\t\t#ff3d3d .5rem,\n\t\t#ff3d3d 1.5rem\n\t);\n\tcolor: black;\n\talign-items: center;\n    justify-content: center;\n}\n\n@keyframes mol_view_wait_move {\n\tfrom {\n\t\tbackground-position: -100vmax 0;\n\t}\n\tto {\n\t\tbackground-position: 100vmax 0;\n\t}\n}\n\n@keyframes mol_view_wait_show {\n\tfrom {\n\t\tbackground-image: none;\n\t}\n\t50%, to {\n\t\tbackground-image: repeating-linear-gradient(\n\t\t\t45deg,\n\t\t\thsla( 0 , 0% , 50% , .5 ) 0% ,\n\t\t\thsla( 0 , 0% , 50% , 0 ) 5% ,\n\t\t\thsla( 0 , 0% , 50% , 0 ) 45% ,\n\t\t\thsla( 0 , 0% , 50% , .5 ) 50% ,\n\t\t\thsla( 0 , 0% , 50% , 0 ) 55% ,\n\t\t\thsla( 0 , 0% , 50% , 0 ) 95% ,\n\t\t\thsla( 0 , 0% , 50% , .5 ) 100%\n\t\t);\n\t}\n}\n\n[mol_view][mol_view_error=\"Promise\"] {\n\tbackground-size: 200vmax 200vmax;\n\tanimation: mol_view_wait_show 1s linear forwards , mol_view_wait_move 1s linear infinite;\n\topacity: .75;\n}\n");
 })($ || ($ = {}));
 //mol/view/view/-css/view.css.ts
 ;
@@ -3222,7 +3222,7 @@ var $;
 //mol/book2/-css/book2.view.css.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "6f92ff4";
+let $hyoo_sync_revision = "87b1e2e";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4752,6 +4752,43 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_promise() {
+        let done;
+        let fail;
+        const promise = new Promise((d, f) => {
+            done = d;
+            fail = f;
+        });
+        return Object.assign(promise, {
+            done,
+            fail,
+        });
+    }
+    $.$mol_promise = $mol_promise;
+})($ || ($ = {}));
+//mol/promise/promise.ts
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_wait_timeout_async(timeout) {
+        const promise = $mol_promise();
+        const task = new this.$mol_after_timeout(timeout, () => promise.done());
+        return Object.assign(promise, {
+            destructor: () => task.destructor()
+        });
+    }
+    $.$mol_wait_timeout_async = $mol_wait_timeout_async;
+    function $mol_wait_timeout(timeout) {
+        return this.$mol_wire_sync(this).$mol_wait_timeout_async(timeout);
+    }
+    $.$mol_wait_timeout = $mol_wait_timeout;
+})($ || ($ = {}));
+//mol/wait/timeout/timeout.ts
+;
+"use strict";
+var $;
+(function ($) {
     function $mol_wire_race(...tasks) {
         const results = tasks.map(task => {
             try {
@@ -4801,6 +4838,8 @@ var $;
         }
         land_init(land) {
             this.db_land_init(land);
+            if (!land.grabbed())
+                this.$.$mol_wait_timeout(5000);
         }
         land(id) {
             return this.world().land_sync(id);
@@ -6849,8 +6888,8 @@ var $;
             content() {
                 return this.release() || this.details();
             }
-            changed_moment(next) {
-                return new $mol_time_moment(this.details_node()?.land.last_stamp());
+            changed_moment() {
+                return new $mol_time_moment((this.release_node() ?? this.details_node())?.land.last_stamp());
             }
             book(next) {
                 const book_node = this.sub('book', $hyoo_crowd_reg);
@@ -13641,43 +13680,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    function $mol_promise() {
-        let done;
-        let fail;
-        const promise = new Promise((d, f) => {
-            done = d;
-            fail = f;
-        });
-        return Object.assign(promise, {
-            done,
-            fail,
-        });
-    }
-    $.$mol_promise = $mol_promise;
-})($ || ($ = {}));
-//mol/promise/promise.ts
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_wait_timeout_async(timeout) {
-        const promise = $mol_promise();
-        const task = new this.$mol_after_timeout(timeout, () => promise.done());
-        return Object.assign(promise, {
-            destructor: () => task.destructor()
-        });
-    }
-    $.$mol_wait_timeout_async = $mol_wait_timeout_async;
-    function $mol_wait_timeout(timeout) {
-        return this.$mol_wire_sync(this).$mol_wait_timeout_async(timeout);
-    }
-    $.$mol_wait_timeout = $mol_wait_timeout;
-})($ || ($ = {}));
-//mol/wait/timeout/timeout.ts
-;
-"use strict";
-var $;
-(function ($) {
     var $$;
     (function ($$) {
         class $mol_embed_native extends $.$mol_embed_native {
@@ -15614,6 +15616,10 @@ var $;
             const obj = new this.$.$hyoo_page_side();
             return obj;
         }
+        peer(id) {
+            const obj = new this.$.$hyoo_page_side();
+            return obj;
+        }
         book() {
             const obj = new this.$.$hyoo_page_side();
             return obj;
@@ -15826,30 +15832,10 @@ var $;
             obj.value_moment = () => this.changed_moment();
             return obj;
         }
-        peer(id) {
-            const obj = new this.$.$hyoo_page_side();
-            return obj;
-        }
-        Author_link(id) {
-            const obj = new this.$.$hyoo_meta_link();
-            obj.meta = () => this.peer(id);
-            return obj;
-        }
-        author_list() {
-            return [
-                this.Author_link("0_0")
-            ];
-        }
-        Author_list() {
-            const obj = new this.$.$mol_view();
-            obj.sub = () => this.author_list();
-            return obj;
-        }
         Signature() {
             const obj = new this.$.$mol_view();
             obj.sub = () => [
-                this.Changed(),
-                this.Author_list()
+                this.Changed()
             ];
             return obj;
         }
@@ -15857,6 +15843,9 @@ var $;
     __decorate([
         $mol_mem
     ], $hyoo_page_side_view.prototype, "profile", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_page_side_view.prototype, "peer", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_view.prototype, "book", null);
@@ -15933,15 +15922,6 @@ var $;
         $mol_mem
     ], $hyoo_page_side_view.prototype, "Changed", null);
     __decorate([
-        $mol_mem_key
-    ], $hyoo_page_side_view.prototype, "peer", null);
-    __decorate([
-        $mol_mem_key
-    ], $hyoo_page_side_view.prototype, "Author_link", null);
-    __decorate([
-        $mol_mem
-    ], $hyoo_page_side_view.prototype, "Author_list", null);
-    __decorate([
         $mol_mem
     ], $hyoo_page_side_view.prototype, "Signature", null);
     $.$hyoo_page_side_view = $hyoo_page_side_view;
@@ -15994,9 +15974,6 @@ var $;
             details() {
                 return this.editing() ? this.side_details() : this.side_content();
             }
-            author_list() {
-                return [...this.authors()].map(peer => this.Author_link(peer));
-            }
             slides_content() {
                 return super.slides_content()
                     .replace('{title}', this.title() || '{title}')
@@ -16018,9 +15995,6 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page_side_view.prototype, "search_show", null);
-        __decorate([
-            $mol_mem
-        ], $hyoo_page_side_view.prototype, "author_list", null);
         __decorate([
             $mol_mem
         ], $hyoo_page_side_view.prototype, "slides_content", null);
@@ -16060,13 +16034,6 @@ var $;
                 direction: 'row-reverse',
                 wrap: 'wrap',
             },
-        },
-        Author_list: {
-            flex: {
-                wrap: 'wrap',
-                shrink: 1,
-            },
-            justifyContent: 'flex-end',
         },
     });
 })($ || ($ = {}));
