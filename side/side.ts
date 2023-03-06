@@ -78,8 +78,10 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
-		changed_moment( next?: $mol_time_moment ) {
-			return new $mol_time_moment( this.details_node()?.land.last_stamp()! )
+		changed_moment() {
+			return new $mol_time_moment(
+				( this.release_node() ?? this.details_node() )?.land.last_stamp()
+			)
 		}
 		
 		@ $mol_mem_key
