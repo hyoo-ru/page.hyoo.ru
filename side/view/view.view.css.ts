@@ -33,13 +33,13 @@ namespace $ {
 			},
 		},
 		
-		Author_list: {
-			flex: {
-				wrap: 'wrap',
-				shrink: 1,
-			},
-			justifyContent: 'flex-end',
-		},
+		// Author_list: {
+		// 	flex: {
+		// 		wrap: 'wrap',
+		// 		shrink: 1,
+		// 	},
+		// 	justifyContent: 'flex-end',
+		// },
 		
 	} )
 	
