@@ -1,4 +1,4 @@
-$hyoo_page $mol_view
+$hyoo_page $mol_book2
 	side_main_id \iy8wtn_tky6pc
 	yard $hyoo_sync_client
 	side* $hyoo_page_side
@@ -13,48 +13,46 @@ $hyoo_page $mol_view
 		<= Theme $mol_theme_auto
 	auto /
 		<= ref_track null
-	sub /
-		<= Book $mol_book2
-			Placeholder <= Menu $hyoo_page_menu
-				yard <= yard
-				side <= profile
-				list <= bookmarks_node
-				item_uri* <= side_uri* \
-				add? <=> page_add? null
-				item_add*? <=> side_add*? null
-				aura_showing? <=> aura_showing? true
-				search => search
-			Gap* => Gap*
-			pages <= pages /
-				<= Side_menu*0_0 $hyoo_page_side_menu
-					yard <= yard
-					side <= side*
-					list <= pages_node*
-					item_list* <= pages_node*
-					item_uri* <= side_uri* \
-					item_add*? <=> side_add*? null
-				<= View*0_0 $hyoo_page_side_view
-					side <= side*
-					peer* <= side*
-					profile <= profile
-					menu_showed? <=> side_menu_showed? false
-					editing? <=> editing? false
-					info? <=> info? false
-					highlight <= search
-					Details => View_details*
-				<= Edit*0_0 $hyoo_page_side_edit
-					side <= side*
-					rights? <=> rights? false
-					close? <=> edit_close*? null
-				<= Info*0_0 $hyoo_page_side_info
-					side <= side*
-					close? <=> info_close*? null
-					Text <= View_details*
-				<= Rights*0_0 $hyoo_meta_rights
-					meta <= side*
-					peer* <= side*
-					tools /
-						<= Rights_close $mol_button_minor
-							click? <=> rights_close? null
-							sub /
-								<= Сlose_icon $mol_icon_cross
+	Placeholder <= Menu $hyoo_page_menu
+		yard <= yard
+		side <= profile
+		list <= bookmarks_node
+		item_uri* <= side_uri* \
+		add? <=> page_add? null
+		item_add*? <=> side_add*? null
+		aura_showing? <=> aura_showing? true
+		search => search
+	pages /
+		<= Side_menu*0_0 $hyoo_page_side_menu
+			yard <= yard
+			side <= side*
+			list <= pages_node*
+			item_list* <= pages_node*
+			item_uri* <= side_uri* \
+			item_add*? <=> side_add*? null
+			tools_ext <= tools_ext /
+		<= View*0_0 $hyoo_page_side_view
+			side <= side*
+			peer* <= side*
+			profile <= profile
+			menu_showed? <=> side_menu_showed? false
+			editing? <=> editing? false
+			info? <=> info? false
+			highlight <= search
+			Details => View_details*
+		<= Edit*0_0 $hyoo_page_side_edit
+			side <= side*
+			rights? <=> rights? false
+			close? <=> edit_close*? null
+		<= Info*0_0 $hyoo_page_side_info
+			side <= side*
+			close? <=> info_close*? null
+			Text <= View_details*
+		<= Rights*0_0 $hyoo_meta_rights
+			meta <= side*
+			peer* <= side*
+			tools /
+				<= Rights_close $mol_button_minor
+					click? <=> rights_close? null
+					sub /
+						<= Сlose_icon $mol_icon_cross

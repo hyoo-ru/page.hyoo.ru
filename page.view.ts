@@ -115,7 +115,7 @@ namespace $.$$ {
 		@ $mol_action
 		page_add() {
 			const land = this.yard().land_grab()
-			this.$.$mol_dom_context.location.href = '#!=' + land.id()
+			this.$.$mol_dom_context.location.href = this.$.$mol_state_arg.link({ '': land.id() })
 			this.bookmarks_node().add( land.id() )
 			this.editing( true )
 		}
@@ -126,7 +126,7 @@ namespace $.$$ {
 			const book = this.side( id )
 			
 			const page = book.world()!.Fund( $hyoo_page_side ).make()
-			this.$.$mol_dom_context.location.href = '#!=' + page.id()
+			this.$.$mol_dom_context.location.href = this.$.$mol_state_arg.link({ '': page.id() })
 			
 			page.steal_rights( book )
 			page.book( book )
