@@ -3222,7 +3222,7 @@ var $;
 //mol/book2/-css/book2.view.css.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "7b7dd79";
+let $hyoo_sync_revision = "18dcd8d";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4838,10 +4838,8 @@ var $;
         }
         land_init(land) {
             this.db_land_init(land);
-            if (!land.grabbed()) {
-                this.$.$mol_wait_timeout(5000);
-                throw new Error('Land is free');
-            }
+            if (!land.grabbed())
+                this.$.$mol_wait_timeout(1000);
         }
         land(id) {
             return this.world().land_sync(id);
