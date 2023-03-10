@@ -17172,12 +17172,14 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    const { or } = $mol_regexp;
+    const { or, tab, char_any, repeat, line_end, vary } = $mol_regexp;
     $.$hyoo_marked_script_line = $mol_regexp.from([
-        '  ',
-        { marker: ['  ', or, '++', or, '--', or, '**'] },
-        { content: $hyoo_marked_line_content },
-        $mol_regexp.line_end,
+        vary([
+            tab,
+            ['  ', { marker: ['  ', or, '++', or, '--', or, '**'] }],
+        ]),
+        { content: repeat(char_any) },
+        line_end,
     ]);
     $.$hyoo_marked_script = $mol_regexp.repeat_greedy($.$hyoo_marked_script_line, 1);
 })($ || ($ = {}));
