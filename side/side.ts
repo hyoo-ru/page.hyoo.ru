@@ -96,7 +96,7 @@ namespace $.$$ {
 		bookmarks_node( next?: readonly $hyoo_page_side[] ) {
 			
 			const fresh =  this.yoke( '$hyoo_page_side:bookmarks', $hyoo_crowd_list )
-			if( !fresh ) return fresh
+			if( !fresh ) return fresh!
 			
 			const old = this.sub( 'bookmarks', $hyoo_crowd_list )
 			for( const mark of old.list() ) {
