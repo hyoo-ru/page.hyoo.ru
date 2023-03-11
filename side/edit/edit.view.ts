@@ -20,10 +20,25 @@ namespace $.$$ {
 		}
 
 		download_blob() {
+			
+			let details = this.details() + '\n'
+			
+			const visit = ( book: $hyoo_page_side )=> {
+				
+				details += '--\n\n'
+				details += '= ' + book.title() + '\n\n'
+				details += book.details().replace( /^(=+) /gm, '=$1 ' ) + '\n'
+				
+				for( const page of book.pages() ) visit( page )
+				
+			}
+			visit( this.side() )
+			
 			return new $mol_dom_context.Blob(
-				[ `${ this.permalink() }\n\n${ this.details() }` ],
-				{ type: 'text/markdown' },
+				[ `${ this.permalink() }\n\n${ details }` ],
+				{ type: 'text/x-marked' },
 			)
+			
 		}
 		
 		copy_html() {
