@@ -17170,7 +17170,8 @@ var $;
                     for (const page of book.pages())
                         visit(page);
                 };
-                visit(this.side());
+                for (const page of this.side().pages())
+                    visit(page);
                 return new $mol_dom_context.Blob([`${this.permalink()}\n\n${details}`], { type: 'text/x-marked' });
             }
             copy_html() {
