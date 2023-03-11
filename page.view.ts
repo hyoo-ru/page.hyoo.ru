@@ -116,7 +116,7 @@ namespace $.$$ {
 		page_add() {
 			const land = this.yard().land_grab()
 			this.$.$mol_dom_context.location.href = this.$.$mol_state_arg.link({ '': land.id() })
-			this.bookmarks_node().add( land.id() )
+			this.bookmarks_node()!.add( land.id() )
 			this.editing( true )
 		}
 		
@@ -131,7 +131,7 @@ namespace $.$$ {
 			page.steal_rights( book )
 			page.book( book )
 			
-			this.bookmarks_node().add( page.id() )
+			this.bookmarks_node()!.add( page.id() )
 			this.editing( true )
 			
 		}
