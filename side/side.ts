@@ -94,15 +94,30 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		bookmarks_node( next?: readonly $hyoo_page_side[] ) {
-			return this.sub( 'bookmarks', $hyoo_crowd_list )
+			
+			const fresh =  this.yoke( '$hyoo_page_side:bookmarks', $hyoo_crowd_list )
+			if( !fresh ) return fresh
+			
+			const old = this.sub( 'bookmarks', $hyoo_crowd_list )
+			for( const mark of old.list() ) {
+				const id = $mol_int62_string_ensure( mark )
+				if( id ) fresh.add( id )
+				old.drop( id )
+			}
+			
+			return fresh
 		}
 		
 		@ $mol_mem
 		bookmarks( next?: readonly $hyoo_page_side[] ) {
+			
 			const node = this.bookmarks_node()
+			if( !node ) return []
+			
 			const ids = node.list( next?.map( side => side.id() ) ) as $mol_int62_string[]
 			const Fund = this.world()!.Fund( $hyoo_page_side )
 			return ids.map( id => Fund.Item( id ) )
+			
 		}
 		
 		@ $mol_mem
@@ -129,6 +144,8 @@ namespace $.$$ {
 		bookmarked( id: $mol_int62_string, next?: boolean ) {
 			
 			const node = this.bookmarks_node()
+			if( !node ) return false
+			
 			if( next === undefined ) return node.list().includes( id )
 			
 			if( next ) node.add( id )
