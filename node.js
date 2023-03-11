@@ -6907,10 +6907,22 @@ var $;
                 return id ? this.world().Fund($hyoo_page_side).Item(id) : null;
             }
             bookmarks_node(next) {
-                return this.sub('bookmarks', $hyoo_crowd_list);
+                const fresh = this.yoke('$hyoo_page_side:bookmarks', $hyoo_crowd_list);
+                if (!fresh)
+                    return fresh;
+                const old = this.sub('bookmarks', $hyoo_crowd_list);
+                for (const mark of old.list()) {
+                    const id = $mol_int62_string_ensure(mark);
+                    if (id)
+                        fresh.add(id);
+                    old.drop(id);
+                }
+                return fresh;
             }
             bookmarks(next) {
                 const node = this.bookmarks_node();
+                if (!node)
+                    return [];
                 const ids = node.list(next?.map(side => side.id()));
                 const Fund = this.world().Fund($hyoo_page_side);
                 return ids.map(id => Fund.Item(id));
@@ -6927,6 +6939,8 @@ var $;
             }
             bookmarked(id, next) {
                 const node = this.bookmarks_node();
+                if (!node)
+                    return false;
                 if (next === undefined)
                     return node.list().includes(id);
                 if (next)
@@ -8375,8 +8389,6 @@ var $;
                     case $mol_keyboard_code.down: return this.event_down(event);
                     case $mol_keyboard_code.left: return this.event_left(event);
                     case $mol_keyboard_code.right: return this.event_right(event);
-                    case $mol_keyboard_code.pageUp: return this.event_up(event);
-                    case $mol_keyboard_code.pageDown: return this.event_down(event);
                 }
             }
             event_up(event) {
