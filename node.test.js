@@ -6959,7 +6959,10 @@ var $;
                 return this.details_node()?.selection(this.land.peer().id, next) ?? [0, 0];
             }
             release_node() {
-                return this.yoke('release', $hyoo_crowd_blob);
+                const release = this.yoke('release', $hyoo_crowd_blob);
+                if (release)
+                    release.land.steal_rights(this.land);
+                return release;
             }
             release(next) {
                 return this.release_node()?.str(next) ?? '';
