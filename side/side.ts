@@ -50,7 +50,11 @@ namespace $.$$ {
 
 		@ $mol_mem
 		release_node() {
-			return this.yoke( 'release', $hyoo_crowd_blob )
+			
+			const release = this.yoke( 'release', $hyoo_crowd_blob )
+			if( release ) release.land.steal_rights( this.land )
+			
+			return release
 		}
 		@ $mol_mem
 		release( next?: string ) {
