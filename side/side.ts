@@ -97,6 +97,17 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
+		books() {
+			const books = []
+			let book = this.book()
+			while( book ) {
+				books.push( book )
+				book = book.book()
+			}
+			return books as readonly $hyoo_page_side[]
+		}
+		
+		@ $mol_mem
 		bookmarks_node( next?: readonly $hyoo_page_side[] ) {
 			
 			const fresh =  this.yoke( '$hyoo_page_side:bookmarks', $hyoo_crowd_list )

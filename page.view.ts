@@ -84,18 +84,16 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		side_books() {
-			const books = []
-			let cur = this.side_current() as $hyoo_page_side | null
-			while( cur ) {
-				if( cur.pages().length || this.side_menu_showed() ) books.push( cur )
-				cur = cur.book()
-			}
-			return books.reverse()
+			if( !this.side_menu_showed() ) return []
+			const side = this.side_current()
+			const books = side.books().slice().reverse()
+			if( side.pages().length || this.side_menu_showed() ) books.push( side )
+			return books
 		}
 		
 		@ $mol_mem
 		side_menu_showed( next?: boolean ) {
-			return next ?? this.side_current().pages().length > 0
+			return next ?? Boolean( this.side_current().book() || this.side_current().pages().length > 0 )
 		}
 		
 		@ $mol_mem
