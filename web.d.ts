@@ -4246,7 +4246,7 @@ declare namespace $ {
         title(next?: any): string;
         side_details(next?: any): string;
         released(): boolean;
-        side_content(): string;
+        side_release(): string;
         changed_moment(): $mol_time_moment;
         authors(): `${string}_${string}`[];
         side(): $$.$hyoo_page_side;

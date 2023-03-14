@@ -15766,8 +15766,8 @@ var $;
         released() {
             return this.side().released();
         }
-        side_content() {
-            return this.side().content();
+        side_release() {
+            return this.side().release();
         }
         changed_moment() {
             return this.side().changed_moment();
@@ -16118,7 +16118,7 @@ var $;
                 event?.preventDefault();
             }
             details() {
-                return this.editing() ? this.side_details() : this.side_content();
+                return this.editing() ? this.side_details() : this.side_release();
             }
             author_list() {
                 return [...this.authors()].map(peer => this.Author_link(peer));
