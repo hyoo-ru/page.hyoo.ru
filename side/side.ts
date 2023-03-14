@@ -171,7 +171,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		authors() {
-			return [ ... this.details_node()?.land.authors() ?? [] ]
+			return [ ... ( this.release_node() ?? this.details_node() )?.land.authors() ?? [] ]
 		}
 		
 		@ $mol_mem
