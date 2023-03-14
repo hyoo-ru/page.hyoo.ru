@@ -50,7 +50,7 @@ namespace $.$$ {
 		}
 		
 		details() {
-			return this.editing() ? this.side_details() : this.side_content()
+			return this.editing() ? this.side_details() : this.side_release()
 		}
 		
 		@ $mol_mem

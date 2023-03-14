@@ -9,7 +9,7 @@ $hyoo_page_side_view $mol_page
 		title? => title?
 		details? => side_details?
 		released => released
-		content => side_content
+		release => side_release
 		changed_moment => changed_moment
 		authors => authors
 	plugins /
