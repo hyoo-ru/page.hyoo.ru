@@ -1028,9 +1028,8 @@ declare namespace $ {
     }): $mol_int62_pair;
 }
 
-/// <reference types="node" />
 declare namespace $ {
-    var $mol_crypto_native: import("crypto").webcrypto.Crypto;
+    var $mol_crypto_native: Crypto;
 }
 
 declare namespace $ {
