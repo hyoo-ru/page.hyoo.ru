@@ -1,5 +1,5 @@
 $hyoo_page_side_menu $hyoo_meta_menu
-	side_current $mol_page_side
+	side_current $hyoo_page_side
 	Title $hyoo_meta_link
 		meta <= side $hyoo_page_side
 			title => title
