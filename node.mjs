@@ -7051,7 +7051,7 @@ var $;
                 return next;
             }
             authors() {
-                return [...this.details_node()?.land.authors() ?? []];
+                return [...(this.release_node() ?? this.details_node())?.land.authors() ?? []];
             }
             aura(next) {
                 return this.sub('aura', $hyoo_crowd_reg).str(next);
@@ -15960,10 +15960,26 @@ var $;
             obj.value_moment = () => this.changed_moment();
             return obj;
         }
+        Author_link(id) {
+            const obj = new this.$.$hyoo_meta_link();
+            obj.meta = () => this.peer(id);
+            return obj;
+        }
+        author_list() {
+            return [
+                this.Author_link("0_0")
+            ];
+        }
+        Author_list() {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => this.author_list();
+            return obj;
+        }
         Signature() {
             const obj = new this.$.$mol_view();
             obj.sub = () => [
-                this.Changed()
+                this.Changed(),
+                this.Author_list()
             ];
             return obj;
         }
@@ -16050,6 +16066,12 @@ var $;
         $mol_mem
     ], $hyoo_page_side_view.prototype, "Changed", null);
     __decorate([
+        $mol_mem_key
+    ], $hyoo_page_side_view.prototype, "Author_link", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_view.prototype, "Author_list", null);
+    __decorate([
         $mol_mem
     ], $hyoo_page_side_view.prototype, "Signature", null);
     $.$hyoo_page_side_view = $hyoo_page_side_view;
@@ -16102,6 +16124,9 @@ var $;
             details() {
                 return this.editing() ? this.side_details() : this.side_content();
             }
+            author_list() {
+                return [...this.authors()].map(peer => this.Author_link(peer));
+            }
             slides_content() {
                 return super.slides_content()
                     .replace('{title}', this.title() || '{title}')
@@ -16123,6 +16148,9 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page_side_view.prototype, "search_show", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side_view.prototype, "author_list", null);
         __decorate([
             $mol_mem
         ], $hyoo_page_side_view.prototype, "slides_content", null);

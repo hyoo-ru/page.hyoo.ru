@@ -4311,6 +4311,9 @@ declare namespace $ {
         details(): string;
         Details(): $$.$mol_text;
         Changed(): $$.$mol_date;
+        Author_link(id: any): $$.$hyoo_meta_link;
+        author_list(): readonly any[];
+        Author_list(): $mol_view;
         Signature(): $mol_view;
     }
 }
@@ -4326,6 +4329,7 @@ declare namespace $.$$ {
         search_start(event?: KeyboardEvent): void;
         search_stop(event?: KeyboardEvent): void;
         details(): string;
+        author_list(): $hyoo_meta_link[];
         slides_content(): string;
         slides_send(): void;
     }
