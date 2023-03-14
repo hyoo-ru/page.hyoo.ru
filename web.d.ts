@@ -1808,6 +1808,7 @@ declare namespace $.$$ {
         content(): string;
         changed_moment(): $mol_time_moment;
         book(next?: $hyoo_page_side | null): $hyoo_page_side | null;
+        books(): readonly $hyoo_page_side[];
         bookmarks_node(next?: readonly $hyoo_page_side[]): $hyoo_crowd_list;
         bookmarks(next?: readonly $hyoo_page_side[]): $hyoo_page_side[];
         pages_node(): $hyoo_crowd_list;
@@ -3074,6 +3075,7 @@ declare namespace $ {
         item_uri(id: any): string;
         item_add(id: any, next?: any): any;
         Found(): $$.$hyoo_meta_menu_items;
+        item_expanded(id: any, next?: any): boolean;
         Content(): $$.$hyoo_meta_menu_items;
         transfer_adopt(next?: any): any;
         receive_end(next?: any): any;
@@ -3263,6 +3265,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_page_side_menu extends $hyoo_meta_menu {
+        side_current(): $$.$hyoo_page_side;
         Title(): $$.$hyoo_meta_link;
         title(): string;
         side(): $$.$hyoo_page_side;
@@ -3271,6 +3274,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
+        item_expanded(id: $mol_int62_string, next?: boolean): boolean;
         item_moved(what: $mol_int62_string, where: $mol_int62_string | null): void;
     }
 }
@@ -4967,6 +4971,7 @@ declare namespace $ {
         side_title(id: any): string;
         pages_node(id: any): $hyoo_crowd_list;
         side(id: any): $$.$hyoo_page_side;
+        side_current(): $$.$hyoo_page_side;
         bookmarks_node(): $hyoo_crowd_list;
         profile(): $$.$hyoo_page_side;
         style(): {

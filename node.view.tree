@@ -430,6 +430,7 @@ $hyoo_meta_menu_items $mol_list
 					list <= item_list*
 					item* <= item*
 					item_moved*? <=> item_moved*?
+					item_expanded*? <=> item_expanded*?
 					item_list* <= item_list*
 					item_uri* <= item_uri*
 					highlight <= highlight
@@ -487,6 +488,7 @@ $hyoo_meta_menu $mol_page
 			drop_allow <= drop_allow
 			list <= list
 			item_uri* <= item_uri* \
+			item_expanded*? <=> item_expanded*? true
 			item_moved*? <=> item_moved*?
 			item_list* <= item_list*
 			item_add*? <=> item_add*? null
@@ -576,6 +578,7 @@ $hyoo_page_menu $hyoo_meta_menu
 		<= Lights $mol_lights_toggle
 
 $hyoo_page_side_menu $hyoo_meta_menu
+	side_current $hyoo_page_side
 	Title $hyoo_meta_link
 		meta <= side $hyoo_page_side
 			title => title
@@ -1405,6 +1408,7 @@ $hyoo_page $mol_book2
 	side* $hyoo_page_side
 		title => side_title*
 		pages_node => pages_node*
+	side_current $hyoo_page_side
 	profile $hyoo_page_side
 		bookmarks_node => bookmarks_node
 	style *
@@ -1427,6 +1431,7 @@ $hyoo_page $mol_book2
 		<= Side_menu*0_0 $hyoo_page_side_menu
 			yard <= yard
 			side <= side*
+			side_current <= side_current
 			list <= pages_node*
 			item_list* <= pages_node*
 			item_uri* <= side_uri* \

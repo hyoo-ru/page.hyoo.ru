@@ -6998,6 +6998,15 @@ var $;
                     return null;
                 return id ? this.world().Fund($hyoo_page_side).Item(id) : null;
             }
+            books() {
+                const books = [];
+                let book = this.book();
+                while (book) {
+                    books.push(book);
+                    book = book.book();
+                }
+                return books;
+            }
             bookmarks_node(next) {
                 const fresh = this.yoke('$hyoo_page_side:bookmarks', $hyoo_crowd_list);
                 if (!fresh)
@@ -7093,6 +7102,9 @@ var $;
         __decorate([
             $mol_mem_key
         ], $hyoo_page_side.prototype, "book", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_page_side.prototype, "books", null);
         __decorate([
             $mol_mem
         ], $hyoo_page_side.prototype, "bookmarks_node", null);
@@ -10966,6 +10978,7 @@ var $;
             obj.list = () => this.item_list(id);
             obj.item = (id) => this.item(id);
             obj.item_moved = (id, next) => this.item_moved(id, next);
+            obj.item_expanded = (id, next) => this.item_expanded(id, next);
             obj.item_list = (id) => this.item_list(id);
             obj.item_uri = (id) => this.item_uri(id);
             obj.highlight = () => this.highlight();
@@ -11443,12 +11456,18 @@ var $;
             obj.item_add = (id, next) => this.item_add(id, next);
             return obj;
         }
+        item_expanded(id, next) {
+            if (next !== undefined)
+                return next;
+            return true;
+        }
         Content() {
             const obj = new this.$.$hyoo_meta_menu_items();
             obj.editing = () => this.editing();
             obj.drop_allow = () => this.drop_allow();
             obj.list = () => this.list();
             obj.item_uri = (id) => this.item_uri(id);
+            obj.item_expanded = (id, next) => this.item_expanded(id, next);
             obj.item_moved = (id, next) => this.item_moved(id, next);
             obj.item_list = (id) => this.item_list(id);
             obj.item_add = (id, next) => this.item_add(id, next);
@@ -11535,6 +11554,9 @@ var $;
     __decorate([
         $mol_mem
     ], $hyoo_meta_menu.prototype, "Found", null);
+    __decorate([
+        $mol_mem_key
+    ], $hyoo_meta_menu.prototype, "item_expanded", null);
     __decorate([
         $mol_mem
     ], $hyoo_meta_menu.prototype, "Content", null);
@@ -12194,6 +12216,10 @@ var $;
 var $;
 (function ($) {
     class $hyoo_page_side_menu extends $hyoo_meta_menu {
+        side_current() {
+            const obj = new this.$.$hyoo_page_side();
+            return obj;
+        }
         Title() {
             const obj = new this.$.$hyoo_meta_link();
             obj.meta = () => this.side();
@@ -12207,6 +12233,9 @@ var $;
             return obj;
         }
     }
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side_menu.prototype, "side_current", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side_menu.prototype, "Title", null);
@@ -12223,6 +12252,11 @@ var $;
     var $$;
     (function ($$) {
         class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
+            item_expanded(id, next) {
+                const cur = this.side_current();
+                const path = [cur, ...cur.books()];
+                return next ?? ($mol_mem_cached(() => this.item_expanded(id)) || path.some(book => book.id() === id));
+            }
             item_moved(what, where) {
                 const page = this.item(what).as($hyoo_page_side);
                 const book_next = where ? this.item(where).as($hyoo_page_side) : null;
@@ -12232,6 +12266,9 @@ var $;
                 page.book(book_next);
             }
         }
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_page_side_menu.prototype, "item_expanded", null);
         __decorate([
             $mol_action
         ], $hyoo_page_side_menu.prototype, "item_moved", null);
@@ -18535,6 +18572,10 @@ var $;
             const obj = new this.$.$hyoo_page_side();
             return obj;
         }
+        side_current() {
+            const obj = new this.$.$hyoo_page_side();
+            return obj;
+        }
         bookmarks_node() {
             return this.profile().bookmarks_node();
         }
@@ -18619,6 +18660,7 @@ var $;
             const obj = new this.$.$hyoo_page_side_menu();
             obj.yard = () => this.yard();
             obj.side = () => this.side(id);
+            obj.side_current = () => this.side_current();
             obj.list = () => this.pages_node(id);
             obj.item_list = (id) => this.pages_node(id);
             obj.item_uri = (id) => this.side_uri(id);
@@ -18717,6 +18759,9 @@ var $;
     __decorate([
         $mol_mem_key
     ], $hyoo_page.prototype, "side", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page.prototype, "side_current", null);
     __decorate([
         $mol_mem
     ], $hyoo_page.prototype, "profile", null);
@@ -18859,17 +18904,16 @@ var $;
                 return this.side_current().book() ?? this.side_current();
             }
             side_books() {
-                const books = [];
-                let cur = this.side_current();
-                while (cur) {
-                    if (cur.pages().length || this.side_menu_showed())
-                        books.push(cur);
-                    cur = cur.book();
-                }
-                return books.reverse();
+                if (!this.side_menu_showed())
+                    return [];
+                const side = this.side_current();
+                const books = side.books().slice().reverse();
+                if (side.pages().length || this.side_menu_showed())
+                    books.push(side);
+                return books;
             }
             side_menu_showed(next) {
-                return next ?? this.side_current().pages().length > 0;
+                return next ?? Boolean(this.side_current().book() || this.side_current().pages().length > 0);
             }
             pages() {
                 const id = this.side_current_id();
