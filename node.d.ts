@@ -958,6 +958,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $mol_book2 extends $mol_scroll {
+        menu_title(): string;
         sub(): readonly $mol_view[];
         minimal_width(): number;
         Placeholder(): $mol_view;
@@ -973,6 +974,7 @@ declare namespace $ {
 declare namespace $.$$ {
     class $mol_book2 extends $.$mol_book2 {
         title(): string;
+        menu_title(): string;
         sub(): readonly $mol_view[];
         bring(): void;
     }
@@ -1357,23 +1359,6 @@ declare namespace $ {
             forbid: Map<$hyoo_crowd_unit, string>;
         }>;
     }
-}
-
-declare namespace $ {
-    function $mol_promise<Result = void>(): Promise<Result> & {
-        done: (res: Result | PromiseLike<Result>) => void;
-        fail: (error?: any) => void;
-    };
-}
-
-declare namespace $ {
-    function $mol_wait_timeout_async(this: $, timeout: number): Promise<void> & {
-        done: (res: void | PromiseLike<void>) => void;
-        fail: (error?: any) => void;
-    } & {
-        destructor: () => void;
-    };
-    function $mol_wait_timeout(this: $, timeout: number): void;
 }
 
 declare namespace $ {
@@ -3790,6 +3775,23 @@ declare namespace $ {
         Fallback(): $$.$mol_link;
         uri_change(next?: any): any;
     }
+}
+
+declare namespace $ {
+    function $mol_promise<Result = void>(): Promise<Result> & {
+        done: (res: Result | PromiseLike<Result>) => void;
+        fail: (error?: any) => void;
+    };
+}
+
+declare namespace $ {
+    function $mol_wait_timeout_async(this: $, timeout: number): Promise<void> & {
+        done: (res: void | PromiseLike<void>) => void;
+        fail: (error?: any) => void;
+    } & {
+        destructor: () => void;
+    };
+    function $mol_wait_timeout(this: $, timeout: number): void;
 }
 
 declare namespace $.$$ {
