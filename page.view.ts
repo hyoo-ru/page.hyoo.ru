@@ -15,7 +15,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		aura_showing( next?: boolean ) {
-			const book = this.side_current_book()
+			const book = this.side_books()[0] ?? this.side_current()
 			const key = `aura_showing:${ book.id() }`
 			return this.$.$mol_state_local.value( key, next?.toString() ) !== 'false'
 		}
