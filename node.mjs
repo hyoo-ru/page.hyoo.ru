@@ -4162,7 +4162,7 @@ var $;
             let land_id = $mol_int62_string_ensure(this.value());
             if (land_id)
                 return world.land_sync(land_id);
-            if (this.land.level(this.land.peer().id) < $hyoo_crowd_peer_level.add)
+            if (!this.land.allowed_add())
                 return null;
             const land = $mol_wire_sync(world).grab(law, mod, add);
             this.value(land.id());
@@ -4418,6 +4418,8 @@ var $;
             if (next === undefined)
                 return prev;
             if (next <= prev)
+                return prev;
+            if (!this.allowed_law())
                 return prev;
             const time = this._clocks[$hyoo_crowd_unit_group.auth].tick(peer);
             const auth = this.peer_id();
@@ -6962,9 +6964,9 @@ var $;
                     return details;
                 const land = details.land;
                 const meta = this.world().Fund($hyoo_meta_model).Item(land.id());
-                if (land.allowed_mod())
+                if (this.land.allowed_mod())
                     meta.whole(this);
-                if (land.allowed_law())
+                if (this.land.allowed_law())
                     meta.steal_rights(this);
                 return details;
             }
@@ -6976,8 +6978,8 @@ var $;
             }
             release_node() {
                 const release = this.yoke('release', $hyoo_crowd_blob);
-                if (release)
-                    release.land.steal_rights(this.land);
+                if (this.land.allowed_law())
+                    release?.land.steal_rights(this.land);
                 return release;
             }
             release(next) {
