@@ -3324,7 +3324,7 @@ var $;
 //mol/book2/-css/book2.view.css.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "c1ce41a";
+let $hyoo_sync_revision = "ddabd34";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4096,6 +4096,9 @@ var $;
         }
         static for(land, head) {
             return new this(land, head);
+        }
+        static toJSON() {
+            return this.name;
         }
         id() {
             return this.head === '0_0'
@@ -4939,9 +4942,9 @@ var $;
             return world;
         }
         land_init(land) {
-            this.db_land_init(land);
+            this.land_sync(land);
             if (!land.grabbed())
-                this.$.$mol_wait_timeout(1);
+                this.$.$mol_wait_timeout(5_000);
         }
         land(id) {
             return this.world().land_sync(id);
