@@ -18974,7 +18974,12 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_offline();
+    try {
+        $mol_offline();
+    }
+    catch (error) {
+        console.error(error);
+    }
 })($ || ($ = {}));
 //mol/offline/install/install.ts
 ;
