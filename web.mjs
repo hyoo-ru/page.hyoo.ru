@@ -18671,14 +18671,20 @@ var $;
                 return this.$.$mol_state_local.value(key, next?.toString()) !== 'false';
             }
             aura_image() {
-                if (!this.aura_showing())
-                    return '';
-                const side = this.side_current();
-                const aura = side.aura_effective();
-                if (!aura)
-                    return '';
-                const shade = 'hsla( 0deg, 0%, calc( 50% + var(--mol_theme_luma) * 50% ), .666 )';
-                return `linear-gradient( ${shade}, ${shade} ), url("${aura}")`;
+                try {
+                    if (!this.aura_showing())
+                        return '';
+                    const side = this.side_current();
+                    const aura = side.aura_effective();
+                    if (!aura)
+                        return '';
+                    const shade = 'hsla( 0deg, 0%, calc( 50% + var(--mol_theme_luma) * 50% ), .666 )';
+                    return `linear-gradient( ${shade}, ${shade} ), url("${aura}")`;
+                }
+                catch (error) {
+                    $mol_fail_log(error);
+                    return $mol_wire_probe(() => this.aura_image()) ?? '';
+                }
             }
             editing(next) {
                 return this.$.$mol_state_session.value('edit', next) ?? false;
@@ -18714,13 +18720,19 @@ var $;
                 return this.side_current().book() ?? this.side_current();
             }
             side_books() {
-                if (!this.side_menu_showed())
-                    return [];
-                const side = this.side_current();
-                const books = side.books().slice().reverse();
-                if (side.pages().length || this.side_menu_showed())
-                    books.push(side);
-                return books;
+                try {
+                    if (!this.side_menu_showed())
+                        return [];
+                    const side = this.side_current();
+                    const books = side.books().slice().reverse();
+                    if (side.pages().length || this.side_menu_showed())
+                        books.push(side);
+                    return books;
+                }
+                catch (error) {
+                    $mol_fail_log(error);
+                    return $mol_wire_probe(() => this.side_books()) ?? [];
+                }
             }
             side_menu_showed(next) {
                 return next ?? Boolean(this.side_current().book() || this.side_current().pages().length > 0);
