@@ -34,8 +34,8 @@ namespace $.$$ {
 			const land = details.land
 			const meta = this.world()!.Fund( $hyoo_meta_model ).Item( land.id() )
 			
-			if( this.land.allowed_mod() ) meta.whole( this )
-			if( this.land.allowed_law() ) meta.steal_rights( this )
+			if( land.allowed_mod() ) meta.whole( this )
+			meta.steal_rights( this )
 			
 			return details
 		}
@@ -52,7 +52,7 @@ namespace $.$$ {
 		release_node() {
 			
 			const release = this.yoke( 'release', $hyoo_crowd_blob )
-			if( this.land.allowed_law() ) release?.land.steal_rights( this.land )
+			release?.land.steal_rights( this.land )
 			
 			return release
 		}

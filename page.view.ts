@@ -23,7 +23,7 @@ namespace $.$$ {
 		@ $mol_mem
 		aura_image(): string {
 			
-			try {
+			return $mol_wire_stale( ()=> {
 			
 				if( !this.aura_showing() ) return ''
 				
@@ -34,10 +34,7 @@ namespace $.$$ {
 				const shade = 'hsla( 0deg, 0%, calc( 50% + var(--mol_theme_luma) * 50% ), .666 )'
 				return `linear-gradient( ${shade}, ${shade} ), url("${ aura }")`
 				
-			} catch( error ) {
-				$mol_fail_log( error )
-				return $mol_wire_probe( ()=> this.aura_image() ) ?? ''
-			}
+			} ) ?? ''
 			
 		}
 		
@@ -91,16 +88,18 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		side_books(): readonly $hyoo_page_side[] {
-			try {
+			return $mol_wire_stale( ()=> {
+				
 				if( !this.side_menu_showed() ) return []
+				
 				const side = this.side_current()
 				const books = side.books().slice().reverse()
+				
 				if( side.pages().length || this.side_menu_showed() ) books.push( side )
+				
 				return books
-			} catch( error ) {
-				$mol_fail_log( error )
-				return $mol_wire_probe( ()=> this.side_books() ) ?? []
-			}
+				
+			} ) ?? []
 		}
 		
 		@ $mol_mem
