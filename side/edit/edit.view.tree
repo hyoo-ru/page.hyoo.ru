@@ -30,12 +30,13 @@ $hyoo_page_side_edit $mol_page
 				<= Export_icon $mol_icon_export_variant
 			bubble_content /
 				<= Download $mol_button_download
-					title @ \Download as MT File
+					title @ \Download Book as MT File
 					file_name <= download_name \{filename}.mt
 					blob <= download_blob $mol_blob
 				<= Copy_html $mol_button_copy
-					title @ \Copy as HTML
-					text <= copy_html \
+					title @ \Copy to Clipboard
+					text <= copy_text \
+					html <= copy_html \
 		<= Rights_toggle $mol_check_icon
 			hint @ \Access Rights
 			checked? <=> rights? false

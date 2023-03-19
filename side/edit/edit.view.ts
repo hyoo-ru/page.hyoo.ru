@@ -42,8 +42,12 @@ namespace $.$$ {
 			
 		}
 		
+		copy_text() {
+			return `= ${ this.title() }\n\n${ this.details() }\n\n${ this.export_sign() }`
+		}
+		
 		copy_html() {
-			return this.$.$hyoo_marked_to_html( `= ${ this.title() }\n\n${ this.details() }\n\n${ this.export_sign() }` )
+			return this.$.$hyoo_marked_to_html( this.copy_text() )
 		}
 		
 		copy_md() {
