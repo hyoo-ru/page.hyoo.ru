@@ -3549,15 +3549,28 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_button_copy extends $mol_button_minor {
-        text(): string;
+        data(): {
+            "text/plain": Blob;
+            "text/html": Blob;
+        };
         sub(): readonly any[];
-        title(): string;
+        text(): string;
+        text_blob(next?: any): Blob;
+        html(): string;
+        html_blob(next?: any): Blob;
         Icon(): $mol_icon_clipboard_outline;
+        title(): string;
     }
+}
+
+declare namespace $ {
+    function $mol_html_encode(text: string): string;
 }
 
 declare namespace $.$$ {
     class $mol_button_copy extends $.$mol_button_copy {
+        html(): string;
+        attachments(): ClipboardItem[];
         click(event?: Event): void;
     }
 }
@@ -4570,6 +4583,7 @@ declare namespace $ {
         download_name(): string;
         download_blob(): Blob;
         Download(): $$.$mol_button_download;
+        copy_text(): string;
         copy_html(): string;
         Copy_html(): $$.$mol_button_copy;
         Export(): $$.$mol_pick;
@@ -4760,6 +4774,7 @@ declare namespace $.$$ {
         export_sign(): string;
         download_name(): string;
         download_blob(): Blob;
+        copy_text(): string;
         copy_html(): string;
         copy_md(): string;
     }
