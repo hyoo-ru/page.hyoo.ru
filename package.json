@@ -323,6 +323,7 @@
     "$hyoo_meta_rights",
     "$hyoo_meta_person",
     "$mol_button_major",
+    "$mol_wire_stale",
     "$mol_offline_install",
     "$mol_offline"
   ],

@@ -5105,6 +5105,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    function $mol_wire_stale<Res>(task: () => Res): any;
+}
+
+declare namespace $ {
     function $mol_offline(): void;
 }
 

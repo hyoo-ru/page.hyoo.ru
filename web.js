@@ -4081,6 +4081,8 @@ var $;
             return authors;
         }
         steal_rights(donor) {
+            if (!this.allowed_law())
+                return;
             for (const peer of donor.peers()) {
                 this.level(peer, donor.level(peer));
             }
@@ -6642,10 +6644,9 @@ var $;
                     return details;
                 const land = details.land;
                 const meta = this.world().Fund($hyoo_meta_model).Item(land.id());
-                if (this.land.allowed_mod())
+                if (land.allowed_mod())
                     meta.whole(this);
-                if (this.land.allowed_law())
-                    meta.steal_rights(this);
+                meta.steal_rights(this);
                 return details;
             }
             details(next) {
@@ -6656,8 +6657,7 @@ var $;
             }
             release_node() {
                 const release = this.yoke('release', $hyoo_crowd_blob);
-                if (this.land.allowed_law())
-                    release?.land.steal_rights(this.land);
+                release?.land.steal_rights(this.land);
                 return release;
             }
             release(next) {
@@ -18588,6 +18588,26 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_wire_stale(task) {
+        try {
+            return task();
+        }
+        catch (error) {
+            if (!(error instanceof Promise))
+                return $mol_fail_hidden(error);
+            const fiber = $mol_wire_auto();
+            if (!(fiber instanceof $mol_wire_fiber))
+                return;
+            return $mol_wire_probe(() => fiber.result());
+        }
+    }
+    $.$mol_wire_stale = $mol_wire_stale;
+})($ || ($ = {}));
+//mol/wire/stale/stale.ts
+;
+"use strict";
+var $;
+(function ($) {
     const blacklist = new Set([
         '//cse.google.com/adsense/search/async-ads.js'
     ]);
@@ -18671,7 +18691,7 @@ var $;
                 return this.$.$mol_state_local.value(key, next?.toString()) !== 'false';
             }
             aura_image() {
-                try {
+                return $mol_wire_stale(() => {
                     if (!this.aura_showing())
                         return '';
                     const side = this.side_current();
@@ -18680,11 +18700,7 @@ var $;
                         return '';
                     const shade = 'hsla( 0deg, 0%, calc( 50% + var(--mol_theme_luma) * 50% ), .666 )';
                     return `linear-gradient( ${shade}, ${shade} ), url("${aura}")`;
-                }
-                catch (error) {
-                    $mol_fail_log(error);
-                    return $mol_wire_probe(() => this.aura_image()) ?? '';
-                }
+                }) ?? '';
             }
             editing(next) {
                 return this.$.$mol_state_session.value('edit', next) ?? false;
@@ -18720,7 +18736,7 @@ var $;
                 return this.side_current().book() ?? this.side_current();
             }
             side_books() {
-                try {
+                return $mol_wire_stale(() => {
                     if (!this.side_menu_showed())
                         return [];
                     const side = this.side_current();
@@ -18728,11 +18744,7 @@ var $;
                     if (side.pages().length || this.side_menu_showed())
                         books.push(side);
                     return books;
-                }
-                catch (error) {
-                    $mol_fail_log(error);
-                    return $mol_wire_probe(() => this.side_books()) ?? [];
-                }
+                }) ?? [];
             }
             side_menu_showed(next) {
                 return next ?? Boolean(this.side_current().book() || this.side_current().pages().length > 0);
