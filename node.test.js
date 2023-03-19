@@ -3316,7 +3316,7 @@ var $;
 //mol/book2/-css/book2.view.css.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "ddabd34";
+let $hyoo_sync_revision = "e443b9f";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4938,7 +4938,7 @@ var $;
         land_init(land) {
             this.land_sync(land);
             if (!land.grabbed())
-                this.$.$mol_wait_timeout(5_000);
+                this.$.$mol_wait_timeout(10_000);
         }
         land(id) {
             return this.world().land_sync(id);
@@ -5563,7 +5563,7 @@ var $;
                 };
                 line.onerror = () => {
                     this.master_cursor((this.master_cursor() + 1) % this.$.$hyoo_sync_masters.length);
-                    fail(new Error(`Master is unabailable`));
+                    fail(new Error(`Master is unavailable`));
                 };
             });
         }
