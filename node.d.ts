@@ -4844,8 +4844,8 @@ declare namespace $.$$ {
         permalink(): string;
         export_sign(): string;
         download_name(): string;
-        download_blob(): Blob;
         copy_text(): string;
+        download_blob(): Blob;
         copy_html(): string;
         copy_md(): string;
     }
@@ -5105,7 +5105,7 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_wire_stale<Res>(task: () => Res): any;
+    function $mol_wire_stale<Res>(task: () => Res): Res | undefined;
 }
 
 declare namespace $ {
@@ -5132,7 +5132,7 @@ declare namespace $.$$ {
         side_current_id(): `${string}_${string}`;
         side_current(): $hyoo_page_side;
         side_current_book(): $hyoo_page_side;
-        book_id(): any;
+        book_id(): "" | `${string}_${string}`;
         side_menu_showed(next?: boolean): boolean;
         pages(): ($mol_view | $hyoo_page_side_menu | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_meta_rights)[];
         page_add(): void;

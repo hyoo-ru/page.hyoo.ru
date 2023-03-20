@@ -2641,6 +2641,12 @@ var $;
                     transform: 'translateZ(0)',
                 },
             },
+            '::before': {
+                display: 'none',
+            },
+            '::after': {
+                display: 'none',
+            },
             '::-webkit-scrollbar': {
                 width: rem(.25),
                 height: rem(.25),
@@ -12631,7 +12637,7 @@ var $;
         'header': /^([#=]+)(\s+)(.*?)$([\n\r]*)/,
         'list': /^((?:(?: ?([*+-])|(?:\d+[\.\)])+) +(?:[^]*?)$(?:\r?\n?)(?:  (?:[^]*?)$(?:\r?\n?))*)+)((?:\r?\n)*)/,
         'code': /^(```\s*)([\w.-]*)[\r\n]+([^]*?)^(```)$([\n\r]*)/,
-        'code-indent': /^((?:(?:  |\t)(?:[^]*?)$([\n\r]*))+)/,
+        'code-indent': /^((?:(?:  |\t)(?:[^]*?)$\r?\n?)+)([\n\r]*)/,
         'table': /((?:^\|.+?$\r?\n?)+)([\n\r]*)/,
         'grid': /((?:^ *! .*?$\r?\n?)+)([\n\r]*)/,
         'cut': /^--+$((?:\r?\n)*)/,
@@ -17293,8 +17299,8 @@ var $;
             download_name() {
                 return super.download_name().replace('{filename}', this.title());
             }
-            download_blob() {
-                let details = this.details() + '\n';
+            copy_text() {
+                let details = `= ${this.title()}\n\n${this.details()}\n`;
                 const visit = (book) => {
                     details += '--\n\n';
                     details += '= ' + book.title() + '\n\n';
@@ -17304,10 +17310,10 @@ var $;
                 };
                 for (const page of this.side().pages())
                     visit(page);
-                return new $mol_dom_context.Blob([`${this.permalink()}\n\n${details}`], { type: 'text/x-marked' });
+                return `${details}--\n\n${this.export_sign()}`;
             }
-            copy_text() {
-                return `= ${this.title()}\n\n${this.details()}\n\n${this.export_sign()}`;
+            download_blob() {
+                return new $mol_dom_context.Blob([this.copy_text()], { type: 'text/x-marked' });
             }
             copy_html() {
                 return this.$.$hyoo_marked_to_html(this.copy_text());
