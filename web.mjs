@@ -18686,8 +18686,7 @@ var $;
                 return book === side ? side.title() : `${side.title()} | ${book.title()}`;
             }
             aura_showing(next) {
-                const book = this.side_books()[0] ?? this.side_current();
-                const key = `aura_showing:${book.id()}`;
+                const key = `aura_showing:${this.book_id()}`;
                 return this.$.$mol_state_local.value(key, next?.toString()) !== 'false';
             }
             aura_image() {
@@ -18735,25 +18734,26 @@ var $;
             side_current_book() {
                 return this.side_current().book() ?? this.side_current();
             }
-            side_books() {
+            book_id() {
                 return $mol_wire_stale(() => {
                     if (!this.side_menu_showed())
-                        return [];
+                        return '';
                     const side = this.side_current();
                     const books = side.books().slice().reverse();
                     if (side.pages().length || this.side_menu_showed())
                         books.push(side);
-                    return books;
-                }) ?? [];
+                    return books[0]?.id() ?? '';
+                }) ?? this.side_current_id();
             }
             side_menu_showed(next) {
                 return next ?? Boolean(this.side_current().book() || this.side_current().pages().length > 0);
             }
             pages() {
                 const id = this.side_current_id();
+                const book = this.book_id();
                 return [
                     this.Gap('left'),
-                    ...this.side_books().slice(0, 1).map(book => this.Side_menu(book.id())),
+                    ...book ? [this.Side_menu(book)] : [],
                     this.View(id),
                     ...this.info() ? [this.Info(id)] : [],
                     ...this.editing() ? [this.Edit(id)] : [],
@@ -18810,7 +18810,7 @@ var $;
         ], $hyoo_page.prototype, "side_current_id", null);
         __decorate([
             $mol_mem
-        ], $hyoo_page.prototype, "side_books", null);
+        ], $hyoo_page.prototype, "book_id", null);
         __decorate([
             $mol_mem
         ], $hyoo_page.prototype, "side_menu_showed", null);
