@@ -19,9 +19,9 @@ namespace $.$$ {
 			return super.download_name().replace( '{filename}', this.title() )
 		}
 
-		download_blob() {
+		copy_text() {
 			
-			let details = this.details() + '\n'
+			let details = `= ${ this.title() }\n\n${ this.details() }\n`
 			
 			const visit = ( book: $hyoo_page_side )=> {
 				
@@ -35,15 +35,16 @@ namespace $.$$ {
 			
 			for( const page of this.side().pages() ) visit( page )
 			
-			return new $mol_dom_context.Blob(
-				[ `${ this.permalink() }\n\n${ details }` ],
-				{ type: 'text/x-marked' },
-			)
+			return `${ details }--\n\n${ this.export_sign() }`
 			
 		}
 		
-		copy_text() {
-			return `= ${ this.title() }\n\n${ this.details() }\n\n${ this.export_sign() }`
+		download_blob() {
+			return new $mol_dom_context.Blob(
+				[ this.copy_text() ],
+				{ type: 'text/x-marked' },
+			)
+			
 		}
 		
 		copy_html() {
