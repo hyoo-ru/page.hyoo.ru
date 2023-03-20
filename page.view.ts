@@ -15,8 +15,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		aura_showing( next?: boolean ) {
-			const book = this.side_books()[0] ?? this.side_current()
-			const key = `aura_showing:${ book.id() }`
+			const key = `aura_showing:${ this.book_id() }`
 			return this.$.$mol_state_local.value( key, next?.toString() ) !== 'false'
 		}
 		
@@ -87,19 +86,19 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
-		side_books(): readonly $hyoo_page_side[] {
+		book_id() {
 			return $mol_wire_stale( ()=> {
 				
-				if( !this.side_menu_showed() ) return []
+				if( !this.side_menu_showed() ) return ''
 				
 				const side = this.side_current()
 				const books = side.books().slice().reverse()
 				
 				if( side.pages().length || this.side_menu_showed() ) books.push( side )
 				
-				return books
+				return books[0]?.id() ?? ''
 				
-			} ) ?? []
+			} ) ?? this.side_current_id()
 		}
 		
 		@ $mol_mem
@@ -110,9 +109,10 @@ namespace $.$$ {
 		@ $mol_mem
 		pages() {
 			const id = this.side_current_id()
+			const book = this.book_id()
 			return [
 				this.Gap( 'left' ),
-				... this.side_books().slice( 0, 1 ).map( book => this.Side_menu( book.id() ) ),
+				... book ? [ this.Side_menu( book ) ] : [],
 				this.View( id ),
 				... this.info() ? [ this.Info( id ) ] : [],
 				... this.editing() ? [ this.Edit( id ) ] : [],
