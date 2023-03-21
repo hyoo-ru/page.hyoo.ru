@@ -490,7 +490,7 @@ $hyoo_meta_menu $mol_page
 			drop_allow <= drop_allow
 			list <= list
 			item_uri* <= item_uri* \
-			item_expanded*? <=> item_expanded*? true
+			item_expanded*? <=> item_expanded*? false
 			item_moved*? <=> item_moved*?
 			item_list* <= item_list*
 			item_add*? <=> item_add*? null

@@ -11487,7 +11487,7 @@ var $;
         item_expanded(id, next) {
             if (next !== undefined)
                 return next;
-            return true;
+            return false;
         }
         Content() {
             const obj = new this.$.$hyoo_meta_menu_items();
