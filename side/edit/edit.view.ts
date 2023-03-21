@@ -21,13 +21,25 @@ namespace $.$$ {
 
 		copy_text() {
 			
-			let details = `= ${ this.title() }\n\n${ this.details() }\n`
+			const view = this.Details_edit().View()
+			
+			const normalize = ( text: string )=> text
+				.replaceAll( /^=+ /gm, ( prefix: string )=> prefix.replaceAll( '=', '#' ) ) // MD heading
+				.replaceAll( /^(" )+/gm, ( prefix: string )=> prefix.replaceAll( '" ', '> ' ) ) // MD quotes
+				.replaceAll(
+					/\\\\(?:([^\\]+?)\\)?([^\\]+?)\\\\/gm,
+					( whole: string, title: string, link: string )=> title
+						? `\\\\${title}\\${ view.uri_resolve( link ) }\\\\`
+						: `\\\\${ view.uri_resolve( link ) }\\\\`
+				)
+			
+			let details = `= ${ this.title() }\n\n${ normalize( this.details() ) }\n`
 			
 			const visit = ( book: $hyoo_page_side )=> {
 				
 				details += '--\n\n'
 				details += '= ' + book.title() + '\n\n'
-				details += book.details().replace( /^(=+) /gm, '=$1 ' ) + '\n'
+				details += normalize( book.details() ).replace( /^(=+) /gm, '=$1 ' ) + '\n'
 				
 				for( const page of book.pages().slice().reverse() ) visit( page )
 				
@@ -49,12 +61,6 @@ namespace $.$$ {
 		
 		copy_html() {
 			return this.$.$hyoo_marked_to_html( this.copy_text() )
-		}
-		
-		copy_md() {
-			return this.details()
-				.replaceAll( /^=+ /gm, ( prefix: string )=> prefix.replaceAll( '=', '#' ) ) // heading
-				.replaceAll( /^(" )+/gm, ( prefix: string )=> prefix.replaceAll( '" ', '> ' ) ) // quotes
 		}
 		
 	}
