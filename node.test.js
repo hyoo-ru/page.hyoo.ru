@@ -11305,6 +11305,7 @@ var $;
         Item_items: {
             margin: {
                 left: rem(.75),
+                bottom: rem(.75),
             },
             padding: {
                 left: rem(.75),
@@ -17675,10 +17676,10 @@ var $;
                     details += '--\n\n';
                     details += '= ' + book.title() + '\n\n';
                     details += book.details().replace(/^(=+) /gm, '=$1 ') + '\n';
-                    for (const page of book.pages())
+                    for (const page of book.pages().slice().reverse())
                         visit(page);
                 };
-                for (const page of this.side().pages())
+                for (const page of this.side().pages().slice().reverse())
                     visit(page);
                 return `${details}--\n\n${this.export_sign()}`;
             }
