@@ -10,21 +10,8 @@
 	</head>
 	<body mol_view_root style="position:fixed">
 		<div mol_view_root="$hyoo_page"></div>
-		<script>Array.prototype.at ||= function(i){ return this[ ( this.length + i )% this.length ] }</script>
-		<!-- Этот код должен быть вставлен прямо в html --->
-<script>
-    window.YandexRotorSettings = {
-        WaiterEnabled: true
-    }
-</script>
-
-<!-- Этот код можно загружать через <script src="...">-->
-<script>
-    setTimeout(function() {
-        window.YandexRotorSettings.IsLoaded = true;
-    }, 40000);
-</script>
-		<script>onerror=(...a)=>document.body.innerText=a</script>
+		<script>Array.prototype.at ||= function(i){ return this[ ( this.length + i )% this.length ] }</script><!--yabot-->
+		<!-- <script>onerror=(...a)=>document.body.innerText=a</script> -->
 		<script src="web.js" charset="utf-8"></script>
 	
 				<script src="/mol/build/client/client.js" charset="utf-8"></script>
