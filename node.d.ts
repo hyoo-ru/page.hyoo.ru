@@ -4849,7 +4849,6 @@ declare namespace $.$$ {
         copy_text(): string;
         download_blob(): Blob;
         copy_html(): string;
-        copy_md(): string;
     }
 }
 

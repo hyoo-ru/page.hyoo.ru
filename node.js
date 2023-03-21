@@ -17685,11 +17685,18 @@ var $;
                 return super.download_name().replace('{filename}', this.title());
             }
             copy_text() {
-                let details = `= ${this.title()}\n\n${this.details()}\n`;
+                const view = this.Details_edit().View();
+                const normalize = (text) => text
+                    .replaceAll(/^=+ /gm, (prefix) => prefix.replaceAll('=', '#'))
+                    .replaceAll(/^(" )+/gm, (prefix) => prefix.replaceAll('" ', '> '))
+                    .replaceAll(/\\\\(?:([^\\]+?)\\)?([^\\]+?)\\\\/gm, (whole, title, link) => title
+                    ? `\\\\${title}\\${view.uri_resolve(link)}\\\\`
+                    : `\\\\${view.uri_resolve(link)}\\\\`);
+                let details = `= ${this.title()}\n\n${normalize(this.details())}\n`;
                 const visit = (book) => {
                     details += '--\n\n';
                     details += '= ' + book.title() + '\n\n';
-                    details += book.details().replace(/^(=+) /gm, '=$1 ') + '\n';
+                    details += normalize(book.details()).replace(/^(=+) /gm, '=$1 ') + '\n';
                     for (const page of book.pages().slice().reverse())
                         visit(page);
                 };
@@ -17702,11 +17709,6 @@ var $;
             }
             copy_html() {
                 return this.$.$hyoo_marked_to_html(this.copy_text());
-            }
-            copy_md() {
-                return this.details()
-                    .replaceAll(/^=+ /gm, (prefix) => prefix.replaceAll('=', '#'))
-                    .replaceAll(/^(" )+/gm, (prefix) => prefix.replaceAll('" ', '> '));
             }
         }
         __decorate([
