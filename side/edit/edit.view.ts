@@ -24,8 +24,8 @@ namespace $.$$ {
 			const view = this.Details_edit().View()
 			
 			const normalize = ( text: string )=> text
-				.replaceAll( /^=+ /gm, ( prefix: string )=> prefix.replaceAll( '=', '#' ) ) // MD heading
-				.replaceAll( /^(" )+/gm, ( prefix: string )=> prefix.replaceAll( '" ', '> ' ) ) // MD quotes
+				// .replaceAll( /^=+ /gm, ( prefix: string )=> prefix.replaceAll( '=', '#' ) ) // MD heading
+				// .replaceAll( /^(" )+/gm, ( prefix: string )=> prefix.replaceAll( '" ', '> ' ) ) // MD quotes
 				.replaceAll(
 					/\\\\(?:([^\\]+?)\\)?([^\\]+?)\\\\/gm,
 					( whole: string, title: string, link: string )=> title
