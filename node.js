@@ -17689,8 +17689,6 @@ var $;
             copy_text() {
                 const view = this.Details_edit().View();
                 const normalize = (text) => text
-                    .replaceAll(/^=+ /gm, (prefix) => prefix.replaceAll('=', '#'))
-                    .replaceAll(/^(" )+/gm, (prefix) => prefix.replaceAll('" ', '> '))
                     .replaceAll(/\\\\(?:([^\\]+?)\\)?([^\\]+?)\\\\/gm, (whole, title, link) => title
                     ? `\\\\${title}\\${view.uri_resolve(link)}\\\\`
                     : `\\\\${view.uri_resolve(link)}\\\\`);
