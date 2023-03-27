@@ -5087,8 +5087,10 @@ declare namespace $ {
         aura_showing(next?: any): boolean;
         search(): string;
         Menu(): $$.$hyoo_page_menu;
+        book_side(): $$.$hyoo_page_side;
+        book_pages_node(): readonly any[];
         tools_ext(): readonly any[];
-        Side_menu(id: any): $$.$hyoo_page_side_menu;
+        Side_menu(): $$.$hyoo_page_side_menu;
         side_menu_showed(next?: any): boolean;
         editing(next?: any): boolean;
         info(next?: any): boolean;
@@ -5135,6 +5137,8 @@ declare namespace $.$$ {
         side_current(): $hyoo_page_side;
         side_current_book(): $hyoo_page_side;
         book_id(): "" | `${string}_${string}`;
+        book_side(): $hyoo_page_side | null;
+        book_pages_node(): $hyoo_crowd_list;
         side_menu_showed(next?: boolean): boolean;
         pages(): ($mol_view | $hyoo_page_side_menu | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_meta_rights)[];
         page_add(): void;
