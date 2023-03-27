@@ -24,11 +24,11 @@ $hyoo_page $mol_book2
 		aura_showing? <=> aura_showing? true
 		search => search
 	pages /
-		<= Side_menu*0_0 $hyoo_page_side_menu
+		<= Side_menu $hyoo_page_side_menu
 			yard <= yard
-			side <= side*
+			side <= book_side $hyoo_page_side
 			side_current <= side_current
-			list <= pages_node*
+			list <= book_pages_node /
 			item_list* <= pages_node*
 			item_uri* <= side_uri* \
 			item_add*? <=> side_add*? null

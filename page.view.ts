@@ -101,6 +101,15 @@ namespace $.$$ {
 			} ) ?? this.side_current_id()
 		}
 		
+		book_side() {
+			const id = this.book_id()
+			return id ? this.side( id ) : null
+		}
+		
+		book_pages_node() {
+			return this.pages_node( this.book_id() )
+		}
+		
 		@ $mol_mem
 		side_menu_showed( next?: boolean ) {
 			return next ?? Boolean( this.side_current().book() || this.side_current().pages().length > 0 )
@@ -112,7 +121,7 @@ namespace $.$$ {
 			const book = this.book_id()
 			return [
 				this.Gap( 'left' ),
-				... book ? [ this.Side_menu( book ) ] : [],
+				... book ? [ this.Side_menu() ] : [],
 				this.View( id ),
 				... this.info() ? [ this.Info( id ) ] : [],
 				... this.editing() ? [ this.Edit( id ) ] : [],
