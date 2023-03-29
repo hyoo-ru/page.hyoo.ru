@@ -54,6 +54,7 @@ declare namespace $ {
 declare namespace $ {
     class $mol_object2 {
         static $: typeof $$;
+        [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: typeof $$;
         get $(): $;
         set $(next: $);
@@ -190,6 +191,7 @@ declare namespace $ {
         static plan_task: $mol_after_frame | null;
         static plan(): void;
         static sync(): void;
+        [Symbol.toStringTag]: string;
         cache: Result | Error | Promise<Result | Error>;
         get args(): Args;
         result(): Result | undefined;
@@ -197,8 +199,8 @@ declare namespace $ {
         constructor(id: string, task: (this: Host, ...args: Args) => Result, host?: Host | undefined, args?: Args);
         plan(): void;
         reap(): void;
-        toString(): any;
-        toJSON(): any;
+        toString(): string;
+        toJSON(): string;
         get $(): any;
         emit(quant?: $mol_wire_cursor): void;
         fresh(): void;
@@ -232,7 +234,7 @@ declare namespace $ {
     class $mol_wire_task<Host, Args extends readonly unknown[], Result> extends $mol_wire_fiber<Host, Args, Result> {
         static getter<Host, Args extends readonly unknown[], Result>(task: (this: Host, ...args: Args) => Result): (host: Host, args: Args) => $mol_wire_task<Host, [...Args], Result>;
         complete(): void;
-        put(next: Result | Error | Promise<Result | Error>): Error | Result | Promise<Error | Result>;
+        put(next: Result | Error | Promise<Result | Error>): Result | Error | Promise<Result | Error>;
     }
 }
 
@@ -2491,6 +2493,41 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    type $mol_type_partial_undefined<Val> = $mol_type_merge<Partial<Val> & Pick<Val, {
+        [Field in keyof Val]: undefined extends Val[Field] ? never : Field;
+    }[keyof Val]>>;
+}
+
+declare namespace $ {
+    function $mol_data_record<Sub extends Record<string, $mol_data_value>>(sub: Sub): ((val: $mol_type_merge<Partial<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }> & Pick<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }, ({ [key in keyof Sub]: Parameters<Sub[key]>[0]; } extends infer T ? { [Field in keyof T]: undefined extends { [key in keyof Sub]: Parameters<Sub[key]>[0]; }[Field] ? never : Field; } : never)[keyof Sub]>>) => Readonly<$mol_type_merge<Partial<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }> & Pick<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }, ({ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; } extends infer T_1 ? { [Field_1 in keyof T_1]: undefined extends { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }[Field_1] ? never : Field_1; } : never)[keyof Sub]>>>) & {
+        config: Sub;
+        Value: Readonly<$mol_type_merge<Partial<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }> & Pick<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }, ({ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; } extends infer T_2 ? { [Field_1 in keyof T_2]: undefined extends { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }[Field_1] ? never : Field_1; } : never)[keyof Sub]>>>;
+    };
+}
+
+declare namespace $ {
+    function $mol_data_array<Sub extends $mol_data_value>(sub: Sub): ((val: readonly Parameters<Sub>[0][]) => readonly ReturnType<Sub>[]) & {
+        config: Sub;
+        Value: readonly ReturnType<Sub>[];
+    };
+}
+
+declare namespace $ {
+    let $mol_data_string: (val: string) => string;
+}
+
+declare namespace $ {
+    function $mol_huggingface_run(this: $, space: string, method: string | number, ...data: readonly any[]): readonly string[];
+    function $mol_huggingface_async(space: string, method: number, ...data: readonly any[]): Promise<[string]> & {
+        destructor: () => void;
+    };
+}
+
+declare namespace $ {
+    function $hyoo_lingua_translate(this: $, lang: string, text: string): string;
+}
+
+declare namespace $ {
     interface $mol_locale_dict {
         [key: string]: string;
     }
@@ -2499,7 +2536,7 @@ declare namespace $ {
         static lang(next?: string): string;
         static source(lang: string): any;
         static texts(lang: string, next?: $mol_locale_dict): $mol_locale_dict;
-        static text(key: string): string;
+        static text(key: string): {} | null;
         static warn(key: string): null;
     }
 }
@@ -2672,7 +2709,7 @@ declare namespace $ {
         nav_focused(component?: any): any;
         Nav(): $$.$mol_nav;
         suggests_showed(val?: any): boolean;
-        hint(): string;
+        hint(): {} | null;
         submit(event?: any): any;
         enabled(): boolean;
         keyboard(): string;
@@ -2853,7 +2890,7 @@ declare namespace $ {
         title(): string;
         meta(): $hyoo_meta_model;
         param(): string;
-        all_title(): string;
+        all_title(): {} | null;
         sub(): readonly any[];
         Avatar(): $$.$mol_avatar;
         highlight(): string;
@@ -2863,7 +2900,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_meta_link extends $.$hyoo_meta_link {
-        title(): string;
+        title(): {};
         uri(): string;
     }
 }
@@ -2920,7 +2957,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $mol_drag extends $.$mol_drag {
-        status(next?: "ready" | "drag"): "ready" | "drag";
+        status(next?: "drag" | "ready"): "drag" | "ready";
         drag_start(event: DragEvent): void;
         drag_end(event: DragEvent): void;
     }
@@ -2951,7 +2988,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $mol_drop extends $.$mol_drop {
-        status(next?: "ready" | "drag"): "ready" | "drag";
+        status(next?: "drag" | "ready"): "drag" | "ready";
         protected _target: EventTarget | null;
         enter(event: DragEvent): void;
         move(event: DragEvent): void;
@@ -3162,7 +3199,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_link_source extends $mol_link {
-        hint(): string;
+        hint(): {} | null;
         sub(): readonly any[];
         Icon(): $mol_icon_github_circle;
     }
@@ -3228,7 +3265,7 @@ declare namespace $ {
 declare namespace $ {
     class $mol_lights_toggle extends $mol_check_icon {
         Icon(): $mol_icon_brightness_6;
-        hint(): string;
+        hint(): {} | null;
         checked(val?: any): boolean;
         Lights_icon(): $mol_icon_brightness_6;
         lights(val?: any): boolean;
@@ -3243,7 +3280,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_page_menu extends $hyoo_meta_menu {
-        title_default(): string;
+        title_default(): {} | null;
         attr(): {
             mol_theme: string;
         };
@@ -3263,7 +3300,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_page_menu extends $.$hyoo_page_menu {
-        title(): string;
+        title(): {} | null;
     }
 }
 
@@ -3306,13 +3343,13 @@ declare namespace $ {
 declare namespace $ {
     class $mol_paginator extends $mol_bar {
         sub(): readonly any[];
-        backward_hint(): string;
+        backward_hint(): {} | null;
         backward(event?: any): any;
         Backward_icon(): $mol_icon_chevron_left;
         Backward(): $mol_button_minor;
         value(val?: any): number;
         Value(): $mol_view;
-        forward_hint(): string;
+        forward_hint(): {} | null;
         forward(event?: any): any;
         Forward_icon(): $mol_icon_chevron_right;
         Forward(): $mol_button_minor;
@@ -3851,7 +3888,7 @@ declare namespace $.$$ {
         video_embed(): string;
         video_id(): string;
         video_preview(): string;
-        sub(): ($mol_image | $mol_frame)[];
+        sub(): ($mol_frame | $mol_image)[];
     }
 }
 
@@ -4188,11 +4225,11 @@ declare namespace $ {
         month_moment(): $mol_time_moment;
         day_selected(id: any): boolean;
         day_click(id: any, event?: any): any;
-        prev_hint(): string;
+        prev_hint(): {} | null;
         prev(event?: any): any;
         Prev_icon(): $mol_icon_chevron_left;
         Prev(): $mol_button_minor;
-        next_hint(): string;
+        next_hint(): {} | null;
         next(event?: any): any;
         Next_icon(): $mol_icon_chevron_right;
         Next(): $mol_button_minor;
@@ -4575,7 +4612,7 @@ declare namespace $ {
         side(): $$.$hyoo_page_side;
         bring(): void;
         Title(): $mol_string_button;
-        export_sign(): string;
+        export_sign(): {} | null;
         tools(): readonly any[];
         body(): readonly any[];
         Syntax(): $$.$mol_link_iconed;
@@ -4774,7 +4811,7 @@ declare namespace $.$$ {
     class $hyoo_page_side_edit extends $.$hyoo_page_side_edit {
         publish(): void;
         permalink(): string;
-        export_sign(): string;
+        export_sign(): any;
         download_name(): string;
         copy_text(): string;
         download_blob(): Blob;
@@ -4827,7 +4864,7 @@ declare namespace $ {
         referrers_list(): string[];
         referrers_stat(id: any): number;
         side(): $$.$hyoo_page_side;
-        title(): string;
+        title(): {} | null;
         tools(): readonly any[];
         body(): readonly any[];
         slides_uri(): string;
@@ -4943,7 +4980,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_meta_rights extends $mol_page {
-        title(): string;
+        title(): {} | null;
         editors(): readonly `${string}_${string}`[];
         meta(): $hyoo_meta_model;
         body(): readonly any[];
@@ -4951,7 +4988,7 @@ declare namespace $ {
         Editor_link(id: any): $$.$hyoo_meta_link;
         editor_list(): readonly any[];
         Editor_list(): $$.$mol_list;
-        editor_add_bid(): string;
+        editor_add_bid(): {} | null;
         editor_add_id(next?: any): string;
         editable(): boolean;
         Editor_add_id(): $$.$mol_string;
@@ -4980,7 +5017,7 @@ declare namespace $.$$ {
         editor_add_rows(): ($mol_button_minor | $hyoo_meta_link | $mol_bar)[];
         editor_add_id(next?: string): `${string}_${string}`;
         editor_add_allowed(): boolean;
-        editor_add_bid(): string;
+        editor_add_bid(): {} | null;
         editor_fill_all(): void;
         editor_add_submit(): void;
         editor_add_preview(): $hyoo_meta_person;

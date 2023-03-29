@@ -208,6 +208,16 @@
     "$mol_locale",
     "$mol_file",
     "$mol_compare_array",
+    "$hyoo_lingua_translate",
+    "$hyoo_lingua",
+    "$mol_huggingface",
+    "$mol_data_record",
+    "$mol_type_partial_undefined",
+    "$mol_type_partial",
+    "$mol_data_array",
+    "$mol_data_string",
+    "$mol_fetch",
+    "$mol_dom_parse",
     "$mol_string",
     "$mol_icon_cross",
     "$mol_list",
@@ -293,7 +303,6 @@
     "$mol_button_download",
     "$mol_jsx",
     "$mol_type_partial_deep",
-    "$mol_type_partial",
     "$mol_icon_download",
     "$mol_icon_shield_account",
     "$mol_icon_shield",
@@ -330,6 +339,7 @@
   "dependencies": {
     "jsdom": "*",
     "fake-indexeddb": "*",
-    "chokidar": "*"
+    "chokidar": "*",
+    "undici": "*"
   }
 }
