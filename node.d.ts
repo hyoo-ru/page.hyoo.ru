@@ -5187,6 +5187,13 @@ declare namespace $ {
     function $mol_wire_stale<Res>(task: () => Res): Res | undefined;
 }
 
+declare namespace $ {
+    function $mol_offline(): void;
+}
+
+declare namespace $ {
+}
+
 declare namespace $.$$ {
     class $hyoo_page extends $.$hyoo_page {
         profile(): $hyoo_page_side;
