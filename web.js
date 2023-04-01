@@ -2785,7 +2785,7 @@ var $;
 //mol/book2/-css/book2.view.css.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "1f96673";
+let $hyoo_sync_revision = "37cf8f4";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -3229,6 +3229,31 @@ var $;
                 $mol_state_local.value('$hyoo_sync_peer', serial);
                 $mol_state_local.value(path, null);
             }
+        }
+        const frame = $mol_jsx("iframe", { src: "https://sync.hyoo.ru/auth/" });
+        frame.style.display = 'none';
+        await new Promise((done, fail) => {
+            frame.onload = done;
+            frame.onerror = fail;
+            frame.onabort = fail;
+            document.body.appendChild(frame);
+        });
+        const serial_ext = await new Promise((done, fail) => {
+            window.addEventListener('message', event => {
+                if (!Array.isArray(event.data))
+                    return;
+                if (event.data[0] !== '$hyoo_sync_peer')
+                    return;
+                done(event.data[1]);
+            });
+            frame.contentWindow.postMessage(['$hyoo_sync_peer', serial], '*');
+            setTimeout(() => done(serial), 5000);
+        });
+        document.body.removeChild(frame);
+        if (typeof serial_ext === 'string') {
+            if (!serial)
+                $mol_state_local.value('$hyoo_sync_peer', serial_ext);
+            return await $hyoo_crowd_peer.restore(serial_ext);
         }
         const peer = await $hyoo_crowd_peer.generate();
         $mol_state_local.value('$hyoo_sync_peer', peer.key_private_serial);
