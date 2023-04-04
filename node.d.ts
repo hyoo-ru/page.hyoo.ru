@@ -3617,6 +3617,7 @@ declare namespace $ {
         };
         body(): readonly any[];
         item(id: any): $$.$hyoo_page_side;
+        item_title(id: any): string;
         Item(id: any): $$.$hyoo_meta_link;
         items(): readonly any[];
         Section_list(): $$.$mol_list;
@@ -3627,6 +3628,7 @@ declare namespace $.$$ {
     class $hyoo_page_side_news extends $.$hyoo_page_side_news {
         items(): $hyoo_meta_link[];
         item(side: $hyoo_page_side): $hyoo_page_side;
+        item_title(side: $hyoo_page_side): string;
     }
 }
 

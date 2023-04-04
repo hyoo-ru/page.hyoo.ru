@@ -13201,9 +13201,13 @@ var $;
             const obj = new this.$.$hyoo_page_side();
             return obj;
         }
+        item_title(id) {
+            return "";
+        }
         Item(id) {
             const obj = new this.$.$hyoo_meta_link();
             obj.meta = () => this.item(id);
+            obj.title = () => this.item_title(id);
             obj.Avatar = () => null;
             return obj;
         }
@@ -13245,6 +13249,9 @@ var $;
             }
             item(side) {
                 return side;
+            }
+            item_title(side) {
+                return [side, ...side.books()].reverse().map(side => side.title()).join(' / ');
             }
         }
         __decorate([
