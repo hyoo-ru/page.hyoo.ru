@@ -18,6 +18,7 @@ $hyoo_page_side_view $mol_page
 			mod_ctrl true
 	auto /
 		<= slides_send null
+		<= history_mark null
 	Logo <= Menu_toggle $mol_check
 		checked? <=> menu_showed? false
 		hint @ \Menu Showing

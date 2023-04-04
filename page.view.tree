@@ -24,6 +24,8 @@ $hyoo_page $mol_book2
 		aura_showing? <=> aura_showing? true
 		search => search
 	pages /
+		<= News $hyoo_page_side_news
+			side <= profile
 		<= Side_menu $hyoo_page_side_menu
 			yard <= yard
 			side <= book_side $hyoo_page_side

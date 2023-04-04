@@ -1,0 +1,13 @@
+$hyoo_page_side_news $mol_page
+	side $hyoo_page_side
+		news => news
+	title @ \Interesting
+	attr *
+		^
+		mol_theme \$mol_theme_special
+	body /
+		<= Section_list $mol_list
+			rows <= items /
+				<= Item*0 $hyoo_meta_link
+					meta <= item* $hyoo_page_side
+					Avatar null

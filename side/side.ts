@@ -120,6 +120,8 @@ namespace $.$$ {
 				old.drop( id )
 			}
 			
+			if( fresh.virgin() ) fresh.add( 'iy8wtn_tky6pc' )
+			
 			return fresh
 		}
 		
@@ -182,6 +184,79 @@ namespace $.$$ {
 		@ $mol_mem
 		aura_effective(): string {
 			return this.aura() || ( this.book()?.aura_effective() ?? '' )
+		}
+		
+		
+		@ $mol_mem
+		history_node() {
+			return this.yoke( '$mol_book_side:history', $hyoo_crowd_list )
+		}
+		
+		history() {
+			return this.history_node()!.set() as Set< $mol_int62_string >
+		}
+		
+		history_add( id: $mol_int62_string ) {
+			this.history_node()!.add( id )
+		}
+		
+		@ $mol_mem
+		news() {
+			
+			const history = this.history()
+			const visited = new Set< $hyoo_page_side >()
+			
+			const found = [] as $hyoo_page_side[]
+			const pages = [] as $hyoo_page_side[]
+			const users = [ this ] as $hyoo_page_side[]
+			
+			while( found.length < 16 && ( pages.length || users.length ) ) {
+				
+				while( users.length ) {
+					
+					const user = users.shift()!
+					
+					if( visited.has( user ) ) continue
+					visited.add( user )
+					
+					for( const page of user.pages().slice().reverse() ) {
+						if( visited.has( page ) ) continue
+						pages.push( page )
+					}
+				
+					for( const mark of user.bookmarks().slice().reverse() ) {
+						if( visited.has( mark ) ) continue
+						pages.push( mark )
+					}
+					
+					break
+				}
+				
+				while( pages.length ) {
+					
+					const side = pages.shift()!
+					if( visited.has( side ) ) continue
+					
+					if( history.has( side.id() ) ) {
+						
+						for( const page of side.pages().slice().reverse() ) {
+							if( visited.has( page ) ) continue
+							pages.push( page )
+						}
+						
+					} else {
+						
+						visited.add( side )
+						found.push( side )
+						
+						break
+					}
+					
+				}
+				
+			}
+			
+			return found
 		}
 		
 	}

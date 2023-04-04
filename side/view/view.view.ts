@@ -75,7 +75,12 @@ namespace $.$$ {
 				[ 'done', this.slides_content() ],
 				{ targetOrigin: 'https://slides.hyoo.ru' }
 			)
-					
+			
+		}
+		
+		@ $mol_action
+		history_mark() {
+			this.profile().history_add( this.side().id() )
 		}
 		
 	}
