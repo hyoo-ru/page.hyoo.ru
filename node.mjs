@@ -8185,6 +8185,8 @@ var $;
                             continue;
                         if (!side.released())
                             continue;
+                        if (!side.title())
+                            continue;
                         if (history.has(side.id())) {
                             for (const page of side.pages().slice().reverse()) {
                                 if (visited.has(page))
