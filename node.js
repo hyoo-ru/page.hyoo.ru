@@ -8183,6 +8183,8 @@ var $;
                         const side = pages.shift();
                         if (visited.has(side))
                             continue;
+                        if (!side.released())
+                            continue;
                         if (history.has(side.id())) {
                             for (const page of side.pages().slice().reverse()) {
                                 if (visited.has(page))
