@@ -11,6 +11,10 @@ namespace $.$$ {
 			return side
 		}
 		
+		item_title( side: $hyoo_page_side ) {
+			return [ side, ... side.books() ].reverse().map( side => side.title() ).join( ' / ' )
+		}
+		
 	}
 	
 }

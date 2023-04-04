@@ -10,4 +10,5 @@ $hyoo_page_side_news $mol_page
 			rows <= items /
 				<= Item*0 $hyoo_meta_link
 					meta <= item* $hyoo_page_side
+					title <= item_title* \
 					Avatar null
