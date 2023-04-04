@@ -15,6 +15,109 @@ $mol_book2 $mol_scroll
 	Placeholder $mol_view
 	Gap* $mol_view title \
 
+$mol_meter $mol_plugin
+	zoom 1
+	-
+	width?val 0
+	height?val 0
+	-
+	left?val 0
+	right?val 0
+	bottom?val 0
+	top?val 0
+
+$mol_touch $mol_plugin
+	start_zoom?val 0
+	start_distance?val 0
+	zoom?val 1
+	allow_draw true
+	allow_pan true
+	allow_zoom true
+	action_type?val \
+	action_point?val $mol_vector_2d /
+		NaN
+		NaN
+	-
+	start_pan?val /
+		0
+		0
+	pan?val $mol_vector_2d /
+		0
+		0
+	pointer_center $mol_vector_2d /
+		NaN
+		NaN
+	-
+	start_pos?val null
+	swipe_precision 16
+	-
+	swipe_right?val null
+	swipe_bottom?val null
+	swipe_left?val null
+	swipe_top?val null
+	-
+	swipe_from_right?val null
+	swipe_from_bottom?val null
+	swipe_from_left?val null
+	swipe_from_top?val null
+	-
+	swipe_to_right?val null
+	swipe_to_bottom?val null
+	swipe_to_left?val null
+	swipe_to_top?val null
+	-
+	draw_start?event null
+	draw?event null
+	draw_end?event null
+	-
+	style *
+		^
+		touch-action \none
+		overscroll-behavior \none
+	-
+	event *
+		^
+		pointerdown?event <=> event_start?event null
+		pointermove?event <=> event_move?event null
+		pointerup?event <=> event_end?event null
+		pointerleave?event <=> event_leave?event null
+		wheel?event <=> event_wheel?event null
+
+$mol_ghost $mol_view
+	Sub $mol_view
+
+$mol_book $mol_view
+	sub <= pages_wrapped /$mol_view
+	minimal_width 0
+	pages /$mol_view
+	plugins /$mol_plugin
+		<= Meter $mol_meter
+			width => width
+		<= Touch $mol_touch
+			swipe_from_left?val <=> event_front_up?val null
+			swipe_to_left?val <=> event_front_down?val null
+	Page* $mol_book_page
+		Sub <= page* null
+		visible <= page_visible* true
+	Placeholder $mol_book_placeholder
+		title <= title
+
+$mol_book_placeholder $mol_view
+	minimal_width 400
+	attr *
+		^
+		tabindex null
+
+$mol_book_page $mol_ghost
+	attr_static *
+		^
+		tabindex 0
+		mol_book_page_visible true
+	attr *
+		^
+		mol_book_page_focused <= focused
+		mol_book_page_visible <= visible true
+
 $mol_theme_auto $mol_plugin
 	attr * mol_theme <= theme \
 
@@ -332,9 +435,6 @@ $hyoo_meta_link $mol_link
 			haystack <= title
 			needle <= highlight \
 
-$mol_ghost $mol_view
-	Sub $mol_view
-
 $mol_drag $mol_ghost
 	event *
 		dragstart?event <=> drag_start?event <=> start?event null
@@ -578,6 +678,20 @@ $hyoo_page_menu $hyoo_meta_menu
 			Icon <= Aura_icon $mol_icon_image
 			checked? <=> aura_showing? true
 		<= Lights $mol_lights_toggle
+
+$hyoo_page_side_news $mol_page
+	side $hyoo_page_side
+		news => news
+	title @ \Interesting
+	attr *
+		^
+		mol_theme \$mol_theme_special
+	body /
+		<= Section_list $mol_list
+			rows <= items /
+				<= Item*0 $hyoo_meta_link
+					meta <= item* $hyoo_page_side
+					Avatar null
 
 $hyoo_page_side_menu $hyoo_meta_menu
 	side_current $hyoo_page_side
@@ -1061,6 +1175,7 @@ $hyoo_page_side_view $mol_page
 			mod_ctrl true
 	auto /
 		<= slides_send null
+		<= history_mark null
 	Logo <= Menu_toggle $mol_check
 		checked? <=> menu_showed? false
 		hint @ \Menu Showing
@@ -1442,6 +1557,8 @@ $hyoo_page $mol_book2
 		aura_showing? <=> aura_showing? true
 		search => search
 	pages /
+		<= News $hyoo_page_side_news
+			side <= profile
 		<= Side_menu $hyoo_page_side_menu
 			yard <= yard
 			side <= book_side $hyoo_page_side
