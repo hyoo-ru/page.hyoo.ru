@@ -237,6 +237,7 @@ namespace $.$$ {
 					const side = pages.shift()!
 					if( visited.has( side ) ) continue
 					if( !side.released() ) continue
+					if( !side.title() ) continue
 					
 					if( history.has( side.id() ) ) {
 						
