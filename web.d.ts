@@ -2770,8 +2770,8 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_huggingface_run(this: $, space: string, method: string | number, ...data: readonly any[]): readonly string[];
-    function $mol_huggingface_async(space: string, method: number, ...data: readonly any[]): Promise<[string]> & {
+    function $mol_huggingface_run(this: $, space: string, method: string | number, ...data: readonly any[]): any[] | readonly string[];
+    function $mol_huggingface_async(space: string, method: number, ...data: readonly any[]): Promise<any[]> & {
         destructor: () => void;
     };
 }
@@ -2789,7 +2789,7 @@ declare namespace $ {
         static lang(next?: string): string;
         static source(lang: string): any;
         static texts(lang: string, next?: $mol_locale_dict): $mol_locale_dict;
-        static text(key: string): {} | null;
+        static text(key: string): string;
         static warn(key: string): null;
     }
 }
@@ -2962,7 +2962,7 @@ declare namespace $ {
         nav_focused(component?: any): any;
         Nav(): $$.$mol_nav;
         suggests_showed(val?: any): boolean;
-        hint(): {} | null;
+        hint(): string;
         submit(event?: any): any;
         enabled(): boolean;
         keyboard(): string;
@@ -3146,7 +3146,7 @@ declare namespace $ {
         title(): string;
         meta(): $hyoo_meta_model;
         param(): string;
-        all_title(): {} | null;
+        all_title(): string;
         sub(): readonly any[];
         Avatar(): $$.$mol_avatar;
         highlight(): string;
@@ -3156,7 +3156,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_meta_link extends $.$hyoo_meta_link {
-        title(): {};
+        title(): string;
         uri(): string;
     }
 }
@@ -3196,7 +3196,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $mol_drag extends $.$mol_drag {
-        status(next?: "drag" | "ready"): "drag" | "ready";
+        status(next?: "ready" | "drag"): "ready" | "drag";
         drag_start(event: DragEvent): void;
         drag_end(event: DragEvent): void;
     }
@@ -3227,7 +3227,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $mol_drop extends $.$mol_drop {
-        status(next?: "drag" | "ready"): "drag" | "ready";
+        status(next?: "ready" | "drag"): "ready" | "drag";
         protected _target: EventTarget | null;
         enter(event: DragEvent): void;
         move(event: DragEvent): void;
@@ -3438,7 +3438,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_link_source extends $mol_link {
-        hint(): {} | null;
+        hint(): string;
         sub(): readonly any[];
         Icon(): $mol_icon_github_circle;
     }
@@ -3522,7 +3522,7 @@ declare namespace $ {
 declare namespace $ {
     class $mol_lights_toggle extends $mol_check_icon {
         Icon(): $mol_icon_brightness_6;
-        hint(): {} | null;
+        hint(): string;
         checked(val?: any): boolean;
         Lights_icon(): $mol_icon_brightness_6;
         lights(val?: any): boolean;
@@ -3537,7 +3537,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_page_menu extends $hyoo_meta_menu {
-        title_default(): {} | null;
+        title_default(): string;
         attr(): {
             mol_theme: string;
         };
@@ -3557,7 +3557,7 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_page_menu extends $.$hyoo_page_menu {
-        title(): {} | null;
+        title(): string;
     }
 }
 
@@ -3565,7 +3565,7 @@ declare namespace $ {
     class $hyoo_page_side_news extends $mol_page {
         news(): $$.$hyoo_page_side[];
         side(): $$.$hyoo_page_side;
-        title(): {} | null;
+        title(): string;
         attr(): {
             mol_theme: string;
         };
@@ -3628,13 +3628,13 @@ declare namespace $ {
 declare namespace $ {
     class $mol_paginator extends $mol_bar {
         sub(): readonly any[];
-        backward_hint(): {} | null;
+        backward_hint(): string;
         backward(event?: any): any;
         Backward_icon(): $mol_icon_chevron_left;
         Backward(): $mol_button_minor;
         value(val?: any): number;
         Value(): $mol_view;
-        forward_hint(): {} | null;
+        forward_hint(): string;
         forward(event?: any): any;
         Forward_icon(): $mol_icon_chevron_right;
         Forward(): $mol_button_minor;
@@ -4510,11 +4510,11 @@ declare namespace $ {
         month_moment(): $mol_time_moment;
         day_selected(id: any): boolean;
         day_click(id: any, event?: any): any;
-        prev_hint(): {} | null;
+        prev_hint(): string;
         prev(event?: any): any;
         Prev_icon(): $mol_icon_chevron_left;
         Prev(): $mol_button_minor;
-        next_hint(): {} | null;
+        next_hint(): string;
         next(event?: any): any;
         Next_icon(): $mol_icon_chevron_right;
         Next(): $mol_button_minor;
@@ -4899,7 +4899,7 @@ declare namespace $ {
         side(): $$.$hyoo_page_side;
         bring(): void;
         Title(): $mol_string_button;
-        export_sign(): {} | null;
+        export_sign(): string;
         tools(): readonly any[];
         body(): readonly any[];
         Syntax(): $$.$mol_link_iconed;
@@ -5098,7 +5098,7 @@ declare namespace $.$$ {
     class $hyoo_page_side_edit extends $.$hyoo_page_side_edit {
         publish(): void;
         permalink(): string;
-        export_sign(): any;
+        export_sign(): string;
         download_name(): string;
         copy_text(): string;
         download_blob(): Blob;
@@ -5151,7 +5151,7 @@ declare namespace $ {
         referrers_list(): string[];
         referrers_stat(id: any): number;
         side(): $$.$hyoo_page_side;
-        title(): {} | null;
+        title(): string;
         tools(): readonly any[];
         body(): readonly any[];
         slides_uri(): string;
@@ -5267,7 +5267,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_meta_rights extends $mol_page {
-        title(): {} | null;
+        title(): string;
         editors(): readonly `${string}_${string}`[];
         meta(): $hyoo_meta_model;
         body(): readonly any[];
@@ -5275,7 +5275,7 @@ declare namespace $ {
         Editor_link(id: any): $$.$hyoo_meta_link;
         editor_list(): readonly any[];
         Editor_list(): $$.$mol_list;
-        editor_add_bid(): {} | null;
+        editor_add_bid(): string;
         editor_add_id(next?: any): string;
         editable(): boolean;
         Editor_add_id(): $$.$mol_string;
@@ -5304,7 +5304,7 @@ declare namespace $.$$ {
         editor_add_rows(): ($mol_button_minor | $hyoo_meta_link | $mol_bar)[];
         editor_add_id(next?: string): `${string}_${string}`;
         editor_add_allowed(): boolean;
-        editor_add_bid(): {} | null;
+        editor_add_bid(): string;
         editor_fill_all(): void;
         editor_add_submit(): void;
         editor_add_preview(): $hyoo_meta_person;
