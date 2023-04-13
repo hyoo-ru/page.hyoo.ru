@@ -103,7 +103,7 @@ namespace $.$$ {
 		
 		book_side() {
 			const id = this.book_id()
-			return id ? this.side( id ) : null
+			return id ? this.side( id ) : null!
 		}
 		
 		book_pages_node() {
