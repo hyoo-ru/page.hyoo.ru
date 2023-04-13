@@ -5032,9 +5032,9 @@ declare namespace $ {
         readonly insertion: string;
         readonly deletion: string;
         readonly link: string;
-        readonly uri: string;
-        content: string;
         readonly marker: string;
+        readonly uri: string;
+        readonly content: string;
     }>;
 }
 
@@ -5428,7 +5428,7 @@ declare namespace $ {
         Menu(): $$.$hyoo_page_menu;
         News(): $$.$hyoo_page_side_news;
         book_side(): $$.$hyoo_page_side;
-        book_pages_node(): readonly any[];
+        book_pages_node(): any;
         tools_ext(): readonly any[];
         Side_menu(): $$.$hyoo_page_side_menu;
         side_menu_showed(next?: any): boolean;
@@ -5477,7 +5477,7 @@ declare namespace $.$$ {
         side_current(): $hyoo_page_side;
         side_current_book(): $hyoo_page_side;
         book_id(): "" | `${string}_${string}`;
-        book_side(): $hyoo_page_side | null;
+        book_side(): $hyoo_page_side;
         book_pages_node(): $hyoo_crowd_list;
         side_menu_showed(next?: boolean): boolean;
         pages(): ($mol_view | $hyoo_page_side_news | $hyoo_page_side_menu | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_meta_rights)[];
