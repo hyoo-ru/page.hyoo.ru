@@ -29,6 +29,7 @@ namespace $ {
 				shrink: 1,
 				grow: 1,
 			},
+			wordBreak: 'break-word',
 		},
 		
 		Ref_item_stat: {
