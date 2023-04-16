@@ -210,7 +210,7 @@ namespace $.$$ {
 			const pages = [] as $hyoo_page_side[]
 			const users = [ this ] as $hyoo_page_side[]
 			
-			while( found.length < 16 && ( pages.length || users.length ) ) {
+			while( found.length < 10 && ( pages.length || users.length ) ) {
 				
 				while( users.length ) {
 					
