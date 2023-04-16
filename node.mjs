@@ -8167,7 +8167,7 @@ var $;
                 const found = [];
                 const pages = [];
                 const users = [this];
-                while (found.length < 16 && (pages.length || users.length)) {
+                while (found.length < 10 && (pages.length || users.length)) {
                     while (users.length) {
                         const user = users.shift();
                         if (visited.has(user))
