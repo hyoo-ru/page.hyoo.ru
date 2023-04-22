@@ -4662,7 +4662,6 @@ declare namespace $ {
         editable(): boolean;
         released(): boolean;
         side(): $$.$hyoo_page_side;
-        bring(): void;
         Title(): $mol_string_button;
         export_sign(): string;
         tools(): readonly any[];
