@@ -5151,7 +5151,7 @@ declare namespace $.$$ {
         book_side(): $hyoo_page_side;
         book_pages_node(): $hyoo_crowd_list;
         side_menu_showed(next?: boolean): boolean;
-        pages(): ($mol_view | $hyoo_page_side_news | $hyoo_page_side_menu | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_meta_rights)[];
+        pages(): ($mol_view | $hyoo_page_side_menu | $hyoo_page_side_view | $hyoo_page_side_edit | $hyoo_page_side_info | $hyoo_meta_rights)[];
         page_add(): void;
         side_add(id: $mol_int62_string): void;
         ref_track(): void;

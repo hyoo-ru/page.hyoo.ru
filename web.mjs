@@ -20159,7 +20159,6 @@ var $;
                 const id = this.side_current_id();
                 const book = this.book_id();
                 return [
-                    this.News(),
                     this.Gap('left'),
                     ...book ? [this.Side_menu()] : [],
                     this.View(id),
