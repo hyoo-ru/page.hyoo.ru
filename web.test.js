@@ -4736,6 +4736,17 @@ var $;
 ;
 "use strict";
 var $;
+(function ($_1) {
+    $mol_test_mocks.push($ => {
+        $.$hyoo_sync_client = class extends $hyoo_sync_yard {
+            land_init(land) { }
+        };
+    });
+})($ || ($ = {}));
+//hyoo/sync/client/client.test.ts
+;
+"use strict";
+var $;
 (function ($) {
     async function make_land(id = '1_1') {
         return $hyoo_crowd_land.make({
