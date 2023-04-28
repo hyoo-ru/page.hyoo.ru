@@ -4522,6 +4522,24 @@ declare namespace $ {
     }
 }
 
+declare namespace $ {
+    let $mol_mem_persist: typeof $mol_wire_solid;
+}
+
+declare namespace $ {
+    class $mol_storage extends $mol_object2 {
+        static native(): {
+            estimate: () => StorageEstimate;
+            getDirectory: () => FileSystemDirectoryHandle;
+            persist: () => boolean;
+            persisted: () => boolean;
+        };
+        static persisted(next?: boolean): boolean;
+        static estimate(): () => StorageEstimate;
+        static dir(): FileSystemDirectoryHandle;
+    }
+}
+
 declare namespace $.$$ {
     class $hyoo_page_side_view extends $.$hyoo_page_side_view {
         head(): ($mol_view | $mol_search_jumper)[];

@@ -297,6 +297,8 @@
     "$mol_calendar",
     "$mol_hor",
     "$mol_try",
+    "$mol_storage",
+    "$mol_mem_persist",
     "$hyoo_page_side_edit",
     "$mol_string_button",
     "$mol_icon_publish",
