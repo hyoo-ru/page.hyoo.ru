@@ -39,6 +39,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		editing( next?: boolean ) {
+			if( next ) this.$.$mol_storage.persisted( true )
 			return this.$.$mol_state_session.value( 'edit', next ) ?? false
 		}
 		

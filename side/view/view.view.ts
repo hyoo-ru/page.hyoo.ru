@@ -12,6 +12,7 @@ namespace $.$$ {
 		}
 		
 		bookmark( next?: boolean ) {
+			if( next ) this.$.$mol_storage.persisted( true )
 			return this.profile().bookmarked( this.side().id(), next )
 		}
 		
