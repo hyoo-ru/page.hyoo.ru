@@ -4535,7 +4535,7 @@ declare namespace $ {
             persisted: () => boolean;
         };
         static persisted(next?: boolean): boolean;
-        static estimate(): () => StorageEstimate;
+        static estimate(): StorageEstimate;
         static dir(): FileSystemDirectoryHandle;
     }
 }

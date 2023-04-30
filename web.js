@@ -17329,7 +17329,7 @@ var $;
             return next ?? prev;
         }
         static estimate() {
-            return this.native().estimate;
+            return this.native().estimate();
         }
         static dir() {
             return this.native().getDirectory();
