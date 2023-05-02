@@ -2802,7 +2802,7 @@ var $;
 //mol/book2/-css/book2.view.css.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "35aacaf";
+let $hyoo_sync_revision = "8b9fe5e";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -4724,10 +4724,15 @@ var $;
             for (const land of this.world().lands.values()) {
                 this.db_land_sync(land);
             }
-            const master = this.master();
-            if (master)
-                $mol_wire_race(...[...this.world().lands.values()].map(land => () => this.line_land_sync({ line: master, land })));
             $mol_wire_race(...this.slaves().map(line => () => this.line_sync(line)));
+            try {
+                const master = this.master();
+                if (master)
+                    $mol_wire_race(...[...this.world().lands.values()].map(land => () => this.line_land_sync({ line: master, land })));
+            }
+            catch (error) {
+                $mol_fail_log(error);
+            }
         }
         land_sync(land) {
             this.db_land_init(land);
@@ -4822,7 +4827,6 @@ var $;
         }
         line_land_clocks({ line, land }, next) {
             $mol_wire_solid();
-            this.master();
             return next;
         }
         line_sync(line) {
