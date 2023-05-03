@@ -27,7 +27,7 @@ $hyoo_page_side_edit $mol_page
 		<= Export $mol_pick
 			hint @ \Download markdown
 			trigger_content /
-				<= Export_icon $mol_icon_export_variant
+				<= Export_icon $mol_icon_export
 			bubble_content /
 				<= Download $mol_button_download
 					title @ \Download Book as MT File

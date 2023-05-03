@@ -189,7 +189,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		history_node() {
-			return this.yoke( '$mol_book_side:history', $hyoo_crowd_list )
+			return this.yoke( '$hyoo_page_side:history', $hyoo_crowd_list )
 		}
 		
 		history() {
