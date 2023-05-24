@@ -1402,6 +1402,9 @@ $hyoo_meta_safe $mol_page
 	yard $hyoo_sync_yard
 	bid_pass_long @ \> 7 letters
 	key_size 133
+	attr *
+		^
+		mol_theme \$mol_theme_special
 	body /
 		<= Content $mol_list rows <= content /
 			<= Export_block $mol_list rows <= export_rows /

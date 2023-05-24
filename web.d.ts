@@ -4816,6 +4816,7 @@ declare namespace $ {
         yard(): $hyoo_sync_yard<unknown>;
         bid_pass_long(): string;
         key_size(): number;
+        attr(): Record<string, any>;
         body(): readonly any[];
         Expot_bid(): $$.$mol_text;
         password_bid(): string;

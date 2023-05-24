@@ -19132,6 +19132,12 @@ var $;
         key_size() {
             return 133;
         }
+        attr() {
+            return {
+                ...super.attr(),
+                mol_theme: "$mol_theme_special"
+            };
+        }
         body() {
             return [
                 this.Content()
