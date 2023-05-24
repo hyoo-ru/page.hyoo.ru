@@ -53,6 +53,12 @@ namespace $.$$ {
 			return this.$.$mol_state_session.value( 'info', next ) ?? false
 		}
 		
+		@ $mol_mem
+		safe( next?: boolean ) {
+			const arg = next == undefined ? undefined : next ? '' : null
+			return this.$.$mol_state_arg.value( 'hyoo_meta_key', arg ) !== null
+		}
+		
 		edit_close() {
 			this.editing( false )
 		}
@@ -63,6 +69,10 @@ namespace $.$$ {
 		
 		info_close() {
 			this.info( false )
+		}
+		
+		safe_close() {
+			this.safe( false )
 		}
 		
 		side( id: $mol_int62_string ) {
@@ -129,6 +139,7 @@ namespace $.$$ {
 				... this.editing() ? [ this.Edit( id ) ] : [],
 				... this.rights() ? [ this.Rights( id ) ] : [],
 				this.Gap( 'right' ),
+				... this.safe() ? [ this.Safe() ] : [],
 			]
 		}
 		

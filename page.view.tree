@@ -14,15 +14,6 @@ $hyoo_page $mol_book2
 		<= Theme $mol_theme_auto
 	auto /
 		<= ref_track null
-	Placeholder <= Menu $hyoo_page_menu
-		yard <= yard
-		side <= profile
-		list <= bookmarks_node
-		item_uri* <= side_uri* \
-		add? <=> page_add? null
-		item_add*? <=> side_add*? null
-		aura_showing? <=> aura_showing? true
-		search => search
 	pages /
 		<= News $hyoo_page_side_news
 			side <= profile
@@ -60,3 +51,20 @@ $hyoo_page $mol_book2
 					click? <=> rights_close? null
 					sub /
 						<= Сlose_icon $mol_icon_cross
+		<= Safe $hyoo_meta_safe
+			yard <= yard
+			tools /
+				<= Safe_close $mol_button_minor
+					click? <=> safe_close? null
+					sub /
+						<= Safe_icon $mol_icon_cross
+	Placeholder <= Menu $hyoo_page_menu
+		yard <= yard
+		side <= profile
+		list <= bookmarks_node
+		item_uri* <= side_uri* \
+		add? <=> page_add? null
+		item_add*? <=> side_add*? null
+		aura_showing? <=> aura_showing? true
+		safe_showing? <=> safe? false
+		search => search

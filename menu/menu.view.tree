@@ -10,8 +10,10 @@ $hyoo_page_menu $hyoo_meta_menu
 	foot /
 		<= Online $hyoo_sync_online
 			yard <= yard
-		<= Source $mol_link_source
-			uri \https://github.com/hyoo-ru/page.hyoo.ru/
+		<= Safe_showing $mol_check_icon
+			hint @ \Private Keys
+			Icon <= Safe_icon $mol_icon_key_variant
+			checked? <=> safe_showing? false
 		<= About $mol_link_iconed
 			hint @ \About $hyoo_page
 			title \
