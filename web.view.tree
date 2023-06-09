@@ -1408,7 +1408,7 @@ $hyoo_meta_safe $mol_page
 	body /
 		<= Content $mol_list rows <= content /
 			<= Export_block $mol_list rows <= export_rows /
-				<= Expot_bid $mol_text text @ \Your private keys are stored in the browser. In order not to lose them, it is recommended to come up with a strong password for exporting them.
+				<= Expot_bid $mol_text text @ \Your private access keys are stored in the browser. In order not to lose them or transfer to another device, it is recommended to come up with a strong password for exporting them.
 				<= Export_pass $mol_list rows /
 					<= Password_field $mol_form_field
 						name @ \Password
