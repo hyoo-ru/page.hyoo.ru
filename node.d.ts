@@ -5165,12 +5165,13 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_page_menu extends $hyoo_meta_menu {
-        title_default(): string;
-        attr(): Record<string, any>;
-        Title(): $$.$hyoo_meta_link;
-        foot(): readonly any[];
         title(): string;
+        attr(): Record<string, any>;
+        head(): readonly any[];
+        Logo(): any;
+        foot(): readonly any[];
         side(): $$.$hyoo_page_side;
+        Profile(): $$.$hyoo_meta_link;
         Online(): $$.$hyoo_sync_online;
         Safe_icon(): $mol_icon_key_variant;
         safe_showing(next?: any): boolean;
@@ -5185,7 +5186,6 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_page_menu extends $.$hyoo_page_menu {
-        title(): string;
     }
 }
 
