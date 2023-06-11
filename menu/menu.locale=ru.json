@@ -1,6 +1,7 @@
 {
-	"$hyoo_page_menu_Logo_hint": "Профиль",
+	"$hyoo_page_menu_Profile_hint": "Профиль",
+	"$hyoo_page_menu_Safe_showing_hint": "Личные ключи",
 	"$hyoo_page_menu_Aura_showing_hint": "Отображение фонов",
-	"$hyoo_page_menu_title_default": "В Закладках",
+	"$hyoo_page_menu_title": "В Закладках",
 	"$hyoo_page_menu_About_hint": "О проекте $hyoo_page"
 }

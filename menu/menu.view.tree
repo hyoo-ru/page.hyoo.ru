@@ -1,12 +1,16 @@
 $hyoo_page_menu $hyoo_meta_menu
-	title_default @ \In Bookmarks
+	title @ \In Bookmarks
 	attr *
 		^
 		mol_theme \$mol_theme_special
-	Title $hyoo_meta_link
-		meta <= side $hyoo_page_side
-			title => title
-		title <= title
+	head /
+		<= Profile $hyoo_meta_link
+			meta <= side $hyoo_page_side
+			hint @ \Profile
+			Title null
+		<= Title
+		<= Tools
+	Logo null
 	foot /
 		<= Online $hyoo_sync_online
 			yard <= yard
