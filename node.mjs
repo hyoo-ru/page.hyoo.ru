@@ -20631,4 +20631,5 @@ var $;
 })($ || ($ = {}));
 //hyoo/page/page.view.css.ts
 
+export default $
 //# sourceMappingURL=node.js.map
