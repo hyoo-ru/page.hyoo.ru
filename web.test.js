@@ -5348,6 +5348,13 @@ var $;
             const opened = await Bob.decrypt(closed, salt);
             $mol_assert_like(data, new Uint8Array(opened));
         },
+        async 'derivation from public & private keys'() {
+            const A = await $$.$mol_crypto_auditor_pair();
+            const B = await $$.$mol_crypto_auditor_pair();
+            const AK = await $mol_crypto_secret.derive(await A.private.serial(), await B.public.serial());
+            const BK = await $mol_crypto_secret.derive(await B.private.serial(), await A.public.serial());
+            $mol_assert_like(new Uint8Array(await AK.serial()), new Uint8Array(await BK.serial()));
+        },
     });
 })($ || ($ = {}));
 //mol/crypto/secret/secret.test.ts

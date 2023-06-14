@@ -4916,15 +4916,16 @@ declare namespace $ {
 declare namespace $ {
     class $mol_crypto_secret extends Object {
         readonly native: CryptoKey & {
-            type: 'private';
+            type: 'secret';
         };
         static size: number;
         static extra: number;
         constructor(native: CryptoKey & {
-            type: 'private';
+            type: 'secret';
         });
         static generate(): Promise<$mol_crypto_secret>;
         static from(serial: BufferSource | string): Promise<$mol_crypto_secret>;
+        static derive(private_serial: string, public_serial: string): Promise<$mol_crypto_secret>;
         serial(): Promise<ArrayBuffer>;
         encrypt(open: BufferSource, salt: BufferSource): Promise<ArrayBuffer>;
         decrypt(closed: BufferSource, salt: BufferSource): Promise<ArrayBuffer>;
