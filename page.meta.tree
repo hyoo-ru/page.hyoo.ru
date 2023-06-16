@@ -1,2 +1,3 @@
 include \/mol/offline/install
 deploy \/hyoo/page/logo/logo.svg
+deploy \/hyoo/page/logo/logo.png
