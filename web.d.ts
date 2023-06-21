@@ -796,8 +796,8 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_scroll extends $mol_view {
-        scroll_top(val?: any): number;
-        scroll_left(val?: any): number;
+        scroll_top(next?: any): number;
+        scroll_left(next?: any): number;
         field(): Record<string, any>;
         event(): Record<string, any>;
         tabindex(): number;
@@ -1965,7 +1965,7 @@ declare namespace $ {
         head(): readonly any[];
         Head(): $mol_view;
         body(): readonly $mol_view_content[];
-        body_scroll_top(val?: any): number;
+        body_scroll_top(next?: any): number;
         Body(): $$.$mol_scroll;
         foot(): readonly $mol_view[];
         Foot(): $mol_view;
@@ -2344,7 +2344,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_pop extends $mol_view {
-        showed(val?: any): boolean;
+        showed(next?: any): boolean;
         align_vert(): string;
         align_hor(): string;
         prefer(): string;
@@ -2701,14 +2701,14 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $mol_nav extends $mol_plugin {
-        cycle(val?: any): boolean;
+        cycle(next?: any): boolean;
         mod_ctrl(): boolean;
         mod_shift(): boolean;
         mod_alt(): boolean;
-        keys_x(val?: any): readonly any[];
-        keys_y(val?: any): readonly any[];
-        current_x(val?: any): any;
-        current_y(val?: any): any;
+        keys_x(next?: any): readonly any[];
+        keys_y(next?: any): readonly any[];
+        current_x(next?: any): any;
+        current_y(next?: any): any;
         event_up(event?: any): any;
         event_down(event?: any): any;
         event_left(event?: any): any;
@@ -2736,7 +2736,7 @@ declare namespace $ {
         enabled(): boolean;
         minimal_height(): number;
         autocomplete(): boolean;
-        selection(val?: any): readonly number[];
+        selection(next?: any): readonly number[];
         auto(): readonly any[];
         field(): Record<string, any>;
         attr(): Record<string, any>;
@@ -2744,8 +2744,8 @@ declare namespace $ {
         plugins(): readonly any[];
         selection_watcher(): any;
         disabled(): boolean;
-        value(val?: any): string;
-        value_changed(val?: any): string;
+        value(next?: any): string;
+        value_changed(next?: any): string;
         hint(): string;
         hint_visible(): string;
         spellcheck(): boolean;
@@ -2755,7 +2755,7 @@ declare namespace $ {
         keyboard(): string;
         enter(): string;
         length_max(): number;
-        type(val?: any): string;
+        type(next?: any): string;
         event_change(event?: any): any;
         submit_with_ctrl(): boolean;
         submit(event?: any): any;
@@ -2787,20 +2787,20 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_search extends $mol_pop {
-        query(val?: any): string;
+        query(next?: any): string;
         suggests(): readonly string[];
         plugins(): readonly $mol_plugin[];
-        showed(val?: any): boolean;
+        showed(next?: any): boolean;
         align_hor(): string;
         Anchor(): $mol_view;
         bubble_content(): readonly $mol_view_content[];
         Suggest(id: any): $mol_button_minor;
-        clear(val?: any): any;
+        clear(next?: any): any;
         Hotkey(): $$.$mol_hotkey;
         nav_components(): readonly $mol_view[];
         nav_focused(component?: any): any;
         Nav(): $$.$mol_nav;
-        suggests_showed(val?: any): boolean;
+        suggests_showed(next?: any): boolean;
         hint(): string;
         submit(event?: any): any;
         enabled(): boolean;
@@ -2906,10 +2906,10 @@ declare namespace $ {
         Icon(): $mol_icon_chevron;
         level(): number;
         style(): Record<string, any>;
-        checked(val?: any): boolean;
+        checked(next?: any): boolean;
         enabled(): boolean;
         level_style(): string;
-        expanded(val?: any): boolean;
+        expanded(next?: any): boolean;
         expandable(): boolean;
     }
 }
@@ -2956,7 +2956,7 @@ declare namespace $ {
         drag_move(event?: any): any;
         end(event?: any): any;
         drag_end(event?: any): any;
-        status(val?: any): string;
+        status(next?: any): string;
     }
 }
 
@@ -2980,7 +2980,7 @@ declare namespace $ {
         move(event?: any): any;
         leave(event?: any): any;
         drop(event?: any): any;
-        status(val?: any): string;
+        status(next?: any): string;
     }
 }
 
@@ -3186,7 +3186,7 @@ declare namespace $ {
         backward(event?: any): any;
         Backward_icon(): $mol_icon_chevron_left;
         Backward(): $mol_button_minor;
-        value(val?: any): number;
+        value(next?: any): number;
         Value(): $mol_view;
         forward_hint(): string;
         forward(event?: any): any;
@@ -3212,9 +3212,9 @@ declare namespace $ {
         backward(event?: any): void;
         Index(): $$.$mol_paginator;
         plugins(): readonly any[];
-        index(val?: any): number;
+        index(next?: any): number;
         Backward(): $$.$mol_hotkey;
-        escape(val?: any): any;
+        escape(next?: any): any;
         Forward(): $$.$mol_hotkey;
     }
 }
@@ -3547,7 +3547,7 @@ declare namespace $ {
         cell_content_number(id: any): readonly $mol_view_content[];
         col_head_content(id: any): readonly $mol_view_content[];
         cell_level(id: any): number;
-        cell_expanded(id: any, val?: any): boolean;
+        cell_expanded(id: any, next?: any): boolean;
         needle(): string;
         cell_value(id: any): string;
         Cell_dimmer(id: any): $$.$mol_dimmer;
@@ -3682,7 +3682,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_embed_native extends $mol_scroll {
-        uri(val?: any): string;
+        uri(next?: any): string;
         dom_name(): string;
         window(): any;
         attr(): Record<string, any>;
@@ -3728,7 +3728,7 @@ declare namespace $ {
         pip(): boolean;
         clipboard_read(): boolean;
         clipboard_write(): boolean;
-        uri(val?: any): string;
+        uri(next?: any): string;
         html(): any;
         allow(): string;
     }
@@ -4075,13 +4075,13 @@ declare namespace $ {
     class $mol_date extends $mol_pick {
         Icon(): $mol_icon_calendar;
         bubble_content(): readonly any[];
-        value_number(val?: any): number;
-        value_moment(val?: any): $mol_time_moment;
+        value_number(next?: any): number;
+        value_moment(next?: any): $mol_time_moment;
         today_enabled(): boolean;
         today_click(event?: any): any;
         Today_icon(): $mol_icon_calendar_today;
         Today(): $mol_button_minor;
-        value(val?: any): string;
+        value(next?: any): string;
         input_mask(id: any): string;
         enabled(): boolean;
         Input(): $$.$mol_format;
@@ -4313,16 +4313,16 @@ declare namespace $ {
         sub(): readonly any[];
         symbols_alt(): Record<string, any>;
         symbols_alt_shift(): Record<string, any>;
-        clickable(val?: any): boolean;
+        clickable(next?: any): boolean;
         sidebar_showed(): boolean;
         press(event?: any): any;
         hover(event?: any): any;
-        value(val?: any): string;
+        value(next?: any): string;
         hint(): string;
         enabled(): boolean;
         spellcheck(): boolean;
         length_max(): number;
-        selection(val?: any): readonly number[];
+        selection(next?: any): readonly number[];
         submit(next?: any): any;
         bring(): void;
         Edit(): $mol_textarea_edit;
@@ -4645,7 +4645,7 @@ declare namespace $ {
 declare namespace $ {
     class $mol_expander extends $mol_list {
         rows(): readonly any[];
-        expanded(val?: any): boolean;
+        expanded(next?: any): boolean;
         expandable(): boolean;
         label(): readonly any[];
         Trigger(): $$.$mol_check_expand;
@@ -4849,14 +4849,14 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_password extends $mol_view {
-        type(val?: any): string;
+        type(next?: any): string;
         sub(): readonly any[];
         hint(): string;
-        value(val?: any): string;
+        value(next?: any): string;
         submit(event?: any): any;
         enabled(): boolean;
         Pass(): $$.$mol_string;
-        checked(val?: any): boolean;
+        checked(next?: any): boolean;
         Show_icon(): $mol_icon_eye;
         Show(): $mol_check_icon;
         content(): readonly any[];
@@ -5044,9 +5044,9 @@ declare namespace $ {
     class $mol_lights_toggle extends $mol_check_icon {
         Icon(): $mol_icon_brightness_6;
         hint(): string;
-        checked(val?: any): boolean;
+        checked(next?: any): boolean;
         Lights_icon(): $mol_icon_brightness_6;
-        lights(val?: any): boolean;
+        lights(next?: any): boolean;
     }
 }
 

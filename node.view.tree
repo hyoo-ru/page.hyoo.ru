@@ -1,6 +1,6 @@
 $mol_scroll $mol_view
-	scroll_top?val 0
-	scroll_left?val 0
+	scroll_top? 0
+	scroll_left? 0
 	field *
 		^
 		tabIndex <= tabindex -1
@@ -36,7 +36,7 @@ $mol_page $mol_view
 				<= Tools $mol_view
 					sub <= tools /$mol_view_content
 		<= Body $mol_scroll
-			scroll_top?val => body_scroll_top?val
+			scroll_top? => body_scroll_top?
 			sub <= body /$mol_view_content
 		<= Foot $mol_view
 			dom_name \footer
@@ -152,7 +152,7 @@ $hyoo_page_side_news $mol_page
 					Avatar null
 
 $mol_pop $mol_view
-	showed?val false
+	showed? false
 	align_vert \
 	align_hor \
 	prefer \vert
@@ -221,17 +221,17 @@ $mol_hotkey $mol_plugin
 	mod_shift false
 
 $mol_nav $mol_plugin
-	cycle?val false
+	cycle? false
 	-
 	mod_ctrl false
 	mod_shift false
 	mod_alt false
 	-
-	keys_x?val /
-	keys_y?val /
+	keys_x? /
+	keys_y? /
 	-
-	current_x?val null
-	current_y?val null
+	current_x? null
+	current_y? null
 	-
 	event_up?event null
 	event_down?event null
@@ -246,7 +246,7 @@ $mol_string $mol_view
 	enabled true
 	minimal_height 40
 	autocomplete false
-	selection?val /number
+	selection? /number
 		0
 		0
 	auto /
@@ -254,7 +254,7 @@ $mol_string $mol_view
 	field *
 		^
 		disabled <= disabled false
-		value <= value_changed?val <=> value?val \
+		value <= value_changed? <=> value? \
 		placeholder <= hint_visible <= hint \
 		spellcheck <= spellcheck true
 		autocomplete <= autocomplete_native \
@@ -265,7 +265,7 @@ $mol_string $mol_view
 	attr *
 		^
 		maxlength <= length_max +Infinity
-		type <= type?val \text
+		type <= type? \text
 	event *
 		^
 		input?event <=> event_change?event null
@@ -277,21 +277,21 @@ $mol_string $mol_view
 $mol_icon_cross $mol_icon path \M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z
 
 $mol_search $mol_pop
-	query?val \
+	query? \
 	suggests /string
 	plugins /$mol_plugin
 		^
 		<= Hotkey $mol_hotkey
-			key * escape?val <=> clear?val null
+			key * escape? <=> clear? null
 		<= Nav $mol_nav
 			keys_y <= nav_components /$mol_view
 			current_y?component <=> nav_focused?component null
-	showed?val <=> suggests_showed?val false
+	showed? <=> suggests_showed? false
 	align_hor \right
 	Anchor $mol_view
 		sub <= anchor_content /
 			<= Query $mol_string
-				value?val <=> query?val \
+				value? <=> query? \
 				hint <= hint @ \Search...
 				submit?event <=> submit?event null
 				enabled <= enabled true
@@ -311,7 +311,7 @@ $mol_search $mol_pop
 		sub <= suggest_content* /$mol_view_content
 			<= Suggest_label* $mol_dimmer
 				haystack <= suggest_label* \
-				needle <= query?val \
+				needle <= query? \
 
 $mol_icon_magnify $mol_icon path \M9.5,3C13.09,3 16,5.91 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16C5.91,16 3,13.09 3,9.5C3,5.91 5.91,3 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z
 
@@ -344,7 +344,7 @@ $mol_check_expand $mol_check
 	style *
 		^
 		paddingLeft <= level_style \0px
-	checked?val <=> expanded?val false
+	checked? <=> expanded? false
 	enabled <= expandable false
 
 $mol_ghost $mol_view
@@ -357,7 +357,7 @@ $mol_drag $mol_ghost
 		dragend?event <=> drag_end?event <=> end?event null
 	attr *
 		draggable true
-		mol_drag_status <= status?val \ready
+		mol_drag_status <= status? \ready
 	transfer *
 		text/plain \
 		text/html \
@@ -374,7 +374,7 @@ $mol_drop $mol_ghost
 		dragover?event <=> move?event null
 		dragleave?event <=> leave?event null
 		drop?event <=> drop?event null
-	attr * mol_drop_status <= status?val \ready
+	attr * mol_drop_status <= status? \ready
 	adopt?transfer *
 	receive?transfer null
 	allow /
@@ -534,7 +534,7 @@ $mol_paginator $mol_bar
 			hint <= backward_hint @ \Backward
 			click?event <=> backward?event null
 			sub / <= Backward_icon $mol_icon_chevron_left
-		<= Value $mol_view sub / <= value?val 0
+		<= Value $mol_view sub / <= value? 0
 		<= Forward $mol_button_minor
 			hint <= forward_hint @ \Forward
 			click?event <=> forward?event null
@@ -543,7 +543,7 @@ $mol_paginator $mol_bar
 $mol_search_jumper $mol_search
 	Root $mol_view
 	Index $mol_paginator
-		value?val <=> index?val 0
+		value? <=> index? 0
 		forward?event => forward?event
 		backward?event => backward?event
 	plugins /
@@ -554,7 +554,7 @@ $mol_search_jumper $mol_search
 		<= Forward $mol_hotkey
 			key *
 				enter?event <=> forward?event
-				escape?val <=> escape?val null
+				escape? <=> escape? null
 
 $mol_icon_information $mol_icon path \M13,9H11V7H13M13,17H11V11H13M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2Z
 
@@ -678,7 +678,7 @@ $mol_grid $mol_view
 	Cell_branch* $mol_check_expand
 		level <= cell_level* 0
 		label <= cell_content* /$mol_view_content
-		expanded?val <=> cell_expanded*?val false
+		expanded? <=> cell_expanded*? false
 	Cell_content* /
 		<= Cell_dimmer* $mol_dimmer
 			needle <= needle \
@@ -725,7 +725,7 @@ $mol_link_iconed $mol_link
 	host \
 
 $mol_embed_native $mol_scroll
-	uri?val \
+	uri? \
 	dom_name \object
 	window null
 	attr *
@@ -748,7 +748,7 @@ $mol_frame $mol_embed_native
 		^
 		data null
 		type null
-		src <= uri?val \about:config
+		src <= uri? \about:config
 		srcdoc <= html null
 		allow <= allow \
 		- allowfullscreen <=
@@ -887,7 +887,7 @@ $mol_pick $mol_pop
 		minimal_width 40
 		minimal_height 40
 		enabled <= trigger_enabled true
-		checked?val <=> showed?val
+		checked? <=> showed?
 		sub <= trigger_content /$mol_view_content
 			<= title
 		hint <= hint \
@@ -956,7 +956,7 @@ $mol_date $mol_pick
 				sub /
 					<= Today_icon $mol_icon_calendar_today
 			<= Input $mol_format
-				value?val <=> value?val \
+				value? <=> value? \
 				mask* <= input_mask* \
 				enabled <= enabled true
 			<= Clear $mol_button_minor
@@ -984,8 +984,8 @@ $mol_date $mol_pick
 							sub /
 								<= Next_icon $mol_icon_chevron_right
 	-
-	value_number?val +NaN
-	value_moment?val $mol_time_moment
+	value_number? +NaN
+	value_moment? $mol_time_moment
 
 $mol_date_calendar $mol_calendar
 	day_content* /
@@ -1102,19 +1102,19 @@ $mol_icon_shield_account $mol_icon path \M12,1L3,5V11C3,16.55 6.84,21.74 12,23C1
 $mol_textarea $mol_stack
 	attr *
 		^
-		mol_textarea_clickable <= clickable?val false
+		mol_textarea_clickable <= clickable? false
 		mol_textarea_sidebar_showed <= sidebar_showed false
 	event *
 		keydown?event <=> press?event null
 		pointermove?event <=> hover?event null
 	sub /
 		<= Edit $mol_textarea_edit
-			value?val <=> value?val \
+			value? <=> value? \
 			hint <= hint \ 
 			enabled <= enabled true
 			spellcheck <= spellcheck true
 			length_max <= length_max +Infinity
-			selection?val <=> selection?val /number
+			selection? <=> selection? /number
 			bring => bring
 			submit? <=> submit? null
 			submit_with_ctrl true
@@ -1267,7 +1267,7 @@ $mol_expander $mol_list
 		<= Label $mol_view
 			sub /
 				<= Trigger $mol_check_expand
-					checked?val <=> expanded?val false
+					checked? <=> expanded? false
 					expandable <= expandable true
 					label <= label /
 						<= title
@@ -1385,16 +1385,16 @@ $hyoo_meta_rights $mol_page
 $mol_icon_eye $mol_icon path \M12,9C10.34,9 9,10.34 9,12C9,13.66 10.34,15 12,15C13.66,15 15,13.66 15,12C15,10.34 13.66,9 12,9M12,17C9.24,17 7,14.76 7,12C7,9.24 9.24,7 12,7C14.76,7 17,9.24 17,12C17,14.76 14.76,17 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z
 
 $mol_password $mol_view
-	type?val \password
+	type? \password
 	sub <= content /
 		<= Pass $mol_string
 			type <= type
 			hint <= hint \
-			value?val <=> value?val \
+			value? <=> value? \
 			submit?event <=> submit?event null
 			enabled <= enabled true
 		<= Show $mol_check_icon
-			checked?val <=> checked?val true
+			checked? <=> checked? true
 			Icon <= Show_icon $mol_icon_eye
 
 $hyoo_meta_safe $mol_page
@@ -1464,7 +1464,7 @@ $mol_icon_brightness_6 $mol_icon path \M12,18V6C15.31,6 18,8.69 18,12C18,15.31 1
 $mol_lights_toggle $mol_check_icon
 	Icon <= Lights_icon $mol_icon_brightness_6
 	hint @ \Toggle lights
-	checked?val <=> lights?val false
+	checked? <=> lights? false
 
 $hyoo_page_menu $hyoo_meta_menu
 	title @ \In Bookmarks
