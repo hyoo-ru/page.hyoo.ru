@@ -901,6 +901,10 @@ $mol_format $mol_string
 	hint <= mask*0 \
 	keyboard \numeric
 
+$mol_icon_trash_can $mol_icon path \M9,3V4H4V6H5V19C5,20.1 5.9,21 7,21H17C18.1,21 19,20.1 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z
+
+$mol_icon_trash_can_outline $mol_icon path \M9,3V4H4V6H5V19C5,20.1 5.9,21 7,21H17C18.1,21 19,20.1 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z
+
 $mol_hor $mol_view
 
 $mol_calendar $mol_list
@@ -951,7 +955,7 @@ $mol_date $mol_pick
 		<= Input_row $mol_view sub <= input_content /
 			<= Today $mol_button_minor
 				hint @ \Today
-				enabled <= today_enabled true
+				enabled <= enabled true
 				click?event <=> today_click?event null
 				sub /
 					<= Today_icon $mol_icon_calendar_today
@@ -961,10 +965,12 @@ $mol_date $mol_pick
 				enabled <= enabled true
 			<= Clear $mol_button_minor
 				hint @ \Clear
+				enabled <= enabled true
 				click?event <=> clear?event null
 				sub /
-					<= Clear_icon $mol_icon_cross
+					<= Clear_icon $mol_icon_trash_can_outline
 		<= Calendar $mol_date_calendar
+			enabled <= enabled true
 			month_moment <= month_moment <= value_moment
 			day_selected* <= day_selected* false
 			day_click*?event <=> day_click*?event null
@@ -993,6 +999,7 @@ $mol_date_calendar $mol_calendar
 			title <= day_text*
 			event_click?event <=> day_click*?event null
 			minimal_height 24
+			enabled <= enabled true
 
 $mol_text_list $mol_text
 	auto_scroll null
