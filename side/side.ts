@@ -158,7 +158,7 @@ namespace $.$$ {
 		}
 
 		following() {
-			return this.following_in() ?? this.following_out()
+			return this.following_in() ?? this.following_out()!
 		}
 
 		@ $mol_mem
