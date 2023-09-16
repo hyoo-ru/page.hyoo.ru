@@ -32,6 +32,14 @@ namespace $ {
 				wrap: 'wrap',
 			},
 		},
+
+		Following: {
+			flex: {
+				grow: 1,
+				shrink: 1,
+			},
+			color: $mol_theme.special,
+		},
 		
 		// Author_list: {
 		// 	flex: {

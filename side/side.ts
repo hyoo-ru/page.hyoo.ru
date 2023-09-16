@@ -156,6 +156,26 @@ namespace $.$$ {
 			const Fund = this.world()!.Fund( $hyoo_page_side )
 			return ids.map( id => Fund.Item( id ) )
 		}
+
+		following() {
+			return this.following_in() ?? this.following_out()
+		}
+
+		@ $mol_mem
+		following_in() {
+			return this.pages().at(-1) ?? null
+		}
+		
+		@ $mol_mem
+		following_out(): $hyoo_page_side | null {
+			
+			const book = this.book()
+			if( !book ) return null
+			
+			const pages = book.pages()
+			return pages[ pages.indexOf( this ) - 1 ] ?? book.following_out()
+
+		}
 		
 		@ $mol_mem_key
 		bookmarked( id: $mol_int62_string, next?: boolean ) {
