@@ -1883,6 +1883,9 @@ declare namespace $.$$ {
         bookmarks(next?: readonly $hyoo_page_side[]): $hyoo_page_side[];
         pages_node(): $hyoo_crowd_list;
         pages(next?: readonly $hyoo_page_side[]): $hyoo_page_side[];
+        following(): $hyoo_page_side;
+        following_in(): $hyoo_page_side | null;
+        following_out(): $hyoo_page_side | null;
         bookmarked(id: $mol_int62_string, next?: boolean): boolean;
         authors(): `${string}_${string}`[];
         aura(next?: string): string;
@@ -4166,6 +4169,7 @@ declare namespace $ {
         side_release(): string;
         changed_moment(): $mol_time_moment;
         authors(): `${string}_${string}`[];
+        following(): $$.$hyoo_page_side;
         side(): $$.$hyoo_page_side;
         plugins(): readonly any[];
         auto(): readonly any[];
@@ -4204,6 +4208,7 @@ declare namespace $ {
         Author_link(id: any): $$.$hyoo_meta_link;
         author_list(): readonly any[];
         Author_list(): $mol_view;
+        Following(): $$.$hyoo_meta_link;
         Signature(): $mol_view;
     }
 }
@@ -4237,6 +4242,7 @@ declare namespace $.$$ {
         search_start(event?: KeyboardEvent): void;
         search_stop(event?: KeyboardEvent): void;
         details(): string;
+        Following(): $hyoo_meta_link;
         author_list(): $hyoo_meta_link[];
         slides_content(): string;
         slides_send(): void;
