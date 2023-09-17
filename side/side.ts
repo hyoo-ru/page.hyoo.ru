@@ -88,7 +88,7 @@ namespace $.$$ {
 			)
 		}
 		
-		@ $mol_mem_key
+		@ $mol_mem
 		book( next?: $hyoo_page_side | null ) {
 			const book_node = this.sub( 'book', $hyoo_crowd_reg )
 			const id = $mol_int62_string_ensure( book_node.str( next?.id() ?? ( next === null ? '' : undefined ) ) )
