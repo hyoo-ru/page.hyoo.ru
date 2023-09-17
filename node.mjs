@@ -3453,7 +3453,7 @@ var $;
 //mol/book2/-css/book2.view.css.ts
 ;
 "use strict";
-let $hyoo_sync_revision = "eadd5a2";
+let $hyoo_sync_revision = "f0a9d10";
 //hyoo/sync/-meta.tree/revision.meta.tree.ts
 ;
 "use strict";
@@ -20251,7 +20251,7 @@ var $;
                 return this.dictionary()[index].replace(/^ws(s?):/, 'http$1:');
             }
             option_label(index) {
-                return this.dictionary()[index].replace(/^ws(s?):/, '');
+                return this.dictionary()[index].replace(/^ws(s?):\/\//, '');
             }
             value(next) {
                 return String(this.master_cursor(next == undefined ? undefined : Number(next)));
