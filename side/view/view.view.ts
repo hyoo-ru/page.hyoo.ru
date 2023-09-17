@@ -53,6 +53,10 @@ namespace $.$$ {
 		details() {
 			return this.editing() ? this.side_details() : this.side_release()
 		}
+
+		Following() {
+			return this.following() ? super.Following() : null!
+		}
 		
 		@ $mol_mem
 		author_list() {

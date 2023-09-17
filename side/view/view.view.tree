@@ -12,6 +12,7 @@ $hyoo_page_side_view $mol_page
 		release => side_release
 		changed_moment => changed_moment
 		authors => authors
+		following => following
 	plugins /
 		<= Search_start $mol_hotkey
 			key * F? <=> search_start? null
@@ -67,4 +68,5 @@ $hyoo_page_side_view $mol_page
 					sub <= author_list /
 						<= Author_link*0_0 $hyoo_meta_link
 							meta <= peer*
-
+				<= Following $hyoo_meta_link
+					meta <= following
