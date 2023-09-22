@@ -6450,7 +6450,7 @@ var $;
         $mol_action
     ], $hyoo_meta_model.prototype, "steal_rights", null);
     __decorate([
-        $mol_mem_key
+        $mol_mem
     ], $hyoo_meta_model.prototype, "whole", null);
     $.$hyoo_meta_model = $hyoo_meta_model;
 })($ || ($ = {}));
