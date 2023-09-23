@@ -5417,10 +5417,10 @@ var $;
                     done(line);
                 };
 		    line.onabort = (e) => {
-			console.error(`Socket abort ${e.code}``)
+			console.error(`Socket abort ${e.code}`)
    			}
                 line.onerror = (e) => {
-			console.error(`Socket fail ${e.code}``)
+			console.error(`Socket fail ${e.code}`)
                     line.onclose = event => {
                         fail(new Error(`Master is unavailable (${event.code})`));
                     };
