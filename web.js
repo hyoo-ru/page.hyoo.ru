@@ -5416,12 +5416,10 @@ var $;
                     interval = setInterval(() => line.send(new Uint8Array), 30000);
                     done(line);
                 };
-		    line.onabort = (e) => {
-			console.error(`Socket abort ${e.code}`)
-   			}
                 line.onerror = (e) => {
-			console.error(`Socket fail ${e.code}`)
+			console.error(e, JSON.stringify(e))
                     line.onclose = event => {
+			console.error(`Socket fail2 ${event.code}`)
                         fail(new Error(`Master is unavailable (${event.code})`));
                     };
                     clearInterval(interval);
