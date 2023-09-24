@@ -5416,13 +5416,10 @@ var $;
                     interval = setInterval(() => line.send(new Uint8Array), 30000);
                     done(line);
                 };
-                line.onerror = (e) => {
-			console.error(e, Object.keys(e))
+                line.onerror = () => {
                     line.onclose = event => {
-			console.error(`Socket fail2 ${event.code}`)
                         fail(new Error(`Master is unavailable (${event.code})`));
                     };
-			setTimeout( ()=> fail(new Error(`Master is unavailable`)) )
                     clearInterval(interval);
                     this.master_cursor((this.master_cursor() + 1) % this.$.$hyoo_sync_masters.length);
                 };
