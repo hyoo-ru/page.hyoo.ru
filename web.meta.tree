@@ -71,7 +71,8 @@
 \/mol/view
 	include \/mol/view/tree/test
 \/hyoo/sync
-	build $hyoo_sync_revision \git rev-parse --short HEAD
+	- build $hyoo_sync_revision \git rev-parse --short HEAD
+	build $hyoo_sync_revision \echo echo
 \/hyoo/page
 	include \/mol/offline/install
 	deploy \/hyoo/page/logo/logo.svg
