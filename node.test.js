@@ -5062,8 +5062,7 @@ var $;
 (function ($) {
     $.$hyoo_sync_masters = [
         `sync.hyoo.ru`,
-        `crowd.up.railway.app`,
-        `crowd2.up.railway.app`,
+        `sync-pmzz.onrender.com`,
     ];
 })($ || ($ = {}));
 //hyoo/sync/masters/masters.ts
