@@ -5109,7 +5109,7 @@ declare namespace $ {
         plugins(): readonly any[];
         hint(): string;
         bubble_content(): readonly any[];
-        Filter(): $$.$mol_string;
+        Filter(): $$.$mol_search;
         Trigger_icon(): $mol_icon_dots_vertical;
         event_select(id: any, event?: any): any;
         option_label(id: any): string;
@@ -5124,6 +5124,7 @@ declare namespace $ {
         menu_content(): readonly $mol_view[];
         Menu(): $$.$mol_list;
         Bubble_pane(): $$.$mol_scroll;
+        filter_hint(): string;
         submit(event?: any): any;
         enabled(): boolean;
     }
@@ -5141,9 +5142,9 @@ declare namespace $.$$ {
         options_filtered(): readonly string[];
         option_label(id: string): any;
         option_rows(): $mol_button_minor[];
-        option_focused(component?: $mol_view): $mol_view | $mol_string | $mol_button_minor | null;
+        option_focused(component?: $mol_view): $mol_view | $mol_search | $mol_button_minor | null;
         event_select(id: string, event?: MouseEvent): void;
-        nav_components(): ($mol_string | $mol_button_minor)[];
+        nav_components(): ($mol_search | $mol_button_minor)[];
         trigger_content(): readonly $mol_view_content[];
         menu_content(): ($mol_view | $mol_button_minor)[];
     }
