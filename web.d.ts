@@ -4242,6 +4242,7 @@ declare namespace $ {
         details(): string;
         Details(): $$.$mol_text;
         Changed(): $$.$mol_date;
+        author_link(id: any): string;
         Author_link(id: any): $$.$hyoo_meta_link;
         author_list(): readonly any[];
         Author_list(): $mol_view;
@@ -4266,6 +4267,7 @@ declare namespace $.$$ {
         slides_content(): string;
         slides_send(): void;
         history_mark(): void;
+        author_link(id: $mol_int62_string): string;
     }
 }
 

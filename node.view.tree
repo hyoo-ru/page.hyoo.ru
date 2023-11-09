@@ -1092,6 +1092,7 @@ $hyoo_page_side_view $mol_page
 					sub <= author_list /
 						<= Author_link*0_0 $hyoo_meta_link
 							meta <= peer*
+							uri <= author_link* \https://page.hyoo.ru/#!={person}
 				<= Following $hyoo_meta_link
 					meta <= following
 
