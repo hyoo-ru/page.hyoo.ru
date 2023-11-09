@@ -12491,11 +12491,11 @@ var $;
         class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
             item_expanded(id, next) {
                 const cur = this.side_current();
-                if (id === cur.id())
-                    return false;
                 const path = [...cur.books()];
                 if (cur.pages().length)
                     path.unshift(cur);
+                if (id === path.at(-1)?.id())
+                    return false;
                 return next ?? ($mol_mem_cached(() => this.item_expanded(id)) || path.some(book => book.id() === id));
             }
             item_moved(what, where) {
