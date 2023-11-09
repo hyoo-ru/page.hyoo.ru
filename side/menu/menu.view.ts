@@ -4,9 +4,9 @@ namespace $.$$ {
 		@ $mol_mem_key
 		item_expanded( id: $mol_int62_string, next?: boolean ): boolean {
 			const cur = this.side_current()
-			if( id === cur.id() ) return false
 			const path = [ ... cur.books() ]
 			if( cur.pages().length ) path.unshift( cur )
+			if( id === path.at(-1).id() ) return false
 			return next ?? ( $mol_mem_cached( ()=> this.item_expanded( id ) ) || path.some( book => book.id() === id ) )
 		}
 		
