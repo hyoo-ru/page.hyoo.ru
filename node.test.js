@@ -17117,6 +17117,7 @@ var $;
                 graveAccent: "́",
                 forwardSlash: "÷",
                 E: "€",
+                V: "✔",
                 X: "×",
                 C: "©",
                 P: "§",
@@ -17131,6 +17132,11 @@ var $;
                 bracketOpen: "[",
                 bracketClose: "]",
                 slashBack: "|"
+            };
+        }
+        symbols_alt_ctrl() {
+            return {
+                space: " "
             };
         }
         symbols_alt_shift() {
@@ -17320,7 +17326,9 @@ var $;
             symbol_insert(event) {
                 const symbol = event.shiftKey
                     ? this.symbols_alt_shift()[$mol_keyboard_code[event.keyCode]]
-                    : this.symbols_alt()[$mol_keyboard_code[event.keyCode]];
+                    : event.ctrlKey
+                        ? this.symbols_alt_ctrl()[$mol_keyboard_code[event.keyCode]]
+                        : this.symbols_alt()[$mol_keyboard_code[event.keyCode]];
                 if (!symbol)
                     return;
                 document.execCommand('insertText', false, symbol);
@@ -17329,7 +17337,7 @@ var $;
                 this.clickable(event.ctrlKey);
             }
             press(event) {
-                if (event.altKey && !event.ctrlKey) {
+                if (event.altKey) {
                     this.symbol_insert(event);
                 }
                 else {

@@ -4336,6 +4336,7 @@ declare namespace $ {
         event(): Record<string, any>;
         sub(): readonly any[];
         symbols_alt(): Record<string, any>;
+        symbols_alt_ctrl(): Record<string, any>;
         symbols_alt_shift(): Record<string, any>;
         clickable(next?: any): boolean;
         sidebar_showed(): boolean;
