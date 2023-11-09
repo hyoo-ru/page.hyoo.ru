@@ -88,6 +88,10 @@ namespace $.$$ {
 			this.profile().history_add( this.side().id() )
 		}
 		
+		author_link( id: $mol_int62_string ) {
+			return super.author_link( id ).replace( '{person}', id )
+		}
+		
 	}
 	
 }
