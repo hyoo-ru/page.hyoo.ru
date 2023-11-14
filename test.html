@@ -16,17 +16,11 @@
 		<meta property="og:url" content="https://page.hyoo.ru/" />
 		<meta property="og:image" content="hyoo/page/logo/logo.png" />
 		<script>
-			let ws = new WebSocket( 'wss://sync.hyoo.ru' )
-			let redirect = (e)=> { console.log('!',e) }
-			ws.onerror = function() {
-				Promise.resolve('p').then( v=> redirect(v) )
-				setTimeout( v=> redirect(v), 0, 0 )
-				setTimeout( v=> redirect(v), 1 , 1)
-				setTimeout( v=> redirect(v), 5 ,5)
-				setTimeout( v=> redirect(v), 10 ,10)
-				setTimeout( v=> redirect(v), 15 ,15)
+			new WebSocket( 'wss://sync.hyoo.ru' ).onerror = function() {
+				let redirect = (e)=> { console.log('!',e) }
+				setTimeout( ()=> redirect() )
+				this.onclose = ()=> redirect = ()=> {}
 			}
-			ws.onclose = ()=> { console.log('c'); redirect = ()=> { console.log('x') } }
 		</script>
 	</head>
 	<body mol_view_root>
