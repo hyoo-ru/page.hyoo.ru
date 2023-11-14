@@ -17,10 +17,16 @@
 		<meta property="og:image" content="hyoo/page/logo/logo.png" />
 		<script>
 			void (()=>{
-				const ws = new WebSocket( 'ws://sync.hyoo.ru' )
+				const ws = new WebSocket( 'wss://sync.hyoo.ru' )
 				ws.onopen = () => ws.close()
 				ws.onerror = e => console.error(e, JSON.stringify(e), {...e})
-				ws.onclose = e => console.error(e, JSON.stringify(e), {...e})
+				// ws.onclose = e => console.error(e, JSON.stringify(e), {...e})
+			})()
+			void (()=>{
+				const ws = new WebSocket( 'wss://example.org' )
+				ws.onopen = () => ws.close()
+				ws.onerror = e => console.error(e, JSON.stringify(e), {...e})
+				// ws.onclose = e => console.error(e, JSON.stringify(e), {...e})
 			})()
 		</script>
 	</head>
