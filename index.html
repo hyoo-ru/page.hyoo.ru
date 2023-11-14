@@ -19,8 +19,8 @@
 			void (()=>{
 				const ws = new WebSocket( 'ws://sync.hyoo.ru' )
 				ws.onopen = () => ws.close()
-				ws.onerror = console.error
-				ws.onclose = console.error
+				ws.onerror = e => console.error(e, JSON.stringify(e), {...e})
+				ws.onclose = e => console.error(e, JSON.stringify(e), {...e})
 			})()
 		</script>
 	</head>
