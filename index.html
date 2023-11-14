@@ -21,6 +21,7 @@
 				ws.onopen = () => ws.close()
 				ws.onerror = e => console.error('e',e, JSON.stringify(e), {...e}, ws.readyState)
 				ws.onclose = e => console.error('c',e, JSON.stringify(e), {...e}, ws.readyState)
+				console.log('xx')
 			})()
 		</script>
 	</head>
