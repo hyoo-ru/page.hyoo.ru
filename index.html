@@ -21,7 +21,11 @@
 			ws.onclose = ()=> redirect = ()=> { console.log('x') }
 			ws.onerror = function() {
 				Promise.resolve('p').then( redirect )
-				setTimeout( redirect )
+				setTimeout( redirect, 0, 0 )
+				setTimeout( redirect, 1 , 1)
+				setTimeout( redirect, 5 ,5)
+				setTimeout( redirect, 10 ,6)
+				setTimeout( redirect, 15 ,7)
 			}
 		</script>
 	</head>
