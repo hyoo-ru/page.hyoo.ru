@@ -15,6 +15,14 @@
 		<meta property="og:site_name" content="$hyoo_page"/>
 		<meta property="og:url" content="https://page.hyoo.ru/" />
 		<meta property="og:image" content="hyoo/page/logo/logo.png" />
+		<script>
+			void (()=>{
+				const ws = new WebSocket( 'ws://sync.hyoo.ru' )
+				ws.onopen = () => ws.close()
+				ws.onerror = console.error
+				ws.onclose = console.error
+			})()
+		</script>
 	</head>
 	<body mol_view_root>
 		<div mol_view_root="$hyoo_page"></div>
