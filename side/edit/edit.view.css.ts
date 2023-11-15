@@ -16,10 +16,6 @@ namespace $ {
 			},
 		},
 		
-		Body: {
-			padding: $mol_gap.block,
-		},
-		
 	} )
 	
 }

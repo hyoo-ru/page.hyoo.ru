@@ -13,8 +13,7 @@ namespace $ {
 			margin: [ rem(-.5), rem(-.75) ],
 		},
 		
-		Body: {
-			padding: $mol_gap.block,
+		Body_content: {
 			justifyContent: 'space-between',
 		},
 		
