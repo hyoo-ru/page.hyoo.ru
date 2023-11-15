@@ -8002,7 +8002,12 @@ var $;
                     shrink: 1,
                     basis: per(100),
                 },
+            },
+            Body_content: {
                 padding: $mol_gap.block,
+                justify: {
+                    self: 'stretch',
+                },
             },
             Foot: {
                 display: 'flex',
@@ -16815,8 +16820,7 @@ var $;
         Menu_toggle: {
             margin: [rem(-.5), rem(-.75)],
         },
-        Body: {
-            padding: $mol_gap.block,
+        Body_content: {
             justifyContent: 'space-between',
         },
         Search: {
@@ -18264,9 +18268,6 @@ var $;
             flex: {
                 grow: 0,
             },
-        },
-        Body: {
-            padding: $mol_gap.block,
         },
     });
 })($ || ($ = {}));
