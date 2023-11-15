@@ -2023,6 +2023,41 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_list extends $mol_view {
+        render_visible_only(): boolean;
+        render_over(): number;
+        sub(): readonly $mol_view[];
+        Empty(): $mol_view;
+        Gap_before(): $mol_view;
+        Gap_after(): $mol_view;
+        view_window(): readonly any[];
+        rows(): readonly $mol_view[];
+        gap_before(): number;
+        gap_after(): number;
+    }
+}
+
+declare namespace $ {
+    function $mol_support_css_overflow_anchor(this: $): boolean;
+}
+
+declare namespace $.$$ {
+    class $mol_list extends $.$mol_list {
+        sub(): readonly $mol_view[];
+        render_visible_only(): boolean;
+        view_window(next?: [number, number]): [number, number];
+        gap_before(): number;
+        gap_after(): number;
+        sub_visible(): $mol_view[];
+        minimal_height(): number;
+        force_render(path: Set<$mol_view>): void;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
     class $mol_page extends $mol_view {
         dom_name(): string;
         field(): Record<string, any>;
@@ -2035,7 +2070,9 @@ declare namespace $ {
         Tools(): $mol_view;
         head(): readonly any[];
         Head(): $mol_view;
-        body(): readonly $mol_view_content[];
+        body(): readonly $mol_view[];
+        Body_content(): $$.$mol_list;
+        body_content(): readonly any[];
         body_scroll_top(next?: any): number;
         Body(): $$.$mol_scroll;
         foot(): readonly $mol_view[];
@@ -2355,41 +2392,6 @@ declare namespace $.$$ {
     class $hyoo_meta_link extends $.$hyoo_meta_link {
         title(): string;
         uri(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_list extends $mol_view {
-        render_visible_only(): boolean;
-        render_over(): number;
-        sub(): readonly $mol_view[];
-        Empty(): $mol_view;
-        Gap_before(): $mol_view;
-        Gap_after(): $mol_view;
-        view_window(): readonly any[];
-        rows(): readonly $mol_view[];
-        gap_before(): number;
-        gap_after(): number;
-    }
-}
-
-declare namespace $ {
-    function $mol_support_css_overflow_anchor(this: $): boolean;
-}
-
-declare namespace $.$$ {
-    class $mol_list extends $.$mol_list {
-        sub(): readonly $mol_view[];
-        render_visible_only(): boolean;
-        view_window(next?: [number, number]): [number, number];
-        gap_before(): number;
-        gap_after(): number;
-        sub_visible(): $mol_view[];
-        minimal_height(): number;
-        force_render(path: Set<$mol_view>): void;
     }
 }
 
@@ -5093,7 +5095,7 @@ declare namespace $.$$ {
         key_new(): string | null;
         import_switch(): void;
         key_export(): string;
-        export_rows(): ($mol_link | $mol_list | $mol_text)[];
+        export_rows(): ($mol_list | $mol_link | $mol_text)[];
         import_rows(): ($mol_list | $mol_button_minor | $mol_text)[];
         export_link(): string;
     }

@@ -18,6 +18,17 @@ $mol_book2 $mol_scroll
 $mol_theme_auto $mol_plugin
 	attr * mol_theme <= theme \
 
+$mol_list $mol_view
+	render_visible_only true
+	render_over 0
+	sub <= rows /$mol_view
+	Empty $mol_view
+	Gap_before $mol_view style * paddingTop <= gap_before 0
+	Gap_after $mol_view style * paddingTop <= gap_after 0
+	view_window /
+		0
+		0
+
 $mol_page $mol_view
 	dom_name \article
 	field *
@@ -37,7 +48,9 @@ $mol_page $mol_view
 					sub <= tools /$mol_view_content
 		<= Body $mol_scroll
 			scroll_top? => body_scroll_top?
-			sub <= body /$mol_view_content
+			sub <= body_content /
+				<= Body_content $mol_list
+					rows <= body /$mol_view
 		<= Foot $mol_view
 			dom_name \footer
 			sub <= foot /$mol_view
@@ -127,17 +140,6 @@ $hyoo_meta_link $mol_link
 		<= Title $mol_dimmer
 			haystack <= title
 			needle <= highlight \
-
-$mol_list $mol_view
-	render_visible_only true
-	render_over 0
-	sub <= rows /$mol_view
-	Empty $mol_view
-	Gap_before $mol_view style * paddingTop <= gap_before 0
-	Gap_after $mol_view style * paddingTop <= gap_after 0
-	view_window /
-		0
-		0
 
 $hyoo_page_side_news $mol_page
 	side $hyoo_page_side
