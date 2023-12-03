@@ -50,7 +50,7 @@ $hyoo_page $mol_book2
 				<= Rights_close $mol_button_minor
 					click? <=> rights_close? null
 					sub /
-						<= Сlose_icon $mol_icon_cross
+						<= Close_icon $mol_icon_cross
 		<= Safe $hyoo_meta_safe
 			yard <= yard
 			tools /
