@@ -5705,7 +5705,26 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_base64_ae_encode(buffer) {
+        return $mol_base64_encode(buffer).replace(/\+/g, 'æ').replace(/\//g, 'Æ').replace(/=/g, '');
+    }
+    $.$mol_base64_ae_encode = $mol_base64_ae_encode;
+    function $mol_base64_ae_decode(str) {
+        return $mol_base64_decode(str.replace(/æ/g, '+').replace(/Æ/g, '/'));
+    }
+    $.$mol_base64_ae_decode = $mol_base64_ae_decode;
+})($ || ($ = {}));
+//mol/base64/ae/ae.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_buffer extends DataView {
+        static from(array) {
+            if (typeof array === 'string')
+                array = $mol_base64_ae_decode(array);
+            return new this(array.buffer, array.byteOffset, array.byteLength);
+        }
         static toString() {
             return $$.$mol_func_name(this);
         }
@@ -5802,6 +5821,9 @@ var $;
         }
         asArray() {
             return new Uint8Array(this.buffer, this.byteOffset, this.byteLength);
+        }
+        toString() {
+            return $mol_base64_ae_encode(this.asArray());
         }
     }
     $.$mol_buffer = $mol_buffer;
