@@ -17,13 +17,12 @@
 		<meta property="og:url" content="https://page.hyoo.ru/" />
 		<meta property="og:image" content="hyoo/page/logo/logo.png" />
 		<script>
-			try {
-				new WebSocket( 'ws://sync.hyoo.ru' ).onerror = function() {
-					let redirect = ()=> location = location.href.replace( /^(.*?)(?:\??#!(.*))?$/, ( str, prefix, suffix = '' )=> `${prefix}?_escaped_fragment_=${ encodeURIComponent( suffix ) }` )
-					this.onclose = ()=> redirect = ()=> {} // gbot doesn't call onclose
-					setTimeout( ()=> redirect() )
-				}
-			} catch {}
+			void ( socket => {
+				let redirect = ()=> location = location.href.replace( /^(.*?)(?:\??#!(.*))?$/, ( str, prefix, suffix = '' )=> `${prefix}?_escaped_fragment_=${ encodeURIComponent( suffix ) }` )
+				socket.onclose = ()=> redirect = ()=> {} // gbot doesn't call onclose
+				socket.onerror = ()=> setTimeout( ()=> redirect() )
+				socket.close()
+			} )( new WebSocket( 'wss://sync.hyoo.ru' ) )
 		</script>
 	</head>
 	<body mol_view_root>
