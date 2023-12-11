@@ -22,7 +22,7 @@
 				socket.onclose = ()=> redirect = ()=> {} // gbot doesn't call onclose
 				socket.onerror = ()=> setTimeout( ()=> redirect() )
 				socket.onopen = ()=> socket.close()
-			} )( new WebSocket( 'wss://sync.hyoo.ru' ) )
+			} )( new WebSocket( 'wss://sync.hyoo.ru', [ '$hyoo_sync_protocol_1' ] ) )
 		</script>
 	</head>
 	<body mol_view_root>
