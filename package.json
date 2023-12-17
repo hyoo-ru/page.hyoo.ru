@@ -197,11 +197,6 @@
     "$mol_locale",
     "$mol_file",
     "$mol_compare_array",
-    "$hyoo_lingua_translate",
-    "$hyoo_lingua",
-    "$mol_huggingface",
-    "$mol_fetch",
-    "$mol_dom_parse",
     "$hyoo_meta_link",
     "$mol_link",
     "$mol_avatar",
@@ -357,7 +352,6 @@
   "dependencies": {
     "jsdom": "*",
     "fake-indexeddb": "*",
-    "chokidar": "*",
-    "undici": "*"
+    "chokidar": "*"
   }
 }
