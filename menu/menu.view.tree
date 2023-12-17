@@ -8,7 +8,7 @@ $hyoo_page_menu $hyoo_meta_menu
 			meta <= side $hyoo_page_side
 			hint @ \Profile
 			Title null
-			rel \nofollow
+			relation \nofollow
 		<= Title
 		<= Tools
 	Logo null
