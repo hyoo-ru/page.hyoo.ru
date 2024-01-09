@@ -4953,12 +4953,15 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    function $mol_crypto_hash(data: Uint8Array): Uint8Array;
+}
+
+declare namespace $ {
     class $mol_crypto_secret extends Object {
         readonly native: CryptoKey & {
             type: 'secret';
         };
         static size: number;
-        static extra: number;
         constructor(native: CryptoKey & {
             type: 'secret';
         });

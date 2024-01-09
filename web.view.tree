@@ -1425,7 +1425,7 @@ $hyoo_meta_safe $mol_page
 	title @ \Private keys
 	yard $hyoo_sync_yard
 	bid_pass_long @ \> 7 letters
-	key_size 133
+	key_size 144
 	attr *
 		^
 		mol_theme \$mol_theme_special

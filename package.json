@@ -328,6 +328,7 @@
     "$hyoo_meta_safe",
     "$mol_password",
     "$mol_icon_eye",
+    "$mol_crypto_hash",
     "$mol_crypto_secret",
     "$mol_wait_rest",
     "$mol_after_work",
