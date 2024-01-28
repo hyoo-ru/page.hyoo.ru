@@ -19579,14 +19579,13 @@ var $;
 var $;
 (function ($) {
     const algorithm = {
-        name: 'AES-GCM',
+        name: 'AES-CBC',
         length: 128,
         tagLength: 32,
     };
     class $mol_crypto_secret extends Object {
         native;
         static size = 16;
-        static extra = 4;
         constructor(native) {
             super();
             this.native = native;

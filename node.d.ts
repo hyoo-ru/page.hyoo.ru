@@ -5033,7 +5033,6 @@ declare namespace $ {
             type: 'secret';
         };
         static size: number;
-        static extra: number;
         constructor(native: CryptoKey & {
             type: 'secret';
         });
