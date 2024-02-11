@@ -1,4 +1,4 @@
-namespace $.$$ {
+namespace $ {
 	
 	export class $hyoo_page_side extends $hyoo_meta_model {
 		
