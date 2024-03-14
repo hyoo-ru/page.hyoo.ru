@@ -5,6 +5,7 @@ namespace $.$$ {
 		item_expanded( id: $mol_int62_string, next?: boolean ): boolean {
 			return $mol_wire_stale( ()=> {
 				const cur = this.side_current()
+				if( id === cur.id() ) return next ?? true
 				const path = [ ... cur.books() ]
 				if( cur.pages().length ) path.unshift( cur )
 				if( id === path.at(-1)?.id() ) return false
