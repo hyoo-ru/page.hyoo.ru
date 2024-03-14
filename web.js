@@ -11253,6 +11253,26 @@ var $;
 
 ;
 "use strict";
+var $;
+(function ($) {
+    function $mol_wire_stale(task) {
+        try {
+            return task();
+        }
+        catch (error) {
+            if (!$mol_promise_like(error))
+                return $mol_fail_hidden(error);
+            const fiber = $mol_wire_auto();
+            if (!(fiber instanceof $mol_wire_fiber))
+                return;
+            return $mol_wire_probe(() => fiber.result());
+        }
+    }
+    $.$mol_wire_stale = $mol_wire_stale;
+})($ || ($ = {}));
+
+;
+"use strict";
 
 ;
 "use strict";
@@ -11262,13 +11282,15 @@ var $;
     (function ($$) {
         class $hyoo_page_side_menu extends $.$hyoo_page_side_menu {
             item_expanded(id, next) {
-                const cur = this.side_current();
-                const path = [...cur.books()];
-                if (cur.pages().length)
-                    path.unshift(cur);
-                if (id === path.at(-1)?.id())
-                    return false;
-                return next ?? ($mol_mem_cached(() => this.item_expanded(id)) || path.some(book => book.id() === id));
+                return $mol_wire_stale(() => {
+                    const cur = this.side_current();
+                    const path = [...cur.books()];
+                    if (cur.pages().length)
+                        path.unshift(cur);
+                    if (id === path.at(-1)?.id())
+                        return false;
+                    return next ?? ($mol_mem_cached(() => this.item_expanded(id)) || path.some(book => book.id() === id));
+                }) ?? $mol_mem_cached(() => this.item_expanded(id)) ?? false;
             }
             item_moved(what, where) {
                 const page = this.item(what).as($hyoo_page_side);
@@ -18947,26 +18969,6 @@ var $;
 	($mol_mem(($.$hyoo_page.prototype), "side_current"));
 	($mol_mem(($.$hyoo_page.prototype), "profile"));
 
-
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_wire_stale(task) {
-        try {
-            return task();
-        }
-        catch (error) {
-            if (!$mol_promise_like(error))
-                return $mol_fail_hidden(error);
-            const fiber = $mol_wire_auto();
-            if (!(fiber instanceof $mol_wire_fiber))
-                return;
-            return $mol_wire_probe(() => fiber.result());
-        }
-    }
-    $.$mol_wire_stale = $mol_wire_stale;
-})($ || ($ = {}));
 
 ;
 "use strict";

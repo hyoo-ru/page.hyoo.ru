@@ -234,6 +234,7 @@
     "$mol_promise_promise",
     "$mol_wire_race",
     "$hyoo_sync_masters",
+    "$mol_wire_stale",
     "$hyoo_page_side_view",
     "$mol_search_jumper",
     "$mol_paginator",
@@ -345,7 +346,6 @@
     "$mol_db_index",
     "$mol_db_response",
     "$mol_db_database",
-    "$mol_wire_stale",
     "$mol_offline_install",
     "$mol_offline"
   ],
