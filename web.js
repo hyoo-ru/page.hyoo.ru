@@ -11284,6 +11284,8 @@ var $;
             item_expanded(id, next) {
                 return $mol_wire_stale(() => {
                     const cur = this.side_current();
+                    if (id === cur.id())
+                        return next ?? true;
                     const path = [...cur.books()];
                     if (cur.pages().length)
                         path.unshift(cur);
