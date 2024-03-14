@@ -3,7 +3,7 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		item_expanded( id: $mol_int62_string, next?: boolean ): boolean {
-		]
+		
 			const cur = this.side_current()
 			try {
 				
