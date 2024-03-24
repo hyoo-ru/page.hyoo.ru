@@ -1370,10 +1370,7 @@ $hyoo_page_side_info $mol_page
 				- Empty <= Word_list_empty $mol_card
 					title @ \No words
 
-$mol_button_major $mol_button_typed
-	attr *
-		^
-		mol_theme \$mol_theme_accent
+$mol_button_major $mol_button_minor
 
 $hyoo_meta_rights $mol_page
 	title @ \Rights
