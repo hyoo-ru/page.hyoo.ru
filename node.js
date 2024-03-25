@@ -19224,7 +19224,7 @@ var $;
 			return false;
 		}
 		View_details(id){
-			return (this.View(id).Details());
+			return (this.View("0_0").Details());
 		}
 		View(id){
 			const obj = new this.$.$hyoo_page_side_view();
