@@ -1371,6 +1371,7 @@ $hyoo_page_side_info $mol_page
 					title @ \No words
 
 $mol_button_major $mol_button_minor
+	theme \$mol_theme_base
 
 $hyoo_meta_rights $mol_page
 	title @ \Rights
