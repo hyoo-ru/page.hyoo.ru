@@ -6276,6 +6276,19 @@ var $;
         content() {
             return this.release() || this.details();
         }
+        content_full() {
+            let details = `= ${this.title()}\n\n${this.content()}\n`;
+            const visit = (book) => {
+                details += '--\n\n';
+                details += '= ' + book.title() + '\n\n';
+                details += book.details().replace(/^(=+) /gm, '=$1 ') + '\n';
+                for (const page of book.pages().slice().reverse())
+                    visit(page);
+            };
+            for (const page of this.pages().slice().reverse())
+                visit(page);
+            return details;
+        }
         changed_moment() {
             return new $mol_time_moment((this.release_node() ?? this.details_node())?.land.last_stamp());
         }
@@ -6456,6 +6469,9 @@ var $;
     __decorate([
         $mol_mem
     ], $hyoo_page_side.prototype, "content", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_page_side.prototype, "content_full", null);
     __decorate([
         $mol_mem
     ], $hyoo_page_side.prototype, "changed_moment", null);
@@ -15007,9 +15023,6 @@ var $;
 				(this.Bookmark_toggle())
 			];
 		}
-		slides_content(){
-			return "# {title}\n{details}";
-		}
 		body(){
 			return [(this.Details()), (this.Signature())];
 		}
@@ -15105,16 +15118,11 @@ var $;
             author_list() {
                 return [...this.authors()].map(peer => this.Author_link(peer));
             }
-            slides_content() {
-                return super.slides_content()
-                    .replace('{title}', this.title() || '{title}')
-                    .replace('{details}', this.details() || '{description}');
-            }
             slides_send() {
                 const parent = this.$.$mol_dom_context.parent;
                 if (parent === this.$.$mol_dom_context.self)
                     return;
-                parent.postMessage(['done', this.slides_content()], { targetOrigin: 'https://slides.hyoo.ru' });
+                parent.postMessage(['done', this.side().content_full()], { targetOrigin: 'https://slides.hyoo.ru' });
             }
             history_mark() {
                 this.profile().history_add(this.side().id());
@@ -15135,9 +15143,6 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_page_side_view.prototype, "author_list", null);
-        __decorate([
-            $mol_mem
-        ], $hyoo_page_side_view.prototype, "slides_content", null);
         __decorate([
             $mol_mem
         ], $hyoo_page_side_view.prototype, "slides_send", null);
@@ -15777,6 +15782,9 @@ var $;
 		details_selection(next){
 			return (this.side().details_selection(next));
 		}
+		content_full(){
+			return (this.side().content_full());
+		}
 		aura(next){
 			return (this.side().aura(next));
 		}
@@ -16298,20 +16306,10 @@ var $;
             }
             copy_text() {
                 const view = this.Details_edit().View();
-                const normalize = (text) => text
+                let details = this.content_full()
                     .replaceAll(/\\\\(?:([^\\]+?)\\)?([^\\]+?)\\\\/gm, (whole, title, link) => title
                     ? `\\\\${title}\\${view.uri_resolve(link)}\\\\`
                     : `\\\\${view.uri_resolve(link)}\\\\`);
-                let details = `= ${this.title()}\n\n${normalize(this.details())}\n`;
-                const visit = (book) => {
-                    details += '--\n\n';
-                    details += '= ' + book.title() + '\n\n';
-                    details += normalize(book.details()).replace(/^(=+) /gm, '=$1 ') + '\n';
-                    for (const page of book.pages().slice().reverse())
-                        visit(page);
-                };
-                for (const page of this.side().pages().slice().reverse())
-                    visit(page);
                 return `${details}--\n\n${this.export_sign()}`;
             }
             download_blob() {
