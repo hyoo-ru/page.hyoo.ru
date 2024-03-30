@@ -3,6 +3,7 @@ $hyoo_page_side_edit $mol_page
 		title? => title?
 		details? => details?
 		details_selection? => details_selection?
+		content_full => content_full
 		aura? => aura?
 		editable => editable
 		released => released

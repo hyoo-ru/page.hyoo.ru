@@ -64,20 +64,13 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
-		slides_content() {
-			return super.slides_content()
-				.replace( '{title}', this.title() || '{title}' )
-				.replace( '{details}', this.details() || '{description}' )
-		}
-
-		@ $mol_mem
 		slides_send() {
 			
 			const parent = this.$.$mol_dom_context.parent
 			if( parent === this.$.$mol_dom_context.self ) return
 			
 			parent.postMessage(
-				[ 'done', this.slides_content() ],
+				[ 'done', this.side().content_full() ],
 				{ targetOrigin: 'https://slides.hyoo.ru' }
 			)
 			

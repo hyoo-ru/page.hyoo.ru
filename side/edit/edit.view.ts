@@ -23,7 +23,7 @@ namespace $.$$ {
 			
 			const view = this.Details_edit().View()
 			
-			const normalize = ( text: string )=> text
+			let details = this.content_full()
 				// .replaceAll( /^=+ /gm, ( prefix: string )=> prefix.replaceAll( '=', '#' ) ) // MD heading
 				// .replaceAll( /^(" )+/gm, ( prefix: string )=> prefix.replaceAll( '" ', '> ' ) ) // MD quotes
 				.replaceAll(
@@ -32,20 +32,6 @@ namespace $.$$ {
 						? `\\\\${title}\\${ view.uri_resolve( link ) }\\\\`
 						: `\\\\${ view.uri_resolve( link ) }\\\\`
 				)
-			
-			let details = `= ${ this.title() }\n\n${ normalize( this.details() ) }\n`
-			
-			const visit = ( book: $hyoo_page_side )=> {
-				
-				details += '--\n\n'
-				details += '= ' + book.title() + '\n\n'
-				details += normalize( book.details() ).replace( /^(=+) /gm, '=$1 ' ) + '\n'
-				
-				for( const page of book.pages().slice().reverse() ) visit( page )
-				
-			}
-			
-			for( const page of this.side().pages().slice().reverse() ) visit( page )
 			
 			return `${ details }--\n\n${ this.export_sign() }`
 			

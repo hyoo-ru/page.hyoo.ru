@@ -82,6 +82,26 @@ namespace $ {
 		}
 		
 		@ $mol_mem
+		content_full() {
+			
+			let details = `= ${ this.title() }\n\n${ this.content() }\n`
+			
+			const visit = ( book: $hyoo_page_side )=> {
+				
+				details += '--\n\n'
+				details += '= ' + book.title() + '\n\n'
+				details += book.details().replace( /^(=+) /gm, '=$1 ' ) + '\n'
+				
+				for( const page of book.pages().slice().reverse() ) visit( page )
+				
+			}
+			
+			for( const page of this.pages().slice().reverse() ) visit( page )
+			
+			return details
+		}
+		
+		@ $mol_mem
 		changed_moment() {
 			return new $mol_time_moment(
 				( this.release_node() ?? this.details_node() )?.land.last_stamp()
