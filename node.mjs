@@ -15417,7 +15417,7 @@ var $;
                 const parent = this.$.$mol_dom_context.parent;
                 if (parent === this.$.$mol_dom_context.self)
                     return;
-                parent.postMessage(['done', this.side().content_full().replaceAll(/\n---\n/g, '\n')], { targetOrigin: 'https://slides.hyoo.ru' });
+                parent.postMessage(['done', this.side().content_full().replaceAll(/\n--+\n/g, '\n')], { targetOrigin: 'https://slides.hyoo.ru' });
             }
             history_mark() {
                 this.profile().history_add(this.side().id());
