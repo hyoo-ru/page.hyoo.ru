@@ -70,7 +70,7 @@ namespace $.$$ {
 			if( parent === this.$.$mol_dom_context.self ) return
 			
 			parent.postMessage(
-				[ 'done', this.side().content_full().replaceAll( /\n---\n/g, '\n' ) ],
+				[ 'done', this.side().content_full().replaceAll( /\n--+\n/g, '\n' ) ],
 				{ targetOrigin: 'https://slides.hyoo.ru' }
 			)
 			
