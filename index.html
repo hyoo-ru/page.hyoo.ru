@@ -18,7 +18,7 @@
 		<meta property="og:image" content="hyoo/page/logo/logo.png" />
 		<script>
 			void ( socket => {
-				let redirect = ()=> {
+				let redirect = async ()=> {
 					const href = location.href.replace( /^(.*?)(?:\??#!(.*))?$/, ( str, prefix, suffix = '' )=> `${prefix}?_escaped_fragment_=${ encodeURIComponent( suffix ) }` )
 					const html = await ( await fetch( href ) ).text()
 					document.body.innerHTML = text
