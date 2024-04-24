@@ -44,7 +44,7 @@ $hyoo_page_side_edit $mol_page
 			Icon <= Rights_icon $mol_icon_shield_account
 		<= Close $mol_button_minor
 			click? <=> close? null
-			sub / <= Close_icon $mol_icon_cross
+			sub / <= Close_icon $mol_icon_close
 	body /
 		<= Details_edit $mol_textarea
 			hint @ \Details

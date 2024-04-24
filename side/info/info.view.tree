@@ -18,7 +18,7 @@ $hyoo_page_side_info $mol_page
 		<= Close $mol_button_minor
 			click? <=> close? null
 			sub /
-				<= Close_icon $mol_icon_cross
+				<= Close_icon $mol_icon_close
 	body /
 		<= Stat $mol_view sub /
 			<= Size $mol_labeler

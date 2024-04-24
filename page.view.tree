@@ -50,14 +50,14 @@ $hyoo_page $mol_book2
 				<= Rights_close $mol_button_minor
 					click? <=> rights_close? null
 					sub /
-						<= Close_icon $mol_icon_cross
+						<= Close_icon $mol_icon_close
 		<= Safe $hyoo_meta_safe
 			yard <= yard
 			tools /
 				<= Safe_close $mol_button_minor
 					click? <=> safe_close? null
 					sub /
-						<= Safe_icon $mol_icon_cross
+						<= Safe_icon $mol_icon_close
 	Placeholder <= Menu $hyoo_page_menu
 		yard <= yard
 		side <= profile
