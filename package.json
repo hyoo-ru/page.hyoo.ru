@@ -131,11 +131,15 @@
     "$mol_storage",
     "$mol_mem_persist",
     "$mol_file",
+    "$mol_file_base",
+    "$mol_lock",
+    "$mol_compare_array",
     "$mol_charset_decode",
     "$mol_charset",
     "$mol_charset_encoding",
     "$mol_charset_encode",
-    "$mol_compare_array",
+    "$mol_file_transaction",
+    "$node_modules",
     "$hyoo_page_side_news",
     "$hyoo_page_side",
     "$hyoo_meta_model",
@@ -354,7 +358,6 @@
   ],
   "dependencies": {
     "jsdom": "*",
-    "chokidar": "*",
     "fake-indexeddb": "*"
   }
 }
