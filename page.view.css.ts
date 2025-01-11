@@ -6,6 +6,22 @@ namespace $ {
 			size: [ 'cover' ],
 			position: 'center',
 		},
+
+		Menu: {
+			'@media': {
+				'print': {
+					display: 'none',
+				},
+			},
+		},
+		
+		Edit: {
+			'@media': {
+				'print': {
+					display: 'none',
+				},
+			},
+		},
 		
 	} )
 	
