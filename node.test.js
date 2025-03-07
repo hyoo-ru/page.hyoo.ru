@@ -18692,6 +18692,7 @@ var $;
 var $;
 (function ($) {
     class $mol_buffer extends DataView {
+        [Symbol.toStringTag] = this.constructor.name + '<>';
         static from(array) {
             if (typeof array === 'number')
                 array = new Uint8Array(array);
