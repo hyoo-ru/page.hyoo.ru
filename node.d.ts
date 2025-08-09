@@ -1970,7 +1970,7 @@ declare namespace $ {
         uri(): string;
         type(next?: string): string;
         blob(next?: $mol_blob): Blob;
-        buffer(next?: Uint8Array, type?: string): Uint8Array<ArrayBufferLike>;
+        buffer(next?: Uint8Array<ArrayBuffer>, type?: string): Uint8Array<ArrayBuffer>;
         str(next?: string, type?: string): string;
         json(next?: any, type?: string): any;
     }
@@ -4962,9 +4962,11 @@ declare namespace $ {
 		allow( ): string
 		html( ): any
 		attr( ): ({ 
+			'tabindex': ReturnType< $mol_frame['tabindex'] >,
 			'allow': ReturnType< $mol_frame['allow'] >,
+			'src': ReturnType< $mol_frame['uri'] >,
 			'srcdoc': ReturnType< $mol_frame['html'] >,
-		})  & ReturnType< $mol_embed_native['attr'] >
+		}) 
 		fullscreen( ): boolean
 		accelerometer( ): boolean
 		autoplay( ): boolean
@@ -7777,8 +7779,8 @@ declare namespace $ {
         }>;
         encrypt(open: BufferSource, salt: BufferSource): Promise<Uint8Array<ArrayBuffer>>;
         decrypt(closed: BufferSource, salt: BufferSource): Promise<Uint8Array<ArrayBuffer>>;
-        close(sacred: $mol_crypto_sacred, salt: BufferSource): Promise<Uint8Array<ArrayBuffer>>;
-        open(buf: Uint8Array, salt: BufferSource): Promise<$mol_crypto_sacred>;
+        close(sacred: DataView<ArrayBuffer>, salt: BufferSource): Promise<Uint8Array<ArrayBuffer>>;
+        open(buf: Uint8Array<ArrayBuffer>, salt: BufferSource): Promise<Uint8Array<ArrayBuffer>>;
     }
 }
 
@@ -7793,7 +7795,7 @@ declare namespace $ {
         });
         static generate(): Promise<$mol_crypto_secret>;
         static from(serial: BufferSource): Promise<$mol_crypto_secret>;
-        static pass(pass: string, salt: Uint8Array): Promise<$mol_crypto_secret>;
+        static pass(pass: string, salt: Uint8Array<ArrayBuffer>): Promise<$mol_crypto_secret>;
         static derive(private_serial: string, public_serial: string): Promise<$mol_crypto_secret>;
         serial(): Promise<Uint8Array<ArrayBuffer>>;
         encrypt(open: BufferSource, salt: BufferSource): Promise<Uint8Array<ArrayBuffer>>;
@@ -8377,7 +8379,7 @@ declare namespace $ {
         readonly native: IDBObjectStore;
         constructor(native: IDBObjectStore);
         get name(): string;
-        get path(): string | string[];
+        get path(): string | string[] | null;
         get incremental(): boolean;
         get indexes(): { [Name in keyof Schema["Indexes"]]: $mol_db_index<{
             Key: Schema["Indexes"][Name];
@@ -8442,7 +8444,7 @@ declare namespace $ {
         get name(): string;
         get version(): number;
         get stores(): (keyof Schema)[];
-        read<Names extends Exclude<keyof Schema, symbol | number>>(...names: Names[]): Pick<Schema, Names> extends infer T extends $mol_db_schema ? { [Name in keyof T]: $mol_db_store<Pick<Schema, Names>[Name]>; } : never;
+        read<Names extends Exclude<keyof Schema, symbol | number>>(...names: Names[]): Pick<Schema, Names> extends infer T extends $mol_db_schema ? { [Name in keyof T]: $mol_db_store<T[Name]>; } : never;
         change<Names extends Exclude<keyof Schema, symbol | number>>(...names: Names[]): $mol_db_transaction<Pick<Schema, Names>>;
         kill(): Promise<IDBDatabase>;
         destructor(): void;
