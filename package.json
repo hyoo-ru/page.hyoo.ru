@@ -200,6 +200,7 @@
     "$mol_svg_path",
     "$mol_hash_string",
     "$mol_hash",
+    "$mol_hash_numbers",
     "$mol_dimmer",
     "$mol_paragraph",
     "$mol_locale",
