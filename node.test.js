@@ -20672,7 +20672,7 @@ var $;
 			return [(this.Theme())];
 		}
 		auto(){
-			return [(this.ref_track())];
+			return [...(super.auto()), (this.ref_track())];
 		}
 		pages(){
 			return [
