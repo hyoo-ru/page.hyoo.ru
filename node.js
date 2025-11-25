@@ -11939,7 +11939,10 @@ var $;
 
 ;
 "use strict";
-let $hyoo_sync_revision = "echo";
+var $;
+(function ($) {
+    $.$hyoo_sync_revision = "echo";
+})($ || ($ = {}));
 
 ;
 "use strict";
