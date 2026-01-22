@@ -233,6 +233,7 @@
     "$mol_icon_magnify",
     "$mol_check_icon",
     "$mol_check",
+    "$mol_dom_event",
     "$mol_icon_pencil_outline",
     "$mol_icon_pencil",
     "$mol_icon_plus",
