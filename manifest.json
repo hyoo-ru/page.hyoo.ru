@@ -1,0 +1,10 @@
+{
+	"name": "hyoo_page",
+	"short_name": "hyoo_page",
+	"description": "",
+	"id": "hyoo_page",
+	"start_url": ".",
+	"display": "standalone",
+	"background_color": "#000000",
+	"theme_color": "#000000"
+}
