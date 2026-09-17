@@ -222,6 +222,7 @@
     "$mol_follower",
     "$mol_ghost",
     "$mol_hotkey",
+    "$mol_hotkey2",
     "$mol_keyboard_code",
     "$mol_keyboard",
     "$mol_nav",
