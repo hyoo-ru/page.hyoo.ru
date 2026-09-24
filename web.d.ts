@@ -4710,10 +4710,6 @@ declare namespace $ {
 declare namespace $ {
 }
 
-declare namespace $ {
-    let $hyoo_sync_revision: string;
-}
-
 /** @jsx $mol_jsx */
 declare namespace $ {
     function $hyoo_sync_peer(path: string, next?: string): Promise<$hyoo_crowd_peer>;
@@ -9433,7 +9429,6 @@ declare namespace $.$$ {
     class $hyoo_sync_online extends $.$hyoo_sync_online {
         message(): string;
         link_content(): $mol_icon_sync_off[];
-        hint(): string;
         master_link(): string;
         master_id(index: number): string;
         option_label(index: number): string;
