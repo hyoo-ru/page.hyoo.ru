@@ -16566,7 +16566,7 @@ var $;
                     .map((row, rowId) => {
                     const cells = [];
                     for (const line of row.trim().split(/\r?\n/)) {
-                        const [_, indent, content] = /^( *)! (.*)/.exec(line);
+                        const [_, indent, content] = /^( *)! (.*)/.exec(line) ?? ['', '', ''];
                         const col = Math.ceil(indent.length / 2);
                         cells[col] = (cells[col] ? cells[col] + '\n' : '') + content;
                     }
@@ -19275,7 +19275,7 @@ var $;
         { indent: $mol_regexp.repeat('  ') },
         { marker: '!' },
         ' ',
-        { content: $hyoo_marked_line_content },
+        [{ content: $hyoo_marked_line_content }],
         $mol_regexp.line_end,
     ]);
     $.$hyoo_marked_table_row = $mol_regexp.from({ content: [
