@@ -236,6 +236,7 @@
     "$mol_check_icon",
     "$mol_check",
     "$mol_dom_event",
+    "$mol_dom_transfer",
     "$mol_icon_pencil_outline",
     "$mol_icon_pencil",
     "$mol_icon_plus",
