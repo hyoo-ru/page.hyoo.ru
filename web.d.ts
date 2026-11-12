@@ -7917,6 +7917,7 @@ declare namespace $.$$ {
      */
     class $mol_form_field extends $.$mol_form_field {
         state(): string | null;
+        label(): readonly any[];
         bid(): string;
     }
 }
