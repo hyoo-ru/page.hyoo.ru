@@ -8189,6 +8189,25 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    let $hyoo_marked_spoiler_line: $mol_regexp<{
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+    let $hyoo_marked_spoiler: $mol_regexp<{
+        [key: string]: string;
+    } & {
+        [x: string]: string;
+        readonly win_end: string;
+        readonly mac_end: string;
+        readonly marker: string;
+        readonly content: string;
+    }>;
+}
+
+declare namespace $ {
     let $hyoo_marked_paragraph: $mol_regexp<{
         [x: string]: string;
         readonly win_end: string;
@@ -8205,6 +8224,7 @@ declare namespace $ {
         readonly table: string;
         readonly cut: string;
         readonly quote: string;
+        readonly spoiler: string;
         readonly paragraph: string;
         readonly script: string;
         readonly win_end: string;
