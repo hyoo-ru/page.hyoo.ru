@@ -10503,25 +10503,24 @@ var $;
                 const anchor_rect = this.Anchor()?.view_rect();
                 if (!anchor_rect)
                     return null;
+                const size = this.$.$mol_window.size();
                 const offset = this.offset();
                 const align = this.align();
                 const width = self_rect?.width ?? 0;
                 const height = self_rect?.height ?? 0;
-                let left = Math.floor((prev?.left ?? 0)
-                    - (self_rect?.left ?? 0)
-                    + width * align[0]
-                    + (anchor_rect?.left ?? 0)
-                    + offset[0] * (anchor_rect?.width ?? 0));
-                let top = Math.floor((prev?.top ?? 0)
-                    - (self_rect?.top ?? 0)
-                    + height * align[1]
-                    + (anchor_rect?.top ?? 0)
-                    + offset[1] * (anchor_rect?.height ?? 0));
-                const size = this.$.$mol_window.size();
-                left = Math.max(0, Math.min(left, size.width - width));
-                top = Math.max(0, Math.min(top, size.height - height));
+                let left = Math.floor(+width * align[0]
+                    + anchor_rect.left
+                    + offset[0] * anchor_rect.width);
+                const base_left = (prev?.left ?? 0) - (self_rect?.left ?? 0);
+                left = Math.max(0, Math.min(left, size.width - width)) + base_left;
+                let top = Math.floor(+height * align[1]
+                    + anchor_rect.top
+                    + offset[1] * anchor_rect.height);
+                const base_top = (prev?.top ?? 0) - (self_rect?.top ?? 0);
+                top = Math.max(0, Math.min(top, size.height - height)) + base_top;
                 return { left, top };
             }
+            locale() { return this.$.$mol_locale; }
             transform() {
                 const pos = this.pos();
                 if (!pos)
